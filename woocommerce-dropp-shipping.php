@@ -13,7 +13,7 @@
  * WC requires at least: 3.8.1
  * WC tested up to: 3.8.1
  *
- * Text Domain:         bring-fraktguiden-for-woocommerce
+ * Text Domain:         woocommerce-dropp-shipping
  * Domain Path:         /languages
  *
  * @package             WooCommerce

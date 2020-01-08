@@ -43,7 +43,7 @@ class Shipping_Method extends \WC_Shipping_Method {
 
 		// Actions.
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
-		add_action( 'admin_footer', __CLASS__ . '::enqueue_admin_js', 10 );
+		// add_action( 'admin_footer', __CLASS__ . '::enqueue_admin_js', 10 );
 	}
 
 	/**

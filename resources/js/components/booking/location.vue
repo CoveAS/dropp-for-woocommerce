@@ -1,0 +1,124 @@
+<template>
+	<form class="dropp-location" action="">
+		<header class="dropp-location__header">
+			<h2 class="dropp-location__name" v-html="location.name" :title="'[' + location.id + ']'"></h2>
+			<p class="dropp-location__address" v-html="location.address"></p>
+			<a class="dropp-location__change">♻️Change location</a>
+		</header>
+		<div class="dropp-location__products">
+			<h3>♻️Products</h3>
+			<div class="dropp-location__product"
+				v-for="product in products"
+				:key="product.sku"
+			>
+				<label>
+					<input type="checkbox" v-model="product.checked">
+					<span v-html="product.quantity + '&times; ' + product.name"></span>
+				</label>
+			</div>
+		</div>
+		<droppcustomer :customer="customer"></droppcustomer>
+		<div class="dropp-location__actions">
+			<input class="" type="submit" :value="i18n.submit">
+			<button
+				class="dropp-location__action dropp-location__action--remove"
+				v-html="i18n.submit"
+				v-if="show_remove_button"
+				@click.prevent="remove_location"
+			>
+			</button>
+		</div>
+	</form>
+</template>
+
+<style lang="scss">
+	.dropp-location{
+		margin-left: -12px;
+		margin-right: -12px;
+		// background-color: #f1f1f1;
+		border-bottom: 1px solid #e5e5e5;
+		margin-bottom: 1rem;
+
+		.dropp-customer,
+		&__actions,
+		&__products,
+		&__header {
+			padding: 10px;
+		}
+		&__header {
+			position: relative;
+			background-color: #e6fdfe;
+			color: navy;
+		}
+		&__change {
+			position: absolute;
+			top: 0.75rem;
+			right: 12px;
+		}
+		&__address {
+			margin: 0;
+		}
+
+		#poststuff &__name {
+			padding: 0;
+			color: navy;
+			font-size: 1.5rem;
+			font-weight: 700;
+		}
+	}
+</style>
+<script>
+	import DroppCustomer from './dropp-customer.vue';
+	export default {
+		data: function() {
+			let address = _dropp.customer.address_1;
+			if ( _dropp.customer.address_2 ) {
+				address += ' ' + _dropp.customer.address_2;
+			}
+			address += ', ' + _dropp.customer.postcode;
+			address += ' ' + _dropp.customer.city;
+
+			return {
+				products: [],
+				customer: {
+					name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
+					emailAddress: _dropp.customer.email,
+					socialSecurityNumber: '',
+					address: address,
+					phoneNumber: _dropp.customer.phone,
+				},
+				i18n: _dropp.i18n
+			};
+		},
+		computed: {
+			show_remove_button: function() {
+				return this.$parent._data.locations.length > 1;
+			}
+		},
+		methods: {
+			remove_location: function() {
+				let locations = this.$parent._data.locations;
+				for (let i = 0; i < locations.length; i++) {
+					let location = locations[i];
+					if ( location.id == this.location.id ) {
+						locations.splice(i, 1);break;
+					}
+				}
+			}
+		},
+		created: function() {
+			for ( let i = 0; i < _dropp.products.length; i++ ) {
+				let product = _dropp.products[i];
+				product.checked = true;
+				this.products.push( product );
+			}
+		},
+		props: [
+			'location',
+			'consignment_container'
+		],
+		components: {
+			droppcustomer: DroppCustomer
+		}
+	};
+</script>

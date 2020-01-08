@@ -100,7 +100,7 @@ class Shipping_Item_Meta {
 			esc_attr( $method->get_instance_id() )
 		);
 		printf(
-			'<div class="dropp-location"><span class="button">%s</span>%s</div>',
+			'<div class="dropp-location" style="display:none"><span class="button">%s</span>%s</div><div class="dropp-error" style="display:none"></div>',
 			esc_html__( 'Choose location', 'woocommerce-dropp-shipping' ),
 			implode( '', $fields )
 		);

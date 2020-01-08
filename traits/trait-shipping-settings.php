@@ -44,10 +44,13 @@ trait Shipping_Settings {
 			'api_key' => array(
 				'title'       => __( 'API key', 'woocommerce-dropp-shipping' ),
 				'type'        => 'text',
-				'placeholder' => 'abcdefghijklmnop...',
-				'description' => __( 'API key from dropp.is', 'woocommerce-dropp-shipping' ),
+				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
+				'description' => sprintf(
+					__( 'Click %s to find your API Key.', 'woocommerce-dropp-shipping' ),
+					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">'. __( 'here', 'woocommerce-dropp-shipping' ) .'</a>'
+				),
 				'default'     => '',
-				'desc_tip'    => true,
+				'desc_tip'    => false,
 			),
 		);
 	}

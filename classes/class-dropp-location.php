@@ -15,6 +15,7 @@ class Dropp_Location {
 	 * WC_Order_Item $order_item
 	 */
 	protected $order_item;
+	public $order_item_id;
 
 	public $id;
 	public $name;
@@ -26,8 +27,9 @@ class Dropp_Location {
 	 * @param int $instance_id Shipping method instance.
 	 */
 	public function __construct( $order_item ) {
-		$this->order_item = $order_item;
-		$location = $order_item->get_meta( 'dropp_location' );
+		$this->order_item    = $order_item;
+		$this->order_item_id = $order_item->get_id();
+		$location            = $order_item->get_meta( 'dropp_location' );
 
 		if ( is_array( $location ) ) {
 			$this->id = $location['id'] ?? null;

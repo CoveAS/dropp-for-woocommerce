@@ -21,6 +21,9 @@ class Dropp {
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
 		require_once __DIR__ . '/class-dropp-product-line.php';
 		require_once __DIR__ . '/class-dropp-location.php';
+		require_once __DIR__ . '/class-dropp-consignment.php';
+		require_once __DIR__ . '/class-ajax.php';
+		require_once __DIR__ . '/class-booking.php';
 		require_once __DIR__ . '/class-shipping-method.php';
 		require_once __DIR__ . '/class-shipping-meta-box.php';
 		require_once __DIR__ . '/class-shipping-item-meta.php';
@@ -29,9 +32,35 @@ class Dropp {
 		Shipping_Item_Meta::setup();
 		// Display a meta box on orders for booking with dropp.
 		Shipping_Meta_Box::setup();
+		Ajax::setup();
 
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
+	}
+
+	/**
+	 * Install Consignment table
+	 */
+	public static function install_consignment_table() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'dropp_consignments';
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			shipping_item_id varchar() NOT NULL,
+			location_id varchar() NOT NULL,
+			products text NOT NULL,
+			customer text NOT NULL,
+			time created_at DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			time updated_at DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql );
 	}
 
 	/**

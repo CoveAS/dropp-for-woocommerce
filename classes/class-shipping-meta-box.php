@@ -58,6 +58,18 @@ class Shipping_Meta_Box {
 		$order            = new \WC_Order( $order_id );
 		$billing_address = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
+		$line_items = $order->get_items( 'shipping' );
+		$shipping_items = [];
+		foreach ( $line_items as $line_item ) {
+			if ( 'dropp_is' !== $line_item->get_method_id() ) {
+				continue;
+			}
+			$shipping_items[] = [
+				'id'          => $line_item->get_id(),
+				'instance_id' => $line_item->get_instance_id(),
+				'label'       => $line_item->get_name(),
+			];
+		}
 		if ( empty( $shipping_address['email'] ) ) {
 			$shipping_address['email'] = $billing_address['email'];
 		}
@@ -69,12 +81,15 @@ class Shipping_Meta_Box {
 			'dropp-admin-js',
 			'_dropp',
 			[
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'products' => self::get_dropp_products(),
-				'locations' => Dropp_Location::from_order(),
-				'customer' => $shipping_address,
-				'i18n' => [
-					'submit' => __( 'Book now', 'woocommerce-dropp-shipping' ),
+				'order_id'          => $order_id,
+				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+				'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
+				'products'          => self::get_dropp_products(),
+				'locations'         => Dropp_Location::from_order(),
+				'customer'          => $shipping_address,
+				'shipping_items'    => $shipping_items,
+				'i18n'              => [
+					'submit'      => __( 'Book now', 'woocommerce-dropp-shipping' ),
 					'addLocation' => __( 'Add shipping location', 'woocommerce-dropp-shipping' ),
 				],
 			]

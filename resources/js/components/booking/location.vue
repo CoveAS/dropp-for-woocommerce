@@ -1,5 +1,5 @@
 <template>
-	<form class="dropp-location" action="">
+	<form class="dropp-location" action="" @submit.prevent=book>
 		<header class="dropp-location__header">
 			<h2 class="dropp-location__name" v-html="location.name" :title="'[' + location.id + ']'"></h2>
 			<p class="dropp-location__address" v-html="location.address"></p>
@@ -96,14 +96,38 @@
 			}
 		},
 		methods: {
-			remove_location: function() {
-				let locations = this.$parent._data.locations;
-				for (let i = 0; i < locations.length; i++) {
-					let location = locations[i];
-					if ( location.id == this.location.id ) {
-						locations.splice(i, 1);break;
+			get_products: function() {
+				let products = [];
+				for ( var i = 0; i < this.products.length; i++ ) {
+					let product = this.products[i];
+					if ( product.checked ) {
+						products.push( product );
 					}
 				}
+				return products;
+			},
+			remove_location: function() {
+				let locations = this.$parent._data.locations;
+				for ( let i = 0; i < locations.length; i++ ) {
+					let location = locations[i];
+					if ( location.id == this.location.id ) {
+						locations.splice( i, 1 );break;
+					}
+				}
+			},
+			book: function() {
+				jQuery.ajax( {
+					url: _dropp.ajaxurl,
+					method: 'post',
+					data: {
+						action: 'dropp_booking',
+						location_id: this.location.id,
+						order_item_id: this.location.order_item_id,
+						barcode: _dropp.order_id,
+						products: this.get_products(),
+						customer: this.customer,
+					}
+				} );
 			}
 		},
 		created: function() {

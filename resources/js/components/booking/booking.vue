@@ -13,13 +13,16 @@
 				</thead>
 				<tbody>
 					<!-- @TODO: Use actuall consignment data to populate the table -->
-					<tr>
-						<td title="de3128aa-acf6-42c8-a5f3-3501eb23133e">ORDER-AB123</td>
-						<td>3</td>
-						<td>Egill Skallagrímsson</td>
-						<!-- <td>initial</td>  Phase2 -->
-						<td>1 day ago</td>
-						<!-- <td>3 hours ago</td>  Phase2 -->
+					<tr class="dropp-consignment">
+						<td
+							class="dropp-consignment__barcode"
+							title="de3128aa-acf6-42c8-a5f3-3501eb23133e"
+						>ORDER-AB123</td>
+						<td class="dropp-consignment__quantity">3</td>
+						<td class="dropp-consignment__customer">Egill Skallagrímsson</td>
+						<!-- <td class="dropp-consignment__status">initial</td>  Phase2 -->
+						<td class="dropp-consignment__created">1 day ago</td>
+						<!-- <td class="dropp-consignment__updated">3 hours ago</td>  Phase2 -->
 					</tr>
 				</tbody>
 				<tfoot>
@@ -40,6 +43,15 @@
 				:consignment_container="consignment_container"
 			>
 			</location>
+			<select v-model="selected_shipping_item">
+				<option
+					v-for="shipping_item in shipping_items"
+					:key="shipping_item.id"
+					:value="shipping_item.id"
+					v-html="shipping_item.label"
+				>
+				</option>
+			</select>
 			<button
 				class="dropp-locations__add-location"
 				@click.prevent="add_location"
@@ -85,8 +97,10 @@
 			return {
 				i18n: _dropp.i18n,
 				locations: _dropp.locations,
+				shipping_items: _dropp.shipping_items,
+				selected_shipping_item: false,
 				consignment_container: {
-					consignments: [1]
+					consignments: []
 				},
 				display_locations: true
 			};
@@ -95,6 +109,20 @@
 			if ( this.consignment_container.consignments.length ) {
 				this.display_locations = false;
 			}
+
+			if ( this.shipping_items.length ) {
+				this.selected_shipping_item = this.shipping_items[0].id;
+			}
+
+			var res = jQuery.ajax(
+				{
+					url:      _dropp.dropplocationsurl,
+					dataType: "script",
+					// success:  dropp_handler.success,
+					// error:    dropp_handler.error,
+					timeout:  3000,
+				}
+			);
 		},
 		computed: {
 			display_consignments: function() {
@@ -104,13 +132,20 @@
 		methods: {
 			add_location: function() {
 				//@TODO: Location selector.
+				let vm = this;
+				chooseDroppLocation()
+					.then( function( location ) {
+						location.order_item_id = vm.selected_shipping_item;
+						// A location was picked. Save it.
+						vm.locations.push( location );
+					} )
+					.catch( function( error ) {
+						// Something went wrong.
+						// @TODO.
+						console.log( error );
+					});
 
-				// Empty locations should not be added.
-				this.locations.push(
-					{
-						id: false
-					}
-				);
+
 			}
 		},
 		components: {

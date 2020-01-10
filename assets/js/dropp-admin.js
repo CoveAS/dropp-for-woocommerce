@@ -176,14 +176,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       i18n: _dropp.i18n,
       locations: _dropp.locations,
+      shipping_items: _dropp.shipping_items,
+      selected_shipping_item: false,
       consignment_container: {
-        consignments: [1]
+        consignments: []
       },
       display_locations: true
     };
@@ -192,6 +206,18 @@ __webpack_require__.r(__webpack_exports__);
     if (this.consignment_container.consignments.length) {
       this.display_locations = false;
     }
+
+    if (this.shipping_items.length) {
+      this.selected_shipping_item = this.shipping_items[0].id;
+    }
+
+    var res = jQuery.ajax({
+      url: _dropp.dropplocationsurl,
+      dataType: "script",
+      // success:  dropp_handler.success,
+      // error:    dropp_handler.error,
+      timeout: 3000
+    });
   },
   computed: {
     display_consignments: function display_consignments() {
@@ -201,9 +227,15 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     add_location: function add_location() {
       //@TODO: Location selector.
-      // Empty locations should not be added.
-      this.locations.push({
-        id: false
+      var vm = this;
+      chooseDroppLocation().then(function (location) {
+        location.order_item_id = vm.selected_shipping_item; // A location was picked. Save it.
+
+        vm.locations.push(location);
+      })["catch"](function (error) {
+        // Something went wrong.
+        // @TODO.
+        console.log(error);
       });
     }
   },
@@ -379,6 +411,19 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    get_products: function get_products() {
+      var products = [];
+
+      for (var i = 0; i < this.products.length; i++) {
+        var product = this.products[i];
+
+        if (product.checked) {
+          products.push(product);
+        }
+      }
+
+      return products;
+    },
     remove_location: function remove_location() {
       var locations = this.$parent._data.locations;
 
@@ -390,6 +435,20 @@ __webpack_require__.r(__webpack_exports__);
           break;
         }
       }
+    },
+    book: function book() {
+      jQuery.ajax({
+        url: _dropp.ajaxurl,
+        method: 'post',
+        data: {
+          action: 'dropp_booking',
+          location_id: this.location.id,
+          order_item_id: this.location.order_item_id,
+          barcode: _dropp.order_id,
+          products: this.get_products(),
+          customer: this.customer
+        }
+      });
     }
   },
   created: function created() {
@@ -1704,6 +1763,45 @@ var render = function() {
           })
         }),
         _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selected_shipping_item,
+                expression: "selected_shipping_item"
+              }
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.selected_shipping_item = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.shipping_items, function(shipping_item) {
+            return _c("option", {
+              key: shipping_item.id,
+              domProps: {
+                value: shipping_item.id,
+                innerHTML: _vm._s(shipping_item.label)
+              }
+            })
+          }),
+          0
+        ),
+        _vm._v(" "),
         _c("button", {
           staticClass: "dropp-locations__add-location",
           domProps: { innerHTML: _vm._s(_vm.i18n.addLocation) },
@@ -1736,18 +1834,27 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("tbody", [
-        _c("tr", [
+        _c("tr", { staticClass: "dropp-consignment" }, [
           _c(
             "td",
-            { attrs: { title: "de3128aa-acf6-42c8-a5f3-3501eb23133e" } },
+            {
+              staticClass: "dropp-consignment__barcode",
+              attrs: { title: "de3128aa-acf6-42c8-a5f3-3501eb23133e" }
+            },
             [_vm._v("ORDER-AB123")]
           ),
           _vm._v(" "),
-          _c("td", [_vm._v("3")]),
+          _c("td", { staticClass: "dropp-consignment__quantity" }, [
+            _vm._v("3")
+          ]),
           _vm._v(" "),
-          _c("td", [_vm._v("Egill Skallagrímsson")]),
+          _c("td", { staticClass: "dropp-consignment__customer" }, [
+            _vm._v("Egill Skallagrímsson")
+          ]),
           _vm._v(" "),
-          _c("td", [_vm._v("1 day ago")])
+          _c("td", { staticClass: "dropp-consignment__created" }, [
+            _vm._v("1 day ago")
+          ])
         ])
       ]),
       _vm._v(" "),
@@ -1912,7 +2019,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "form",
-    { staticClass: "dropp-location", attrs: { action: "" } },
+    {
+      staticClass: "dropp-location",
+      attrs: { action: "" },
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.book($event)
+        }
+      }
+    },
     [
       _c("header", { staticClass: "dropp-location__header" }, [
         _c("h2", {
@@ -14442,6 +14558,11 @@ if (window._dropp) {
     components: {// productitem: ProductItem,
     }
   });
+  jQuery(function ($) {
+    if (!_dropp.locations.length) {
+      $('#woocommerce-order-dropp-booking').addClass('closed');
+    }
+  });
 }
 
 /***/ }),
@@ -14475,9 +14596,9 @@ if (window._dropp) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/forsvunnet/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp-admin.js */"./resources/js/dropp-admin.js");
-__webpack_require__(/*! /Users/forsvunnet/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp.scss */"./resources/scss/dropp.scss");
-module.exports = __webpack_require__(/*! /Users/forsvunnet/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp-admin.scss */"./resources/scss/dropp-admin.scss");
+__webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp-admin.js */"./resources/js/dropp-admin.js");
+__webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp.scss */"./resources/scss/dropp.scss");
+module.exports = __webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp-admin.scss */"./resources/scss/dropp-admin.scss");
 
 
 /***/ })

@@ -18,4 +18,10 @@ if ( window._dropp ) {
 			// productitem: ProductItem,
 		},
 	} );
+
+	jQuery( function( $ ) {
+		if ( ! _dropp.locations.length ) {
+			$( '#woocommerce-order-dropp-booking' ).addClass( 'closed' );
+		}
+	} );
 }

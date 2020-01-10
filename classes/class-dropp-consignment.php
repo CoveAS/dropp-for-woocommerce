@@ -12,14 +12,16 @@ namespace Dropp;
  */
 class Dropp_Consignment {
 
-	protected $order_id;
-	protected $location;
-	protected $id;
-
-	public $location_id;
+	public $id;
+	public $dropp_order_id;
 	public $barcode;
+	public $status;
+	public $shipping_item_id;
+	public $location_id;
 	public $products;
 	public $customer;
+	public $created_at;
+	public $updated_at;
 
 	/**
 	 * Constructor.
@@ -38,30 +40,42 @@ class Dropp_Consignment {
 		$this->location_id      = $content['location_id'];
 		$this->barcode          = $content['barcode'];
 		$this->customer         = $content['customer'];
-		$this->products         = $content['products'];
+		$this->products         = [];
+		foreach ( $content['products'] as $product ) {
+			$this->products[] = ( new Dropp_Product_Line() )->fill( $product );
+		}
 		return $this;
 	}
 
-	public function to_array() {
-		return [
-			'locationId' => "911a8ff4-a35a-4da3-ac3a-1797929242f8",
-			'barcode' => "WCORDER-117",
-			'products' => [
-				'0' => [
-					'id' => "114",
-					'name' => "Beanie with Logo",
-					'quantity' => "1",
-					'barcode' => "Woo-beanie-logo",
-				],
-			],
-			'customer' => [
-				'name' => "Eivin Landa",
-				'emailAddress' => "landa@drivdigital.no",
-				'socialSecurityNumber' => "",
-				'address' => "Blødekjær, 20, 20, 4844 Arendal",
-				'phoneNumber' => "0901 234 5789",
+	/**
+	 * To array
+	 *
+	 * @return array Array representation.
+	 */
+	public function to_array( $for_request = true ) {
+		$products = [];
+		foreach ( $this->products as $product ) {
+			$products[] = $product->to_array();
+		}
+		$consignment_array = [
+			'locationId' => $this->location_id,
+			'barcode'    => $this->barcode,
+			'products'   => $products,
+			'customer'   => [
+				'name'                 => $this->customer['name'],
+				'emailAddress'         => $this->customer['emailAddress'],
+				'socialSecurityNumber' => "1234567890",
+				'address'              => $this->customer['address'],
+				'phoneNumber'          => $this->customer['phoneNumber'],
 			],
 		];
+		if ( ! $for_request ) {
+			$consignment_array['id']               = $this->id;
+			$consignment_array['status']           = $this->status;
+			$consignment_array['dropp_order_id']   = $this->dropp_order_id;
+			$consignment_array['shipping_item_id'] = $this->shipping_item_id;
+		}
+		return $consignment_array;
 	}
 
 	public function get_api_key() {
@@ -75,13 +89,37 @@ class Dropp_Consignment {
 		return $api_key;
 	}
 
+	public function save() {
+		if ( $this->id ) {
+			// update
+		} else {
+		}
+			$this->insert();
+	}
 	protected function insert() {
+		global $wpdb;
 		$table_name = $wpdb->prefix . 'dropp_consignments';
-		$wpdb->insert(
+		$row_count = $wpdb->insert(
 			$table_name,
 			[
+				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
+				'products'         => wp_json_encode( $this->products ),
+				'status'           => $this->status,
+				'customer'         => wp_json_encode( $this->customer ),
+				'updated_at'       => current_time( 'mysql' ),
+				'created_at'       => current_time( 'mysql' ),
+			]
+		);
+
+		var_dump(
+			$row_count,
+			[
+				'dropp_order_id'   => $this->dropp_order_id,
+				'shipping_item_id' => $this->shipping_item_id,
+				'location_id'      => $this->location_id,
+				'status'      => $this->status,
 				'products'         => wp_json_encode( $this->products ),
 				'customer'         => wp_json_encode( $this->customer ),
 				'updated_at'       => current_time( 'mysql' ),

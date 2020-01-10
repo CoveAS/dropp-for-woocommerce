@@ -43,10 +43,12 @@ class Ajax {
 		} catch ( \Exception $e ) {
 			wp_send_json( '@TODO: Error message. '. $e->getMessage() );
 		}
+		$consignment->save();
 
 		wp_send_json(
 			[
 				'status' => 'success',
+				'consignment' => $consignment->to_array( false ),
 				'errors' => [],
 			]
 		);

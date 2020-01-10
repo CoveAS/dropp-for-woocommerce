@@ -36,12 +36,25 @@ class Dropp {
 
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
+
+		add_action( 'admin_init', __CLASS__ . '::upgrade' );
+	}
+
+
+	/**
+	 * Upgrade
+	 */
+	public static function upgrade() {
+		$saved_version = (int) get_site_option( 'woocommerce_dropp_shipping_db_version' );
+		if ( $saved_version < 200 && self::upgrade_200() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', 200 );
+		}
 	}
 
 	/**
 	 * Install Consignment table
 	 */
-	public static function install_consignment_table() {
+	public static function upgrade_200() {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'dropp_consignments';
@@ -50,17 +63,20 @@ class Dropp {
 
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			shipping_item_id varchar() NOT NULL,
-			location_id varchar() NOT NULL,
+			dropp_order_id varchar(63) NOT NULL,
+			status varchar(15) NOT NULL,
+			shipping_item_id varchar(63) NOT NULL,
+			location_id varchar(63) NOT NULL,
 			products text NOT NULL,
 			customer text NOT NULL,
-			time created_at DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			time updated_at DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
+
+		return true;
 	}
 
 	/**

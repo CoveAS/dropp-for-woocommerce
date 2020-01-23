@@ -20,6 +20,7 @@ class Dropp {
 	public static function loaded() {
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
 		require_once __DIR__ . '/class-dropp-product-line.php';
+		require_once __DIR__ . '/class-dropp-customer.php';
 		require_once __DIR__ . '/class-dropp-location.php';
 		require_once __DIR__ . '/class-dropp-consignment.php';
 		require_once __DIR__ . '/class-ajax.php';
@@ -27,9 +28,12 @@ class Dropp {
 		require_once __DIR__ . '/class-shipping-method.php';
 		require_once __DIR__ . '/class-shipping-meta-box.php';
 		require_once __DIR__ . '/class-shipping-item-meta.php';
+		require_once __DIR__ . '/class-pending-shipping.php';
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
 		Shipping_Item_Meta::setup();
+		// Initialise pending shipping status for orders.
+		Pending_Shipping::setup();
 		// Display a meta box on orders for booking with dropp.
 		Shipping_Meta_Box::setup();
 		Ajax::setup();
@@ -37,6 +41,7 @@ class Dropp {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 
+		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 	}
 
@@ -63,7 +68,7 @@ class Dropp {
 
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			dropp_order_id varchar(63) NOT NULL,
+			dropp_order_id varchar(63) NULL,
 			status varchar(15) NOT NULL,
 			shipping_item_id varchar(63) NOT NULL,
 			location_id varchar(63) NOT NULL,

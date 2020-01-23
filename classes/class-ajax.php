@@ -30,26 +30,36 @@ class Ajax {
 			[
 				'shipping_item_id' => $order_item_id,
 				'location_id'      => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
-				'barcode'          => filter_input( INPUT_POST, 'barcode', FILTER_DEFAULT ),
 				'customer'         => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 				'products'         => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 			]
 		);
+		$consignment->save();
 
 		$booking = new Booking( $consignment );
-
 		try {
 			$booking->send();
+			$consignment->save();
 		} catch ( \Exception $e ) {
-			wp_send_json( '@TODO: Error message. '. $e->getMessage() );
+			$consignment->status = 'error';
+			$consignment->save();
+
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => $e->getMessage(),
+					'errors'      => $booking->errors,
+				]
+			);
 		}
-		$consignment->save();
 
 		wp_send_json(
 			[
-				'status' => 'success',
+				'status'      => 'success',
 				'consignment' => $consignment->to_array( false ),
-				'errors' => [],
+				'message'     => __( 'Booked', 'woocommerce-dropp-shipping' ),
+				'errors'      => [],
 			]
 		);
 	}

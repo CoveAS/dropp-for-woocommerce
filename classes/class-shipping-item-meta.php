@@ -82,6 +82,9 @@ class Shipping_Item_Meta {
 		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}
+		if ( 'dropp_is' !== $method->get_method_id() ) {
+			return;
+		}
 		$format = '<input class="dropp-location__%s" name="dropp_%d_location_%1$s%d" type="hidden" value="">';
 		$keys   = [ 'id', 'address' ];
 		$fields = [];

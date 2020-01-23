@@ -188,6 +188,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -197,7 +229,7 @@ __webpack_require__.r(__webpack_exports__);
       shipping_items: _dropp.shipping_items,
       selected_shipping_item: false,
       consignment_container: {
-        consignments: []
+        consignments: _dropp.consignments
       },
       display_locations: true
     };
@@ -297,7 +329,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['customer'],
   data: function data() {
-    return {};
+    return {
+      i18n: _dropp.i18n
+    };
   }
 });
 
@@ -313,6 +347,39 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dropp-customer.vue */ "./resources/js/components/booking/dropp-customer.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -402,13 +469,10 @@ __webpack_require__.r(__webpack_exports__);
         address: address,
         phoneNumber: _dropp.customer.phone
       },
-      i18n: _dropp.i18n
+      i18n: _dropp.i18n,
+      loading: false,
+      response: false
     };
-  },
-  computed: {
-    show_remove_button: function show_remove_button() {
-      return this.$parent._data.locations.length > 1;
-    }
   },
   methods: {
     get_products: function get_products() {
@@ -437,6 +501,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     book: function book() {
+      if (this.loading) {
+        return;
+      }
+
+      this.loading = true;
+      this.response = false;
       jQuery.ajax({
         url: _dropp.ajaxurl,
         method: 'post',
@@ -447,8 +517,51 @@ __webpack_require__.r(__webpack_exports__);
           barcode: _dropp.order_id,
           products: this.get_products(),
           customer: this.customer
-        }
+        },
+        success: this.success,
+        error: this.error
       });
+    },
+    success: function success(data, textStatus, jqXHR) {
+      console.log(data);
+      console.log(textStatus);
+      console.log(jqXHR);
+
+      if (data.status) {
+        this.response = data;
+
+        this.$parent._data.consignment_container.consignments.push(data.consignment);
+      }
+
+      var vm = this;
+      setTimeout(function () {
+        vm.loading = false;
+      });
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+      var vm = this;
+      setTimeout(function () {
+        vm.loading = false;
+      });
+    }
+  },
+  computed: {
+    response_status: function response_status() {
+      if (!this.response) {
+        return '';
+      }
+
+      return 'response-' + this.response.status;
+    },
+    classes: function classes() {
+      var classes = ['dropp-location--' + (this.loading ? 'loading' : 'ready')];
+      return classes.join(', ');
+    },
+    show_remove_button: function show_remove_button() {
+      return this.$parent._data.locations.length > 1;
     }
   },
   created: function created() {
@@ -478,7 +591,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  margin-bottom: 1rem;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments__table {\n  width: 100%;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
+exports.push([module.i, ".dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  margin-bottom: 1rem;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
 
 // exports
 
@@ -516,7 +629,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}", ""]);
+exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
 
 // exports
 
@@ -1706,7 +1819,65 @@ var render = function() {
         ],
         staticClass: "dropp-consignments"
       },
-      [_c("h2", [_vm._v("♻️bookedConsignments")]), _vm._v(" "), _vm._m(0)]
+      [
+        _c("h2", {
+          domProps: { innerHTML: _vm._s(_vm.i18n.booked_consignments) }
+        }),
+        _vm._v(" "),
+        _c("table", { staticClass: "dropp-consignments__table" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.consignment_container.consignments, function(
+              consignment
+            ) {
+              return _c(
+                "tr",
+                {
+                  key: consignment.id,
+                  staticClass: "dropp-consignment",
+                  class:
+                    "dropp-consignment-" +
+                    consignment.id +
+                    " dropp-consignment--" +
+                    consignment.status
+                },
+                [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "dropp-consignment__barcode",
+                      attrs: { title: "de3128aa-acf6-42c8-a5f3-3501eb23133e" }
+                    },
+                    [_vm._v(_vm._s(consignment.barcode))]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "dropp-consignment__quantity" }, [
+                    _vm._v(_vm._s(consignment.products.length))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", {
+                    staticClass: "dropp-consignment__customer",
+                    domProps: { innerHTML: _vm._s(consignment.customer.name) }
+                  }),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "dropp-consignment__status" }, [
+                    _vm._v(_vm._s(consignment.status))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "dropp-consignment__created" }, [
+                    _vm._v(_vm._s(consignment.created_at))
+                  ])
+                ]
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("tfoot")
+        ])
+      ]
     ),
     _vm._v(" "),
     _c(
@@ -1764,54 +1935,71 @@ var render = function() {
         }),
         _vm._v(" "),
         _c(
-          "select",
+          "div",
           {
             directives: [
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.selected_shipping_item,
-                expression: "selected_shipping_item"
+                name: "show",
+                rawName: "v-show",
+                value: _vm.shipping_items.length,
+                expression: "shipping_items.length"
               }
             ],
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.selected_shipping_item = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              }
-            }
+            staticClass: "dropp-locations__add-location"
           },
-          _vm._l(_vm.shipping_items, function(shipping_item) {
-            return _c("option", {
-              key: shipping_item.id,
-              domProps: {
-                value: shipping_item.id,
-                innerHTML: _vm._s(shipping_item.label)
+          [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selected_shipping_item,
+                    expression: "selected_shipping_item"
+                  }
+                ],
+                staticClass: "dropp-locations__add-dropdown",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selected_shipping_item = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.shipping_items, function(shipping_item) {
+                return _c("option", {
+                  key: shipping_item.id,
+                  domProps: {
+                    value: shipping_item.id,
+                    innerHTML: _vm._s(shipping_item.label)
+                  }
+                })
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("button", {
+              staticClass: "dropp-locations__add-button",
+              domProps: { innerHTML: _vm._s(_vm.i18n.add_location) },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.add_location($event)
+                }
               }
             })
-          }),
-          0
-        ),
-        _vm._v(" "),
-        _c("button", {
-          staticClass: "dropp-locations__add-location",
-          domProps: { innerHTML: _vm._s(_vm.i18n.addLocation) },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.add_location($event)
-            }
-          }
-        })
+          ]
+        )
       ],
       2
     )
@@ -1822,43 +2010,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "dropp-consignments__table" }, [
-      _c("thead", [
-        _c("th", [_vm._v("Consignment")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Products")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Customer")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Created")])
-      ]),
+    return _c("thead", [
+      _c("th", [_vm._v("Consignment")]),
       _vm._v(" "),
-      _c("tbody", [
-        _c("tr", { staticClass: "dropp-consignment" }, [
-          _c(
-            "td",
-            {
-              staticClass: "dropp-consignment__barcode",
-              attrs: { title: "de3128aa-acf6-42c8-a5f3-3501eb23133e" }
-            },
-            [_vm._v("ORDER-AB123")]
-          ),
-          _vm._v(" "),
-          _c("td", { staticClass: "dropp-consignment__quantity" }, [
-            _vm._v("3")
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "dropp-consignment__customer" }, [
-            _vm._v("Egill Skallagrímsson")
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "dropp-consignment__created" }, [
-            _vm._v("1 day ago")
-          ])
-        ])
-      ]),
+      _c("th", [_vm._v("Products")]),
       _vm._v(" "),
-      _c("tfoot")
+      _c("th", [_vm._v("Customer")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Created")])
     ])
   }
 ]
@@ -1884,10 +2045,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "dropp-customer" }, [
-    _c("h3", { staticClass: "dropp-customer__title" }, [_vm._v("♻️Customer")]),
+    _c("h3", {
+      staticClass: "dropp-customer__title",
+      domProps: { innerHTML: _vm._s(_vm.i18n.customer) }
+    }),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
-      _c("span", { staticClass: "input-label" }, [_vm._v("♻️name")]),
+      _c("span", {
+        staticClass: "input-label",
+        domProps: { innerHTML: _vm._s(_vm.i18n.name) }
+      }),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -1913,7 +2080,10 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
-      _c("span", { staticClass: "input-label" }, [_vm._v("♻️emailAddress")]),
+      _c("span", {
+        staticClass: "input-label",
+        domProps: { innerHTML: _vm._s(_vm.i18n.email_address) }
+      }),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -1943,7 +2113,10 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
-      _c("span", { staticClass: "input-label" }, [_vm._v("♻️address")]),
+      _c("span", {
+        staticClass: "input-label",
+        domProps: { innerHTML: _vm._s(_vm.i18n.address) }
+      }),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -1969,7 +2142,10 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
-      _c("span", { staticClass: "input-label" }, [_vm._v("♻️phoneNumber")]),
+      _c("span", {
+        staticClass: "input-label",
+        domProps: { innerHTML: _vm._s(_vm.i18n.phone_number) }
+      }),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -2021,6 +2197,7 @@ var render = function() {
     "form",
     {
       staticClass: "dropp-location",
+      class: _vm.classes,
       attrs: { action: "" },
       on: {
         submit: function($event) {
@@ -2042,16 +2219,52 @@ var render = function() {
           domProps: { innerHTML: _vm._s(_vm.location.address) }
         }),
         _vm._v(" "),
-        _c("a", { staticClass: "dropp-location__change" }, [
-          _vm._v("♻️Change location")
-        ])
+        _c("a", {
+          staticClass: "dropp-location__change",
+          domProps: { innerHTML: _vm._s(_vm.i18n.change_location) }
+        })
       ]),
+      _vm._v(" "),
+      _vm.response
+        ? _c(
+            "div",
+            {
+              staticClass: "dropp-location__messages",
+              class: _vm.response_status
+            },
+            [
+              _c("h2", {
+                staticClass: "dropp-location__message",
+                domProps: { innerHTML: _vm._s(_vm.response.message) }
+              }),
+              _vm._v(" "),
+              _c(
+                "ul",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.response.errors.length,
+                      expression: "response.errors.length"
+                    }
+                  ],
+                  staticClass: "dropp-location__errors"
+                },
+                _vm._l(_vm.response.errors, function(error) {
+                  return _c("li", { domProps: { innerHTML: _vm._s(error) } })
+                }),
+                0
+              )
+            ]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
         { staticClass: "dropp-location__products" },
         [
-          _c("h3", [_vm._v("♻️Products")]),
+          _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
           _vm._v(" "),
           _vm._l(_vm.products, function(product) {
             return _c(

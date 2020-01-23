@@ -1,27 +1,32 @@
 <template>
 	<div class="dropp-booking">
 		<div class="dropp-consignments" v-show="display_consignments">
-			<h2>♻️bookedConsignments</h2>
+			<h2 v-html="i18n.booked_consignments"></h2>
 			<table class="dropp-consignments__table">
 				<thead>
 					<th>Consignment</th>
 					<th>Products</th>
 					<th>Customer</th>
-					<!-- <th>Status</th> Phase2 -->
+					<th>Status</th>
 					<th>Created</th>
 					<!-- <th>Updated</th> Phase2 -->
 				</thead>
 				<tbody>
 					<!-- @TODO: Use actuall consignment data to populate the table -->
-					<tr class="dropp-consignment">
+					<tr
+						class="dropp-consignment"
+						v-for="consignment in consignment_container.consignments"
+						:key="consignment.id"
+						:class="'dropp-consignment-' + consignment.id + ' dropp-consignment--' + consignment.status"
+					>
 						<td
 							class="dropp-consignment__barcode"
 							title="de3128aa-acf6-42c8-a5f3-3501eb23133e"
-						>ORDER-AB123</td>
-						<td class="dropp-consignment__quantity">3</td>
-						<td class="dropp-consignment__customer">Egill Skallagrímsson</td>
-						<!-- <td class="dropp-consignment__status">initial</td>  Phase2 -->
-						<td class="dropp-consignment__created">1 day ago</td>
+						>{{consignment.barcode}}</td>
+						<td class="dropp-consignment__quantity">{{consignment.products.length}}</td>
+						<td class="dropp-consignment__customer" v-html="consignment.customer.name"></td>
+						<td class="dropp-consignment__status">{{consignment.status}}</td>
+						<td class="dropp-consignment__created">{{consignment.created_at}}</td>
 						<!-- <td class="dropp-consignment__updated">3 hours ago</td>  Phase2 -->
 					</tr>
 				</tbody>
@@ -43,21 +48,24 @@
 				:consignment_container="consignment_container"
 			>
 			</location>
-			<select v-model="selected_shipping_item">
-				<option
-					v-for="shipping_item in shipping_items"
-					:key="shipping_item.id"
-					:value="shipping_item.id"
-					v-html="shipping_item.label"
+
+			<div class="dropp-locations__add-location" v-show="shipping_items.length">
+				<select class="dropp-locations__add-dropdown" v-model="selected_shipping_item">
+					<option
+						v-for="shipping_item in shipping_items"
+						:key="shipping_item.id"
+						:value="shipping_item.id"
+						v-html="shipping_item.label"
+					>
+					</option>
+				</select>
+				<button
+					class="dropp-locations__add-button"
+					@click.prevent="add_location"
+					v-html="i18n.add_location"
 				>
-				</option>
-			</select>
-			<button
-				class="dropp-locations__add-location"
-				@click.prevent="add_location"
-				v-html="i18n.addLocation"
-			>
-			</button>
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -74,13 +82,37 @@
 	.dropp-toggle-locations {
 		margin-bottom: 1rem;
 	}
+	.dropp-consignment {
+		&:nth-of-type(2n) {
+			background: darken(#FFF, 5%);
+		}
+		&--ready {
+		}
+		&--error {
+			background: #FEE;
+			&:nth-of-type(2n) {
+				background: #FCC;
+			}
+		}
+		&--initial {
+			color: navy;
+			background: #e6fdfe;
+			&:nth-of-type(2n) {
+				background: darken(#e6fdfe, 5%);
+			}
+		}
+	}
 	.dropp-consignments {
 		margin-bottom: 1rem;
 		th {
 			text-align: left;
 		}
+		th, td {
+			padding: 2px 4px;
+		}
 		&__table {
 			width: 100%;
+			border-spacing: 0;
 		}
 	}
 	.dropp-locations {
@@ -100,7 +132,7 @@
 				shipping_items: _dropp.shipping_items,
 				selected_shipping_item: false,
 				consignment_container: {
-					consignments: []
+					consignments: _dropp.consignments
 				},
 				display_locations: true
 			};

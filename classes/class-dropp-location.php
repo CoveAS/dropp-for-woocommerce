@@ -42,7 +42,7 @@ class Dropp_Location {
 	 * From Order
 	 *
 	 * @param  integer $order_id (optional) Order ID.
-	 * @return array             Array of Dropp_Product.
+	 * @return array             Array of Dropp_Location.
 	 */
 	public static function from_order( $order_id = false ) {
 		if ( false === $order_id ) {
@@ -59,5 +59,14 @@ class Dropp_Location {
 			$collection[] = $location;
 		}
 		return $collection;
+	}
+	/**
+	 * Array From Order
+	 *
+	 * @param  integer $order_id (optional) Order ID.
+	 * @return array             Array of Dropp_Location arrays.
+	 */
+	public static function array_from_order( $order_id = false ) {
+		return self::from_order($order_id);
 	}
 }

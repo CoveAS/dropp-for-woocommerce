@@ -70,24 +70,6 @@ class Ajax {
 		);
 	}
 
-	protected static function get_pdf( $consignment_id ) {
-		$consignment = new Dropp_Consignment();
-		$consignment->get( $consignment_id );
-		if ( null === $consignment->id ) {
-			wp_send_json(
-				[
-					'status'      => 'error',
-					'consignment' => $consignment->to_array( false ),
-					'message'     => 'Could not find consignment',
-					'errors'      => [],
-				]
-			);
-		}
-		$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
-		$api_pdf = new API_PDF( $consignment, $shipping_method->test_mode );
-		return $api_pdf->get_pdf( $shipping_method->debug_mode );
-	}
-
 	/**
 	 * Dropp pdf
 	 */
@@ -99,11 +81,13 @@ class Ajax {
 	/**
 	 * Dropp pdf single
 	 *
+	 * Renders a single pdf and kills further execuion.
+	 *
 	 * @param string|int $consignment_id Consignment ID.
 	 */
-	private static function dropp_pdf_single( $consignment_id ) {
+	protected static function dropp_pdf_single( $consignment_id ) {
 		try {
-			$pdf = self::get_pdf( $consignment_id );
+			$pdf = API_PDF::get_pdf_from_consignment( $consignment_id );
 		} catch ( Exception $e ) {
 			wp_send_json(
 				[
@@ -120,6 +104,8 @@ class Ajax {
 
 	/**
 	 * Dropp pdf merge
+	 *
+	 * Renders merged result of multiple consignment ID's
 	 *
 	 * @throws Exception Exception.
 	 */

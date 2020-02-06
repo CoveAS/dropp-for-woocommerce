@@ -46,7 +46,6 @@ class API_PDF {
 				'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
 				'Content-Type'  => 'application/json;charset=UTF-8',
 			],
-			'body' => wp_json_encode( $this->consignment->to_array() ),
 		];
 
 		if ( $debug ) {
@@ -58,7 +57,6 @@ class API_PDF {
 			);
 		}
 
-		// @TODO: Debug mode - log request
 		$response = wp_remote_get(
 			self::get_url() . $this->consignment->dropp_order_id,
 			$args
@@ -84,7 +82,6 @@ class API_PDF {
 			);
 		}
 
-		// @TODO: Debug mode - log response
 		$this->validate_response( $response );
 
 		return $response['body'];
@@ -105,20 +102,23 @@ class API_PDF {
 		require_once ABSPATH . '/wp-admin/includes/file.php';
 		WP_Filesystem();
 		$uploads_dir = self::get_dir();
-		$filename    = $uploads_dir['subdir'] . $this->consignment->dropp_order_id . '.pdf';
+		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			$pdf = $this->remote_get( $debug );
 			$wp_filesystem->put_contents( $filename, $pdf );
 		}
 		return $this;
 	}
+
 	/**
-	 * Download
+	 * Get PDF.
+	 *
+	 * First attempts to get a downloaded PDF, then tries to get from remote.
 	 *
 	 * @throws Exception $e        Sending exception.
 	 * @param  Boolean   $debug    Debug.
 	 * @param  string    $filename Filename.
-	 * @return Booking             This object.
+	 * @return string              PDF content.
 	 */
 	public function get_pdf( $debug = false ) {
 		global $wp_filesystem;
@@ -127,11 +127,35 @@ class API_PDF {
 		WP_Filesystem();
 
 		$uploads_dir = self::get_dir();
-		$filename    = $uploads_dir['subdir'] . $this->consignment->dropp_order_id . '.pdf';
+		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			return $this->remote_get();
 		}
 		return $wp_filesystem->get_contents( $filename );
+	}
+
+	/**
+	 * Get pdf from consignment
+	 *
+	 * @param  string $consignment_id Consignment ID.
+	 * @return string                 PDF content.
+	 */
+	public static function get_pdf_from_consignment( $consignment_id ) {
+		$consignment = new Dropp_Consignment();
+		$consignment->get( $consignment_id );
+		if ( null === $consignment->id ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => 'Could not find consignment',
+					'errors'      => [],
+				]
+			);
+		}
+		$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
+		$api_pdf = new self( $consignment, $shipping_method->test_mode );
+		return $api_pdf->get_pdf( $shipping_method->debug_mode );
 	}
 
 	/**

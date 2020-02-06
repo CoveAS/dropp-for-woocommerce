@@ -25,8 +25,11 @@ trait Shipping_Settings {
 	 */
 	public function init_properties() {
 		// Define user set variables.
-		$this->title   = $this->get_option( 'title' );
-		$this->api_key = $this->get_option( 'api_key' );
+		$this->title        = $this->get_option( 'title' );
+		$this->api_key      = $this->get_option( 'api_key' );
+		$this->api_key_test = $this->get_option( 'api_key_test' );
+		$this->test_mode    = 'yes' === $this->get_option( 'test_mode' );
+		$this->debug_mode   = 'yes' === $this->get_option( 'debug_mode' );
 	}
 
 	/**
@@ -40,27 +43,40 @@ trait Shipping_Settings {
 				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
 				'description' => sprintf(
 					__( 'Click %s to find your API Key.', 'woocommerce-dropp-shipping' ),
-					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">'. __( 'here', 'woocommerce-dropp-shipping' ) .'</a>'
+					'<a target="_blank" href="https://dropp.is/dropp/admin/store/api/">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,
 			),
-		);
-		$this->instance_form_fields = array(
-			'title'      => array(
-				'title'       => __( 'Title', 'woocommerce-dropp-shipping' ),
-				'type'        => 'text',
-				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce-dropp-shipping' ),
-				'default'     => $this->method_title,
-				'desc_tip'    => true,
-			),
-			'api_key' => array(
-				'title'       => __( 'API key', 'woocommerce-dropp-shipping' ),
+			'api_key_test' => array(
+				'title'       => __( 'API key (test)', 'woocommerce-dropp-shipping' ),
 				'type'        => 'text',
 				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
 				'description' => sprintf(
-					__( 'Click %s to find your API Key.', 'woocommerce-dropp-shipping' ),
-					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">'. __( 'here', 'woocommerce-dropp-shipping' ) .'</a>'
+					__( 'Click %s to find your test API Key.', 'woocommerce-dropp-shipping' ),
+					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+				),
+				'default'     => '',
+				'desc_tip'    => false,
+			),
+			'test_mode' => array(
+				'title'       => __( 'Test mode', 'woocommerce-dropp-shipping' ),
+				'label'       => __( 'Enable test mode', 'woocommerce-dropp-shipping' ),
+				'type'        => 'checkbox',
+				'description' => sprintf(
+					__( 'Makes the plugin do requests against staging instead of the live API.', 'woocommerce-dropp-shipping' ),
+					'<a href="#">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+				),
+				'default'     => '',
+				'desc_tip'    => false,
+			),
+			'debug_mode' => array(
+				'title'       => __( 'Debug mode', 'woocommerce-dropp-shipping' ),
+				'label'       => __( 'Enable debug mode', 'woocommerce-dropp-shipping' ),
+				'type'        => 'checkbox',
+				'description' => sprintf(
+					__( 'Logs requests and other data to a log file. Click %s to see the logs.', 'woocommerce-dropp-shipping' ),
+					'<a href="' . admin_url( 'admin.php?page=wc-status&tab=logs' ) . '">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,

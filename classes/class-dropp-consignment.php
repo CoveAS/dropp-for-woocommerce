@@ -15,15 +15,16 @@ use Exception;
 class Dropp_Consignment {
 
 	public $id;
-	public $barcode;
+	public $barcode = '';
 	public $dropp_order_id;
 	public $status = 'ready';
 	public $shipping_item_id;
 	public $location_id;
 	public $products;
 	public $customer;
-	public $created_at;
+	public $test = false;
 	public $updated_at;
+	public $created_at;
 
 	/**
 	 * Constructor.
@@ -49,6 +50,7 @@ class Dropp_Consignment {
 				'shipping_item_id' => null,
 				'status'           => 'ready',
 				'location_id'      => null,
+				'test'             => false,
 				'created_at'       => current_time( 'mysql' ),
 				'updated_at'       => current_time( 'mysql' ),
 			]
@@ -59,6 +61,7 @@ class Dropp_Consignment {
 		$this->shipping_item_id = $content['shipping_item_id'];
 		$this->status           = $content['status'];
 		$this->location_id      = $content['location_id'];
+		$this->test             = $content['test'];
 		$this->created_at       = $content['created_at'];
 		$this->updated_at       = $content['updated_at'];
 
@@ -113,6 +116,7 @@ class Dropp_Consignment {
 			$consignment_array['status']           = $this->status;
 			$consignment_array['dropp_order_id']   = $this->dropp_order_id;
 			$consignment_array['shipping_item_id'] = $this->shipping_item_id;
+			$consignment_array['test']             = $this->test;
 			$consignment_array['created_at']       = $this->created_at;
 			$consignment_array['updated_at']       = $this->updated_at;
 		}
@@ -130,7 +134,11 @@ class Dropp_Consignment {
 		$shipping_item   = new \WC_Order_Item_Shipping( $this->shipping_item_id );
 		$instance_id     = $shipping_item->get_instance_id();
 		$shipping_method = new Shipping_Method( $instance_id );
-		$api_key         = $shipping_method->get_option( 'api_key' );
+		$option_name     = 'api_key';
+		if ( $this->test ) {
+			$option_name = 'api_key_test';
+		}
+		$api_key = $shipping_method->get_option( $option_name );
 		if ( empty( $api_key ) ) {
 			throw new Exception( __( 'No API key could be found.', 'woocommerce-dropp-shipping' ), 1 );
 		}
@@ -170,6 +178,7 @@ class Dropp_Consignment {
 				'products'         => wp_json_encode( $this->products ),
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
+				'test'             => $this->test,
 				'updated_at'       => current_time( 'mysql' ),
 			],
 			[
@@ -197,6 +206,7 @@ class Dropp_Consignment {
 				'products'         => wp_json_encode( $this->products ),
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
+				'test'             => $this->test,
 				'updated_at'       => current_time( 'mysql' ),
 				'created_at'       => current_time( 'mysql' ),
 			]

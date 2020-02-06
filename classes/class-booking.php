@@ -7,13 +7,16 @@
 
 namespace Dropp;
 
+use WC_Logger;
+use WC_Log_Levels;
+use Exception;
+
 /**
  * Booking
  */
 class Booking {
 
-	const URL = 'https://stage.dropp.is/dropp/api/v1/orders';
-
+	protected $test = false;
 	protected $consignment;
 
 	public $errors = [];
@@ -21,91 +24,112 @@ class Booking {
 	/**
 	 * Construct
 	 */
-	public function __construct( Dropp_Consignment $consignment ) {
+	public function __construct( Dropp_Consignment $consignment, $test ) {
 		$this->consignment = $consignment;
+		$this->test        = $test;
 	}
 
 	/**
 	 * Send
 	 *
-	 * @throws \Exception $e Sending exception.
-	 * @return Booking       This object.
+	 * @throws Exception $e     Sending exception.
+	 * @param  Boolean   $debug Debug.
+	 * @return Booking          This object.
 	 */
-	public function send() {
+	public function send( $debug = false ) {
 		if ( empty( $this->consignment ) ) {
-			throw new \Exception( 'Error Processing Request', 1 );
+			throw new Exception( 'Error Processing Request', 1 );
 		}
+		$args = [
+			'headers' => [
+				'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
+				'Content-Type'  => 'application/json;charset=UTF-8',
+			],
+			'body' => wp_json_encode( $this->consignment->to_array() ),
+		];
+		if ( $debug ) {
+			$log = new WC_Logger();
 
-		$response = wp_remote_get(
-			self::URL . '/barcode/',
-			[
-				'headers' => [
-					'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
-					'Content-Type'  => 'application/json;charset=UTF-8',
-				],
-			]
-		);
-
-		if ( is_wp_error( $response ) ) {
-			$this->errors = $response->get_error_messages();
-			throw new \Exception( __( 'Barcode response error', 'woocommerce-dropp-shipping' ) );
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[DEBUG] Booking request:' . PHP_EOL . $this->get_url() . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
+				WC_Log_Levels::DEBUG
+			);
 		}
-		$barcode_data = json_decode( $response['body'], true );
-		if ( ! is_array( $barcode_data ) ) {
-			throw new \Exception( __( 'Invalid barcode json', 'woocommerce-dropp-shipping' ) );
-		}
-		if ( empty( $barcode_data['barcode'] ) ) {
-			throw new \Exception( __( 'Empty barcode in the response', 'woocommerce-dropp-shipping' ) );
-		}
-
-		$this->consignment->barcode = $barcode_data['barcode'];
 
 		// @TODO: Debug mode - log request
 		$response = wp_remote_post(
-			self::URL,
-			[
-				'headers' => [
-					'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
-					'Content-Type'  => 'application/json;charset=UTF-8',
-				],
-				'body' => wp_json_encode( $this->consignment->to_array() ),
-			]
+			self::get_url(),
+			$args
 		);
-		// @TODO: Debug mode - log response
 
 		if ( is_wp_error( $response ) ) {
-			$this->errors = $response->get_error_messages();
-			throw new \Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[ERROR] Booking response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
+				WC_Log_Levels::ERROR
+			);
+		} elseif ( $debug ) {
+			$data = json_decode( $response['body'] );
+			if ( ! empty( $data ) ) {
+				$body = wp_json_encode( $data, JSON_PRETTY_PRINT );
+			} else {
+				$body = $response['body'];
+			}
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[DEBUG] Booking response:' . PHP_EOL . $body,
+				WC_Log_Levels::DEBUG
+			);
 		}
+
+		// @TODO: Debug mode - log response
+		$this->validate_response( $response );
 
 		$dropp_order = json_decode( $response['body'], true );
 
-		if ( ! is_array( $dropp_order ) ) {
-			throw new \Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
-		}
-		if ( ! empty( $dropp_order['error'] ) ) {
-			throw new \Exception( $dropp_order['error'] );
-		}
-		if ( empty( $dropp_order['id'] ) ) {
-			throw new \Exception( __( 'Empty ID in the response', 'woocommerce-dropp-shipping' ) );
-		}
-
 		$this->consignment->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->consignment->status         = $dropp_order['status'] ?? '';
-
-		$this->validate_response( $response );
+		$this->consignment->barcode        = $dropp_order['barcode'] ?? '';
 
 		return $this;
 	}
 
 	/**
+	 * Get URL
+	 *
+	 * @return string URL.
+	 */
+	public function get_url() {
+		if ( $this->test ) {
+			return 'https://stage.dropp.is/dropp/api/v1/orders';
+		}
+		return 'https://dropp.is/dropp/api/v1/orders';
+
+	}
+
+	/**
 	 * Valitdate response
 	 *
+	 * @throws Exception                Error reason.
 	 * @param  WP_Error|array $response Response from dropp.
 	 * @return boolean                  True on a valid response
 	 */
 	public function validate_response( $response ) {
-		// throw new Exception("Error Processing Request", 1);
+		if ( is_wp_error( $response ) ) {
+			$this->errors = $response->get_error_messages();
+			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+		}
+		$dropp_order = json_decode( $response['body'], true );
+		if ( ! is_array( $dropp_order ) ) {
+			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( ! empty( $dropp_order['error'] ) ) {
+			throw new Exception( $dropp_order['error'] );
+		}
+		if ( empty( $dropp_order['id'] ) ) {
+			throw new Exception( __( 'Empty ID in the response', 'woocommerce-dropp-shipping' ) );
+		}
 		return true;
 	}
 }

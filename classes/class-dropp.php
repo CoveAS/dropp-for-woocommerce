@@ -75,6 +75,7 @@ class Dropp {
 			location_id varchar(63) NOT NULL,
 			products text NOT NULL,
 			customer text NOT NULL,
+			test tinyint(1) DEFAULT 0 NOT NULL,
 			created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY  (id)

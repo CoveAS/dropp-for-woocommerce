@@ -10,7 +10,7 @@ namespace Dropp;
 /**
  * Shipping method
  */
-class Shipping_Method extends \WC_Shipping_Method {
+class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	use Shipping_Settings;
 
 	/**
@@ -23,12 +23,14 @@ class Shipping_Method extends \WC_Shipping_Method {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp.is', 'woocommerce-dropp-shipping' );
 		$this->method_description = __( '@TODO', 'woocommerce-dropp-shipping' );
+
 		$this->supports           = array(
 			'shipping-zones',
 			'settings',
 			'instance-settings',
 			'instance-settings-modal',
 		);
+
 
 		$this->init();
 	}
@@ -37,6 +39,8 @@ class Shipping_Method extends \WC_Shipping_Method {
 	 * Initialize free shipping.
 	 */
 	public function init() {
+		parent::init();
+
 		// Load the settings.
 		$this->init_form_fields();
 		$this->init_settings();

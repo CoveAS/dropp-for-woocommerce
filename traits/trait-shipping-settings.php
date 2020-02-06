@@ -28,6 +28,7 @@ trait Shipping_Settings {
 		$this->title        = $this->get_option( 'title' );
 		$this->api_key      = $this->get_option( 'api_key' );
 		$this->api_key_test = $this->get_option( 'api_key_test' );
+		$this->store_id     = $this->get_option( 'store_id' );
 		$this->test_mode    = 'yes' === $this->get_option( 'test_mode' );
 		$this->debug_mode   = 'yes' === $this->get_option( 'debug_mode' );
 	}
@@ -59,6 +60,14 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => false,
 			),
+			'store_id' => array(
+				'title'       => __( 'Store ID', 'woocommerce-dropp-shipping' ),
+				'type'        => 'text',
+				'placeholder' => __( 'Store ID from dropp.is', 'woocommerce-dropp-shipping' ),
+				'description' => '',
+				'default'     => '',
+				'desc_tip'    => true,
+			),
 			'test_mode' => array(
 				'title'       => __( 'Test mode', 'woocommerce-dropp-shipping' ),
 				'label'       => __( 'Enable test mode', 'woocommerce-dropp-shipping' ),
@@ -68,7 +77,7 @@ trait Shipping_Settings {
 					'<a href="#">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
 				),
 				'default'     => '',
-				'desc_tip'    => false,
+				'desc_tip'    => true,
 			),
 			'debug_mode' => array(
 				'title'       => __( 'Debug mode', 'woocommerce-dropp-shipping' ),

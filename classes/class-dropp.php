@@ -50,16 +50,16 @@ class Dropp {
 	 * Upgrade
 	 */
 	public static function upgrade() {
-		$saved_version = (int) get_site_option( 'woocommerce_dropp_shipping_db_version' );
-		if ( $saved_version < 200 && self::upgrade_200() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', 200 );
+		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
+		if ( version_compare( $saved_version, '0.0.1' ) === -1 && self::upgrade_001() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.1' );
 		}
 	}
 
 	/**
 	 * Install Consignment table
 	 */
-	public static function upgrade_200() {
+	public static function upgrade_001() {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'dropp_consignments';
@@ -68,6 +68,7 @@ class Dropp {
 
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			barcode varchar(63) NULL,
 			dropp_order_id varchar(63) NULL,
 			status varchar(15) NOT NULL,
 			shipping_item_id varchar(63) NOT NULL,
@@ -80,6 +81,8 @@ class Dropp {
 		) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		dbDelta( $sql );
 
 		return true;
 	}
@@ -106,7 +109,7 @@ class Dropp {
 				'woocommerce-dropp-shipping',
 				plugins_url( 'assets/css/dropp.css', __DIR__ ),
 				[],
-				Dropp::VERSION
+				self::VERSION
 			);
 			wp_enqueue_style( 'woocommerce-dropp-shipping' );
 
@@ -115,7 +118,7 @@ class Dropp {
 				'woocommerce-dropp-shipping',
 				plugins_url( 'assets/js/dropp.js', __DIR__ ),
 				array( 'jquery' ),
-				Dropp::VERSION,
+				self::VERSION,
 				true
 			);
 			wp_enqueue_script( 'woocommerce-dropp-shipping' );

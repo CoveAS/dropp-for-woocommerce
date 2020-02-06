@@ -4,11 +4,11 @@
 			<h2 v-html="i18n.booked_consignments"></h2>
 			<table class="dropp-consignments__table">
 				<thead>
-					<th>Consignment</th>
-					<th>Products</th>
-					<th>Customer</th>
-					<th>Status</th>
-					<th>Created</th>
+					<th v-html="i18n.barcode"></th>
+					<th v-html="i18n.products"></th>
+					<th v-html="i18n.customer"></th>
+					<th v-html="i18n.status"></th>
+					<th v-html="i18n.created"></th>
 					<!-- <th>Updated</th> Phase2 -->
 				</thead>
 				<tbody>
@@ -21,7 +21,7 @@
 					>
 						<td
 							class="dropp-consignment__barcode"
-							title="de3128aa-acf6-42c8-a5f3-3501eb23133e"
+							:title="consignment.dropp_order_id"
 						>{{consignment.barcode}}</td>
 						<td class="dropp-consignment__quantity">{{consignment.products.length}}</td>
 						<td class="dropp-consignment__customer" v-html="consignment.customer.name"></td>

@@ -158,7 +158,6 @@
 						action: 'dropp_booking',
 						location_id: this.location.id,
 						order_item_id: this.location.order_item_id,
-						barcode: _dropp.order_id,
 						products: this.get_products(),
 						customer: this.customer,
 					},

@@ -514,7 +514,6 @@ __webpack_require__.r(__webpack_exports__);
           action: 'dropp_booking',
           location_id: this.location.id,
           order_item_id: this.location.order_item_id,
-          barcode: _dropp.order_id,
           products: this.get_products(),
           customer: this.customer
         },
@@ -1825,7 +1824,17 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("table", { staticClass: "dropp-consignments__table" }, [
-          _vm._m(0),
+          _c("thead", [
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.barcode) } }),
+            _vm._v(" "),
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
+            _vm._v(" "),
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.customer) } }),
+            _vm._v(" "),
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.status) } }),
+            _vm._v(" "),
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.created) } })
+          ]),
           _vm._v(" "),
           _c(
             "tbody",
@@ -1848,7 +1857,7 @@ var render = function() {
                     "td",
                     {
                       staticClass: "dropp-consignment__barcode",
-                      attrs: { title: "de3128aa-acf6-42c8-a5f3-3501eb23133e" }
+                      attrs: { title: consignment.dropp_order_id }
                     },
                     [_vm._v(_vm._s(consignment.barcode))]
                   ),
@@ -2005,24 +2014,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("th", [_vm._v("Consignment")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Products")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Customer")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Status")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Created")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -15,6 +15,7 @@ use Exception;
 class Dropp_Consignment {
 
 	public $id;
+	public $barcode;
 	public $dropp_order_id;
 	public $status = 'ready';
 	public $shipping_item_id;
@@ -43,6 +44,7 @@ class Dropp_Consignment {
 		$content = wp_parse_args(
 			$content,
 			[
+				'barcode'          => null,
 				'dropp_order_id'   => null,
 				'shipping_item_id' => null,
 				'status'           => 'ready',
@@ -52,6 +54,7 @@ class Dropp_Consignment {
 			]
 		);
 
+		$this->barcode          = $content['barcode'];
 		$this->dropp_order_id   = $content['dropp_order_id'];
 		$this->shipping_item_id = $content['shipping_item_id'];
 		$this->status           = $content['status'];
@@ -90,15 +93,6 @@ class Dropp_Consignment {
 	}
 
 	/**
-	 * Get barcode
-	 *
-	 * @return string Barcode.
-	 */
-	public function get_barcode() {
-		return 'BARCODE-' . $this->id;
-	}
-
-	/**
 	 * To array
 	 *
 	 * @return array Array representation.
@@ -110,7 +104,7 @@ class Dropp_Consignment {
 		}
 		$consignment_array = [
 			'locationId' => $this->location_id,
-			'barcode'    => $this->get_barcode(),
+			'barcode'    => $this->barcode,
 			'products'   => $products,
 			'customer'   => $this->get_customer_array(),
 		];
@@ -169,6 +163,7 @@ class Dropp_Consignment {
 		$row_count = $wpdb->update(
 			$table_name,
 			[
+				'barcode'          => $this->barcode,
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
@@ -195,6 +190,7 @@ class Dropp_Consignment {
 		$row_count = $wpdb->insert(
 			$table_name,
 			[
+				'barcode'          => $this->barcode,
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,

@@ -90,6 +90,10 @@ class Shipping_Meta_Box {
 				'customer'            => $shipping_address,
 				'shipping_items'      => $shipping_items,
 				'i18n'                => [
+					'barcode'                => __( 'Barcode', 'woocommerce-dropp-shipping' ),
+					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
+					'status'                 => __( 'Status', 'woocommerce-dropp-shipping' ),
+					'created'                => __( 'Created', 'woocommerce-dropp-shipping' ),
 					'products'               => __( 'Products', 'woocommerce-dropp-shipping' ),
 					'booked_consignments'    => __( 'Booked consignments', 'woocommerce-dropp-shipping' ),
 					'submit'                 => __( 'Book now', 'woocommerce-dropp-shipping' ),

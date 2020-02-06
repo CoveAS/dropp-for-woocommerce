@@ -35,6 +35,31 @@ class Booking {
 		if ( empty( $this->consignment ) ) {
 			throw new \Exception( 'Error Processing Request', 1 );
 		}
+
+		$response = wp_remote_get(
+			self::URL . '/barcode/',
+			[
+				'headers' => [
+					'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
+					'Content-Type'  => 'application/json;charset=UTF-8',
+				],
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$this->errors = $response->get_error_messages();
+			throw new \Exception( __( 'Barcode response error', 'woocommerce-dropp-shipping' ) );
+		}
+		$barcode_data = json_decode( $response['body'], true );
+		if ( ! is_array( $barcode_data ) ) {
+			throw new \Exception( __( 'Invalid barcode json', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( empty( $barcode_data['barcode'] ) ) {
+			throw new \Exception( __( 'Empty barcode in the response', 'woocommerce-dropp-shipping' ) );
+		}
+
+		$this->consignment->barcode = $barcode_data['barcode'];
+
 		// @TODO: Debug mode - log request
 		$response = wp_remote_post(
 			self::URL,

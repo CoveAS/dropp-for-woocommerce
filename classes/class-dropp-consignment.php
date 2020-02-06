@@ -145,6 +145,24 @@ class Dropp_Consignment {
 		return $api_key;
 	}
 
+	/**
+	 * Get
+	 *
+	 * @param  int               $id ID.
+	 * @return Dropp_Consignment     This.
+	 */
+	public function get( $id ) {
+		global $wpdb;
+		$sql = $wpdb->prepare(
+			"SELECT * FROM {$wpdb->prefix}dropp_consignments WHERE id = %d",
+			$id
+		);
+		$row = $wpdb->get_row( $sql, ARRAY_A );
+		if ( ! empty( $row ) ) {
+			$this->fill( $row );
+		}
+		return $this;
+	}
 
 	/**
 	 * Save
@@ -312,5 +330,9 @@ class Dropp_Consignment {
 			return [];
 		}
 		return $this->customer->to_array();
+	}
+
+	public function render_pdf() {
+		// dropp/api/v1/orders/pdf/
 	}
 }

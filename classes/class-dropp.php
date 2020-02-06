@@ -24,7 +24,8 @@ class Dropp {
 		require_once __DIR__ . '/class-dropp-location.php';
 		require_once __DIR__ . '/class-dropp-consignment.php';
 		require_once __DIR__ . '/class-ajax.php';
-		require_once __DIR__ . '/class-booking.php';
+		require_once __DIR__ . '/class-api-booking.php';
+		require_once __DIR__ . '/class-api-pdf.php';
 		require_once __DIR__ . '/class-shipping-method.php';
 		require_once __DIR__ . '/class-shipping-meta-box.php';
 		require_once __DIR__ . '/class-shipping-item-meta.php';

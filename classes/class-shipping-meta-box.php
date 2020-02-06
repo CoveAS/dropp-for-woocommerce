@@ -90,6 +90,8 @@ class Shipping_Meta_Box {
 				'customer'            => $shipping_address,
 				'shipping_items'      => $shipping_items,
 				'i18n'                => [
+					'actions'                => __( 'Actions', 'woocommerce-dropp-shipping' ),
+					'download'               => __( 'Download', 'woocommerce-dropp-shipping' ),
 					'barcode'                => __( 'Barcode', 'woocommerce-dropp-shipping' ),
 					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
 					'status'                 => __( 'Status', 'woocommerce-dropp-shipping' ),

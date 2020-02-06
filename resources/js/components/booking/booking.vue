@@ -8,6 +8,7 @@
 					<th v-html="i18n.products"></th>
 					<th v-html="i18n.customer"></th>
 					<th v-html="i18n.status"></th>
+					<th v-html="i18n.actions"></th>
 					<th v-html="i18n.created"></th>
 					<!-- <th>Updated</th> Phase2 -->
 				</thead>
@@ -26,6 +27,14 @@
 						<td class="dropp-consignment__quantity">{{consignment.products.length}}</td>
 						<td class="dropp-consignment__customer" v-html="consignment.customer.name"></td>
 						<td class="dropp-consignment__status">{{consignment.status}}</td>
+						<td class="dropp-consignment__actions">
+							<a
+								v-if="download_url(consignment)"
+								target="_blank"
+								:href="download_url(consignment)"
+								v-html="i18n.download"
+							></a>
+						</td>
 						<td class="dropp-consignment__created">{{consignment.created_at}}</td>
 						<!-- <td class="dropp-consignment__updated">3 hours ago</td>  Phase2 -->
 					</tr>
@@ -178,7 +187,13 @@
 					});
 
 
-			}
+			},
+			download_url: function( consignment ) {
+				if ( ! consignment.dropp_order_id ) {
+					return;
+				}
+				return _dropp.ajaxurl + '?action=dropp_pdf&consignment_id=' + consignment.id;
+			},
 		},
 		components: {
 			location: Location

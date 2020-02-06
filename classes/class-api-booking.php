@@ -12,9 +12,9 @@ use WC_Log_Levels;
 use Exception;
 
 /**
- * Booking
+ * API Booking
  */
-class Booking {
+class API_Booking {
 
 	protected $test = false;
 	protected $consignment;
@@ -40,6 +40,7 @@ class Booking {
 		if ( empty( $this->consignment ) ) {
 			throw new Exception( 'Error Processing Request', 1 );
 		}
+		$log  = new WC_Logger();
 		$args = [
 			'headers' => [
 				'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
@@ -48,8 +49,6 @@ class Booking {
 			'body' => wp_json_encode( $this->consignment->to_array() ),
 		];
 		if ( $debug ) {
-			$log = new WC_Logger();
-
 			$log->add(
 				'woocommerce-dropp-shipping',
 				'[DEBUG] Booking request:' . PHP_EOL . $this->get_url() . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),

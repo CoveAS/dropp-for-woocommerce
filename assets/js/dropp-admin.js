@@ -220,6 +220,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -269,6 +278,13 @@ __webpack_require__.r(__webpack_exports__);
         // @TODO.
         console.log(error);
       });
+    },
+    download_url: function download_url(consignment) {
+      if (!consignment.dropp_order_id) {
+        return;
+      }
+
+      return _dropp.ajaxurl + '?action=dropp_pdf&consignment_id=' + consignment.id;
     }
   },
   components: {
@@ -1833,6 +1849,8 @@ var render = function() {
             _vm._v(" "),
             _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.status) } }),
             _vm._v(" "),
+            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.actions) } }),
+            _vm._v(" "),
             _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.created) } })
           ]),
           _vm._v(" "),
@@ -1873,6 +1891,18 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", { staticClass: "dropp-consignment__status" }, [
                     _vm._v(_vm._s(consignment.status))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "dropp-consignment__actions" }, [
+                    _vm.download_url(consignment)
+                      ? _c("a", {
+                          attrs: {
+                            target: "_blank",
+                            href: _vm.download_url(consignment)
+                          },
+                          domProps: { innerHTML: _vm._s(_vm.i18n.download) }
+                        })
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "dropp-consignment__created" }, [

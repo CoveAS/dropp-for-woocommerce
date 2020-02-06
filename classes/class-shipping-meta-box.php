@@ -56,10 +56,10 @@ class Shipping_Meta_Box {
 
 		$order_id         = get_the_ID();
 		$order            = new \WC_Order( $order_id );
-		$billing_address = $order->get_address();
+		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
-		$line_items = $order->get_items( 'shipping' );
-		$shipping_items = [];
+		$line_items       = $order->get_items( 'shipping' );
+		$shipping_items   = [];
 		foreach ( $line_items as $line_item ) {
 			if ( 'dropp_is' !== $line_item->get_method_id() ) {
 				continue;
@@ -76,20 +76,22 @@ class Shipping_Meta_Box {
 		if ( empty( $shipping_address['phone'] ) ) {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
+		$shipping_method = new Shipping_Method();
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
 		wp_localize_script(
 			'dropp-admin-js',
 			'_dropp',
 			[
-				'order_id'            => $order_id,
-				'ajaxurl'             => admin_url( 'admin-ajax.php' ),
-				'dropplocationsurl'   => '//app.dropp.is/dropp-locations.min.js',
-				'products'            => self::get_dropp_products(),
-				'locations'           => Dropp_Location::array_from_order(),
-				'consignments'        => Dropp_Consignment::array_from_order(),
-				'customer'            => $shipping_address,
-				'shipping_items'      => $shipping_items,
-				'i18n'                => [
+				'order_id'          => $order_id,
+				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+				'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
+				'storeid'           => $shipping_method->store_id,
+				'products'          => self::get_dropp_products(),
+				'locations'         => Dropp_Location::array_from_order(),
+				'consignments'      => Dropp_Consignment::array_from_order(),
+				'customer'          => $shipping_address,
+				'shipping_items'    => $shipping_items,
+				'i18n'              => [
 					'actions'                => __( 'Actions', 'woocommerce-dropp-shipping' ),
 					'download'               => __( 'Download', 'woocommerce-dropp-shipping' ),
 					'barcode'                => __( 'Barcode', 'woocommerce-dropp-shipping' ),

@@ -30,6 +30,7 @@ class Dropp {
 		require_once __DIR__ . '/class-shipping-meta-box.php';
 		require_once __DIR__ . '/class-shipping-item-meta.php';
 		require_once __DIR__ . '/class-pending-shipping.php';
+		require_once __DIR__ . '/class-order-bulk-actions.php';
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
 		Shipping_Item_Meta::setup();
@@ -38,6 +39,7 @@ class Dropp {
 		// Display a meta box on orders for booking with dropp.
 		Shipping_Meta_Box::setup();
 		Ajax::setup();
+		Order_Bulk_Actions::setup();
 
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
@@ -125,13 +127,15 @@ class Dropp {
 			);
 			wp_enqueue_script( 'woocommerce-dropp-shipping' );
 
+			$shipping_method = new Shipping_Method();
 			// Add javascript variables.
 			wp_localize_script(
 				'woocommerce-dropp-shipping',
 				'_dropp',
 				[
 					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-					'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
+					'storeid'           => $shipping_method->store_id,
+					'dropplocationsurl' => 'https://app.dropp.is/dropp-locations.min.js',
 					'i18n'              => [
 						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'woocommerce-dropp-shipping' ),
 					],

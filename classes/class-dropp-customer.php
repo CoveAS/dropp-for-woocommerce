@@ -78,4 +78,27 @@ class Dropp_Customer {
 			'phoneNumber'          => $this->phone_number,
 		];
 	}
+
+	/**
+	 * From shipping address
+	 *
+	 * @return array             Customer array.
+	 */
+	public static function from_shipping_address( $shipping_address ) {
+		$customer = new self();
+		$address = $shipping_address['address_1'];
+		if ( $shipping_address['address_2'] ) {
+			$address .= ' ' . $shipping_address['address_2'];
+		}
+		$address .= ', ' . $shipping_address['postcode'];
+		$address .= ' ' . $shipping_address['city'];
+		$customer->fill( [
+			'name'                 => $shipping_address['first_name'] . ' ' . $shipping_address['last_name'],
+			'emailAddress'         => $shipping_address['email'],
+			// 'socialSecurityNumber' => '1234567890',
+			'address'              => $address,
+			'phoneNumber'          => $shipping_address['phone'],
+		] );
+		return $customer;
+	}
 }

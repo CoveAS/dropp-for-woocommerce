@@ -302,7 +302,7 @@ class Dropp_Consignment {
 	 * @param  WC_Order $order Order.
 	 * @return integer         Count.
 	 */
-	public static function count_consignments_on_order( $order ) {
+	public static function count_consignments_on_order( $order, $only_booked = false ) {
 		global $wpdb;
 		$shipping_items    = $order->get_items( 'shipping' );
 		$shipping_item_ids = [];
@@ -313,9 +313,11 @@ class Dropp_Consignment {
 			return 0;
 		}
 		$shipping_item_ids = implode( ',', $shipping_item_ids);
-		$result            = $wpdb->get_var(
-			"SELECT count(*) FROM {$wpdb->prefix}dropp_consignments WHERE shipping_item_id in ({$shipping_item_ids})"
-		);
+		$sql = "SELECT count(*) FROM {$wpdb->prefix}dropp_consignments WHERE shipping_item_id in ({$shipping_item_ids})";
+		if ( $only_booked ) {
+			$sql .= " AND status NOT IN ( 'ready', 'error', 'overweight' )";
+		}
+		$result = $wpdb->get_var( $sql );
 		return (int) $result;
 	}
 

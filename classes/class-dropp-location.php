@@ -60,6 +60,7 @@ class Dropp_Location {
 		}
 		return $collection;
 	}
+
 	/**
 	 * Array From Order
 	 *

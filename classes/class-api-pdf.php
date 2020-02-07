@@ -86,23 +86,30 @@ class API_PDF {
 
 		return $response['body'];
 	}
-
+	/**
+	 * Get filename
+	 *
+	 * @return  string Filename.
+	 */
+	public function get_filename() {
+		$uploads_dir = self::get_dir();
+		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
+		return $filename;
+	}
 
 	/**
 	 * Download
 	 *
 	 * @throws Exception $e        Sending exception.
 	 * @param  Boolean   $debug    Debug.
-	 * @param  string    $filename Filename.
-	 * @return Booking             This object.
+	 * @return API_PDF             This object.
 	 */
 	public function download( $debug = false ) {
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
 		WP_Filesystem();
-		$uploads_dir = self::get_dir();
-		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
+		$filename = $this->get_filename();
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			$pdf = $this->remote_get( $debug );
 			$wp_filesystem->put_contents( $filename, $pdf );
@@ -127,7 +134,7 @@ class API_PDF {
 		WP_Filesystem();
 
 		$uploads_dir = self::get_dir();
-		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
+		$filename = $this->get_filename();
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			return $this->remote_get();
 		}
@@ -186,7 +193,7 @@ class API_PDF {
 			throw new Exception( __( 'Missing response headers', 'woocommerce-dropp-shipping' ) );
 		}
 		if ( 'application/json' === $response['headers']->offsetGet( 'content-type' ) ) {
-			$data = json_decode( $response->body , true );
+			$data = json_decode( $response['body'] , true );
 			$this->errors[] = $data['error'];
 			throw new Exception( __( 'API Error', 'woocommerce-dropp-shipping' ) );
 		}

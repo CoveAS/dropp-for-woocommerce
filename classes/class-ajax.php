@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use WC_Logger;
+use Exception;
 
 /**
  * Ajax
@@ -27,7 +28,8 @@ class Ajax {
 	 */
 	public static function dropp_booking() {
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
-		$shipping_method = new Shipping_Method( $order_item_id );
+		$instance_id     = $order_item_id->get_instance_id();
+		$shipping_method = new Shipping_Method( $instance_id );
 
 		// @TODO: nonce verification.
 		$consignment = new Dropp_Consignment();
@@ -110,7 +112,10 @@ class Ajax {
 	 * @throws Exception Exception.
 	 */
 	public static function dropp_pdf_merge() {
-		$consignment_ids = filter_input( INPUT_GET, 'consignment_ids', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$consignment_ids = filter_input( INPUT_GET, 'consignment_ids', FILTER_DEFAULT );
+		$consignment_ids = explode( ',', $consignment_ids );
+		$consignment_ids = array_map( 'trim', $consignment_ids );
+
 		if ( empty( $consignment_ids ) ) {
 			wp_send_json(
 				[
@@ -143,12 +148,13 @@ class Ajax {
 			foreach ( $consignment_ids as $consignment_id ) {
 				$consignment = new Dropp_Consignment();
 				$consignment->get( $consignment_id );
-				if ( null === $consignment->id ) {
-					throw new Exception( __( 'Could not find consignment', 'woocommerce-dropp-shipping' ) . $consignment_id );
+				if ( null === $consignment->dropp_order_id ) {
+					throw new Exception( __( 'Could not find consignment:', 'woocommerce-dropp-shipping' ) . ' ' . $consignment_id );
 				}
 				$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
 				$api_pdf         = new API_PDF( $consignment, $shipping_method->test_mode );
 				$api_pdf->download( $shipping_method->debug_mode );
+				$files[] = $api_pdf->get_filename();
 			}
 		} catch ( Exception $e ) {
 			wp_send_json(

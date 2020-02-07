@@ -34,6 +34,12 @@ class Dropp_Product_Line {
 		}
 	}
 
+	/**
+	 * Fill
+	 *
+	 * @param  array              $args Arguments.
+	 * @return Dropp_Product_Line       This.
+	 */
 	public function fill( $args ) {
 		$args = wp_parse_args(
 			$args,
@@ -54,6 +60,51 @@ class Dropp_Product_Line {
 		return $this;
 	}
 
+	/**
+	 * Dropp Product Line arrays from order
+	 *
+	 * @param  integer $order_id (optional) Order ID.
+	 * @return array             Array of Dropp_Product_Line.
+	 */
+	public static function array_from_order( $order_id = false, $only_shipable = false  ) {
+		$collection = self::from_order( $order_id, $only_shipable );
+		return array_map(
+			function( $item ) {
+				return $item->to_array();
+			},
+			$collection
+		);
+	}
+
+	/**
+	 * Dropp Product Lines from order
+	 *
+	 * @param  integer $order_id (optional) Order ID.
+	 * @return array             Array of Dropp_Product_Line.
+	 */
+	public static function from_order( $order_id = false, $only_shipable = false ) {
+		if ( false === $order_id ) {
+			$order_id = get_the_ID();
+		}
+		$order      = wc_get_order( $order_id );
+		$line_items = $order->get_items( 'line_item' );
+		$collection = [];
+		foreach ( $line_items as $order_item_id => $order_item ) {
+			$product_line = new self( $order_item );
+			if ( ! $product_line->needs_shipping && $only_shipable ) {
+				continue;
+			}
+			$collection[] = $product_line;
+		}
+		return $collection;
+	}
+
+	/**
+	 * From order item
+	 *
+	 * @param  WC_Order_Item      $order_item Order item.
+	 * @return Dropp_Product_Line             This.
+	 */
 	public function from_order_item( $order_item ) {
 		$this->id             = $order_item->get_id();
 		$this->name           = $order_item->get_name();
@@ -71,9 +122,11 @@ class Dropp_Product_Line {
 	 */
 	public function to_array() {
 		return [
-			'name'     => $this->name,
-			'quantity' => $this->quantity,
-			'barcode'  => $this->barcode,
+			'name'           => $this->name,
+			'quantity'       => $this->quantity,
+			'weight'         => $this->weight,
+			'needs_shipping' => $this->needs_shipping,
+			'barcode'        => $this->barcode,
 		];
 	}
 }

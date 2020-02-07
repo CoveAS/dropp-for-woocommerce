@@ -30,6 +30,101 @@ class API_Booking {
 	}
 
 	/**
+	 * Is dropp
+	 */
+	public static function is_dropp( $order ) {
+		$shipping_items = $order->get_items( 'shipping' );
+		foreach ( $shipping_items as $shipping_item ) {
+			if ( 'dropp_is' === $shipping_item->get_method_id() ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Is dropp
+	 */
+	public static function is_booked( $order ) {
+		return Dropp_Consignment::count_consignments_on_order( $order, true );
+	}
+
+	/**
+	 * Book order
+	 *
+	 * @param WC_Order $order Order.
+	 */
+	public static function book_order( $order ) {
+		$shipping_items   = $order->get_items( 'shipping' );
+		$billing_address  = $order->get_address();
+		$shipping_address = $order->get_address( 'shipping' );
+		$line_items       = $order->get_items( 'shipping' );
+
+		// Fix missing args in address.
+		if ( empty( $shipping_address['email'] ) ) {
+			$shipping_address['email'] = $billing_address['email'];
+		}
+		if ( empty( $shipping_address['phone'] ) ) {
+			$shipping_address['phone'] = $billing_address['phone'];
+		}
+
+		$any_booked = false;
+		foreach ( $shipping_items as $shipping_item ) {
+			if ( 'dropp_is' !== $shipping_item->get_method_id() ) {
+				continue;
+			}
+			$instance_id     = $shipping_item->get_instance_id();
+			$shipping_method = new Shipping_Method( $instance_id );
+			$location        = new Dropp_Location( $shipping_item );
+
+			if ( ! $location->id ) {
+				continue;
+			}
+
+			$product_lines = Dropp_Product_Line::array_from_order( $order, true );
+
+
+
+			// @TODO: nonce verification.
+			$consignment = new Dropp_Consignment();
+			$consignment->fill(
+				[
+					'shipping_item_id' => $shipping_item->get_id(),
+					'location_id'      => $location->id,
+					'customer'         => Dropp_Customer::from_shipping_address( $shipping_address ),
+					'products'         => $product_lines,
+					'test'             => $shipping_method->test_mode,
+				]
+			);
+
+			$total_weight = 0;
+			foreach ( $product_lines as $product_line ) {
+				$total_weight += $product_line->weight * $product_line->quantity;
+			}
+			if ( $total_weight > 10 ) {
+				$consignment->status         = 'overweight';
+				$consignment->status_message = __( 'Cannot book the order because it\'s over the weight limit of 10 Kg', 'woocommerce-dropp-shipping' );
+				$consignment->save();
+				continue;
+			}
+
+			$consignment->save();
+
+			$booking = new self( $consignment, $shipping_method->test_mode );
+			try {
+				$booking->send( $shipping_method->debug_mode );
+				$consignment->save();
+				$any_booked = true;
+			} catch ( \Exception $e ) {
+				$consignment->status         = 'error';
+				$consignment->status_message = $e->getMessage();
+				$consignment->save();
+			}
+		}
+		return $any_booked;
+	}
+
+	/**
 	 * Send
 	 *
 	 * @throws Exception $e     Sending exception.

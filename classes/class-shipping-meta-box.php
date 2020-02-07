@@ -86,7 +86,7 @@ class Shipping_Meta_Box {
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 				'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
 				'storeid'           => $shipping_method->store_id,
-				'products'          => self::get_dropp_products(),
+				'products'          => Dropp_Product_Line::array_from_order(),
 				'locations'         => Dropp_Location::array_from_order(),
 				'consignments'      => Dropp_Consignment::array_from_order(),
 				'customer'          => $shipping_address,
@@ -112,25 +112,6 @@ class Shipping_Meta_Box {
 				],
 			]
 		);
-	}
-
-	/**
-	 * Get Dropp Products
-	 *
-	 * @param  integer $order_id (optional) Order ID.
-	 * @return array             Array of Dropp_Product.
-	 */
-	public static function get_dropp_products( $order_id = false ) {
-		if ( false === $order_id ) {
-			$order_id = get_the_ID();
-		}
-		$order      = new \WC_Order( $order_id );
-		$line_items = $order->get_items( 'line_item' );
-		$collection = [];
-		foreach ( $line_items as $order_item_id => $order_item ) {
-			$collection[] = new Dropp_Product_Line( $order_item );
-		}
-		return $collection;
 	}
 
 	/**

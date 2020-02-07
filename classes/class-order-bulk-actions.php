@@ -46,55 +46,72 @@ class Order_Bulk_Actions {
 	 */
 	public static function handle_bulk_actions( $redirect_to, $action, $ids ) {
 		if ( 'dropp_bulk_booking' === $action ) {
-			return handle_bulk_booking( $redirect_to, $ids );
+			return self::handle_bulk_booking( $redirect_to, $ids );
 		}
 		if ( 'dropp_bulk_printing' === $action ) {
-			return handle_bulk_booking( $redirect_to, $ids );
+			return self::handle_bulk_printing( $redirect_to, $ids );
 		}
 		return $redirect_to;
 	}
 
 	/**
-	 * Handle bulk actions.
+	 * Handle bulk booking.
 	 *
 	 * @param  string $redirect_to URL to redirect to.
 	 * @param  array  $ids         List of ids.
 	 * @return string
 	 */
 	public static function handle_bulk_booking( $redirect_to, $ids ) {
-		if ( $changed ) {
-			$redirect_to = add_query_arg(
-				array(
-					'post_type'   => $this->list_table_type,
-					'bulk_action' => $report_action,
-					'changed'     => $changed,
-					'ids'         => join( ',', $ids ),
-				),
-				$redirect_to
-			);
+		$result = [
+			'existing'  => [],
+			'success'    => [],
+			'not_dropp'  => [],
+			'failed'     => [],
+		];
+
+		foreach ( $ids as $order_id ) {
+			$order = wc_get_order( $order_id );
+			if ( ! API_Booking::is_dropp( $order ) ) {
+				$result['not_dropp'][] = $order_id;
+			} elseif ( API_Booking::is_booked( $order ) ) {
+				$result['existing'][] = $order_id;
+			} elseif( API_Booking::book_order( $order ) ) {
+				$result['success'][] = $order_id;
+			} else {
+				$result['failed'][] = $order_id;
+			}
 		}
+
+		$redirect_to = add_query_arg(
+			array(
+				'post_type'   => 'shop_order',
+				'bulk_action' => 'bulk_booking',
+				'existing'    => join( ',', $result['existing']),
+				'success'     => join( ',', $result['success']),
+				'not_dropp'   => join( ',', $result['not_dropp']),
+				'failed'      => join( ',', $result['failed'] ),
+			),
+			$redirect_to
+		);
 		return esc_url_raw( $redirect_to );
 	}
 
 	/**
-	 * Handle bulk actions.
+	 * Handle bulk printing.
 	 *
 	 * @param  string $redirect_to URL to redirect to.
 	 * @param  array  $ids         List of ids.
 	 * @return string
 	 */
 	public static function handle_bulk_printing( $redirect_to, $ids ) {
-		if ( $changed ) {
-			$redirect_to = add_query_arg(
-				array(
-					'post_type'   => $this->list_table_type,
-					'bulk_action' => $report_action,
-					'changed'     => $changed,
-					'ids'         => join( ',', $ids ),
-				),
-				$redirect_to
-			);
-		}
+		$redirect_to = add_query_arg(
+			array(
+				'post_type'   => 'shop_order',
+				'bulk_action' => 'bulk_printing',
+				'ids'   => join( ',', $ids ),
+			),
+			$redirect_to
+		);
 		return esc_url_raw( $redirect_to );
 	}
 
@@ -103,30 +120,62 @@ class Order_Bulk_Actions {
 	 */
 	public static function bulk_admin_notices() {
 		global $post_type, $pagenow;
-
 		// Bail out if not on shop order list page.
 		if ( 'edit.php' !== $pagenow || 'shop_order' !== $post_type || ! isset( $_REQUEST['bulk_action'] ) ) { // WPCS: input var ok, CSRF ok.
 			return;
 		}
-
-		$order_statuses = wc_get_order_statuses();
-		$number         = isset( $_REQUEST['changed'] ) ? absint( $_REQUEST['changed'] ) : 0; // WPCS: input var ok, CSRF ok.
-		$bulk_action    = wc_clean( wp_unslash( $_REQUEST['bulk_action'] ) ); // WPCS: input var ok, CSRF ok.
-
-		// Check if any status changes happened.
-		foreach ( $order_statuses as $slug => $name ) {
-			if ( 'marked_' . str_replace( 'wc-', '', $slug ) === $bulk_action ) { // WPCS: input var ok, CSRF ok.
-				/* translators: %d: orders count */
-				$message = sprintf( _n( '%d order status changed.', '%d order statuses changed.', $number, 'woocommerce' ), number_format_i18n( $number ) );
-				echo '<div class="updated"><p>' . esc_html( $message ) . '</p></div>';
-				break;
+		$action = $_REQUEST[ 'bulk_action' ]; // WPCS: input var ok, CSRF ok.
+		if ( 'bulk_booking' == $action || 'bulk_printing' == $action ) {
+			$consignment_ids = [];
+			// Get order id's
+			$order_ids       = self::get_id_array(
+				( 'bulk_booking' == $action ? 'success' : 'ids' )
+			);
+			$dropp_order_ids = [];
+			foreach ( $order_ids as $id ) {
+				$collection = Dropp_Consignment::from_order( $id );
+				$valid = false;
+				foreach ( $collection as $consignment ) {
+					if ( ! $consignment->dropp_order_id ) {
+						continue;
+					}
+					$consignment_ids[] = $consignment->id;
+					if ( in_array( $id, $order_ids ) ) {
+						$dropp_order_ids[] = $id;
+					}
+				}
 			}
 		}
-
-		if ( 'removed_personal_data' === $bulk_action ) { // WPCS: input var ok, CSRF ok.
-			/* translators: %d: orders count */
-			$message = sprintf( _n( 'Removed personal data from %d order.', 'Removed personal data from %d orders.', $number, 'woocommerce' ), number_format_i18n( $number ) );
-			echo '<div class="updated"><p>' . esc_html( $message ) . '</p></div>';
+		if ( 'bulk_booking' == $action ) {
+			$existing  = self::get_id_array( 'existing' );
+			$success   = self::get_id_array( 'success' );
+			$not_dropp = self::get_id_array( 'not_dropp' );
+			$failed    = self::get_id_array( 'failed' );
+			require dirname( __DIR__ ) .'/templates/admin-notices/bulk-booking.php';
 		}
+		if ( 'bulk_printing' == $action ) {
+			require dirname( __DIR__ ) .'/templates/admin-notices/bulk-printing.php';
+		}
+	}
+
+	/**
+	 * Get ID array
+	 *
+	 * @param  string $param Parameter.
+	 * @return array         IDs.
+	 */
+	protected static function get_id_array( $param ) {
+		$csv           = $_REQUEST[ $param ] ?? ''; // WPCS: input var ok, CSRF ok.
+		$tentative_ids = explode( ',', $csv );
+		$tentative_ids = array_map( 'trim', $tentative_ids );
+		$ids           = [];
+		foreach ( $tentative_ids as $id ) {
+			if ( ! ctype_digit( $id ) || '0' === $id ) {
+				continue;
+			}
+			$ids[] = (int) $id;
+		}
+		return $ids;
+
 	}
 }

@@ -101,6 +101,7 @@ class Shipping_Meta_Box {
 					'products'               => __( 'Products', 'woocommerce-dropp-shipping' ),
 					'booked_consignments'    => __( 'Booked consignments', 'woocommerce-dropp-shipping' ),
 					'submit'                 => __( 'Book now', 'woocommerce-dropp-shipping' ),
+					'remove'                 => __( 'Remove location', 'woocommerce-dropp-shipping' ),
 					'add_location'           => __( 'Add shipping location', 'woocommerce-dropp-shipping' ),
 					'change_ocation'         => __( 'Change location', 'woocommerce-dropp-shipping' ),
 					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),

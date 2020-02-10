@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use WC_Order_Item_Product;
+
 /**
  * Product
  */
@@ -51,12 +53,20 @@ class Dropp_Product_Line {
 				'barcode'  => '',
 			]
 		);
-
 		$this->id       = $args['id'];
 		$this->name     = $args['name'];
 		$this->weight   = $args['weight'];
 		$this->quantity = $args['quantity'];
 		$this->barcode  = $args['barcode'];
+
+		if ( ! empty( $this->id ) ) {
+			$order_item           = new WC_Order_Item_Product( $this->id );
+			$this->name           = $order_item->get_name();
+			$this->weight         = $order_item->get_product()->get_weight();
+			$this->barcode        = $order_item->get_product()->get_sku();
+			$this->needs_shipping = $order_item->get_product()->needs_shipping();
+		}
+
 		return $this;
 	}
 
@@ -122,6 +132,7 @@ class Dropp_Product_Line {
 	 */
 	public function to_array() {
 		return [
+			'id'             => $this->id,
 			'name'           => $this->name,
 			'quantity'       => $this->quantity,
 			'weight'         => $this->weight,

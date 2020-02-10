@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use WC_Logger;
+use WC_Order_Item_Shipping;
 use Exception;
 
 /**
@@ -28,7 +29,8 @@ class Ajax {
 	 */
 	public static function dropp_booking() {
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
-		$instance_id     = $order_item_id->get_instance_id();
+		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
+		$instance_id     = $order_item->get_instance_id();
 		$shipping_method = new Shipping_Method( $instance_id );
 
 		// @TODO: nonce verification.

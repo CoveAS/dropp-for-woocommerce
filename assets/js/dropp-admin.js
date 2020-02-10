@@ -229,6 +229,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -303,6 +336,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -465,6 +504,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -487,6 +553,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       i18n: _dropp.i18n,
       loading: false,
+      booked: false,
       response: false
     };
   },
@@ -495,9 +562,12 @@ __webpack_require__.r(__webpack_exports__);
       var products = [];
 
       for (var i = 0; i < this.products.length; i++) {
-        var product = this.products[i];
+        var product = {
+          id: this.products[i].id,
+          quantity: this.products[i]._quantity
+        };
 
-        if (product.checked) {
+        if (this.products[i].checked) {
           products.push(product);
         }
       }
@@ -517,7 +587,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     book: function book() {
-      if (this.loading) {
+      if (this.loading || this.booked) {
         return;
       }
 
@@ -538,14 +608,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     success: function success(data, textStatus, jqXHR) {
-      console.log(data);
-      console.log(textStatus);
-      console.log(jqXHR);
+      console.log(this);
 
       if (data.status) {
         this.response = data;
 
         this.$parent._data.consignment_container.consignments.push(data.consignment);
+
+        if ('success' === data.status) {
+          this.booked = true;
+          jQuery(this.$el).find('.dropp-location__booking').slideUp();
+        }
       }
 
       var vm = this;
@@ -564,6 +637,31 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    product_errors: function product_errors() {
+      var errors = [];
+      var total_weight = 0;
+
+      for (var i = 0; i < this.products.length; i++) {
+        var product = this.products[i];
+
+        if (product.checked) {
+          total_weight += product.weight * product._quantity;
+        }
+      }
+
+      if (total_weight > 10) {
+        errors.push('Error: Each consignment must be 10 Kg or less. Please reduce number of items or remove products from booking.');
+      }
+
+      return errors;
+    },
+    disabled: function disabled() {
+      if (this.product_errors.length) {
+        return true;
+      }
+
+      return false;
+    },
     response_status: function response_status() {
       if (!this.response) {
         return '';
@@ -583,6 +681,7 @@ __webpack_require__.r(__webpack_exports__);
     for (var i = 0; i < _dropp.products.length; i++) {
       var product = _dropp.products[i];
       product.checked = true;
+      product._quantity = product.quantity;
       this.products.push(product);
     }
   },
@@ -606,7 +705,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  margin-bottom: 1rem;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
+exports.push([module.i, ".dropp-booking button,\n.dropp-booking [type=submit] {\n  background: #0071a1;\n  border-radius: 3px;\n  outline: none;\n  padding: 0.5rem 1rem;\n  border: 1px solid #0071a1;\n  color: white;\n  -webkit-transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n  transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n}\n.dropp-booking button:focus,\n.dropp-booking [type=submit]:focus {\n  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;\n}\n.dropp-booking button:active,\n.dropp-booking [type=submit]:active {\n  background-color: #fff;\n  color: #000;\n}\n.dropp-booking button:hover,\n.dropp-booking [type=submit]:hover {\n  background-color: #e6fdfe;\n  color: #000;\n}\n.dropp-booking button:disabled,\n.dropp-booking [type=submit]:disabled {\n  opacity: 0.4;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  margin-bottom: 1rem;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
 
 // exports
 
@@ -625,7 +724,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-customer .form-field {\n  display: -webkit-box;\n  display: flex;\n}\n.dropp-customer .input-label {\n  -webkit-box-flex: 0;\n          flex: 0 0 10rem;\n}", ""]);
+exports.push([module.i, ".dropp-customer .form-field {\n  display: -webkit-box;\n  display: flex;\n  flex-wrap: wrap;\n  margin-bottom: 0.25rem;\n}\n.dropp-customer .input-label {\n  -webkit-box-flex: 0;\n          flex: 0 0 10rem;\n}\n.dropp-customer .input-field {\n  -webkit-box-flex: 0;\n          flex: 0 1 20rem;\n  min-width: 15rem;\n}", ""]);
 
 // exports
 
@@ -644,7 +743,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
+exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n.dropp-location__quantity {\n  width: 5rem;\n  text-align: right;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
 
 // exports
 
@@ -1877,7 +1976,14 @@ var render = function() {
                       staticClass: "dropp-consignment__barcode",
                       attrs: { title: consignment.dropp_order_id }
                     },
-                    [_vm._v(_vm._s(consignment.barcode))]
+                    [
+                      _vm._v(
+                        _vm._s(
+                          (consignment.test ? "[TEST] " : "") +
+                            (consignment.barcode ? consignment.barcode : "")
+                        )
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c("td", { staticClass: "dropp-consignment__quantity" }, [
@@ -1987,45 +2093,47 @@ var render = function() {
             staticClass: "dropp-locations__add-location"
           },
           [
-            _c(
-              "select",
-              {
-                directives: [
+            _vm.selected_shipping_item.length > 1
+              ? _c(
+                  "select",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selected_shipping_item,
-                    expression: "selected_shipping_item"
-                  }
-                ],
-                staticClass: "dropp-locations__add-dropdown",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selected_shipping_item = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              _vm._l(_vm.shipping_items, function(shipping_item) {
-                return _c("option", {
-                  key: shipping_item.id,
-                  domProps: {
-                    value: shipping_item.id,
-                    innerHTML: _vm._s(shipping_item.label)
-                  }
-                })
-              }),
-              0
-            ),
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selected_shipping_item,
+                        expression: "selected_shipping_item"
+                      }
+                    ],
+                    staticClass: "dropp-locations__add-dropdown",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selected_shipping_item = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.shipping_items, function(shipping_item) {
+                    return _c("option", {
+                      key: shipping_item.id,
+                      domProps: {
+                        value: shipping_item.id,
+                        innerHTML: _vm._s(shipping_item.label)
+                      }
+                    })
+                  }),
+                  0
+                )
+              : _vm._e(),
             _vm._v(" "),
             _c("button", {
               staticClass: "dropp-locations__add-button",
@@ -2284,96 +2392,178 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "dropp-location__products" },
+        { staticClass: "dropp-location__booking" },
         [
-          _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
-          _vm._v(" "),
-          _vm._l(_vm.products, function(product) {
-            return _c(
-              "div",
-              { key: product.sku, staticClass: "dropp-location__product" },
-              [
-                _c("label", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: product.checked,
-                        expression: "product.checked"
-                      }
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      checked: Array.isArray(product.checked)
-                        ? _vm._i(product.checked, null) > -1
-                        : product.checked
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = product.checked,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(product, "checked", $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                product,
-                                "checked",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(product, "checked", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", {
-                    domProps: {
-                      innerHTML: _vm._s(
-                        product.quantity + "&times; " + product.name
-                      )
-                    }
-                  })
-                ])
-              ]
-            )
-          })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c("droppcustomer", { attrs: { customer: _vm.customer } }),
-      _vm._v(" "),
-      _c("div", { staticClass: "dropp-location__actions" }, [
-        _c("input", {
-          attrs: { type: "submit" },
-          domProps: { value: _vm.i18n.submit }
-        }),
-        _vm._v(" "),
-        _vm.show_remove_button
-          ? _c("button", {
-              staticClass:
-                "dropp-location__action dropp-location__action--remove",
-              domProps: { innerHTML: _vm._s(_vm.i18n.submit) },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.remove_location($event)
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.product_errors.length,
+                  expression: "product_errors.length"
                 }
-              }
-            })
-          : _vm._e()
-      ])
-    ],
-    1
+              ],
+              staticClass: "dropp-location__booking-errors"
+            },
+            [
+              _c(
+                "ul",
+                { staticClass: "dropp-location__errors" },
+                _vm._l(_vm.product_errors, function(error) {
+                  return _c("li", { domProps: { innerHTML: _vm._s(error) } })
+                }),
+                0
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "dropp-location__products" },
+            [
+              _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
+              _vm._v(" "),
+              _vm._l(_vm.products, function(product) {
+                return _c(
+                  "div",
+                  { key: product.sku, staticClass: "dropp-location__product" },
+                  [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.checked,
+                            expression: "product.checked"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(product.checked)
+                            ? _vm._i(product.checked, null) > -1
+                            : product.checked
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = product.checked,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    product,
+                                    "checked",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    product,
+                                    "checked",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(product, "checked", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: product._quantity,
+                            expression: "product._quantity",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "dropp-location__quantity",
+                        attrs: {
+                          type: "number",
+                          step: "1",
+                          min: "0",
+                          max: product.quantity
+                        },
+                        domProps: { value: product._quantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              product,
+                              "_quantity",
+                              _vm._n($event.target.value)
+                            )
+                          },
+                          blur: function($event) {
+                            return _vm.$forceUpdate()
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", {
+                        domProps: {
+                          innerHTML: _vm._s("&times; " + product.name)
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", {
+                        domProps: { innerHTML: _vm._s(product.weight + " Kg") }
+                      }),
+                      _vm._v(" "),
+                      _c("span", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            product.weight * product._quantity + " Kg"
+                          )
+                        }
+                      })
+                    ])
+                  ]
+                )
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("droppcustomer", { attrs: { customer: _vm.customer } }),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropp-location__actions" }, [
+            _c("input", {
+              staticClass:
+                "dropp-location__action dropp-location__action--book",
+              attrs: { type: "submit", disabled: _vm.disabled },
+              domProps: { value: _vm.i18n.submit }
+            }),
+            _vm._v(" "),
+            _vm.show_remove_button
+              ? _c("button", {
+                  staticClass:
+                    "dropp-location__action dropp-location__action--remove",
+                  domProps: { innerHTML: _vm._s(_vm.i18n.remove) },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.remove_location($event)
+                    }
+                  }
+                })
+              : _vm._e()
+          ])
+        ],
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []

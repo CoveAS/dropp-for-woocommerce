@@ -23,7 +23,7 @@
 						<td
 							class="dropp-consignment__barcode"
 							:title="consignment.dropp_order_id"
-						>{{consignment.barcode}}</td>
+						>{{(consignment.test ? '[TEST] ' : '') + (consignment.barcode ? consignment.barcode : '')}}</td>
 						<td class="dropp-consignment__quantity">{{consignment.products.length}}</td>
 						<td class="dropp-consignment__customer" v-html="consignment.customer.name"></td>
 						<td class="dropp-consignment__status">{{consignment.status}}</td>
@@ -59,7 +59,11 @@
 			</location>
 
 			<div class="dropp-locations__add-location" v-show="shipping_items.length">
-				<select class="dropp-locations__add-dropdown" v-model="selected_shipping_item">
+				<select
+					class="dropp-locations__add-dropdown"
+					v-model="selected_shipping_item"
+					v-if="selected_shipping_item.length > 1"
+				>
 					<option
 						v-for="shipping_item in shipping_items"
 						:key="shipping_item.id"
@@ -81,11 +85,40 @@
 
 
 <style lang="scss">
-	.dropp-booking a {
-		cursor: pointer;
-		&:focus,
-		&:hover {
-			text-decoration: underline;
+	.dropp-booking {
+
+		button,
+		[type="submit"] {
+			background: #0071a1;
+			border-radius: 3px;
+			outline: none;
+			padding: 0.5rem 1rem;
+			border: 1px solid #0071a1;
+			color: white;
+			transition: background-color 0.2s, border-color 0.2s, color 0.1s;
+
+			&:focus {
+				box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
+			}
+			&:active {
+				background-color: #fff;
+				color: #000;
+			}
+			&:hover {
+				background-color: #e6fdfe;
+				color: #000;
+			}
+			&:disabled {
+				opacity: 0.4;
+			}
+		}
+
+		a {
+			cursor: pointer;
+			&:focus,
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
 	.dropp-toggle-locations {

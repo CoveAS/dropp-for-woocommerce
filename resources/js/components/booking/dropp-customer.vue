@@ -31,9 +31,15 @@
 	.dropp-customer{
 		.form-field {
 			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 0.25rem;
 		}
 		.input-label {
 			flex: 0 0 10rem;
+		}
+		.input-field {
+			flex: 0 1 20rem;
+			min-width: 15rem;
 		}
 	}
 </style>

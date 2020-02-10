@@ -618,6 +618,7 @@ __webpack_require__.r(__webpack_exports__);
         if ('success' === data.status) {
           this.booked = true;
           jQuery(this.$el).find('.dropp-location__booking').slideUp();
+          window.location.reload();
         }
       }
 

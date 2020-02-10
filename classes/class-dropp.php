@@ -46,6 +46,11 @@ class Dropp {
 
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
+
+		// Add settings link on plugin page.
+		$plugin_path = basename( dirname( __DIR__ ) );
+		$hook        = "plugin_action_links_{$plugin_path}/woocommerce-dropp-shipping.php";
+		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 	}
 
 
@@ -142,5 +147,19 @@ class Dropp {
 				]
 			);
 		}
+	}
+
+	/**
+	 * Show action links on the plugin screen
+	 *
+	 * @param array $links The action links displayed for each plugin in the Plugins list table.
+	 * @return array
+	 */
+	public static function plugin_action_links( $links ) {
+		$url          = admin_url( 'admin.php?page=wc-settings&tab=shipping&section=dropp_is' );
+		$action_links = array(
+			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'woocommerce-dropp-shipping' ) . '">' . esc_html__( 'Settings', 'woocommerce-dropp-shipping' ) . '</a>',
+		);
+		return array_merge( $action_links, $links );
 	}
 }

@@ -18,19 +18,28 @@ class Dropp {
 	 * Setup
 	 */
 	public static function loaded() {
-		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
-		require_once __DIR__ . '/class-dropp-product-line.php';
-		require_once __DIR__ . '/class-dropp-customer.php';
-		require_once __DIR__ . '/class-dropp-location.php';
-		require_once __DIR__ . '/class-dropp-consignment.php';
-		require_once __DIR__ . '/class-ajax.php';
-		require_once __DIR__ . '/class-api-booking.php';
-		require_once __DIR__ . '/class-api-pdf.php';
-		require_once __DIR__ . '/class-shipping-method.php';
-		require_once __DIR__ . '/class-shipping-meta-box.php';
-		require_once __DIR__ . '/class-shipping-item-meta.php';
-		require_once __DIR__ . '/class-pending-shipping.php';
-		require_once __DIR__ . '/class-order-bulk-actions.php';
+		$plugin_dir = dirname( __DIR__ );
+
+		// Models.
+		require_once $plugin_dir . '/classes/class-dropp-product-line.php';
+		require_once $plugin_dir . '/classes/class-dropp-customer.php';
+		require_once $plugin_dir . '/classes/class-dropp-location.php';
+		require_once $plugin_dir . '/classes/class-dropp-consignment.php';
+
+		// Shipping method.
+		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
+		require_once $plugin_dir . '/classes/class-shipping-method.php';
+
+		// Ajax and API classes.
+		require_once $plugin_dir . '/classes/class-ajax.php';
+		require_once $plugin_dir . '/classes/class-api-booking.php';
+		require_once $plugin_dir . '/classes/class-api-pdf.php';
+
+		// WooCommerce utility classes.
+		require_once $plugin_dir . '/classes/class-shipping-meta-box.php';
+		require_once $plugin_dir . '/classes/class-shipping-item-meta.php';
+		require_once $plugin_dir . '/classes/class-pending-shipping.php';
+		require_once $plugin_dir . '/classes/class-order-bulk-actions.php';
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
 		Shipping_Item_Meta::setup();

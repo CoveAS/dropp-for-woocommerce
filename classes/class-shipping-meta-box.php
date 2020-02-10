@@ -55,7 +55,7 @@ class Shipping_Meta_Box {
 		}
 
 		$order_id         = get_the_ID();
-		$order            = new \WC_Order( $order_id );
+		$order            = wc_get_order( $order_id );
 		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
 		$line_items       = $order->get_items( 'shipping' );
@@ -121,7 +121,6 @@ class Shipping_Meta_Box {
 	 * @param WP_Post $post Post.
 	 */
 	public static function render_booking_meta_box( $post ) {
-		$order          = new \WC_Order( $post->ID );
 		echo '<div id="dropp-booking"><span class="loading-message" v-if="0">Loading ...</span></div>';
 	}
 }

@@ -333,8 +333,4 @@ class Dropp_Consignment {
 		}
 		return $this->customer->to_array();
 	}
-
-	public function render_pdf() {
-		// dropp/api/v1/orders/pdf/
-	}
 }

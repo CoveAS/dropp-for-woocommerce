@@ -64,9 +64,9 @@ class Order_Bulk_Actions {
 	public static function handle_bulk_booking( $redirect_to, $ids ) {
 		$result = [
 			'existing'  => [],
-			'success'    => [],
-			'not_dropp'  => [],
-			'failed'     => [],
+			'success'   => [],
+			'not_dropp' => [],
+			'failed'    => [],
 		];
 
 		foreach ( $ids as $order_id ) {
@@ -75,7 +75,7 @@ class Order_Bulk_Actions {
 				$result['not_dropp'][] = $order_id;
 			} elseif ( API_Booking::is_booked( $order ) ) {
 				$result['existing'][] = $order_id;
-			} elseif( API_Booking::book_order( $order ) ) {
+			} elseif ( API_Booking::book_order( $order ) ) {
 				$result['success'][] = $order_id;
 			} else {
 				$result['failed'][] = $order_id;
@@ -86,9 +86,9 @@ class Order_Bulk_Actions {
 			array(
 				'post_type'   => 'shop_order',
 				'bulk_action' => 'bulk_booking',
-				'existing'    => join( ',', $result['existing']),
-				'success'     => join( ',', $result['success']),
-				'not_dropp'   => join( ',', $result['not_dropp']),
+				'existing'    => join( ',', $result['existing'] ),
+				'success'     => join( ',', $result['success'] ),
+				'not_dropp'   => join( ',', $result['not_dropp'] ),
 				'failed'      => join( ',', $result['failed'] ),
 			),
 			$redirect_to
@@ -124,10 +124,10 @@ class Order_Bulk_Actions {
 		if ( 'edit.php' !== $pagenow || 'shop_order' !== $post_type || ! isset( $_REQUEST['bulk_action'] ) ) { // WPCS: input var ok, CSRF ok.
 			return;
 		}
-		$action = $_REQUEST[ 'bulk_action' ]; // WPCS: input var ok, CSRF ok.
-		if ( 'bulk_booking' == $action || 'bulk_printing' == $action ) {
+		$action = $_REQUEST['bulk_action']; // WPCS: input var ok, CSRF ok.
+		if ( 'bulk_booking' === $action || 'bulk_printing' === $action ) {
 			$consignment_ids = [];
-			// Get order id's
+			// Get order id's.
 			$order_ids       = self::get_id_array(
 				( 'bulk_booking' == $action ? 'success' : 'ids' )
 			);
@@ -146,15 +146,15 @@ class Order_Bulk_Actions {
 				}
 			}
 		}
-		if ( 'bulk_booking' == $action ) {
+		if ( 'bulk_booking' === $action ) {
 			$existing  = self::get_id_array( 'existing' );
 			$success   = self::get_id_array( 'success' );
 			$not_dropp = self::get_id_array( 'not_dropp' );
 			$failed    = self::get_id_array( 'failed' );
-			require dirname( __DIR__ ) .'/templates/admin-notices/bulk-booking.php';
+			require dirname( __DIR__ ) . '/templates/admin-notices/bulk-booking.php';
 		}
-		if ( 'bulk_printing' == $action ) {
-			require dirname( __DIR__ ) .'/templates/admin-notices/bulk-printing.php';
+		if ( 'bulk_printing' === $action ) {
+			require dirname( __DIR__ ) . '/templates/admin-notices/bulk-printing.php';
 		}
 	}
 

@@ -41,7 +41,7 @@ class Dropp_Customer {
 	}
 
 	/**
-	 * To array
+	 * Fill
 	 *
 	 * @return array             Customer array.
 	 */
@@ -82,11 +82,12 @@ class Dropp_Customer {
 	/**
 	 * From shipping address
 	 *
-	 * @return array             Customer array.
+	 * @param  array $shipping_address Shipping address.
+	 * @return array                   Customer array.
 	 */
 	public static function from_shipping_address( $shipping_address ) {
 		$customer = new self();
-		$address = $shipping_address['address_1'];
+		$address  = $shipping_address['address_1'];
 		if ( $shipping_address['address_2'] ) {
 			$address .= ' ' . $shipping_address['address_2'];
 		}

@@ -31,7 +31,6 @@ class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			'instance-settings-modal',
 		);
 
-
 		$this->init();
 	}
 
@@ -48,7 +47,6 @@ class Shipping_Method extends \WC_Shipping_Flat_Rate {
 
 		// Actions.
 		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
-		// add_action( 'admin_footer', __CLASS__ . '::enqueue_admin_js', 10 );
 	}
 
 	/**
@@ -79,18 +77,4 @@ class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			)
 		);
 	}
-
-	/**
-	 * Enqueue JS to handle free shipping options.
-	 *
-	 * Static so that's enqueued only once.
-	 */
-	public static function enqueue_admin_js() {
-		wc_enqueue_js(
-			"jQuery( function( $ ) {
-				console.log('here');
-			});"
-		);
-	}
-
 }

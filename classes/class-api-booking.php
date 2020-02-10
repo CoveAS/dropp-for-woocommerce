@@ -31,6 +31,9 @@ class API_Booking {
 
 	/**
 	 * Is dropp
+	 *
+	 * @param  WC_Order $order Order.
+	 * @return boolean         True if the dropp shipping method is present on the order.
 	 */
 	public static function is_dropp( $order ) {
 		$shipping_items = $order->get_items( 'shipping' );
@@ -43,7 +46,10 @@ class API_Booking {
 	}
 
 	/**
-	 * Is dropp
+	 * Is booked
+	 *
+	 * @param  WC_Order $order Order.
+	 * @return int             Number of booked consignments.
 	 */
 	public static function is_booked( $order ) {
 		return Dropp_Consignment::count_consignments_on_order( $order, true );
@@ -52,7 +58,8 @@ class API_Booking {
 	/**
 	 * Book order
 	 *
-	 * @param WC_Order $order Order.
+	 * @param  WC_Order $order Order.
+	 * @return boolean         True if any order was booked.
 	 */
 	public static function book_order( $order ) {
 		$shipping_items   = $order->get_items( 'shipping' );
@@ -82,8 +89,6 @@ class API_Booking {
 			}
 
 			$product_lines = Dropp_Product_Line::array_from_order( $order, true );
-
-
 
 			// @TODO: nonce verification.
 			$consignment = new Dropp_Consignment();

@@ -25,12 +25,13 @@ trait Shipping_Settings {
 	 */
 	public function init_properties() {
 		// Define user set variables.
-		$this->title        = $this->get_option( 'title' );
-		$this->api_key      = $this->get_option( 'api_key' );
-		$this->api_key_test = $this->get_option( 'api_key_test' );
-		$this->store_id     = $this->get_option( 'store_id' );
-		$this->test_mode    = 'yes' === $this->get_option( 'test_mode' );
-		$this->debug_mode   = 'yes' === $this->get_option( 'debug_mode' );
+		$this->title            = $this->get_option( 'title' );
+		$this->api_key          = $this->get_option( 'api_key' );
+		$this->api_key_test     = $this->get_option( 'api_key_test' );
+		$this->store_id         = $this->get_option( 'store_id' );
+		$this->new_order_status = $this->get_option( 'new_order_status' );
+		$this->test_mode        = 'yes' === $this->get_option( 'test_mode' );
+		$this->debug_mode       = 'yes' === $this->get_option( 'debug_mode' );
 	}
 
 	/**
@@ -67,6 +68,16 @@ trait Shipping_Settings {
 				'description' => '',
 				'default'     => '',
 				'desc_tip'    => true,
+			),
+			'new_order_status' => array(
+				'title'       => __( 'New order status', 'woocommerce-dropp-shipping' ),
+				'type'        => 'select',
+				'description' => __( 'Automatically change order status after booking.', 'woocommerce-dropp-shipping' ),
+				'class'       => 'chosen_select',
+				'css'         => 'width: 400px;',
+				'options'     => array( '' => __( '- No change -', 'woocommerce-dropp-shipping' ) ) + wc_get_order_statuses(),
+				'desc_tip'    => true,
+				'default'     => '',
 			),
 			'test_mode' => array(
 				'title'       => __( 'Test mode', 'woocommerce-dropp-shipping' ),

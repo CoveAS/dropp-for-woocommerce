@@ -50,6 +50,13 @@ class Ajax {
 		try {
 			$booking->send( $shipping_method->debug_mode );
 			$consignment->save();
+			if ( '' !== $shipping_method->new_order_status ) {
+				$order = $order_item->get_order();
+				$order->update_status(
+					$shipping_method->new_order_status,
+					__( 'Dropp booking complete.', 'woocommerce-dropp-shipping' )
+				);
+			}
 		} catch ( \Exception $e ) {
 			$consignment->status = 'error';
 			$consignment->save();
@@ -68,7 +75,7 @@ class Ajax {
 			[
 				'status'      => 'success',
 				'consignment' => $consignment->to_array( false ),
-				'message'     => __( 'Booked', 'woocommerce-dropp-shipping' ),
+				'message'     => __( 'Booked! Re-loading page...', 'woocommerce-dropp-shipping' ),
 				'errors'      => [],
 			]
 		);

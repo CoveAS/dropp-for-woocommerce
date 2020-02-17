@@ -20,6 +20,7 @@ class Ajax {
 	 */
 	public static function setup() {
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
+		add_action( 'wp_ajax_dropp_status_update', __CLASS__ . '::dropp_status_update' );
 		add_action( 'wp_ajax_dropp_pdf', __CLASS__ . '::dropp_pdf' );
 		add_action( 'wp_ajax_dropp_pdf_merge', __CLASS__ . '::dropp_pdf_merge' );
 	}
@@ -47,7 +48,7 @@ class Ajax {
 		$consignment->save();
 
 		try {
-			$consignment->remote_post( $shipping_method->debug_mode );
+			$consignment->remote_post();
 			$consignment->save();
 			if ( '' !== $shipping_method->new_order_status ) {
 				$order = $order_item->get_order();
@@ -75,6 +76,35 @@ class Ajax {
 				'status'      => 'success',
 				'consignment' => $consignment->to_array( false ),
 				'message'     => __( 'Booked! Re-loading page...', 'woocommerce-dropp-shipping' ),
+				'errors'      => [],
+			]
+		);
+	}
+
+	/**
+	 * Dropp status_update
+	 */
+	public static function dropp_status_update() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		$consignment    = Dropp_Consignment::find( $consignment_id );
+		try {
+			$consignment->remote_get();
+			$consignment->save();
+		} catch ( \Exception $e ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => $e->getMessage(),
+					'errors'      => $consignment->errors,
+				]
+			);
+		}
+		wp_send_json(
+			[
+				'status'      => 'success',
+				'consignment' => $consignment->to_array( false ),
+				'message'     => '',
 				'errors'      => [],
 			]
 		);

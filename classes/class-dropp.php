@@ -21,6 +21,7 @@ class Dropp {
 		$plugin_dir = dirname( __DIR__ );
 
 		// Models.
+		require_once $plugin_dir . '/classes/class-collection.php';
 		require_once $plugin_dir . '/classes/class-dropp-product-line.php';
 		require_once $plugin_dir . '/classes/class-dropp-customer.php';
 		require_once $plugin_dir . '/classes/class-dropp-location.php';

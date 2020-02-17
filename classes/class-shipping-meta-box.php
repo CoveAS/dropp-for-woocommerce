@@ -56,6 +56,9 @@ class Shipping_Meta_Box {
 
 		$order_id         = get_the_ID();
 		$order            = wc_get_order( $order_id );
+		$adapter          = new Order_Adapter( $order );
+		$consignments     = $adapter->consignments();
+		$consignments->map( 'maybe_update' );
 		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
 		$line_items       = $order->get_items( 'shipping' );
@@ -82,22 +85,29 @@ class Shipping_Meta_Box {
 			'dropp-admin-js',
 			'_dropp',
 			[
+				'time_now'          => current_time( 'mysql' ),
 				'order_id'          => $order_id,
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 				'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
 				'storeid'           => $shipping_method->store_id,
 				'products'          => Dropp_Product_Line::array_from_order(),
 				'locations'         => Dropp_Location::array_from_order(),
-				'consignments'      => Dropp_Consignment::array_from_order(),
+				'consignments'      => $consignments->map( 'to_array', false ),
 				'customer'          => $shipping_address,
 				'shipping_items'    => $shipping_items,
-				'i18n'              => [
+				'status_list'       => Dropp_Consignment::get_status_list(),
+				'i18n'              => self::nbsp( [
 					'actions'                => __( 'Actions', 'woocommerce-dropp-shipping' ),
+					'check_status'           => __( 'Check status', 'woocommerce-dropp-shipping' ),
 					'download'               => __( 'Download', 'woocommerce-dropp-shipping' ),
+					'update_order'           => __( 'Update order', 'woocommerce-dropp-shipping' ),
+					'cancel_order'           => __( 'Cancel order', 'woocommerce-dropp-shipping' ),
 					'barcode'                => __( 'Barcode', 'woocommerce-dropp-shipping' ),
 					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
 					'status'                 => __( 'Status', 'woocommerce-dropp-shipping' ),
 					'created'                => __( 'Created', 'woocommerce-dropp-shipping' ),
+					'updated'                => __( 'Updated', 'woocommerce-dropp-shipping' ),
+					'product'                => __( 'Product', 'woocommerce-dropp-shipping' ),
 					'products'               => __( 'Products', 'woocommerce-dropp-shipping' ),
 					'booked_consignments'    => __( 'Booked consignments', 'woocommerce-dropp-shipping' ),
 					'submit'                 => __( 'Book now', 'woocommerce-dropp-shipping' ),
@@ -110,9 +120,22 @@ class Shipping_Meta_Box {
 					'social_security_number' => __( 'Social security number', 'woocommerce-dropp-shipping' ),
 					'address'                => __( 'Address', 'woocommerce-dropp-shipping' ),
 					'phone_number'           => __( 'Phone number', 'woocommerce-dropp-shipping' ),
-				],
+				] ),
 			]
 		);
+	}
+
+	/**
+	 * Non-breaking spaces
+	 *
+	 * @param  array $strings Strings.
+	 * @return array          Strings.
+	 */
+	public static function nbsp( $strings ) {
+		foreach ( $strings as &$string ) {
+			$string = str_replace( ' ', '&nbsp;', $string );
+		}
+		return $strings;
 	}
 
 	/**

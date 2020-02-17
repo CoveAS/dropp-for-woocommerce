@@ -5,39 +5,19 @@
 			<table class="dropp-consignments__table">
 				<thead>
 					<th v-html="i18n.barcode"></th>
-					<th v-html="i18n.products"></th>
-					<th v-html="i18n.customer"></th>
 					<th v-html="i18n.status"></th>
-					<th v-html="i18n.actions"></th>
 					<th v-html="i18n.created"></th>
-					<!-- <th>Updated</th> Phase2 -->
+					<th v-html="i18n.updated"></th>
+					<th v-html="i18n.actions" colspan="2"></th>
 				</thead>
 				<tbody>
 					<!-- @TODO: Use actuall consignment data to populate the table -->
-					<tr
-						class="dropp-consignment"
+					<consignmentrow
 						v-for="consignment in consignment_container.consignments"
+						:consignment="consignment"
 						:key="consignment.id"
-						:class="'dropp-consignment-' + consignment.id + ' dropp-consignment--' + consignment.status"
-					>
-						<td
-							class="dropp-consignment__barcode"
-							:title="consignment.dropp_order_id"
-						>{{(consignment.test ? '[TEST] ' : '') + (consignment.barcode ? consignment.barcode : '')}}</td>
-						<td class="dropp-consignment__quantity">{{consignment.products.length}}</td>
-						<td class="dropp-consignment__customer" v-html="consignment.customer.name"></td>
-						<td class="dropp-consignment__status">{{consignment.status}}</td>
-						<td class="dropp-consignment__actions">
-							<a
-								v-if="download_url(consignment)"
-								target="_blank"
-								:href="download_url(consignment)"
-								v-html="i18n.download"
-							></a>
-						</td>
-						<td class="dropp-consignment__created">{{consignment.created_at}}</td>
-						<!-- <td class="dropp-consignment__updated">3 hours ago</td>  Phase2 -->
-					</tr>
+					></consignmentrow>
+
 				</tbody>
 				<tfoot>
 				</tfoot>
@@ -124,26 +104,6 @@
 	.dropp-toggle-locations {
 		margin-bottom: 1rem;
 	}
-	.dropp-consignment {
-		&:nth-of-type(2n) {
-			background: darken(#FFF, 5%);
-		}
-		&--ready {
-		}
-		&--error {
-			background: #FEE;
-			&:nth-of-type(2n) {
-				background: #FCC;
-			}
-		}
-		&--initial {
-			color: navy;
-			background: #e6fdfe;
-			&:nth-of-type(2n) {
-				background: darken(#e6fdfe, 5%);
-			}
-		}
-	}
 	.dropp-consignments {
 		margin-bottom: 1rem;
 		th {
@@ -166,6 +126,7 @@
 
 <script>
 	import Location from './location.vue';
+	import ConsignmentRow from './consignment-row.vue';
 	export default {
 		data: function() {
 			return {
@@ -218,18 +179,11 @@
 						// @TODO.
 						console.log( error );
 					});
-
-
-			},
-			download_url: function( consignment ) {
-				if ( ! consignment.dropp_order_id ) {
-					return;
-				}
-				return _dropp.ajaxurl + '?action=dropp_pdf&consignment_id=' + consignment.id;
 			},
 		},
 		components: {
-			location: Location
+			location: Location,
+			consignmentrow: ConsignmentRow,
 		}
 	};
 </script>

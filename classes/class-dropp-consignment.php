@@ -9,6 +9,7 @@ namespace Dropp;
 
 use Exception;
 use WC_Logger;
+use WC_Log_Levels;
 
 /**
  * Consignment
@@ -36,6 +37,23 @@ class Dropp_Consignment {
 	}
 
 	/**
+	 * Get status list.
+	 *
+	 * @return array List of status.
+	 */
+	public static function get_status_list() {
+		return [
+			'ready'       => __( 'Ready', 'woocommerce-dropp-shipping' ),
+			'error'       => __( 'Error', 'woocommerce-dropp-shipping' ),
+			'initial'     => __( 'Initial', 'woocommerce-dropp-shipping' ),
+			'transit'     => __( 'Transit', 'woocommerce-dropp-shipping' ),
+			'consignment' => __( 'Consignment', 'woocommerce-dropp-shipping' ),
+			'delivered'   => __( 'Delivered', 'woocommerce-dropp-shipping' ),
+			'cancelled'   => __( 'Cancelled', 'woocommerce-dropp-shipping' ),
+		];
+	}
+
+	/**
 	 * Fill
 	 *
 	 * @param  array            $content Content.
@@ -54,19 +72,29 @@ class Dropp_Consignment {
 				'status'           => 'ready',
 				'location_id'      => null,
 				'test'             => false,
-				'created_at'       => current_time( 'mysql' ),
 				'updated_at'       => current_time( 'mysql' ),
+				'created_at'       => current_time( 'mysql' ),
 			]
 		);
 
-		$this->barcode          = $content['barcode'];
-		$this->dropp_order_id   = $content['dropp_order_id'];
-		$this->shipping_item_id = $content['shipping_item_id'];
-		$this->status           = $content['status'];
-		$this->location_id      = $content['location_id'];
-		$this->test             = $content['test'];
-		$this->created_at       = $content['created_at'];
-		$this->updated_at       = $content['updated_at'];
+		$requires_value = [
+			'barcode',
+			'dropp_order_id',
+			'shipping_item_id',
+			'location_id',
+		];
+		foreach ( $requires_value as $name ) {
+			// Skip if the property has a value, but the new value is empty.
+			if ( ! empty( $this->{$name} ) && empty( $content[ $name ] ) ) {
+				continue;
+			}
+			$this->{$name} = $content[ $name ];
+		}
+
+		$this->status     = $content['status'];
+		$this->test       = $content['test'];
+		$this->updated_at = $content['updated_at'];
+		$this->created_at = $content['created_at'];
 
 		// Process customer.
 		if ( $content['customer'] instanceof Dropp_Customer ) {
@@ -101,7 +129,8 @@ class Dropp_Consignment {
 	/**
 	 * To array
 	 *
-	 * @return array Array representation.
+	 * @param  boolean $for_request True limits the fields to only those used to send to Dropp.is.
+	 * @return array                Array representation.
 	 */
 	public function to_array( $for_request = true ) {
 		$products = [];
@@ -161,6 +190,7 @@ class Dropp_Consignment {
 			$id
 		);
 		$row         = $wpdb->get_row( $sql, ARRAY_A );
+
 		$consignment = new self();
 		if ( ! empty( $row ) ) {
 			$consignment->fill( $row );
@@ -190,6 +220,7 @@ class Dropp_Consignment {
 	protected function update() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'dropp_consignments';
+		$this->updated_at = current_time( 'mysql' );
 		$row_count = $wpdb->update(
 			$table_name,
 			[
@@ -201,7 +232,7 @@ class Dropp_Consignment {
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,
-				'updated_at'       => current_time( 'mysql' ),
+				'updated_at'       => $this->updated_at,
 			],
 			[
 				'id' => $this->id,
@@ -217,6 +248,8 @@ class Dropp_Consignment {
 	 */
 	protected function insert() {
 		global $wpdb;
+		$this->created_at = current_time( 'mysql' );
+		$this->updated_at = current_time( 'mysql' );
 		$table_name = $wpdb->prefix . 'dropp_consignments';
 		$row_count = $wpdb->insert(
 			$table_name,
@@ -229,8 +262,8 @@ class Dropp_Consignment {
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,
-				'updated_at'       => current_time( 'mysql' ),
-				'created_at'       => current_time( 'mysql' ),
+				'updated_at'       => $this->updated_at,
+				'created_at'       => $this->created_at,
 			]
 		);
 
@@ -258,22 +291,6 @@ class Dropp_Consignment {
 	}
 
 	/**
-	 * Array from Order
-	 *
-	 * @param  integer $order_id (optional) Order ID.
-	 * @return array             Array of Dropp_Consignment.
-	 */
-	public static function array_from_order( $order_id = false ) {
-		$collection = self::from_order( $order_id );
-		return array_map(
-			function( $item ) {
-				return $item->to_array( false );
-			},
-			$collection
-		);
-	}
-
-	/**
 	 * From Shipping Item
 	 *
 	 * @param  WC_Order_Item_Shipping $shipping_item Shipping item.
@@ -298,6 +315,23 @@ class Dropp_Consignment {
 			$collection[] = $consignment;
 		}
 		return $collection;
+	}
+
+	/**
+	 * Maybe update
+	 *
+	 * @return boolean True when updated.
+	 */
+	public function maybe_update() {
+		if ( time() < strtotime( $this->updated_at ) + 600 ) {
+			return false;
+		}
+		try {
+			$this->remote_get()->save();
+		} catch ( Exception $e ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -331,9 +365,10 @@ class Dropp_Consignment {
 	 * Remote args
 	 *
 	 * @param  string $method Remote method, either 'get' or 'post'.
+	 * @param  string $url    Url
 	 * @return array          Remote arguments.
 	 */
-	public function remote_args( $method ) {
+	public function remote( $method, $url ) {
 		$log  = new WC_Logger();
 		$args = [
 			'headers' => [
@@ -347,11 +382,14 @@ class Dropp_Consignment {
 		if ( $this->debug ) {
 			$log->add(
 				'woocommerce-dropp-shipping',
-				'[DEBUG] Remote ' . strtoupper( $method ) . ' request:' . PHP_EOL . $this->get_url() . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
+				'[DEBUG] Remote ' . strtoupper( $method ) . ' request:' . PHP_EOL . $url . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::DEBUG
 			);
 		}
-		return $args;
+		if ( 'post' === $method ) {
+			return wp_remote_post( $url, $args );
+		}
+		return wp_remote_get( $url, $args );
 	}
 
 	/**
@@ -370,11 +408,8 @@ class Dropp_Consignment {
 				)
 			);
 		}
-		$response = wp_remote_post(
-			self::get_url( 'orders/' . $this->dropp_order_id ),
-			$this->remote_args( 'get' )
-		);
-		return $this->process_response( $response, 'get' );
+		$response = $this->remote( 'get', self::get_url( 'orders/' . $this->dropp_order_id ) );
+		return $this->process_response( 'get', $response );
 	}
 
 	/**
@@ -383,22 +418,19 @@ class Dropp_Consignment {
 	 * @return Consignment          This object.
 	 */
 	public function remote_post() {
-		$response = wp_remote_post(
-			$this->get_url( 'orders' ),
-			$this->remote_args( 'post' )
-		);
-		return $this->process_response( $response, 'post' );
+		$response = $this->remote( 'post', $this->get_url( 'orders' ) );
+		return $this->process_response( 'post', $response );
 	}
 
 	/**
 	 * Process response
 	 *
 	 * @throws Exception      $e        Response exception.
-	 * @param  WP_Error|array $response Array with response data on success.
 	 * @param  string         $method   Remote method, either 'get' or 'post'.
+	 * @param  WP_Error|array $response Array with response data on success.
 	 * @return Consignment              This object.
 	 */
-	protected function process_response( $response, $method ) {
+	protected function process_response( $method, $response ) {
 
 		$log = new WC_Logger();
 		if ( is_wp_error( $response ) ) {
@@ -428,6 +460,7 @@ class Dropp_Consignment {
 		}
 		$dropp_order = json_decode( $response['body'], true );
 		if ( ! is_array( $dropp_order ) ) {
+			$this->errors['invalid_json'] = $response['body'];
 			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
 		}
 		if ( ! empty( $dropp_order['error'] ) ) {
@@ -441,7 +474,7 @@ class Dropp_Consignment {
 
 		$this->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->status         = $dropp_order['status'] ?? '';
-		$this->barcode        = $dropp_order['barcode'] ?? '';
+		// $this->updated_at     = $dropp_order['updatedAt'] ?? '';
 		return $this;
 	}
 }

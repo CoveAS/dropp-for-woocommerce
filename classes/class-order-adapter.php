@@ -69,6 +69,23 @@ class Order_Adapter {
 	}
 
 	/**
+	 * Consignments
+	 *
+	 * @return Collection Collection of consignments.
+	 */
+	public function consignments() {
+		$line_items = $this->order->get_items( 'shipping' );
+		$container  = [];
+		foreach ( $line_items as $order_item_id => $order_item ) {
+			$container = array_merge(
+				$container,
+				Dropp_Consignment::from_shipping_item( $order_item )
+			);
+		}
+		return new Collection( $container );
+	}
+
+	/**
 	 * Book order
 	 *
 	 * @return boolean True if any order was booked.

@@ -70,12 +70,14 @@ class Order_Bulk_Actions {
 		];
 
 		foreach ( $ids as $order_id ) {
-			$order = wc_get_order( $order_id );
-			if ( ! API_Booking::is_dropp( $order ) ) {
+			$adapter = new Order_Adapter(
+				wc_get_order( $order_id )
+			);
+			if ( ! $adapter->is_dropp() ) {
 				$result['not_dropp'][] = $order_id;
-			} elseif ( API_Booking::is_booked( $order ) ) {
+			} elseif ( $adapter->count_consignments() ) {
 				$result['existing'][] = $order_id;
-			} elseif ( API_Booking::book_order( $order ) ) {
+			} elseif ( $adapter->book() ) {
 				$result['success'][] = $order_id;
 			} else {
 				$result['failed'][] = $order_id;
@@ -176,6 +178,5 @@ class Order_Bulk_Actions {
 			$ids[] = (int) $id;
 		}
 		return $ids;
-
 	}
 }

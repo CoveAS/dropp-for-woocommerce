@@ -25,15 +25,15 @@ class Dropp {
 		require_once $plugin_dir . '/classes/class-dropp-customer.php';
 		require_once $plugin_dir . '/classes/class-dropp-location.php';
 		require_once $plugin_dir . '/classes/class-dropp-consignment.php';
+		require_once $plugin_dir . '/classes/class-dropp-pdf.php';
+		require_once $plugin_dir . '/classes/class-order-adapter.php';
 
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
 		require_once $plugin_dir . '/classes/class-shipping-method.php';
 
-		// Ajax and API classes.
+		// Ajax helper class.
 		require_once $plugin_dir . '/classes/class-ajax.php';
-		require_once $plugin_dir . '/classes/class-api-booking.php';
-		require_once $plugin_dir . '/classes/class-api-pdf.php';
 
 		// WooCommerce utility classes.
 		require_once $plugin_dir . '/classes/class-shipping-meta-box.php';
@@ -52,8 +52,6 @@ class Dropp {
 
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
-
-		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 
 		// Add settings link on plugin page.

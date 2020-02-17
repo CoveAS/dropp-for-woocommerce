@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Exception;
+use WC_Logger;
 
 /**
  * Consignment
@@ -25,6 +26,8 @@ class Dropp_Consignment {
 	public $test = false;
 	public $updated_at;
 	public $created_at;
+	public $debug = false;
+	public $errors = [];
 
 	/**
 	 * Constructor.
@@ -146,22 +149,23 @@ class Dropp_Consignment {
 	}
 
 	/**
-	 * Get
+	 * Find
 	 *
 	 * @param  int               $id ID.
 	 * @return Dropp_Consignment     This.
 	 */
-	public function get( $id ) {
+	public static function find( $id ) {
 		global $wpdb;
 		$sql = $wpdb->prepare(
 			"SELECT * FROM {$wpdb->prefix}dropp_consignments WHERE id = %d",
 			$id
 		);
-		$row = $wpdb->get_row( $sql, ARRAY_A );
+		$row         = $wpdb->get_row( $sql, ARRAY_A );
+		$consignment = new self();
 		if ( ! empty( $row ) ) {
-			$this->fill( $row );
+			$consignment->fill( $row );
 		}
-		return $this;
+		return $consignment;
 	}
 
 	/**
@@ -244,7 +248,7 @@ class Dropp_Consignment {
 		if ( false === $order_id ) {
 			$order_id = get_the_ID();
 		}
-		$order      = new \WC_Order( $order_id );
+		$order      = wc_get_order( $order_id );
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
@@ -297,30 +301,19 @@ class Dropp_Consignment {
 	}
 
 	/**
-	 * Count consignments on order
+	 * Get URL
 	 *
-	 * @param  WC_Order $order Order.
-	 * @return integer         Count.
+	 * @param  string $endpoint Endpoint.
+	 * @return string URL.
 	 */
-	public static function count_consignments_on_order( $order, $only_booked = false ) {
-		global $wpdb;
-		$shipping_items    = $order->get_items( 'shipping' );
-		$shipping_item_ids = [];
-		foreach ( $shipping_items as $shipping_item ) {
-			$shipping_item_ids[] = $shipping_item->get_id();
+	public function get_url( $endpoint ) {
+		$baseurl = 'https://api.dropp.is/dropp/api/v1/';
+		if ( $this->test ) {
+			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
 		}
-		if ( empty( $shipping_item_ids ) ) {
-			return 0;
-		}
-		$shipping_item_ids = implode( ',', $shipping_item_ids);
-		$sql = "SELECT count(*) FROM {$wpdb->prefix}dropp_consignments WHERE shipping_item_id in ({$shipping_item_ids})";
-		if ( $only_booked ) {
-			$sql .= " AND status NOT IN ( 'ready', 'error', 'overweight' )";
-		}
-		$result = $wpdb->get_var( $sql );
-		return (int) $result;
-	}
 
+		return $baseurl . $endpoint;
+	}
 
 	/**
 	 * Get customer array
@@ -332,5 +325,123 @@ class Dropp_Consignment {
 			return [];
 		}
 		return $this->customer->to_array();
+	}
+
+	/**
+	 * Remote args
+	 *
+	 * @param  string $method Remote method, either 'get' or 'post'.
+	 * @return array          Remote arguments.
+	 */
+	public function remote_args( $method ) {
+		$log  = new WC_Logger();
+		$args = [
+			'headers' => [
+				'Authorization' => 'Basic ' . $this->get_api_key(),
+				'Content-Type'  => 'application/json;charset=UTF-8',
+			],
+		];
+		if ( 'post' === $method ) {
+			$args['body'] = wp_json_encode( $this->to_array() );
+		}
+		if ( $this->debug ) {
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[DEBUG] Remote ' . strtoupper( $method ) . ' request:' . PHP_EOL . $this->get_url() . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
+				WC_Log_Levels::DEBUG
+			);
+		}
+		return $args;
+	}
+
+	/**
+	 * Remote get
+	 *
+	 * @throws Exception   $e     Sending exception.
+	 * @return Consignment          This object.
+	 */
+	public function remote_get() {
+		if ( ! $this->dropp_order_id ) {
+			throw new Exception(
+				sprintf(
+					// translators: Consignment ID.
+					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					$this->id
+				)
+			);
+		}
+		$response = wp_remote_post(
+			self::get_url( 'orders/' . $this->dropp_order_id ),
+			$this->remote_args( 'get' )
+		);
+		return $this->process_response( $response, 'get' );
+	}
+
+	/**
+	 * Remote post / Booking
+	 *
+	 * @return Consignment          This object.
+	 */
+	public function remote_post() {
+		$response = wp_remote_post(
+			$this->get_url( 'orders' ),
+			$this->remote_args( 'post' )
+		);
+		return $this->process_response( $response, 'post' );
+	}
+
+	/**
+	 * Process response
+	 *
+	 * @throws Exception      $e        Response exception.
+	 * @param  WP_Error|array $response Array with response data on success.
+	 * @param  string         $method   Remote method, either 'get' or 'post'.
+	 * @return Consignment              This object.
+	 */
+	protected function process_response( $response, $method ) {
+
+		$log = new WC_Logger();
+		if ( is_wp_error( $response ) ) {
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[ERROR] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
+				WC_Log_Levels::ERROR
+			);
+		} elseif ( $this->debug ) {
+			$data = json_decode( $response['body'] );
+			if ( ! empty( $data ) ) {
+				$body = wp_json_encode( $data, JSON_PRETTY_PRINT );
+			} else {
+				$body = $response['body'];
+			}
+			$log->add(
+				'woocommerce-dropp-shipping',
+				'[DEBUG] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . $body,
+				WC_Log_Levels::DEBUG
+			);
+		}
+
+		// Validate response.
+		if ( is_wp_error( $response ) ) {
+			$this->errors = $response->get_error_messages();
+			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+		}
+		$dropp_order = json_decode( $response['body'], true );
+		if ( ! is_array( $dropp_order ) ) {
+			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( ! empty( $dropp_order['error'] ) ) {
+			throw new Exception( $dropp_order['error'] );
+		}
+		if ( empty( $dropp_order['id'] ) ) {
+			throw new Exception( __( 'Empty ID in the response', 'woocommerce-dropp-shipping' ) );
+		}
+
+		$dropp_order = json_decode( $response['body'], true );
+
+		$this->dropp_order_id = $dropp_order['id'] ?? '';
+		$this->status         = $dropp_order['status'] ?? '';
+		$this->barcode        = $dropp_order['barcode'] ?? '';
+		return $this;
 	}
 }

@@ -50,7 +50,8 @@ class Pending_Shipping {
 		global $the_order;
 
 		if ( 'dropp_booking_count' === $column ) {
-			$count = Dropp_Consignment::count_consignments_on_order( $the_order );
+			$adapter = new Order_Adapter( $the_order );
+			$count   = $adapter->count_consignments();
 			echo esc_html( $count );
 		}
 	}

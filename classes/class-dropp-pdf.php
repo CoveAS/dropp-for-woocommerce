@@ -12,11 +12,12 @@ use WC_Log_Levels;
 use Exception;
 
 /**
- * API PDF
+ * Dropp PDF
  */
-class API_PDF {
+class Dropp_PDF {
 
 	protected $test = false;
+	protected $debug = false;
 	protected $consignment;
 
 	public $errors = [];
@@ -24,9 +25,10 @@ class API_PDF {
 	/**
 	 * Construct
 	 */
-	public function __construct( Dropp_Consignment $consignment, $test ) {
+	public function __construct( Dropp_Consignment $consignment, $test, $debug ) {
 		$this->consignment = $consignment;
 		$this->test        = $test;
+		$this->debug       = $debug;
 	}
 
 	/**
@@ -36,7 +38,7 @@ class API_PDF {
 	 * @param  Boolean   $debug Debug.
 	 * @return Booking          This object.
 	 */
-	public function remote_get( $debug = false ) {
+	public function remote_get() {
 		if ( empty( $this->consignment ) ) {
 			throw new Exception( 'Error Processing Request', 1 );
 		}
@@ -47,8 +49,8 @@ class API_PDF {
 				'Content-Type'  => 'application/json;charset=UTF-8',
 			],
 		];
-
-		if ( $debug ) {
+		$url = $this->get_url( 'orders/pdf' ) . '/' . $this->consignment->dropp_order_id;
+		if ( $this->debug ) {
 
 			$log->add(
 				'woocommerce-dropp-shipping',
@@ -57,10 +59,7 @@ class API_PDF {
 			);
 		}
 
-		$response = wp_remote_get(
-			self::get_url() . $this->consignment->dropp_order_id,
-			$args
-		);
+		$response = wp_remote_get( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
 			$log->add(
@@ -68,7 +67,7 @@ class API_PDF {
 				'[ERROR] PDF response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::ERROR
 			);
-		} elseif ( $debug ) {
+		} elseif ( $this->debug ) {
 			$data = json_decode( $response['body'] );
 			if ( ! empty( $data ) ) {
 				$body = wp_json_encode( $data, JSON_PRETTY_PRINT );
@@ -82,7 +81,21 @@ class API_PDF {
 			);
 		}
 
-		$this->validate_response( $response );
+		if ( is_wp_error( $response ) ) {
+			$this->errors = $response->get_error_messages();
+			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( ! $response['headers'] ) {
+			throw new Exception( __( 'Missing response headers', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( 'application/json' === $response['headers']->offsetGet( 'content-type' ) ) {
+			$data = json_decode( $response['body'] , true );
+			$this->errors[] = $data['error'];
+			throw new Exception( __( 'API Error', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( 'application/pdf' !== $response['headers']->offsetGet( 'content-type' ) ) {
+			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
+		}
 
 		return $response['body'];
 	}
@@ -101,33 +114,31 @@ class API_PDF {
 	 * Download
 	 *
 	 * @throws Exception $e        Sending exception.
-	 * @param  Boolean   $debug    Debug.
-	 * @return API_PDF             This object.
+	 * @param  Boolean   $this->debug    Debug.
+	 * @return Dropp_PDF             This object.
 	 */
-	public function download( $debug = false ) {
+	public function download() {
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
 		WP_Filesystem();
 		$filename = $this->get_filename();
 		if ( ! $wp_filesystem->exists( $filename ) ) {
-			$pdf = $this->remote_get( $debug );
+			$pdf = $this->remote_get();
 			$wp_filesystem->put_contents( $filename, $pdf );
 		}
 		return $this;
 	}
 
 	/**
-	 * Get PDF.
+	 * Get content.
 	 *
 	 * First attempts to get a downloaded PDF, then tries to get from remote.
 	 *
 	 * @throws Exception $e        Sending exception.
-	 * @param  Boolean   $debug    Debug.
-	 * @param  string    $filename Filename.
 	 * @return string              PDF content.
 	 */
-	public function get_pdf( $debug = false ) {
+	public function get_content() {
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
@@ -148,8 +159,7 @@ class API_PDF {
 	 * @return string                 PDF content.
 	 */
 	public static function get_pdf_from_consignment( $consignment_id ) {
-		$consignment = new Dropp_Consignment();
-		$consignment->get( $consignment_id );
+		$consignment = Dropp_Consignment::find( $consignment_id );
 		if ( null === $consignment->id ) {
 			wp_send_json(
 				[
@@ -161,8 +171,8 @@ class API_PDF {
 			);
 		}
 		$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
-		$api_pdf = new self( $consignment, $shipping_method->test_mode );
-		return $api_pdf->get_pdf( $shipping_method->debug_mode );
+		$api_pdf         = new self( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
+		return $api_pdf;
 	}
 
 	/**
@@ -170,38 +180,15 @@ class API_PDF {
 	 *
 	 * @return string URL.
 	 */
-	public function get_url() {
+	public function get_url( $endpoint ) {
+		$baseurl = 'https://api.dropp.is/dropp/api/v1/';
 		if ( $this->test ) {
-			return 'https://stage.dropp.is/dropp/api/v1/orders/pdf/';
+			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
 		}
-		return 'https://api.dropp.is/dropp/api/v1/orders/pdf/';
+
+		return $baseurl . $endpoint;
 	}
 
-	/**
-	 * Validate response
-	 *
-	 * @throws Exception                Error reason.
-	 * @param  WP_Error|array $response Response from dropp.
-	 * @return boolean                  True on a valid response
-	 */
-	public function validate_response( $response ) {
-		if ( is_wp_error( $response ) ) {
-			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
-		}
-		if ( ! $response['headers'] ) {
-			throw new Exception( __( 'Missing response headers', 'woocommerce-dropp-shipping' ) );
-		}
-		if ( 'application/json' === $response['headers']->offsetGet( 'content-type' ) ) {
-			$data = json_decode( $response['body'] , true );
-			$this->errors[] = $data['error'];
-			throw new Exception( __( 'API Error', 'woocommerce-dropp-shipping' ) );
-		}
-		if ( 'application/pdf' !== $response['headers']->offsetGet( 'content-type' ) ) {
-			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
-		}
-		return true;
-	}
 
 	/**
 	 * Get dir

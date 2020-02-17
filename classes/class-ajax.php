@@ -46,9 +46,8 @@ class Ajax {
 		);
 		$consignment->save();
 
-		$booking = new API_Booking( $consignment, $shipping_method->test_mode );
 		try {
-			$booking->send( $shipping_method->debug_mode );
+			$consignment->remote_post( $shipping_method->debug_mode );
 			$consignment->save();
 			if ( '' !== $shipping_method->new_order_status ) {
 				$order = $order_item->get_order();
@@ -66,7 +65,7 @@ class Ajax {
 					'status'      => 'error',
 					'consignment' => $consignment->to_array( false ),
 					'message'     => $e->getMessage(),
-					'errors'      => $booking->errors,
+					'errors'      => $consignment->errors,
 				]
 			);
 		}
@@ -97,19 +96,19 @@ class Ajax {
 	 * @param string|int $consignment_id Consignment ID.
 	 */
 	protected static function dropp_pdf_single( $consignment_id ) {
+		$pdf = Dropp_PDF::get_pdf_from_consignment( $consignment_id );
 		try {
-			$pdf = API_PDF::get_pdf_from_consignment( $consignment_id );
+			echo $pdf->get_content();
 		} catch ( Exception $e ) {
 			wp_send_json(
 				[
 					'status'  => 'error',
 					'message' => $e->getMessage(),
-					'errors'  => $api_pdf->errors,
+					'errors'  => $pdf->errors,
 				]
 			);
 		}
 		header( 'Content-type: application/pdf' );
-		echo $pdf;
 		die;
 	}
 
@@ -134,7 +133,7 @@ class Ajax {
 			);
 		}
 
-		$uploads_dir = API_PDF::get_dir();
+		$uploads_dir = Dropp_PDF::get_dir();
 		if ( $uploads_dir['error'] ) {
 			wp_send_json(
 				[
@@ -155,15 +154,13 @@ class Ajax {
 		$files = [];
 		try {
 			foreach ( $consignment_ids as $consignment_id ) {
-				$consignment = new Dropp_Consignment();
-				$consignment->get( $consignment_id );
+				$consignment = Dropp_Consignment::find( $consignment_id );
 				if ( null === $consignment->dropp_order_id ) {
 					throw new Exception( __( 'Could not find consignment:', 'woocommerce-dropp-shipping' ) . ' ' . $consignment_id );
 				}
 				$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
-				$api_pdf         = new API_PDF( $consignment, $shipping_method->test_mode );
-				$api_pdf->download( $shipping_method->debug_mode );
-				$files[] = $api_pdf->get_filename();
+				$api_pdf         = new Dropp_PDF( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
+				$files[]         = $api_pdf->download()->get_filename();
 			}
 		} catch ( Exception $e ) {
 			wp_send_json(

@@ -502,7 +502,7 @@ __webpack_require__.r(__webpack_exports__);
         url: _dropp.ajaxurl,
         method: 'get',
         data: {
-          action: 'dropp_cancel_order',
+          action: 'dropp_cancel',
           consignment_id: this.consignment.id
         },
         success: this.success,

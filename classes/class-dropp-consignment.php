@@ -376,7 +376,11 @@ class Dropp_Consignment {
 				'Content-Type'  => 'application/json;charset=UTF-8',
 			],
 		];
+		if ( 'delete' === $method ) {
+			$args['method'] = 'DELETE';
+		}
 		if ( 'post' === $method ) {
+			$args['method'] = 'POST';
 			$args['body'] = wp_json_encode( $this->to_array() );
 		}
 		if ( $this->debug ) {
@@ -386,10 +390,7 @@ class Dropp_Consignment {
 				WC_Log_Levels::DEBUG
 			);
 		}
-		if ( 'post' === $method ) {
-			return wp_remote_post( $url, $args );
-		}
-		return wp_remote_get( $url, $args );
+		return wp_remote_request( $url, $args );
 	}
 
 	/**
@@ -423,6 +424,16 @@ class Dropp_Consignment {
 	}
 
 	/**
+	 * Remote delete / Cancel order
+	 *
+	 * @return Consignment          This object.
+	 */
+	public function remote_delete() {
+		$response = $this->remote( 'delete', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+		return $this->process_response( 'delete', $response );
+	}
+
+	/**
 	 * Process response
 	 *
 	 * @throws Exception      $e        Response exception.
@@ -431,7 +442,6 @@ class Dropp_Consignment {
 	 * @return Consignment              This object.
 	 */
 	protected function process_response( $method, $response ) {
-
 		$log = new WC_Logger();
 		if ( is_wp_error( $response ) ) {
 			$log->add(
@@ -457,6 +467,12 @@ class Dropp_Consignment {
 		if ( is_wp_error( $response ) ) {
 			$this->errors = $response->get_error_messages();
 			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+		}
+		if ( 'delete' === $method ) {
+			// Delete calls should return an empty response.
+			// No need for further processing.
+			$this->status = 'cancelled';
+			return $this;
 		}
 		$dropp_order = json_decode( $response['body'], true );
 		if ( ! is_array( $dropp_order ) ) {

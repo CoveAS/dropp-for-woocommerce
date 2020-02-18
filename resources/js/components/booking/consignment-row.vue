@@ -42,16 +42,16 @@
 			<ul>
 				<li>
 					<a
-					href="#"
-					v-html="i18n.update_order"
-					@click.prevent="update_order"
+						href="#"
+						v-html="i18n.update_order"
+						@click.prevent="update_order"
 					></a>
 				</li>
 				<li>
 					<a
-					href="#"
-					v-html="i18n.cancel_order"
-					@click.prevent="cancel_order"
+						href="#"
+						v-html="i18n.cancel_order"
+						@click.prevent="cancel_order"
 					></a>
 				</li>
 			</ul>
@@ -208,7 +208,7 @@
 					url: _dropp.ajaxurl,
 					method: 'get',
 					data: {
-						action: 'dropp_cancel_order',
+						action: 'dropp_cancel',
 						consignment_id: this.consignment.id,
 					},
 					success: this.success,

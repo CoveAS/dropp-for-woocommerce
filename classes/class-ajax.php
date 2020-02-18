@@ -21,6 +21,7 @@ class Ajax {
 	public static function setup() {
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
 		add_action( 'wp_ajax_dropp_status_update', __CLASS__ . '::dropp_status_update' );
+		add_action( 'wp_ajax_dropp_cancel', __CLASS__ . '::dropp_cancel' );
 		add_action( 'wp_ajax_dropp_pdf', __CLASS__ . '::dropp_pdf' );
 		add_action( 'wp_ajax_dropp_pdf_merge', __CLASS__ . '::dropp_pdf_merge' );
 	}
@@ -89,6 +90,35 @@ class Ajax {
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
 			$consignment->remote_get();
+			$consignment->save();
+		} catch ( \Exception $e ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => $e->getMessage(),
+					'errors'      => $consignment->errors,
+				]
+			);
+		}
+		wp_send_json(
+			[
+				'status'      => 'success',
+				'consignment' => $consignment->to_array( false ),
+				'message'     => '',
+				'errors'      => [],
+			]
+		);
+	}
+
+	/**
+	 * Dropp status_update
+	 */
+	public static function dropp_cancel() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		$consignment    = Dropp_Consignment::find( $consignment_id );
+		try {
+			$consignment->remote_delete();
 			$consignment->save();
 		} catch ( \Exception $e ) {
 			wp_send_json(

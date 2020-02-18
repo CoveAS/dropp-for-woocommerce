@@ -58,11 +58,14 @@ class Shipping_Meta_Box {
 		$order            = wc_get_order( $order_id );
 		$adapter          = new Order_Adapter( $order );
 		$consignments     = $adapter->consignments();
-		$consignments->map( 'maybe_update' );
 		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
 		$line_items       = $order->get_items( 'shipping' );
 		$shipping_items   = [];
+
+		// Maybe update the consignments.
+		$consignments->map( 'maybe_update' );
+
 		foreach ( $line_items as $line_item ) {
 			if ( 'dropp_is' !== $line_item->get_method_id() ) {
 				continue;

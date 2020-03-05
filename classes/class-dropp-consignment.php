@@ -9,6 +9,7 @@ namespace Dropp;
 
 use Exception;
 use WC_Logger;
+use WC_Order_Item_Shipping;
 use WC_Log_Levels;
 
 /**
@@ -54,6 +55,19 @@ class Dropp_Consignment {
 	}
 
 	/**
+	 * Get status list.
+	 *
+	 * @return array List of status.
+	 */
+	public function get_shipping_method() {
+		if ( ! $this->shipping_item_id ) {
+			return null;
+		}
+		$shipping_item = new WC_Order_Item_Shipping( $this->shipping_item_id );
+		return new Shipping_Method( $shipping_item->get_instance_id() );
+	}
+
+	/**
 	 * Fill
 	 *
 	 * @param  array            $content Content.
@@ -72,6 +86,7 @@ class Dropp_Consignment {
 				'status'           => 'ready',
 				'location_id'      => null,
 				'test'             => false,
+				'debug'             => false,
 				'updated_at'       => current_time( 'mysql' ),
 				'created_at'       => current_time( 'mysql' ),
 			]
@@ -93,6 +108,7 @@ class Dropp_Consignment {
 
 		$this->status     = $content['status'];
 		$this->test       = $content['test'];
+		$this->debug      = $content['test'];
 		$this->updated_at = $content['updated_at'];
 		$this->created_at = $content['created_at'];
 
@@ -163,9 +179,7 @@ class Dropp_Consignment {
 	 * @return string API key.
 	 */
 	public function get_api_key() {
-		$shipping_item   = new \WC_Order_Item_Shipping( $this->shipping_item_id );
-		$instance_id     = $shipping_item->get_instance_id();
-		$shipping_method = new Shipping_Method( $instance_id );
+		$shipping_method = $this->get_shipping_method();
 		$option_name     = 'api_key';
 		if ( $this->test ) {
 			$option_name = 'api_key_test';
@@ -190,10 +204,14 @@ class Dropp_Consignment {
 			$id
 		);
 		$row         = $wpdb->get_row( $sql, ARRAY_A );
-
 		$consignment = new self();
 		if ( ! empty( $row ) ) {
 			$consignment->fill( $row );
+		}
+		$shipping_method = $consignment->get_shipping_method();
+		if ( ! empty( $shipping_method ) ) {
+			$this->debug = $shipping_method->debug_mode;
+			$this->test  = $shipping_method->test_mode;
 		}
 		return $consignment;
 	}
@@ -364,8 +382,9 @@ class Dropp_Consignment {
 	/**
 	 * Remote args
 	 *
+	 * @throws Exception      Unknown method.
 	 * @param  string $method Remote method, either 'get' or 'post'.
-	 * @param  string $url    Url
+	 * @param  string $url    Url.
 	 * @return array          Remote arguments.
 	 */
 	public function remote( $method, $url ) {
@@ -376,11 +395,15 @@ class Dropp_Consignment {
 				'Content-Type'  => 'application/json;charset=UTF-8',
 			],
 		];
+		$allowed_methods = [ 'get', 'post', 'delete', 'patch' ];
+		if ( ! in_array( $method, $allowed_methods, true ) ) {
+			throw new Exception( "Unknown method, \"$method\"" );
+		}
+		$args['method'] = strtoupper( $method );
 		if ( 'delete' === $method ) {
 			$args['method'] = 'DELETE';
 		}
-		if ( 'post' === $method ) {
-			$args['method'] = 'POST';
+		if ( 'patch' === $method || 'post' === $method ) {
 			$args['body'] = wp_json_encode( $this->to_array() );
 		}
 		if ( $this->debug ) {
@@ -424,11 +447,41 @@ class Dropp_Consignment {
 	}
 
 	/**
+	 * Remote patch / Update booking
+	 *
+	 * @throws Exception   $e     Sending exception.
+	 * @return Consignment          This object.
+	 */
+	public function remote_patch() {
+		if ( ! $this->dropp_order_id ) {
+			throw new Exception(
+				sprintf(
+					// translators: Consignment ID.
+					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					$this->id
+				)
+			);
+		}
+		$response = $this->remote( 'patch', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+		return $this->process_response( 'patch', $response );
+	}
+
+	/**
 	 * Remote delete / Cancel order
 	 *
+	 * @throws Exception   $e     Sending exception.
 	 * @return Consignment          This object.
 	 */
 	public function remote_delete() {
+		if ( ! $this->dropp_order_id ) {
+			throw new Exception(
+				sprintf(
+					// translators: Consignment ID.
+					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					$this->id
+				)
+			);
+		}
 		$response = $this->remote( 'delete', $this->get_url( 'orders/' . $this->dropp_order_id ) );
 		return $this->process_response( 'delete', $response );
 	}
@@ -472,6 +525,11 @@ class Dropp_Consignment {
 			// Delete calls should return an empty response.
 			// No need for further processing.
 			$this->status = 'cancelled';
+			return $this;
+		}
+		if ( 'patch' === $method ) {
+			// Patch calls should return an empty response.
+			// No need for further processing.
 			return $this;
 		}
 		$dropp_order = json_decode( $response['body'], true );

@@ -395,14 +395,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -479,18 +471,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.loading) {
         return;
       }
-
-      this.loading = true;
-      jQuery.ajax({
-        url: _dropp.ajaxurl,
-        method: 'get',
-        data: {
-          action: 'dropp_update_order',
-          consignment_id: this.consignment.id
-        },
-        success: this.success,
-        error: this.error
-      });
     },
     cancel_order: function cancel_order() {
       if (this.loading) {
@@ -2522,19 +2502,6 @@ var render = function() {
                 _c("li", [
                   _c("a", {
                     attrs: { href: "#" },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.update_order) },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.update_order($event)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", {
-                    attrs: { href: "#" },
                     domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) },
                     on: {
                       click: function($event) {
@@ -2554,10 +2521,6 @@ var render = function() {
               },
               [
                 _c("ul", [
-                  _c("li", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.update_order) }
-                  }),
-                  _vm._v(" "),
                   _c("li", {
                     domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) }
                   })

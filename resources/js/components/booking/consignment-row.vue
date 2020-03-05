@@ -43,13 +43,6 @@
 				<li>
 					<a
 						href="#"
-						v-html="i18n.update_order"
-						@click.prevent="update_order"
-					></a>
-				</li>
-				<li>
-					<a
-						href="#"
 						v-html="i18n.cancel_order"
 						@click.prevent="cancel_order"
 					></a>
@@ -61,7 +54,6 @@
 			v-else
 		>
 			<ul>
-				<li v-html="i18n.update_order"></li>
 				<li v-html="i18n.cancel_order"></li>
 			</ul>
 		</td>
@@ -187,17 +179,6 @@
 				if (this.loading) {
 					return;
 				}
-				this.loading = true;
-				jQuery.ajax( {
-					url: _dropp.ajaxurl,
-					method: 'get',
-					data: {
-						action: 'dropp_update_order',
-						consignment_id: this.consignment.id,
-					},
-					success: this.success,
-					error:   this.error,
-				} );
 			},
 			cancel_order: function() {
 				if (this.loading) {

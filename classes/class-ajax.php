@@ -22,6 +22,7 @@ class Ajax {
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
 		add_action( 'wp_ajax_dropp_status_update', __CLASS__ . '::dropp_status_update' );
 		add_action( 'wp_ajax_dropp_cancel', __CLASS__ . '::dropp_cancel' );
+		add_action( 'wp_ajax_dropp_update', __CLASS__ . '::dropp_update' );
 		add_action( 'wp_ajax_dropp_pdf', __CLASS__ . '::dropp_pdf' );
 		add_action( 'wp_ajax_dropp_pdf_merge', __CLASS__ . '::dropp_pdf_merge' );
 	}
@@ -36,7 +37,12 @@ class Ajax {
 		$shipping_method = new Shipping_Method( $instance_id );
 
 		// @TODO: nonce verification.
-		$consignment = new Dropp_Consignment();
+		$consignment_id = filter_input( INPUT_POST, 'id', FILTER_DEFAULT );
+		if ( empty( $consignment_id ) ) {
+			$consignment = new Dropp_Consignment();
+		} else {
+			$consignment = Dropp_Consignment::find( $consignment_id );
+		}
 		$consignment->fill(
 			[
 				'shipping_item_id' => $order_item_id,
@@ -44,12 +50,20 @@ class Ajax {
 				'customer'         => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 				'products'         => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 				'test'             => $shipping_method->test_mode,
+				'debug'            => $shipping_method->debug_mode,
 			]
 		);
-		$consignment->save();
+		if ( empty( $consignment_id ) ) {
+			// Save the new order.
+			$consignment->save();
+		}
 
 		try {
-			$consignment->remote_post();
+			if ( empty( $dropp_order_id ) ) {
+				$consignment->remote_post();
+			} else {
+				$consignment->remote_patch();
+			}
 			$consignment->save();
 			if ( '' !== $shipping_method->new_order_status ) {
 				$order = $order_item->get_order();
@@ -83,13 +97,13 @@ class Ajax {
 	}
 
 	/**
-	 * Dropp status_update
+	 * Dropp cancel booking
 	 */
-	public static function dropp_status_update() {
+	public static function dropp_cancel() {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
-			$consignment->remote_get();
+			$consignment->remote_delete();
 			$consignment->save();
 		} catch ( \Exception $e ) {
 			wp_send_json(
@@ -112,13 +126,13 @@ class Ajax {
 	}
 
 	/**
-	 * Dropp status_update
+	 * Dropp update booking
 	 */
-	public static function dropp_cancel() {
+	public static function dropp_update() {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
-			$consignment->remote_delete();
+			$consignment->remote_patch();
 			$consignment->save();
 		} catch ( \Exception $e ) {
 			wp_send_json(

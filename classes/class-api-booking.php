@@ -203,7 +203,7 @@ class API_Booking {
 		if ( $this->test ) {
 			return 'https://stage.dropp.is/dropp/api/v1/orders';
 		}
-		return 'https://dropp.is/dropp/api/v1/orders';
+		return 'https://api.dropp.is/dropp/api/v1/orders';
 
 	}
 

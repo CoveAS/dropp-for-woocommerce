@@ -210,8 +210,8 @@ class Dropp_Consignment {
 		}
 		$shipping_method = $consignment->get_shipping_method();
 		if ( ! empty( $shipping_method ) ) {
-			$this->debug = $shipping_method->debug_mode;
-			$this->test  = $shipping_method->test_mode;
+			$consignment->debug = $shipping_method->debug_mode;
+			$consignment->test  = $shipping_method->test_mode;
 		}
 		return $consignment;
 	}

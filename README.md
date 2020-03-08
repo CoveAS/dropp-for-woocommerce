@@ -25,7 +25,7 @@
 
 ## Booking
 
-###Bulk booking
+### Bulk booking
 
 On the orders view in the admin panel you can select all the orders you want to book by checking the checkbox to the left of the order. Next select "Dropp - Book orders" in the Bulk Actions dropdown menu and click the **Apply** button. Only orders that have 0 in the Dropp column will be booked using bulk booking. After the orders have been booked you will be given a link to download the labels for the selected orders. If an order for some reason could not be booked then you will have to book those individually. The number in the Dropp column in the orders table indicate how many times an order has been successfully booked.
 

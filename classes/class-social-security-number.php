@@ -82,7 +82,7 @@ class Social_Security_Number {
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public static function admin_order_billling_details( $order ) {
+	public static function admin_order_billing_details( $order ) {
 		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
 		if ( $dropp_ssn ) {
 			require dirname( __DIR__ ) . '/templates/ssn/admin-billing-details.php';
@@ -97,7 +97,7 @@ class Social_Security_Number {
 	public static function order_email_details( $order ) {
 		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
 		if ( $dropp_ssn ) {
-			require dirname( __DIR__ ) . '/templates/ssn/order-details.php';
+			require dirname( __DIR__ ) . '/templates/ssn/email-order-details.php';
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <template>
 	<div class="dropp-booking">
 		<div class="dropp-consignments" v-show="display_consignments">
-			<h2 v-html="i18n.booked_consignments"></h2>
+			<h2 class="dropp-consignments__title" v-html="i18n.booked_consignments"></h2>
 			<table class="dropp-consignments__table">
 				<thead>
 					<th v-html="i18n.barcode"></th>
@@ -11,22 +11,20 @@
 					<th v-html="i18n.actions" colspan="2"></th>
 				</thead>
 				<tbody>
-					<!-- @TODO: Use actuall consignment data to populate the table -->
 					<consignmentrow
 						v-for="consignment in consignment_container.consignments"
 						:consignment="consignment"
 						:key="consignment.id"
 					></consignmentrow>
-
 				</tbody>
 				<tfoot>
 				</tfoot>
 			</table>
 		</div>
-		<div class="dropp-toggle-locations" v-show="display_consignments">
+		<div class="dropp-toggle-locations" v-show="display_consignments" :class="toggle_classes">
 			<a
 				class="dropp-toggle-locations__create"
-				@click.prevent="display_locations = !display_locations"
+				@click.prevent="toggle_locations"
 			>Show/hide booking form</a>
 		</div>
 		<div class="dropp-locations" v-show="display_locations">
@@ -102,7 +100,11 @@
 		}
 	}
 	.dropp-toggle-locations {
-		margin-bottom: 1rem;
+		padding-left: 12px;
+		padding-right: 12px;
+		padding-bottom: 1rem;
+		margin-left: -12px;
+		margin-right: -12px;
 	}
 	.dropp-consignments {
 		margin-bottom: 1rem;
@@ -111,10 +113,24 @@
 		}
 		th, td {
 			padding: 2px 4px;
+			&:first-of-type {
+				padding-left: 12px;
+			}
+			&:last-of-type {
+				padding-right: 12px;
+			}
 		}
 		&__table {
 			width: 100%;
 			border-spacing: 0;
+			margin-left: -12px;
+			margin-right: -12px;
+			width: calc(100% + 24px);
+		}
+		#woocommerce-order-dropp-booking &__title {
+			font-size: 1.5rem;
+			font-weight: 700;
+			padding: 0;
 		}
 	}
 	.dropp-locations {
@@ -162,9 +178,19 @@
 		computed: {
 			display_consignments: function() {
 				return this.consignment_container.consignments.length;
+			},
+			toggle_classes: function() {
+				let classes = [];
+				if ( this.display_locations ) {
+					classes.push( 'dropp-toggle-locations--active' );
+				}
+				return classes.join(' ');
 			}
 		},
 		methods: {
+			toggle_locations: function() {
+				this.display_locations = ! this.display_locations;
+			},
 			add_location: function() {
 				//@TODO: Location selector.
 				let vm = this;

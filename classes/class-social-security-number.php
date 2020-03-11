@@ -23,6 +23,9 @@ class Social_Security_Number {
 		// Display field value in the order emails
 		add_action( 'woocommerce_email_customer_details', __CLASS__ . '::order_email_details', 20, 1 );
 
+		// Display field value on the thank you page and order page
+		add_filter( 'woocommerce_order_details_after_customer_details', __CLASS__ . '::after_customer_details', 10, 1 );
+
 		$shipping_method = new Shipping_Method;
 		if ( $shipping_method->enable_ssn ) {
 			// Add fields to Billing address
@@ -75,6 +78,18 @@ class Social_Security_Number {
 		];
 
 		return $fields;
+	}
+
+	/**
+	 * After customer details
+	 *
+	 * @param  WC_Order $order   Order.
+	 */
+	public static function after_customer_details( $order ) {
+		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
+		if ( $dropp_ssn ) {
+			require dirname( __DIR__ ) . '/templates/ssn/customer-details.php';
+		}
 	}
 
 	/**

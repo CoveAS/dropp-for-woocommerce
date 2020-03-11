@@ -22,7 +22,7 @@ class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$this->id                 = 'dropp_is';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp.is', 'woocommerce-dropp-shipping' );
-		$this->method_description = __( '@TODO', 'woocommerce-dropp-shipping' );
+		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'woocommerce-dropp-shipping' );
 
 		$this->supports           = array(
 			'shipping-zones',

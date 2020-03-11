@@ -223,6 +223,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -258,9 +274,21 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     display_consignments: function display_consignments() {
       return this.consignment_container.consignments.length;
+    },
+    toggle_classes: function toggle_classes() {
+      var classes = [];
+
+      if (this.display_locations) {
+        classes.push('dropp-toggle-locations--active');
+      }
+
+      return classes.join(' ');
     }
   },
   methods: {
+    toggle_locations: function toggle_locations() {
+      this.display_locations = !this.display_locations;
+    },
     add_location: function add_location() {
       //@TODO: Location selector.
       var vm = this;
@@ -586,7 +614,8 @@ __webpack_require__.r(__webpack_exports__);
   props: ['customer'],
   data: function data() {
     return {
-      i18n: _dropp.i18n
+      i18n: _dropp.i18n,
+      ssn_enabled: _dropp.ssn_enabled
     };
   }
 });
@@ -732,10 +761,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var address = _dropp.customer.address_1;
+    var ssn = _dropp.customer.ssn;
 
     if (_dropp.customer.address_2) {
       address += ' ' + _dropp.customer.address_2;
@@ -743,19 +776,25 @@ __webpack_require__.r(__webpack_exports__);
 
     address += ', ' + _dropp.customer.postcode;
     address += ' ' + _dropp.customer.city;
+
+    if (!ssn) {
+      ssn = '1234567890';
+    }
+
     return {
       products: [],
       customer: {
         name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
         emailAddress: _dropp.customer.email,
-        socialSecurityNumber: '',
+        socialSecurityNumber: ssn,
         address: address,
         phoneNumber: _dropp.customer.phone
       },
       i18n: _dropp.i18n,
       loading: false,
       booked: false,
-      response: false
+      response: false,
+      errors: []
     };
   },
   methods: {
@@ -819,7 +858,7 @@ __webpack_require__.r(__webpack_exports__);
         if ('success' === data.status) {
           this.booked = true;
           jQuery(this.$el).find('.dropp-location__booking').slideUp();
-          window.location.reload();
+          setTimeout(window.location.reload, 500);
         }
       }
 
@@ -829,10 +868,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
       var vm = this;
+      this.errors = ['Error: Unknown error. Please check your internet connection or contact technical support about this.'];
       setTimeout(function () {
         vm.loading = false;
       });
@@ -840,7 +877,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     product_errors: function product_errors() {
-      var errors = [];
+      var errors = this.errors;
       var total_weight = 0;
 
       for (var i = 0; i < this.products.length; i++) {
@@ -858,7 +895,7 @@ __webpack_require__.r(__webpack_exports__);
       return errors;
     },
     disabled: function disabled() {
-      if (this.product_errors.length) {
+      if (this.product_errors.length - this.errors.length) {
         return true;
       }
 
@@ -907,7 +944,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-booking button,\n.dropp-booking [type=submit] {\n  background: #0071a1;\n  border-radius: 3px;\n  outline: none;\n  padding: 0.5rem 1rem;\n  border: 1px solid #0071a1;\n  color: white;\n  -webkit-transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n  transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n}\n.dropp-booking button:focus,\n.dropp-booking [type=submit]:focus {\n  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;\n}\n.dropp-booking button:active,\n.dropp-booking [type=submit]:active {\n  background-color: #fff;\n  color: #000;\n}\n.dropp-booking button:hover,\n.dropp-booking [type=submit]:hover {\n  background-color: #e6fdfe;\n  color: #000;\n}\n.dropp-booking button:disabled,\n.dropp-booking [type=submit]:disabled {\n  opacity: 0.4;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  margin-bottom: 1rem;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
+exports.push([module.i, ".dropp-booking button,\n.dropp-booking [type=submit] {\n  background: #0071a1;\n  border-radius: 3px;\n  outline: none;\n  padding: 0.5rem 1rem;\n  border: 1px solid #0071a1;\n  color: white;\n  -webkit-transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n  transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n}\n.dropp-booking button:focus,\n.dropp-booking [type=submit]:focus {\n  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;\n}\n.dropp-booking button:active,\n.dropp-booking [type=submit]:active {\n  background-color: #fff;\n  color: #000;\n}\n.dropp-booking button:hover,\n.dropp-booking [type=submit]:hover {\n  background-color: #e6fdfe;\n  color: #000;\n}\n.dropp-booking button:disabled,\n.dropp-booking [type=submit]:disabled {\n  opacity: 0.4;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  padding-left: 12px;\n  padding-right: 12px;\n  padding-bottom: 1rem;\n  margin-left: -12px;\n  margin-right: -12px;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 12px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 12px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  margin-left: -12px;\n  margin-right: -12px;\n  width: calc(100% + 24px);\n}\n#woocommerce-order-dropp-booking .dropp-consignments__title {\n  font-size: 1.5rem;\n  font-weight: 700;\n  padding: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
 
 // exports
 
@@ -983,7 +1020,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n.dropp-location__quantity {\n  width: 5rem;\n  text-align: right;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
+exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n  border-top: 2px solid navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n.dropp-location__quantity {\n  width: 5rem;\n  text-align: right;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}\n.dropp-location__products h3 {\n  margin-top: 0;\n  margin-bottom: 0.5rem;\n}", ""]);
 
 // exports
 
@@ -2235,6 +2272,7 @@ var render = function() {
       },
       [
         _c("h2", {
+          staticClass: "dropp-consignments__title",
           domProps: { innerHTML: _vm._s(_vm.i18n.booked_consignments) }
         }),
         _vm._v(" "),
@@ -2283,7 +2321,8 @@ var render = function() {
             expression: "display_consignments"
           }
         ],
-        staticClass: "dropp-toggle-locations"
+        staticClass: "dropp-toggle-locations",
+        class: _vm.toggle_classes
       },
       [
         _c(
@@ -2293,7 +2332,7 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.preventDefault()
-                _vm.display_locations = !_vm.display_locations
+                return _vm.toggle_locations($event)
               }
             }
           },
@@ -2616,8 +2655,39 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    0
-      ? undefined
+    _vm.ssn_enabled
+      ? _c("label", { staticClass: "form-field" }, [
+          _c("span", {
+            staticClass: "input-label",
+            domProps: { innerHTML: _vm._s(_vm.i18n.social_security_number) }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.customer.socialSecurityNumber,
+                expression: "customer.socialSecurityNumber"
+              }
+            ],
+            staticClass: "input-field",
+            attrs: { type: "text" },
+            domProps: { value: _vm.customer.socialSecurityNumber },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.customer,
+                  "socialSecurityNumber",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ])
       : _vm._e(),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
@@ -2953,11 +3023,11 @@ var render = function() {
           _c("droppcustomer", { attrs: { customer: _vm.customer } }),
           _vm._v(" "),
           _c("div", { staticClass: "dropp-location__actions" }, [
-            _c("input", {
+            _c("button", {
               staticClass:
                 "dropp-location__action dropp-location__action--book",
-              attrs: { type: "submit", disabled: _vm.disabled },
-              domProps: { value: _vm.i18n.submit }
+              attrs: { disabled: _vm.disabled },
+              domProps: { innerHTML: _vm._s(_vm.i18n.submit) }
             }),
             _vm._v(" "),
             _vm.show_remove_button
@@ -15202,15 +15272,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************************!*\
   !*** ./resources/js/components/booking/consignment-row.vue ***!
   \*************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _consignment_row_vue_vue_type_template_id_0883b80e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./consignment-row.vue?vue&type=template&id=0883b80e& */ "./resources/js/components/booking/consignment-row.vue?vue&type=template&id=0883b80e&");
 /* harmony import */ var _consignment_row_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./consignment-row.vue?vue&type=script&lang=js& */ "./resources/js/components/booking/consignment-row.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _consignment_row_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _consignment_row_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _consignment_row_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./consignment-row.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/booking/consignment-row.vue?vue&type=style&index=0&lang=scss&");
+/* empty/unused harmony star reexport *//* harmony import */ var _consignment_row_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./consignment-row.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/booking/consignment-row.vue?vue&type=style&index=0&lang=scss&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -15242,7 +15311,7 @@ component.options.__file = "resources/js/components/booking/consignment-row.vue"
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/booking/consignment-row.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15645,9 +15714,9 @@ if (window._dropp) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp-admin.js */"./resources/js/dropp-admin.js");
-__webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp.scss */"./resources/scss/dropp.scss");
-module.exports = __webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp-admin.scss */"./resources/scss/dropp-admin.scss");
+__webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\js\dropp-admin.js */"./resources/js/dropp-admin.js");
+__webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\scss\dropp.scss */"./resources/scss/dropp.scss");
+module.exports = __webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\scss\dropp-admin.scss */"./resources/scss/dropp-admin.scss");
 
 
 /***/ })

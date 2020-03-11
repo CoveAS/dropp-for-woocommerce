@@ -82,6 +82,7 @@ class Shipping_Meta_Box {
 		if ( empty( $shipping_address['phone'] ) ) {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
+		$shipping_address['ssn'] = $order->get_meta( '_billing_dropp_ssn', true );
 		$shipping_method = new Shipping_Method();
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
 		wp_localize_script(
@@ -93,6 +94,7 @@ class Shipping_Meta_Box {
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 				'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
 				'storeid'           => $shipping_method->store_id,
+				'ssn_enabled'       => $shipping_method->enable_ssn,
 				'products'          => Dropp_Product_Line::array_from_order(),
 				'locations'         => Dropp_Location::array_from_order(),
 				'consignments'      => $consignments->map( 'to_array', false ),
@@ -115,7 +117,7 @@ class Shipping_Meta_Box {
 					'booked_consignments'    => __( 'Booked consignments', 'woocommerce-dropp-shipping' ),
 					'submit'                 => __( 'Book now', 'woocommerce-dropp-shipping' ),
 					'remove'                 => __( 'Remove location', 'woocommerce-dropp-shipping' ),
-					'add_location'           => __( 'Add shipping location', 'woocommerce-dropp-shipping' ),
+					'add_location'           => __( 'Add shipment', 'woocommerce-dropp-shipping' ),
 					'change_ocation'         => __( 'Change location', 'woocommerce-dropp-shipping' ),
 					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
 					'name'                   => __( 'Name', 'woocommerce-dropp-shipping' ),

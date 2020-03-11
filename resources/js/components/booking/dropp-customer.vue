@@ -11,7 +11,7 @@
 			<input class="input-field" type="email" v-model="customer.emailAddress">
 		</label>
 
-		<label class="form-field" v-if="0">
+		<label class="form-field" v-if="ssn_enabled">
 			<span class="input-label" v-html="i18n.social_security_number"></span>
 			<input class="input-field" type="text" v-model="customer.socialSecurityNumber">
 		</label>
@@ -48,8 +48,9 @@
 		props: ['customer'],
 		data: function() {
 			return {
-				i18n: _dropp.i18n
+				i18n: _dropp.i18n,
+				ssn_enabled: _dropp.ssn_enabled,
 			};
-		}
+		},
 	};
 </script>

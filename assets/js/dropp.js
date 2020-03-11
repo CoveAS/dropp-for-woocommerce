@@ -177,7 +177,7 @@ jQuery(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/eivinlanda/Workspace/bring.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp.js */"./resources/js/dropp.js");
+module.exports = __webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\js\dropp.js */"./resources/js/dropp.js");
 
 
 /***/ })

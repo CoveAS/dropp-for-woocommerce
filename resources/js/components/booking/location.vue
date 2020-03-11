@@ -46,19 +46,17 @@
 			</div>
 			<droppcustomer :customer="customer"></droppcustomer>
 			<div class="dropp-location__actions">
-				<input
+				<button
 					class="dropp-location__action dropp-location__action--book"
-					type="submit"
 					:disabled="disabled"
-					:value="i18n.submit"
-				>
+					v-html="i18n.submit"
+				></button>
 				<button
 					class="dropp-location__action dropp-location__action--remove"
 					v-html="i18n.remove"
 					v-if="show_remove_button"
 					@click.prevent="remove_location"
-				>
-				</button>
+				></button>
 			</div>
 		</div>
 	</form>
@@ -90,6 +88,7 @@
 			position: relative;
 			background-color: #e6fdfe;
 			color: navy;
+			border-top: 2px solid navy;
 		}
 		&__change {
 			position: absolute;
@@ -125,6 +124,10 @@
 			h2 { color: #008800; }
 			background: #AAFFAA;
 		}
+		&__products h3 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+		}
 	}
 </style>
 <script>
@@ -132,18 +135,21 @@
 	export default {
 		data: function() {
 			let address = _dropp.customer.address_1;
+			let ssn     = _dropp.customer.ssn;
 			if ( _dropp.customer.address_2 ) {
 				address += ' ' + _dropp.customer.address_2;
 			}
 			address += ', ' + _dropp.customer.postcode;
 			address += ' ' + _dropp.customer.city;
-
+			if ( ! ssn ) {
+				ssn = '1234567890';
+			}
 			return {
 				products: [],
 				customer: {
 					name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
 					emailAddress: _dropp.customer.email,
-					socialSecurityNumber: '',
+					socialSecurityNumber: ssn,
 					address: address,
 					phoneNumber: _dropp.customer.phone,
 				},
@@ -151,6 +157,7 @@
 				loading: false,
 				booked: false,
 				response: false,
+				errors: [],
 			};
 		},
 		methods: {
@@ -204,7 +211,7 @@
 					if ( 'success' === data.status ) {
 						this.booked = true;
 						jQuery( this.$el ).find( '.dropp-location__booking' ).slideUp();
-						window.location.reload();
+						setTimeout( window.location.reload, 500 );
 					}
 				}
 				let vm = this;
@@ -213,10 +220,10 @@
 				} );
 			},
 			error: function( jqXHR, textStatus, errorThrown ) {
-				console.log( jqXHR );
-				console.log( textStatus );
-				console.log( errorThrown );
 				let vm = this;
+				this.errors = [
+					'Error: Unknown error. Please check your internet connection or contact technical support about this.'
+				];
 				setTimeout( function() {
 					vm.loading = false;
 				} );
@@ -224,7 +231,7 @@
 		},
 		computed: {
 			product_errors: function() {
-				let errors = [];
+				let errors = this.errors;
 
 				let total_weight = 0;
 				for ( let i = 0; i < this.products.length; i++ ) {
@@ -240,7 +247,7 @@
 				return errors;
 			},
 			disabled: function() {
-				if ( this.product_errors.length ) {
+				if ( this.product_errors.length - this.errors.length ) {
 					return true;
 				}
 				return false;

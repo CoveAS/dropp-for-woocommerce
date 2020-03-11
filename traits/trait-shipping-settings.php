@@ -32,6 +32,8 @@ trait Shipping_Settings {
 		$this->new_order_status = $this->get_option( 'new_order_status' );
 		$this->test_mode        = 'yes' === $this->get_option( 'test_mode' );
 		$this->debug_mode       = 'yes' === $this->get_option( 'debug_mode' );
+		$this->enable_ssn       = 'yes' === $this->get_option( 'enable_ssn' );
+		$this->require_ssn      = 'yes' === $this->get_option( 'require_ssn' );
 	}
 
 	/**
@@ -78,6 +80,22 @@ trait Shipping_Settings {
 				'options'     => array( '' => __( '- No change -', 'woocommerce-dropp-shipping' ) ) + wc_get_order_statuses(),
 				'desc_tip'    => true,
 				'default'     => '',
+			),
+			'enable_ssn' => array(
+				'title'       => __( 'Social security number', 'woocommerce-dropp-shipping' ),
+				'label'       => __( 'Enable social security number', 'woocommerce-dropp-shipping' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Enables a new field on checkout for icelandic social security number.', 'woocommerce-dropp-shipping' ),
+				'default'     => '',
+				'desc_tip'    => false,
+			),
+			'require_ssn' => array(
+				'title'       => __( 'Require SSN', 'woocommerce-dropp-shipping' ),
+				'label'       => __( 'Required field', 'woocommerce-dropp-shipping' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Make social security a required field on checkout.', 'woocommerce-dropp-shipping' ),
+				'default'     => 'yes',
+				'desc_tip'    => false,
 			),
 			'test_mode' => array(
 				'title'       => __( 'Test mode', 'woocommerce-dropp-shipping' ),

@@ -1224,7 +1224,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  z-index: 1000000;\n  overflow: auto;\n}\n.dropp-order-modal__inner {\n  background: white;\n  padding: 10px;\n  min-width: 16rem;\n  max-width: 40rem;\n  margin: 0 auto;\n  width: 100%;\n  height: auto;\n}", ""]);
+exports.push([module.i, ".dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  z-index: 1000000;\n  overflow: auto;\n}\n.dropp-order-modal__inner {\n  background: white;\n  padding: 0 12px;\n  min-width: 16rem;\n  max-width: 40rem;\n  margin: 0 auto;\n  width: 100%;\n  height: auto;\n}", ""]);
 
 // exports
 

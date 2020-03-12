@@ -23,7 +23,7 @@
 		overflow: auto;
 		&__inner {
 			background: white;
-			padding: 10px;
+			padding: 0 12px;
 			min-width: 16rem;
 			max-width: 40rem;
 			margin: 0 auto;

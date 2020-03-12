@@ -97,6 +97,35 @@ class Ajax {
 	}
 
 	/**
+	 * Dropp status update
+	 */
+	public static function dropp_status_update() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		$consignment    = Dropp_Consignment::find( $consignment_id );
+		try {
+			$consignment->remote_get();
+			$consignment->save();
+		} catch ( \Exception $e ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => $e->getMessage(),
+					'errors'      => $consignment->errors,
+				]
+			);
+		}
+		wp_send_json(
+			[
+				'status'      => 'success',
+				'consignment' => $consignment->to_array( false ),
+				'message'     => '',
+				'errors'      => [],
+			]
+		);
+	}
+
+	/**
 	 * Dropp cancel booking
 	 */
 	public static function dropp_cancel() {

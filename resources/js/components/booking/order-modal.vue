@@ -1,6 +1,7 @@
 <template>
 	<div class="dropp-order-modal" @click.prevent="close_modal">
-		<div class="dropp-order-modal__inner">
+		<div class="dropp-order-modal__inner"
+				@click.prevent.stop="">
 			<location
 				:consignment="consignment"
 				:location="location"
@@ -22,7 +23,7 @@
 		overflow: auto;
 		&__inner {
 			background: white;
-			padding: 1rem;
+			padding: 10px;
 			min-width: 16rem;
 			max-width: 40rem;
 			margin: 0 auto;
@@ -37,11 +38,7 @@
 		props: ['consignment'],
 		data: function() {
 			return {
-				location: {
-					id: '',
-					name: 'Test',
-					address: 'test',
-				},
+				location: this.consignment.location,
 				loading: false,
 			}
 		},

@@ -88,20 +88,23 @@ class Ajax {
 
 		try {
 			if ( empty( $dropp_order_id ) ) {
-				$consignment->remote_post();
+				$consignment->remote_post()->save();
+				if ( '' !== $shipping_method->new_order_status ) {
+					$order = $order_item->get_order();
+					$order->update_status(
+						$shipping_method->new_order_status,
+						__( 'Dropp booking complete.', 'woocommerce-dropp-shipping' )
+					);
+				}
 			} else {
-				$consignment->remote_patch();
-			}
-			$consignment->save();
-			if ( empty( $dropp_order_id ) && '' !== $shipping_method->new_order_status ) {
-				$order = $order_item->get_order();
-				$order->update_status(
-					$shipping_method->new_order_status,
-					__( 'Dropp booking complete.', 'woocommerce-dropp-shipping' )
-				);
+				$consignment->remote_patch()->save();
 			}
 		} catch ( \Exception $e ) {
-			$consignment->status = 'error';
+			if ( empty( $dropp_order_id ) ) {
+				// New orders should get an error status.
+				$consignment->status = 'error';
+				// Existing order should not change.
+			}
 			$consignment->save();
 
 			wp_send_json(

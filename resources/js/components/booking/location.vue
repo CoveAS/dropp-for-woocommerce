@@ -30,6 +30,7 @@
 					class="dropp-location__action dropp-location__action--book"
 					:disabled="disabled"
 					v-html="book_button_text"
+					@click.prevent="book"
 				></button>
 				<button
 					class="dropp-location__action dropp-location__action--remove"
@@ -191,7 +192,7 @@
 			success: function( data, textStatus, jqXHR ) {
 				if ( data.status ) {
 					this.response = data;
-					if ( consignment_container && data.consignment ) {
+					if ( this.$parent._data.consignment_container && data.consignment ) {
 						this.$parent._data.consignment_container.consignments.push( data.consignment );
 					}
 					if ( 'success' === data.status ) {
@@ -255,8 +256,6 @@
 				return this.$parent._data.locations && this.$parent._data.locations.length > 1;
 			},
 			book_button_text: function() {
-				console.log( this.i18n );
-				console.log( this.consignment );
 				return this.consignment ? this.i18n.update_order : this.i18n.submit;
 			},
 			editable: function() {

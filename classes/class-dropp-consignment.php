@@ -174,6 +174,10 @@ class Dropp_Consignment {
 			$consignment_array['test']             = $this->test;
 			$consignment_array['created_at']       = $this->created_at;
 			$consignment_array['updated_at']       = $this->updated_at;
+
+			// Add location.
+			$shipping_item                 = new WC_Order_Item_Shipping( $this->shipping_item_id );
+			$consignment_array['location'] = new Dropp_Location( $shipping_item );
 		}
 		return $consignment_array;
 	}
@@ -534,11 +538,6 @@ class Dropp_Consignment {
 			$this->status = 'cancelled';
 			return $this;
 		}
-		if ( 'patch' === $method ) {
-			// Patch calls should return an empty response.
-			// No need for further processing.
-			return $this;
-		}
 		$dropp_order = json_decode( $response['body'], true );
 		if ( ! is_array( $dropp_order ) ) {
 			$this->errors['invalid_json'] = $response['body'];
@@ -546,6 +545,11 @@ class Dropp_Consignment {
 		}
 		if ( ! empty( $dropp_order['error'] ) ) {
 			throw new Exception( $dropp_order['error'] );
+		}
+		if ( 'patch' === $method ) {
+			// Patch calls should return an empty response.
+			// No need for further processing.
+			return $this;
 		}
 		if ( empty( $dropp_order['id'] ) ) {
 			throw new Exception( __( 'Empty ID in the response', 'woocommerce-dropp-shipping' ) );
@@ -555,6 +559,9 @@ class Dropp_Consignment {
 
 		$this->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->status         = $dropp_order['status'] ?? '';
+		if ( ! empty( $dropp_order['barcode'] ) ) {
+			$this->barcode = $dropp_order['barcode'];
+		}
 		// $this->updated_at     = $dropp_order['updatedAt'] ?? '';
 		return $this;
 	}

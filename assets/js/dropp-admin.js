@@ -445,6 +445,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -830,6 +838,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -932,7 +941,7 @@ var new_customer = function new_customer() {
       if (data.status) {
         this.response = data;
 
-        if (consignment_container && data.consignment) {
+        if (this.$parent._data.consignment_container && data.consignment) {
           this.$parent._data.consignment_container.consignments.push(data.consignment);
         }
 
@@ -997,8 +1006,6 @@ var new_customer = function new_customer() {
       return this.$parent._data.locations && this.$parent._data.locations.length > 1;
     },
     book_button_text: function book_button_text() {
-      console.log(this.i18n);
-      console.log(this.consignment);
       return this.consignment ? this.i18n.update_order : this.i18n.submit;
     },
     editable: function editable() {
@@ -1069,16 +1076,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['consignment'],
   data: function data() {
     return {
-      location: {
-        id: '',
-        name: 'Test',
-        address: 'test'
-      },
+      location: this.consignment.location,
       loading: false
     };
   },
@@ -1125,7 +1129,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-consignment {\n  opacity: 1;\n  -webkit-transition: opacity 0.2s;\n  transition: opacity 0.2s;\n}\n.dropp-consignment--loading {\n  opacity: 0.5;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--cancelled, .dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--cancelled:nth-of-type(2n), .dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial, .dropp-consignment--transit, .dropp-consignment--consignment, .dropp-consignment--delivered {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n), .dropp-consignment--transit:nth-of-type(2n), .dropp-consignment--consignment:nth-of-type(2n), .dropp-consignment--delivered:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignment__actions--disabled {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}", ""]);
+exports.push([module.i, ".dropp-consignment {\n  opacity: 1;\n  -webkit-transition: opacity 0.2s;\n  transition: opacity 0.2s;\n}\n.dropp-consignment--loading {\n  opacity: 0.5;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--cancelled, .dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--cancelled:nth-of-type(2n), .dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial, .dropp-consignment--transit, .dropp-consignment--consignment, .dropp-consignment--delivered {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n), .dropp-consignment--transit:nth-of-type(2n), .dropp-consignment--consignment:nth-of-type(2n), .dropp-consignment--delivered:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignment__action--disabled {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}", ""]);
 
 // exports
 
@@ -1220,7 +1224,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  z-index: 1000000;\n  overflow: auto;\n}\n.dropp-order-modal__inner {\n  background: white;\n  padding: 1rem;\n  min-width: 16rem;\n  max-width: 40rem;\n  margin: 0 auto;\n  width: 100%;\n  height: auto;\n}", ""]);
+exports.push([module.i, ".dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  z-index: 1000000;\n  overflow: auto;\n}\n.dropp-order-modal__inner {\n  background: white;\n  padding: 10px;\n  min-width: 16rem;\n  max-width: 40rem;\n  margin: 0 auto;\n  width: 100%;\n  height: auto;\n}", ""]);
 
 // exports
 
@@ -2809,6 +2813,7 @@ var render = function() {
               _c("ul", [
                 _c("li", [
                   _c("a", {
+                    staticClass: "dropp-consignment__action",
                     attrs: { href: "#" },
                     domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
                     on: {
@@ -2822,6 +2827,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("li", [
                   _c("a", {
+                    staticClass: "dropp-consignment__action",
                     attrs: { href: "#" },
                     domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) },
                     on: {
@@ -2834,33 +2840,35 @@ var render = function() {
                 ])
               ])
             ])
-          : _c(
-              "td",
-              {
-                staticClass:
-                  "dropp-consignment__actions dropp-consignment__actions--disabled"
-              },
-              [
-                _c("ul", [
-                  _c("li", [
-                    _c("a", {
-                      attrs: { href: "#" },
-                      domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.view_order($event)
-                        }
+          : _c("td", { staticClass: "dropp-consignment__actions" }, [
+              _c("ul", [
+                _c("li", [
+                  _c("a", {
+                    staticClass: "dropp-consignment__action",
+                    attrs: { href: "#" },
+                    domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.view_order($event)
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("li", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) }
+                    }
                   })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "dropp-consignment__action dropp-consignment__action--disabled",
+                      domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) }
+                    },
+                    [_vm._v("\n\t\t\t\t>")]
+                  )
                 ])
-              ]
-            )
+              ])
+            ])
       ])
     : _vm._e()
 }
@@ -3386,7 +3394,13 @@ var render = function() {
                   staticClass:
                     "dropp-location__action dropp-location__action--book",
                   attrs: { disabled: _vm.disabled },
-                  domProps: { innerHTML: _vm._s(_vm.book_button_text) }
+                  domProps: { innerHTML: _vm._s(_vm.book_button_text) },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.book($event)
+                    }
+                  }
                 })
               : _vm._e(),
             _vm._v(" "),
@@ -3446,7 +3460,15 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "dropp-order-modal__inner" },
+        {
+          staticClass: "dropp-order-modal__inner",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              $event.stopPropagation()
+            }
+          }
+        },
         [
           _c("location", {
             attrs: { consignment: _vm.consignment, location: _vm.location }

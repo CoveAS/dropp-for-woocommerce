@@ -42,6 +42,7 @@
 			<ul>
 				<li>
 					<a
+						class="dropp-consignment__action"
 						href="#"
 						v-html="i18n.view_order"
 						@click.prevent="view_order"
@@ -49,6 +50,7 @@
 				</li>
 				<li>
 					<a
+						class="dropp-consignment__action"
 						href="#"
 						v-html="i18n.cancel_order"
 						@click.prevent="cancel_order"
@@ -57,18 +59,24 @@
 			</ul>
 		</td>
 		<td
-			class="dropp-consignment__actions dropp-consignment__actions--disabled"
+			class="dropp-consignment__actions"
 			v-else
 		>
 			<ul>
 				<li>
 					<a
+						class="dropp-consignment__action"
 						href="#"
 						v-html="i18n.view_order"
 						@click.prevent="view_order"
 					></a>
 				</li>
-				<li v-html="i18n.cancel_order"></li>
+				<li>
+					<span
+						class="dropp-consignment__action dropp-consignment__action--disabled"
+						v-html="i18n.cancel_order">
+					></span>
+				</li>
 			</ul>
 		</td>
 	</tr>
@@ -105,7 +113,7 @@
 				background: darken(#e6fdfe, 5%);
 			}
 		}
-		&__actions--disabled {
+		&__action--disabled {
 			color: #999;
 			opacity: 0.5;
 			cursor: not-allowed;

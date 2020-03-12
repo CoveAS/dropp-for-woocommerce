@@ -43,6 +43,13 @@
 				<li>
 					<a
 						href="#"
+						v-html="i18n.view_order"
+						@click.prevent="view_order"
+					></a>
+				</li>
+				<li>
+					<a
+						href="#"
 						v-html="i18n.cancel_order"
 						@click.prevent="cancel_order"
 					></a>
@@ -54,6 +61,13 @@
 			v-else
 		>
 			<ul>
+				<li>
+					<a
+						href="#"
+						v-html="i18n.view_order"
+						@click.prevent="view_order"
+					></a>
+				</li>
 				<li v-html="i18n.cancel_order"></li>
 			</ul>
 		</td>
@@ -172,10 +186,8 @@
 					error:   this.error,
 				} );
 			},
-			update_order: function() {
-				if (this.loading) {
-					return;
-				}
+			view_order: function() {
+				this.$parent.show_modal( this.consignment );
 			},
 			cancel_order: function() {
 				if (this.loading) {

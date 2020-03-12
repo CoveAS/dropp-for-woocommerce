@@ -56,22 +56,31 @@ class Ajax {
 		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
 		$instance_id     = $order_item->get_instance_id();
 		$shipping_method = new Shipping_Method( $instance_id );
-		$consignment_id  = filter_input( INPUT_POST, 'id', FILTER_DEFAULT );
+		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
+		$params = [
+			'location_id'      => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
+			'customer'         => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
+			'products'         => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
+		];
 		if ( empty( $consignment_id ) ) {
 			$consignment = new Dropp_Consignment();
+			$consignment->fill(
+				array_merge(
+					$params,
+					[
+						'shipping_item_id' => $order_item_id,
+						'test'             => $shipping_method->test_mode,
+						'debug'            => $shipping_method->debug_mode,
+					]
+				)
+			);
 		} else {
-			$consignment = Dropp_Consignment::find( $consignment_id );
+			$consignment              = Dropp_Consignment::find( $consignment_id );
+			$consignment->location_id = $params['location_id'];
+			$consignment->set_customer( $params['customer'] );
+			$consignment->set_products( $params['products'] );
 		}
-		$consignment->fill(
-			[
-				'shipping_item_id' => $order_item_id,
-				'location_id'      => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
-				'customer'         => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
-				'products'         => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
-				'test'             => $shipping_method->test_mode,
-				'debug'            => $shipping_method->debug_mode,
-			]
-		);
+		$dropp_order_id = $consignment->dropp_order_id;
 		if ( empty( $consignment_id ) ) {
 			// Save the new order.
 			$consignment->save();
@@ -84,7 +93,7 @@ class Ajax {
 				$consignment->remote_patch();
 			}
 			$consignment->save();
-			if ( '' !== $shipping_method->new_order_status ) {
+			if ( empty( $dropp_order_id ) && '' !== $shipping_method->new_order_status ) {
 				$order = $order_item->get_order();
 				$order->update_status(
 					$shipping_method->new_order_status,
@@ -153,36 +162,6 @@ class Ajax {
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
 			$consignment->remote_delete();
-			$consignment->save();
-		} catch ( \Exception $e ) {
-			wp_send_json(
-				[
-					'status'      => 'error',
-					'consignment' => $consignment->to_array( false ),
-					'message'     => $e->getMessage(),
-					'errors'      => $consignment->errors,
-				]
-			);
-		}
-		wp_send_json(
-			[
-				'status'      => 'success',
-				'consignment' => $consignment->to_array( false ),
-				'message'     => '',
-				'errors'      => [],
-			]
-		);
-	}
-
-	/**
-	 * Dropp update booking
-	 */
-	public static function dropp_update() {
-		self::nonce_verification();
-		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
-		$consignment    = Dropp_Consignment::find( $consignment_id );
-		try {
-			$consignment->remote_patch();
 			$consignment->save();
 		} catch ( \Exception $e ) {
 			wp_send_json(

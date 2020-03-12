@@ -135,11 +135,18 @@ class Dropp_Consignment {
 
 		// Fill products.
 		if ( is_array( $products ) ) {
-			foreach ( $products as $product ) {
-				$this->products[] = ( new Dropp_Product_Line() )->fill( $product );
-			}
+			$this->set_products( $products );
 		}
 		return $this;
+	}
+
+	public function set_products( $products ) {
+		foreach ( $products as $product ) {
+			$this->products[] = ( new Dropp_Product_Line() )->fill( $product );
+		}
+	}
+	public function set_customer( $customer ) {
+			$this->customer = ( new Dropp_Customer() )->fill( $customer );
 	}
 
 	/**

@@ -96,7 +96,8 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _location_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./location.vue */ "./resources/js/components/booking/location.vue");
-/* harmony import */ var _consignment_row_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./consignment-row.vue */ "./resources/js/components/booking/consignment-row.vue");
+/* harmony import */ var _order_modal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./order-modal.vue */ "./resources/js/components/booking/order-modal.vue");
+/* harmony import */ var _consignment_row_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./consignment-row.vue */ "./resources/js/components/booking/consignment-row.vue");
 //
 //
 //
@@ -239,6 +240,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -251,7 +254,8 @@ __webpack_require__.r(__webpack_exports__);
       consignment_container: {
         consignments: _dropp.consignments
       },
-      display_locations: true
+      display_locations: true,
+      modal_consignment: null
     };
   },
   created: function created() {
@@ -301,11 +305,15 @@ __webpack_require__.r(__webpack_exports__);
         // @TODO.
         console.log(error);
       });
+    },
+    show_modal: function show_modal(consignment) {
+      this.modal_consignment = consignment;
     }
   },
   components: {
     location: _location_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    consignmentrow: _consignment_row_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    consignmentrow: _consignment_row_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ordermodal: _order_modal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -322,6 +330,20 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loader.vue */ "./resources/js/components/booking/loader.vue");
 /* harmony import */ var _time_ago_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./time-ago.js */ "./resources/js/components/booking/time-ago.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -492,10 +514,8 @@ __webpack_require__.r(__webpack_exports__);
         error: this.error
       });
     },
-    update_order: function update_order() {
-      if (this.loading) {
-        return;
-      }
+    view_order: function view_order() {
+      this.$parent.show_modal(this.consignment);
     },
     cancel_order: function cancel_order() {
       if (this.loading) {
@@ -612,14 +632,86 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['customer'],
+  props: ['customer', 'editable'],
   data: function data() {
     return {
       i18n: _dropp.i18n,
       ssn_enabled: _dropp.ssn_enabled
     };
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      i18n: _dropp.i18n
+    };
+  },
+  props: ['products', 'editable']
 });
 
 /***/ }),
@@ -634,6 +726,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dropp-customer.vue */ "./resources/js/components/booking/dropp-customer.vue");
+/* harmony import */ var _dropp_products_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dropp-products.vue */ "./resources/js/components/booking/dropp-products.vue");
 //
 //
 //
@@ -737,67 +830,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+var new_customer = function new_customer() {
+  var address = _dropp.customer.address_1;
+  var ssn = _dropp.customer.ssn;
+
+  if (_dropp.customer.address_2) {
+    address += ' ' + _dropp.customer.address_2;
+  }
+
+  address += ', ' + _dropp.customer.postcode;
+  address += ' ' + _dropp.customer.city;
+
+  if (!ssn) {
+    ssn = '1234567890';
+  }
+
+  return {
+    name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
+    emailAddress: _dropp.customer.email,
+    socialSecurityNumber: ssn,
+    address: address,
+    phoneNumber: _dropp.customer.phone
+  };
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var address = _dropp.customer.address_1;
-    var ssn = _dropp.customer.ssn;
-
-    if (_dropp.customer.address_2) {
-      address += ' ' + _dropp.customer.address_2;
-    }
-
-    address += ', ' + _dropp.customer.postcode;
-    address += ' ' + _dropp.customer.city;
-
-    if (!ssn) {
-      ssn = '1234567890';
-    }
-
-    return {
+    var data = {
       products: [],
-      customer: {
-        name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
-        emailAddress: _dropp.customer.email,
-        socialSecurityNumber: ssn,
-        address: address,
-        phoneNumber: _dropp.customer.phone
-      },
+      customer: null,
       i18n: _dropp.i18n,
       loading: false,
       booked: false,
       response: false,
       errors: []
     };
+    if (this.consignment && this.consignment.customer) data.customer = this.consignment.customer;else data.customer = new_customer();
+    return data;
   },
   methods: {
     get_products: function get_products() {
@@ -829,34 +901,40 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     book: function book() {
-      if (this.loading || this.booked) {
+      if (this.loading || this.booked || !this.editable) {
         return;
       }
 
       this.loading = true;
       this.response = false;
+      var params = {
+        action: 'dropp_booking',
+        location_id: this.location.id,
+        order_item_id: this.location.order_item_id,
+        products: this.get_products(),
+        customer: this.customer,
+        dropp_nonce: _dropp.nonce
+      };
+
+      if (this.consignment) {
+        params.consignment_id = this.consignment.id;
+      }
+
       jQuery.ajax({
         url: _dropp.ajaxurl,
         method: 'post',
-        data: {
-          action: 'dropp_booking',
-          location_id: this.location.id,
-          order_item_id: this.location.order_item_id,
-          products: this.get_products(),
-          customer: this.customer,
-          dropp_nonce: _dropp.nonce
-        },
+        data: params,
         success: this.success,
         error: this.error
       });
     },
     success: function success(data, textStatus, jqXHR) {
-      console.log(this);
-
       if (data.status) {
         this.response = data;
 
-        this.$parent._data.consignment_container.consignments.push(data.consignment);
+        if (consignment_container && data.consignment) {
+          this.$parent._data.consignment_container.consignments.push(data.consignment);
+        }
 
         if ('success' === data.status) {
           this.booked = true;
@@ -916,7 +994,19 @@ __webpack_require__.r(__webpack_exports__);
       return classes.join(', ');
     },
     show_remove_button: function show_remove_button() {
-      return this.$parent._data.locations.length > 1;
+      return this.$parent._data.locations && this.$parent._data.locations.length > 1;
+    },
+    book_button_text: function book_button_text() {
+      console.log(this.i18n);
+      console.log(this.consignment);
+      return this.consignment ? this.i18n.update_order : this.i18n.submit;
+    },
+    editable: function editable() {
+      if (!this.consignment) {
+        return true;
+      }
+
+      return 'initial' === this.consignment.status;
     }
   },
   created: function created() {
@@ -927,9 +1017,78 @@ __webpack_require__.r(__webpack_exports__);
       this.products.push(product);
     }
   },
-  props: ['location', 'consignment_container'],
+  props: ['consignment', 'location', 'consignment_container'],
   components: {
-    droppcustomer: _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    droppcustomer: _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    droppproducts: _dropp_products_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _location_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./location.vue */ "./resources/js/components/booking/location.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['consignment'],
+  data: function data() {
+    return {
+      location: {
+        id: '',
+        name: 'Test',
+        address: 'test'
+      },
+      loading: false
+    };
+  },
+  components: {
+    location: _location_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    close_modal: function close_modal() {
+      this.$parent.modal_consignment = null;
+    }
   }
 });
 
@@ -985,7 +1144,26 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-customer .form-field {\n  display: -webkit-box;\n  display: flex;\n  flex-wrap: wrap;\n  margin-bottom: 0.25rem;\n}\n.dropp-customer .input-label {\n  -webkit-box-flex: 0;\n          flex: 0 0 10rem;\n}\n.dropp-customer .input-field {\n  -webkit-box-flex: 0;\n          flex: 0 1 20rem;\n  min-width: 15rem;\n}", ""]);
+exports.push([module.i, ".dropp-customer .form-field {\n  display: -webkit-box;\n  display: flex;\n  flex-wrap: wrap;\n  margin-bottom: 0.25rem;\n}\n.dropp-customer .input-label {\n  -webkit-box-flex: 0;\n          flex: 0 0 10rem;\n}\n.dropp-customer .input-field,\n.dropp-customer .field-value {\n  -webkit-box-flex: 0;\n          flex: 0 1 20rem;\n  min-width: 15rem;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 0.5rem;\n}\n.dropp-products__quantity {\n  width: 5rem;\n  text-align: right;\n}\n.dropp-products__quantity-wrapper {\n  display: inline-block;\n}", ""]);
 
 // exports
 
@@ -1023,7 +1201,26 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__products, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n  border-top: 2px solid navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n.dropp-location__quantity {\n  width: 5rem;\n  text-align: right;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}\n.dropp-location__products h3 {\n  margin-top: 0;\n  margin-bottom: 0.5rem;\n}", ""]);
+exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-products,\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n  border-top: 2px solid navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-align: center;\n          align-items: center;\n  z-index: 1000000;\n  overflow: auto;\n}\n.dropp-order-modal__inner {\n  background: white;\n  padding: 1rem;\n  min-width: 16rem;\n  max-width: 40rem;\n  margin: 0 auto;\n  width: 100%;\n  height: auto;\n}", ""]);
 
 // exports
 
@@ -1600,6 +1797,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./dropp-products.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/loader.vue?vue&type=style&index=0&lang=scss&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/loader.vue?vue&type=style&index=0&lang=scss& ***!
@@ -1639,6 +1866,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./location.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/location.vue?vue&type=style&index=0&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/dist/cjs.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./order-modal.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -2259,187 +2516,196 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "dropp-booking" }, [
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.display_consignments,
-            expression: "display_consignments"
-          }
-        ],
-        staticClass: "dropp-consignments"
-      },
-      [
-        _c("h2", {
-          staticClass: "dropp-consignments__title",
-          domProps: { innerHTML: _vm._s(_vm.i18n.booked_consignments) }
-        }),
-        _vm._v(" "),
-        _c("table", { staticClass: "dropp-consignments__table" }, [
-          _c("thead", [
-            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.barcode) } }),
-            _vm._v(" "),
-            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.status) } }),
-            _vm._v(" "),
-            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.created) } }),
-            _vm._v(" "),
-            _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.updated) } }),
-            _vm._v(" "),
-            _c("th", {
-              attrs: { colspan: "2" },
-              domProps: { innerHTML: _vm._s(_vm.i18n.actions) }
-            })
-          ]),
+  return _c(
+    "div",
+    { staticClass: "dropp-booking" },
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.display_consignments,
+              expression: "display_consignments"
+            }
+          ],
+          staticClass: "dropp-consignments"
+        },
+        [
+          _c("h2", {
+            staticClass: "dropp-consignments__title",
+            domProps: { innerHTML: _vm._s(_vm.i18n.booked_consignments) }
+          }),
           _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.consignment_container.consignments, function(
-              consignment
-            ) {
-              return _c("consignmentrow", {
-                key: consignment.id,
-                attrs: { consignment: consignment }
+          _c("table", { staticClass: "dropp-consignments__table" }, [
+            _c("thead", [
+              _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.barcode) } }),
+              _vm._v(" "),
+              _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.status) } }),
+              _vm._v(" "),
+              _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.created) } }),
+              _vm._v(" "),
+              _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.updated) } }),
+              _vm._v(" "),
+              _c("th", {
+                attrs: { colspan: "2" },
+                domProps: { innerHTML: _vm._s(_vm.i18n.actions) }
               })
-            }),
-            1
-          ),
-          _vm._v(" "),
-          _c("tfoot")
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.display_consignments,
-            expression: "display_consignments"
-          }
-        ],
-        staticClass: "dropp-toggle-locations",
-        class: _vm.toggle_classes
-      },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "dropp-toggle-locations__create",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.toggle_locations($event)
-              }
-            }
-          },
-          [_vm._v("Show/hide booking form")]
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.display_locations,
-            expression: "display_locations"
-          }
-        ],
-        staticClass: "dropp-locations"
-      },
-      [
-        _vm._l(_vm.locations, function(location) {
-          return _c("location", {
-            key: location.id,
-            attrs: {
-              location: location,
-              consignment_container: _vm.consignment_container
-            }
-          })
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.shipping_items.length,
-                expression: "shipping_items.length"
-              }
-            ],
-            staticClass: "dropp-locations__add-location"
-          },
-          [
-            _vm.selected_shipping_item.length > 1
-              ? _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selected_shipping_item,
-                        expression: "selected_shipping_item"
-                      }
-                    ],
-                    staticClass: "dropp-locations__add-dropdown",
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selected_shipping_item = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.shipping_items, function(shipping_item) {
-                    return _c("option", {
-                      key: shipping_item.id,
-                      domProps: {
-                        value: shipping_item.id,
-                        innerHTML: _vm._s(shipping_item.label)
-                      }
-                    })
-                  }),
-                  0
-                )
-              : _vm._e(),
+            ]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "dropp-locations__add-button",
-              domProps: { innerHTML: _vm._s(_vm.i18n.add_location) },
+            _c(
+              "tbody",
+              _vm._l(_vm.consignment_container.consignments, function(
+                consignment
+              ) {
+                return _c("consignmentrow", {
+                  key: consignment.id,
+                  attrs: { consignment: consignment }
+                })
+              }),
+              1
+            ),
+            _vm._v(" "),
+            _c("tfoot")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.display_consignments,
+              expression: "display_consignments"
+            }
+          ],
+          staticClass: "dropp-toggle-locations",
+          class: _vm.toggle_classes
+        },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "dropp-toggle-locations__create",
               on: {
                 click: function($event) {
                   $event.preventDefault()
-                  return _vm.add_location($event)
+                  return _vm.toggle_locations($event)
                 }
               }
+            },
+            [_vm._v("Show/hide booking form")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.display_locations,
+              expression: "display_locations"
+            }
+          ],
+          staticClass: "dropp-locations"
+        },
+        [
+          _vm._l(_vm.locations, function(location) {
+            return _c("location", {
+              key: location.id,
+              attrs: {
+                location: location,
+                consignment_container: _vm.consignment_container
+              }
             })
-          ]
-        )
-      ],
-      2
-    )
-  ])
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.shipping_items.length,
+                  expression: "shipping_items.length"
+                }
+              ],
+              staticClass: "dropp-locations__add-location"
+            },
+            [
+              _vm.selected_shipping_item.length > 1
+                ? _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selected_shipping_item,
+                          expression: "selected_shipping_item"
+                        }
+                      ],
+                      staticClass: "dropp-locations__add-dropdown",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selected_shipping_item = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.shipping_items, function(shipping_item) {
+                      return _c("option", {
+                        key: shipping_item.id,
+                        domProps: {
+                          value: shipping_item.id,
+                          innerHTML: _vm._s(shipping_item.label)
+                        }
+                      })
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "dropp-locations__add-button",
+                domProps: { innerHTML: _vm._s(_vm.i18n.add_location) },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.add_location($event)
+                  }
+                }
+              })
+            ]
+          )
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm.modal_consignment
+        ? _c("ordermodal", { attrs: { consignment: _vm.modal_consignment } })
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2544,6 +2810,19 @@ var render = function() {
                 _c("li", [
                   _c("a", {
                     attrs: { href: "#" },
+                    domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.view_order($event)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c("a", {
+                    attrs: { href: "#" },
                     domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) },
                     on: {
                       click: function($event) {
@@ -2563,6 +2842,19 @@ var render = function() {
               },
               [
                 _c("ul", [
+                  _c("li", [
+                    _c("a", {
+                      attrs: { href: "#" },
+                      domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.view_order($event)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
                   _c("li", {
                     domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) }
                   })
@@ -2606,27 +2898,32 @@ var render = function() {
         domProps: { innerHTML: _vm._s(_vm.i18n.name) }
       }),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.customer.name,
-            expression: "customer.name"
-          }
-        ],
-        staticClass: "input-field",
-        attrs: { type: "text" },
-        domProps: { value: _vm.customer.name },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _vm.editable
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.customer.name,
+                expression: "customer.name"
+              }
+            ],
+            staticClass: "input-field",
+            attrs: { type: "text" },
+            domProps: { value: _vm.customer.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.customer, "name", $event.target.value)
+              }
             }
-            _vm.$set(_vm.customer, "name", $event.target.value)
-          }
-        }
-      })
+          })
+        : _c("span", {
+            staticClass: "field-value",
+            domProps: { innerHTML: _vm._s(_vm.customer.name) }
+          })
     ]),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
@@ -2635,27 +2932,32 @@ var render = function() {
         domProps: { innerHTML: _vm._s(_vm.i18n.email_address) }
       }),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.customer.emailAddress,
-            expression: "customer.emailAddress"
-          }
-        ],
-        staticClass: "input-field",
-        attrs: { type: "email" },
-        domProps: { value: _vm.customer.emailAddress },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _vm.editable
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.customer.emailAddress,
+                expression: "customer.emailAddress"
+              }
+            ],
+            staticClass: "input-field",
+            attrs: { type: "email" },
+            domProps: { value: _vm.customer.emailAddress },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.customer, "emailAddress", $event.target.value)
+              }
             }
-            _vm.$set(_vm.customer, "emailAddress", $event.target.value)
-          }
-        }
-      })
+          })
+        : _c("span", {
+            staticClass: "field-value",
+            domProps: { innerHTML: _vm._s(_vm.customer.emailAddress) }
+          })
     ]),
     _vm._v(" "),
     _vm.ssn_enabled
@@ -2665,31 +2967,38 @@ var render = function() {
             domProps: { innerHTML: _vm._s(_vm.i18n.social_security_number) }
           }),
           _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.customer.socialSecurityNumber,
-                expression: "customer.socialSecurityNumber"
-              }
-            ],
-            staticClass: "input-field",
-            attrs: { type: "text" },
-            domProps: { value: _vm.customer.socialSecurityNumber },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _vm.editable
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.customer.socialSecurityNumber,
+                    expression: "customer.socialSecurityNumber"
+                  }
+                ],
+                staticClass: "input-field",
+                attrs: { type: "text" },
+                domProps: { value: _vm.customer.socialSecurityNumber },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.customer,
+                      "socialSecurityNumber",
+                      $event.target.value
+                    )
+                  }
                 }
-                _vm.$set(
-                  _vm.customer,
-                  "socialSecurityNumber",
-                  $event.target.value
-                )
-              }
-            }
-          })
+              })
+            : _c("span", {
+                staticClass: "field-value",
+                domProps: {
+                  innerHTML: _vm._s(_vm.customer.socialSecurityNumber)
+                }
+              })
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -2699,27 +3008,32 @@ var render = function() {
         domProps: { innerHTML: _vm._s(_vm.i18n.address) }
       }),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.customer.address,
-            expression: "customer.address"
-          }
-        ],
-        staticClass: "input-field",
-        attrs: { type: "text" },
-        domProps: { value: _vm.customer.address },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _vm.editable
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.customer.address,
+                expression: "customer.address"
+              }
+            ],
+            staticClass: "input-field",
+            attrs: { type: "text" },
+            domProps: { value: _vm.customer.address },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.customer, "address", $event.target.value)
+              }
             }
-            _vm.$set(_vm.customer, "address", $event.target.value)
-          }
-        }
-      })
+          })
+        : _c("span", {
+            staticClass: "field-value",
+            domProps: { innerHTML: _vm._s(_vm.customer.address) }
+          })
     ]),
     _vm._v(" "),
     _c("label", { staticClass: "form-field" }, [
@@ -2728,29 +3042,181 @@ var render = function() {
         domProps: { innerHTML: _vm._s(_vm.i18n.phone_number) }
       }),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.customer.phoneNumber,
-            expression: "customer.phoneNumber"
-          }
-        ],
-        staticClass: "input-field",
-        attrs: { type: "text" },
-        domProps: { value: _vm.customer.phoneNumber },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _vm.editable
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.customer.phoneNumber,
+                expression: "customer.phoneNumber"
+              }
+            ],
+            staticClass: "input-field",
+            attrs: { type: "text" },
+            domProps: { value: _vm.customer.phoneNumber },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.customer, "phoneNumber", $event.target.value)
+              }
             }
-            _vm.$set(_vm.customer, "phoneNumber", $event.target.value)
-          }
-        }
-      })
+          })
+        : _c("span", {
+            staticClass: "field-value",
+            domProps: { innerHTML: _vm._s(_vm.customer.phoneNumber) }
+          })
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "dropp-products" },
+    [
+      _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
+      _vm._v(" "),
+      _vm._l(_vm.products, function(product) {
+        return _c(
+          "div",
+          { key: product.sku, staticClass: "dropp-products__product" },
+          [
+            _c("label", [
+              _vm.editable
+                ? _c(
+                    "div",
+                    { staticClass: "dropp-products__quantity-wrapper" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: product.checked,
+                            expression: "product.checked"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(product.checked)
+                            ? _vm._i(product.checked, null) > -1
+                            : product.checked
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = product.checked,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    product,
+                                    "checked",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    product,
+                                    "checked",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(product, "checked", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: product._quantity,
+                            expression: "product._quantity",
+                            modifiers: { number: true }
+                          }
+                        ],
+                        staticClass: "dropp-products__quantity",
+                        attrs: {
+                          type: "number",
+                          step: "1",
+                          min: "0",
+                          max: product.quantity
+                        },
+                        domProps: { value: product._quantity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              product,
+                              "_quantity",
+                              _vm._n($event.target.value)
+                            )
+                          },
+                          blur: function($event) {
+                            return _vm.$forceUpdate()
+                          }
+                        }
+                      })
+                    ]
+                  )
+                : _c("span", [
+                    _vm._v(
+                      "\n\t\t\t\t" + _vm._s(product._quantity) + "\n\t\t\t"
+                    )
+                  ]),
+              _vm._v(" "),
+              _c("span", {
+                domProps: { innerHTML: _vm._s("&times; " + product.name) }
+              }),
+              _vm._v(" "),
+              _c("span", {
+                domProps: { innerHTML: _vm._s(product.weight + " Kg") }
+              }),
+              _vm._v(" "),
+              _c("span", {
+                domProps: {
+                  innerHTML: _vm._s(product.weight * product._quantity + " Kg")
+                }
+              })
+            ])
+          ]
+        )
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -2906,132 +3372,23 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "dropp-location__products" },
-            [
-              _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
-              _vm._v(" "),
-              _vm._l(_vm.products, function(product) {
-                return _c(
-                  "div",
-                  { key: product.sku, staticClass: "dropp-location__product" },
-                  [
-                    _c("label", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: product.checked,
-                            expression: "product.checked"
-                          }
-                        ],
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(product.checked)
-                            ? _vm._i(product.checked, null) > -1
-                            : product.checked
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = product.checked,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    product,
-                                    "checked",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    product,
-                                    "checked",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(product, "checked", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.number",
-                            value: product._quantity,
-                            expression: "product._quantity",
-                            modifiers: { number: true }
-                          }
-                        ],
-                        staticClass: "dropp-location__quantity",
-                        attrs: {
-                          type: "number",
-                          step: "1",
-                          min: "0",
-                          max: product.quantity
-                        },
-                        domProps: { value: product._quantity },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              product,
-                              "_quantity",
-                              _vm._n($event.target.value)
-                            )
-                          },
-                          blur: function($event) {
-                            return _vm.$forceUpdate()
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", {
-                        domProps: {
-                          innerHTML: _vm._s("&times; " + product.name)
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", {
-                        domProps: { innerHTML: _vm._s(product.weight + " Kg") }
-                      }),
-                      _vm._v(" "),
-                      _c("span", {
-                        domProps: {
-                          innerHTML: _vm._s(
-                            product.weight * product._quantity + " Kg"
-                          )
-                        }
-                      })
-                    ])
-                  ]
-                )
-              })
-            ],
-            2
-          ),
+          _c("droppproducts", {
+            attrs: { products: _vm.products, editable: _vm.editable }
+          }),
           _vm._v(" "),
-          _c("droppcustomer", { attrs: { customer: _vm.customer } }),
+          _c("droppcustomer", {
+            attrs: { customer: _vm.customer, editable: _vm.editable }
+          }),
           _vm._v(" "),
           _c("div", { staticClass: "dropp-location__actions" }, [
-            _c("button", {
-              staticClass:
-                "dropp-location__action dropp-location__action--book",
-              attrs: { disabled: _vm.disabled },
-              domProps: { innerHTML: _vm._s(_vm.i18n.submit) }
-            }),
+            _vm.editable
+              ? _c("button", {
+                  staticClass:
+                    "dropp-location__action dropp-location__action--book",
+                  attrs: { disabled: _vm.disabled },
+                  domProps: { innerHTML: _vm._s(_vm.book_button_text) }
+                })
+              : _vm._e(),
             _vm._v(" "),
             _vm.show_remove_button
               ? _c("button", {
@@ -3047,6 +3404,53 @@ var render = function() {
                 })
               : _vm._e()
           ])
+        ],
+        1
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "dropp-order-modal",
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          return _vm.close_modal($event)
+        }
+      }
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "dropp-order-modal__inner" },
+        [
+          _c("location", {
+            attrs: { consignment: _vm.consignment, location: _vm.location }
+          })
         ],
         1
       )
@@ -15445,6 +15849,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/booking/dropp-products.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/booking/dropp-products.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dropp-products.vue?vue&type=template&id=1ad5b7d1& */ "./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1&");
+/* harmony import */ var _dropp_products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dropp-products.vue?vue&type=script&lang=js& */ "./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dropp-products.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _dropp_products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/booking/dropp-products.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./dropp-products.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss& ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./dropp-products.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./dropp-products.vue?vue&type=template&id=1ad5b7d1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/dropp-products.vue?vue&type=template&id=1ad5b7d1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_dropp_products_vue_vue_type_template_id_1ad5b7d1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/booking/loader.vue":
 /*!****************************************************!*\
   !*** ./resources/js/components/booking/loader.vue ***!
@@ -15598,6 +16089,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_location_vue_vue_type_template_id_6f5d4514___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_location_vue_vue_type_template_id_6f5d4514___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/order-modal.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/booking/order-modal.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./order-modal.vue?vue&type=template&id=65051686& */ "./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686&");
+/* harmony import */ var _order_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./order-modal.vue?vue&type=script&lang=js& */ "./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./order-modal.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _order_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/booking/order-modal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./order-modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss& ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./order-modal.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_dist_cjs_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./order-modal.vue?vue&type=template&id=65051686& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/order-modal.vue?vue&type=template&id=65051686&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_order_modal_vue_vue_type_template_id_65051686___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

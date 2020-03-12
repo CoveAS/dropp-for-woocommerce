@@ -3,27 +3,32 @@
 		<h3 class="dropp-customer__title" v-html="i18n.customer"></h3>
 		<label class="form-field">
 			<span class="input-label" v-html="i18n.name"></span>
-			<input class="input-field" type="text" v-model="customer.name">
+			<input v-if="editable" class="input-field" type="text" v-model="customer.name">
+			<span v-else class="field-value" v-html="customer.name"></span>
 		</label>
 
 		<label class="form-field">
 			<span class="input-label" v-html="i18n.email_address"></span>
-			<input class="input-field" type="email" v-model="customer.emailAddress">
+			<input v-if="editable" class="input-field" type="email" v-model="customer.emailAddress">
+			<span v-else class="field-value" v-html="customer.emailAddress"></span>
 		</label>
 
 		<label class="form-field" v-if="ssn_enabled">
 			<span class="input-label" v-html="i18n.social_security_number"></span>
-			<input class="input-field" type="text" v-model="customer.socialSecurityNumber">
+			<input v-if="editable" class="input-field" type="text" v-model="customer.socialSecurityNumber">
+			<span v-else class="field-value" v-html="customer.socialSecurityNumber"></span>
 		</label>
 
 		<label class="form-field">
 			<span class="input-label" v-html="i18n.address"></span>
-			<input class="input-field" type="text" v-model="customer.address">
+			<input v-if="editable" class="input-field" type="text" v-model="customer.address">
+			<span v-else class="field-value" v-html="customer.address"></span>
 		</label>
 
 		<label class="form-field">
 			<span class="input-label" v-html="i18n.phone_number"></span>
-			<input class="input-field" type="text" v-model="customer.phoneNumber">
+			<input v-if="editable" class="input-field" type="text" v-model="customer.phoneNumber">
+			<span v-else class="field-value" v-html="customer.phoneNumber"></span>
 		</label>
 	</div>
 </template>
@@ -37,7 +42,8 @@
 		.input-label {
 			flex: 0 0 10rem;
 		}
-		.input-field {
+		.input-field,
+		.field-value {
 			flex: 0 1 20rem;
 			min-width: 15rem;
 		}
@@ -45,7 +51,7 @@
 </style>
 <script>
 	export default {
-		props: ['customer'],
+		props: ['customer', 'editable'],
 		data: function() {
 			return {
 				i18n: _dropp.i18n,

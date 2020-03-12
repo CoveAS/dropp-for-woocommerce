@@ -58,6 +58,7 @@
 				</button>
 			</div>
 		</div>
+		<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
 	</div>
 </template>
 
@@ -142,6 +143,7 @@
 
 <script>
 	import Location from './location.vue';
+	import OrderModal from './order-modal.vue';
 	import ConsignmentRow from './consignment-row.vue';
 	export default {
 		data: function() {
@@ -153,7 +155,8 @@
 				consignment_container: {
 					consignments: _dropp.consignments
 				},
-				display_locations: true
+				display_locations: true,
+				modal_consignment: null,
 			};
 		},
 		created: function() {
@@ -206,10 +209,14 @@
 						console.log( error );
 					});
 			},
+			show_modal: function( consignment ) {
+				this.modal_consignment = consignment;
+			},
 		},
 		components: {
 			location: Location,
 			consignmentrow: ConsignmentRow,
+			ordermodal: OrderModal,
 		}
 	};
 </script>

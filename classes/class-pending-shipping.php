@@ -22,7 +22,6 @@ class Pending_Shipping {
 		add_filter( 'manage_edit-shop_order_columns', __CLASS__ . '::dropp_status_column', 15 );
 		add_action( 'manage_shop_order_posts_custom_column', __CLASS__ . '::dropp_column_value' );
 
-
 		// Register awaiting shipment status.
 		add_action( 'init', __CLASS__ . '::register_pending_shipment_order_status' );
 

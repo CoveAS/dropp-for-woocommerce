@@ -22,34 +22,14 @@
 					<li v-for="error in product_errors" v-html="error"></li>
 				</ul>
 			</div>
-			<div class="dropp-location__products">
-				<h3 v-html="i18n.products"></h3>
-				<div class="dropp-location__product"
-					v-for="product in products"
-					:key="product.sku"
-				>
-					<label>
-						<input type="checkbox" v-model="product.checked">
-						<input
-							class="dropp-location__quantity"
-							type="number"
-							step="1"
-							min="0"
-							:max="product.quantity"
-							v-model.number="product._quantity"
-						>
-						<span v-html="'&times; ' + product.name"></span>
-						<span v-html="product.weight + ' Kg'"></span>
-						<span v-html="product.weight * product._quantity + ' Kg'"></span>
-					</label>
-				</div>
-			</div>
-			<droppcustomer :customer="customer"></droppcustomer>
+			<droppproducts :products="products" :editable="editable"></droppproducts>
+			<droppcustomer :customer="customer" :editable="editable"></droppcustomer>
 			<div class="dropp-location__actions">
 				<button
+					v-if="editable"
 					class="dropp-location__action dropp-location__action--book"
 					:disabled="disabled"
-					v-html="i18n.submit"
+					v-html="book_button_text"
 				></button>
 				<button
 					class="dropp-location__action dropp-location__action--remove"
@@ -76,10 +56,9 @@
 		&--loading {
 			opacity: 0.5;
 		}
-
+		.dropp-products,
 		.dropp-customer,
 		&__actions,
-		&__products,
 		&__booking-errors,
 		&__header {
 			padding: 10px;
@@ -97,10 +76,6 @@
 		}
 		&__address {
 			margin: 0;
-		}
-		&__quantity {
-			width: 5rem;
-			text-align: right;
 		}
 
 		#poststuff &__name {
@@ -124,41 +99,46 @@
 			h2 { color: #008800; }
 			background: #AAFFAA;
 		}
-		&__products h3 {
-			margin-top: 0;
-			margin-bottom: 0.5rem;
-		}
 	}
 </style>
 <script>
 	import DroppCustomer from './dropp-customer.vue';
+	import DroppProducts from './dropp-products.vue';
+	const new_customer = function() {
+		let address = _dropp.customer.address_1;
+		let ssn     = _dropp.customer.ssn;
+		if ( _dropp.customer.address_2 ) {
+			address += ' ' + _dropp.customer.address_2;
+		}
+		address += ', ' + _dropp.customer.postcode;
+		address += ' ' + _dropp.customer.city;
+		if ( ! ssn ) {
+			ssn = '1234567890';
+		}
+		return {
+			name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
+			emailAddress: _dropp.customer.email,
+			socialSecurityNumber: ssn,
+			address: address,
+			phoneNumber: _dropp.customer.phone,
+		};
+	}
 	export default {
 		data: function() {
-			let address = _dropp.customer.address_1;
-			let ssn     = _dropp.customer.ssn;
-			if ( _dropp.customer.address_2 ) {
-				address += ' ' + _dropp.customer.address_2;
-			}
-			address += ', ' + _dropp.customer.postcode;
-			address += ' ' + _dropp.customer.city;
-			if ( ! ssn ) {
-				ssn = '1234567890';
-			}
-			return {
+			var data =  {
 				products: [],
-				customer: {
-					name: _dropp.customer.first_name + ' ' + _dropp.customer.last_name,
-					emailAddress: _dropp.customer.email,
-					socialSecurityNumber: ssn,
-					address: address,
-					phoneNumber: _dropp.customer.phone,
-				},
+				customer: null,
 				i18n: _dropp.i18n,
 				loading: false,
 				booked: false,
 				response: false,
 				errors: [],
 			};
+			if ( this.consignment && this.consignment.customer )
+				data.customer = this.consignment.customer;
+			else
+				data.customer = new_customer();
+			return data;
 		},
 		methods: {
 			get_products: function() {
@@ -184,31 +164,36 @@
 				}
 			},
 			book: function() {
-				if (this.loading || this.booked) {
+				if ( this.loading || this.booked || ! this.editable ) {
 					return;
 				}
 				this.loading = true;
 				this.response = false;
+				let params = {
+					action: 'dropp_booking',
+					location_id: this.location.id,
+					order_item_id: this.location.order_item_id,
+					products: this.get_products(),
+					customer: this.customer,
+					dropp_nonce: _dropp.nonce,
+				};
+				if ( this.consignment ) {
+					params.consignment_id = this.consignment.id;
+				}
 				jQuery.ajax( {
 					url: _dropp.ajaxurl,
 					method: 'post',
-					data: {
-						action: 'dropp_booking',
-						location_id: this.location.id,
-						order_item_id: this.location.order_item_id,
-						products: this.get_products(),
-						customer: this.customer,
-						dropp_nonce: _dropp.nonce,
-					},
+					data: params,
 					success: this.success,
 					error:   this.error,
 				} );
 			},
 			success: function( data, textStatus, jqXHR ) {
-				console.log( this );
 				if ( data.status ) {
 					this.response = data;
-					this.$parent._data.consignment_container.consignments.push( data.consignment );
+					if ( consignment_container && data.consignment ) {
+						this.$parent._data.consignment_container.consignments.push( data.consignment );
+					}
 					if ( 'success' === data.status ) {
 						this.booked = true;
 						jQuery( this.$el ).find( '.dropp-location__booking' ).slideUp();
@@ -267,8 +252,19 @@
 				return classes.join( ', ' );
 			},
 			show_remove_button: function() {
-				return this.$parent._data.locations.length > 1;
-			}
+				return this.$parent._data.locations && this.$parent._data.locations.length > 1;
+			},
+			book_button_text: function() {
+				console.log( this.i18n );
+				console.log( this.consignment );
+				return this.consignment ? this.i18n.update_order : this.i18n.submit;
+			},
+			editable: function() {
+				if ( ! this.consignment ) {
+					return true;
+				}
+				return 'initial' === this.consignment.status;
+			},
 		},
 		created: function() {
 			for ( let i = 0; i < _dropp.products.length; i++ ) {
@@ -279,11 +275,13 @@
 			}
 		},
 		props: [
+			'consignment',
 			'location',
-			'consignment_container'
+			'consignment_container',
 		],
 		components: {
-			droppcustomer: DroppCustomer
+			droppcustomer: DroppCustomer,
+			droppproducts: DroppProducts,
 		}
 	};
 </script>

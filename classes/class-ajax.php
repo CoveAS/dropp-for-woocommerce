@@ -30,14 +30,33 @@ class Ajax {
 	/**
 	 * Dropp booking
 	 */
+	public static function nonce_verification( $method = 'post' ) {
+		if ( 'post' === $method ) {
+			$nonce = filter_input( INPUT_POST, 'dropp_nonce', FILTER_DEFAULT );
+		} else {
+			$nonce = filter_input( INPUT_GET, 'dropp_nonce', FILTER_DEFAULT );
+		}
+		if ( ! wp_verify_nonce( $nonce, 'dropp' ) ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'message'     => __( 'Nonce verification failed. Please reload the page and try again.', 'woocommerce-dropp-shipping' ),
+					'errors'      => '',
+				]
+			);
+		}
+	}
+
+	/**
+	 * Dropp booking
+	 */
 	public static function dropp_booking() {
+		self::nonce_verification();
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
 		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
 		$instance_id     = $order_item->get_instance_id();
 		$shipping_method = new Shipping_Method( $instance_id );
-
-		// @TODO: nonce verification.
-		$consignment_id = filter_input( INPUT_POST, 'id', FILTER_DEFAULT );
+		$consignment_id  = filter_input( INPUT_POST, 'id', FILTER_DEFAULT );
 		if ( empty( $consignment_id ) ) {
 			$consignment = new Dropp_Consignment();
 		} else {
@@ -129,6 +148,7 @@ class Ajax {
 	 * Dropp cancel booking
 	 */
 	public static function dropp_cancel() {
+		self::nonce_verification( 'get' );
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
@@ -158,6 +178,7 @@ class Ajax {
 	 * Dropp update booking
 	 */
 	public static function dropp_update() {
+		self::nonce_verification();
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {

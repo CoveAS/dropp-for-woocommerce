@@ -89,6 +89,7 @@ class Shipping_Meta_Box {
 			'dropp-admin-js',
 			'_dropp',
 			[
+				'nonce'             => wp_create_nonce( 'dropp' ),
 				'time_now'          => current_time( 'mysql' ),
 				'order_id'          => $order_id,
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),

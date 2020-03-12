@@ -103,16 +103,20 @@ jQuery(function ($) {
       }
 
       e.preventDefault();
+      var elem = $(this).closest('.dropp-location');
+      if (!location.length) ;
       var elems = {
-        id: $(this).parent().find('input.dropp-location__id'),
-        name: $(this).parent().find('input.dropp-location__name'),
-        address: $(this).parent().find('input.dropp-location__address')
+        input_id: elem.find('input.dropp-location__input--id'),
+        input_name: elem.find('input.dropp-location__input--name'),
+        input_address: elem.find('input.dropp-location__input--address'),
+        name: elem.find('.dropp-location__name')
       };
       chooseDroppLocation().then(function (location) {
         // A location was picked. Save it.
-        elems.id.val(location.id);
-        elems.name.val(location.name).show();
-        elems.address.val(location.address);
+        elems.input_id.val(location.id);
+        elems.input_name.val(location.name);
+        elems.input_address.val(location.address);
+        elems.name.text(location.name).show();
       })["catch"](function (error) {
         // Something went wrong.
         // @TODO.
@@ -177,7 +181,7 @@ jQuery(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\js\dropp.js */"./resources/js/dropp.js");
+module.exports = __webpack_require__(/*! /mnt/c/Workspace/Projects/dropp.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp.js */"./resources/js/dropp.js");
 
 
 /***/ })

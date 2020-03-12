@@ -433,9 +433,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: ['consignment'],
-  created: function created() {
-    console.log(this);
-  },
   computed: {
     classes: function classes() {
       var classes = ['dropp-consignment', 'dropp-consignment-' + this.consignment.id, 'dropp-consignment--' + this.consignment.status];
@@ -511,7 +508,8 @@ __webpack_require__.r(__webpack_exports__);
         method: 'get',
         data: {
           action: 'dropp_cancel',
-          consignment_id: this.consignment.id
+          consignment_id: this.consignment.id,
+          dropp_nonce: _dropp.nonce
         },
         success: this.success,
         error: this.error
@@ -524,7 +522,11 @@ __webpack_require__.r(__webpack_exports__);
         if ('success' === data.status) {
           this.consignment.status = data.consignment.status;
           this.consignment.updated_at = data.consignment.updated_at;
+        } else {
+          alert(data.message);
         }
+      } else {
+        console.error('Invalid ajax response');
       }
 
       var vm = this;
@@ -841,7 +843,8 @@ __webpack_require__.r(__webpack_exports__);
           location_id: this.location.id,
           order_item_id: this.location.order_item_id,
           products: this.get_products(),
-          customer: this.customer
+          customer: this.customer,
+          dropp_nonce: _dropp.nonce
         },
         success: this.success,
         error: this.error
@@ -858,7 +861,7 @@ __webpack_require__.r(__webpack_exports__);
         if ('success' === data.status) {
           this.booked = true;
           jQuery(this.$el).find('.dropp-location__booking').slideUp();
-          setTimeout(window.location.reload, 500);
+          window.location.reload();
         }
       }
 
@@ -15714,9 +15717,9 @@ if (window._dropp) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\js\dropp-admin.js */"./resources/js/dropp-admin.js");
-__webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\scss\dropp.scss */"./resources/scss/dropp.scss");
-module.exports = __webpack_require__(/*! C:\Workspace\Projects\dropp.x\public\wp-content\plugins\woocommerce-dropp-shipping\resources\scss\dropp-admin.scss */"./resources/scss/dropp-admin.scss");
+__webpack_require__(/*! /mnt/c/Workspace/Projects/dropp.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/js/dropp-admin.js */"./resources/js/dropp-admin.js");
+__webpack_require__(/*! /mnt/c/Workspace/Projects/dropp.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp.scss */"./resources/scss/dropp.scss");
+module.exports = __webpack_require__(/*! /mnt/c/Workspace/Projects/dropp.x/public/wp-content/plugins/woocommerce-dropp-shipping/resources/scss/dropp-admin.scss */"./resources/scss/dropp-admin.scss");
 
 
 /***/ })

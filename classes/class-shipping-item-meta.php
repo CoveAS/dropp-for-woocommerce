@@ -133,8 +133,8 @@ class Shipping_Item_Meta {
 		if ( 'dropp_is' !== $method->get_method_id() ) {
 			return;
 		}
-		$format = '<input class="dropp-location__%s" name="dropp_%d_location_%1$s%d" type="hidden" value="">';
-		$keys   = [ 'id', 'address' ];
+		$format = '<input class="dropp-location__input--%s" name="dropp_%d_location_%1$s%d" type="hidden" value="">';
+		$keys   = [ 'id', 'address', 'name' ];
 		$fields = [];
 		foreach ( $keys as $key ) {
 			$fields[] = sprintf(
@@ -144,14 +144,8 @@ class Shipping_Item_Meta {
 				esc_attr( $method->get_instance_id() )
 			);
 		}
-		$fields[] = sprintf(
-			'<input style="display:none" class="dropp-location__%s" name="dropp_%d_location_%1$s%d" type="text" value="" readonly="readonly">',
-			'name',
-			esc_attr( $index ),
-			esc_attr( $method->get_instance_id() )
-		);
 		printf(
-			'<div class="dropp-location" style="display:none"><span class="button">%s</span>%s</div><div class="dropp-error" style="display:none"></div>',
+			'<div class="dropp-location" style="display:none"><div class="dropp-location__actions"><span class="dropp-location__button button">%s</span></div>%s<p class="dropp-location__name" style="display:none"></p></div><div class="dropp-error" style="display:none"></div>',
 			esc_html__( 'Choose location', 'woocommerce-dropp-shipping' ),
 			implode( '', $fields )
 		);

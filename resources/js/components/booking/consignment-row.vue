@@ -110,9 +110,6 @@
 			};
 		},
 		props: [ 'consignment' ],
-		created:function() {
-			console.log(this);
-		},
 		computed: {
 			classes: function() {
 				let classes = [
@@ -189,8 +186,9 @@
 					url: _dropp.ajaxurl,
 					method: 'get',
 					data: {
-						action: 'dropp_cancel',
+						action:         'dropp_cancel',
 						consignment_id: this.consignment.id,
+						dropp_nonce:    _dropp.nonce,
 					},
 					success: this.success,
 					error:   this.error,
@@ -200,9 +198,14 @@
 				if ( data.status ) {
 					this.response = data;
 					if ( 'success' === data.status ) {
-						this.consignment.status = data.consignment.status;
+						this.consignment.status     = data.consignment.status;
 						this.consignment.updated_at = data.consignment.updated_at;
 					}
+					else {
+						alert( data.message );
+					}
+				} else {
+					console.error( 'Invalid ajax response' );
 				}
 				let vm = this;
 				setTimeout( function() {

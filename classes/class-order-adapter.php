@@ -119,7 +119,6 @@ class Order_Adapter {
 
 			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
 
-			// @TODO: nonce verification.
 			$consignment        = new Dropp_Consignment();
 			$consignment->debug = $shipping_method->debug_mode;
 			$consignment->fill(

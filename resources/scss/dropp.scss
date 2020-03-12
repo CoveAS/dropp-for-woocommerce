@@ -9,7 +9,20 @@
 	border: 1px solid;
 	border-color: #dbdb84;
 }
-.dropp-location .button {
-	user-select: none;
-	cursor: default;
+.dropp-location {
+	margin-top: 0.5rem;
+	text-align: left;
+	display: flex;
+	flex-direction: row-reverse;
+	&__actions {
+		// order: 2;
+	}
+	&__name {
+		padding-right: 1rem;
+		margin-top: 0.25rem;
+	}
+	.button {
+		user-select: none;
+		cursor: default;
+	}
 }

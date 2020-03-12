@@ -10,6 +10,21 @@
   border-color: #dbdb84;
 }
 
+.dropp-location {
+  margin-top: 0.5rem;
+  text-align: left;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+          flex-direction: row-reverse;
+}
+
+.dropp-location__name {
+  padding-right: 1rem;
+  margin-top: 0.25rem;
+}
+
 .dropp-location .button {
   -webkit-user-select: none;
      -moz-user-select: none;

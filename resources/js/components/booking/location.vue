@@ -198,6 +198,7 @@
 						order_item_id: this.location.order_item_id,
 						products: this.get_products(),
 						customer: this.customer,
+						dropp_nonce: _dropp.nonce,
 					},
 					success: this.success,
 					error:   this.error,
@@ -211,7 +212,7 @@
 					if ( 'success' === data.status ) {
 						this.booked = true;
 						jQuery( this.$el ).find( '.dropp-location__booking' ).slideUp();
-						setTimeout( window.location.reload, 500 );
+						window.location.reload();
 					}
 				}
 				let vm = this;

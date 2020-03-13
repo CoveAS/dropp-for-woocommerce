@@ -47,7 +47,7 @@ trait Shipping_Settings {
 				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
 				'description' => sprintf(
 					__( 'Click %s to find your API Key.', 'woocommerce-dropp-shipping' ),
-					'<a target="_blank" href="https://api.dropp.is/dropp/admin/store/api/">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+					'<a target="_blank" href="https://umsjon.dropp.is/login">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,

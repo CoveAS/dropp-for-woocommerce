@@ -141,13 +141,11 @@ jQuery(function ($) {
     init: function init() {
       if (!loading_status && $('.dropp-location').length) {
         // Only load the external script if Dropp.is is part of the available shipping options
-        var res = $.ajax({
-          url: _dropp.dropplocationsurl,
-          dataType: "script",
-          success: dropp_handler.success,
-          error: dropp_handler.error,
-          timeout: 3000
-        });
+        var script = document.createElement('script');
+        script.src = _dropp.dropplocationsurl;
+        script.onload = dropp_handler.success;
+        script.dataset.storeId = _dropp.storeid;
+        document.body.appendChild(script);
         dropp_handler.block_shipping_methods();
         loading_status = 1;
       } else if (2 == loading_status) {

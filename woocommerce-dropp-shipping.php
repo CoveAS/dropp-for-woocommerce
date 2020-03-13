@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:          WooCommerce Dropp.is Shipping
+ * Plugin Name:          Dropp for WooCommerce
  * Plugin URI:           https://dropp.is/woocommerce
  * Description:          Shipping method
  * Author:               Cove AS

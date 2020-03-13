@@ -33,7 +33,7 @@ class Order_Adapter {
 	 *
 	 * @return boolean         True if the dropp shipping method is present on the order.
 	 */
-	public static function is_dropp() {
+	public function is_dropp() {
 		$shipping_items = $this->order->get_items( 'shipping' );
 		foreach ( $shipping_items as $shipping_item ) {
 			if ( 'dropp_is' === $shipping_item->get_method_id() ) {

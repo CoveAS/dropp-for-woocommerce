@@ -1,29 +1,39 @@
-# Dropp for WooCommerce
+=== Dropp for WooCommerce ===
+Contributors: Forsvunnet
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl.html
+Tags: Shipping, WooCommerce, Iceland
+Requires at least: 5.2
+Tested up to: 5.3.2
+Stable tag: 1.1.0
+Requires PHP: 7.1
 
-## Installation
+Deliver parcels at delivery locations in Iceland
+
+== Installation ==
 
 1. Download the plugin [here](https://github.com/CoveAS/woocommerce-dropp-shipping/archive/1.0.0.zip)
 2. Unzip the archive into your `wp-content/plugins` directory.
 3. Rename the plugin directory from **woocommerce-dropp-shipping-1.x** to **woocommerce-dropp-shipping**
 4. Activate the plugin under WP-Admin → Plugins
 
-## Configuration
+== Configuration ==
 
 ### Adding the shipping method to a shipping zone
 
 1. Navigate to WooCommerce → Settings → Shipping
 2. Click on a zone you want to activate Dropp for. For more information about WooCommerce zones click [here](https://docs.woocommerce.com/document/setting-up-shipping-zones/)
 3. Click on **Add shipping method**
-4. Select **Dropp.is** in the dropdown menu and click **Add shipping method** in the modal.
+4. Select **Dropp** in the dropdown menu and click **Add shipping method** in the modal.
 5. Click on the shipping method that was added to configure the name and price.
 
 ### Connect to the Dropp.is API for booking
 
-1. Navigate to  WooCommerce → Settings → Shipping → Dropp.is
+1. Navigate to  WooCommerce → Settings → Shipping → Dropp
 2. Fill in your API key and Store ID
 3. Click the **Save changes** button
 
-## Booking
+== Booking ==
 
 ### Bulk booking
 
@@ -40,3 +50,15 @@ When an order has the status **Initial** it can be updated or cancelled.
 ### Enabling Dropp for orders that has a different shipping method
 
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
+
+== Changelog ==
+
+= 1.1.0 =
+
+* Implemented status updates from dropp
+* Implemented methods to cancel and update dropp orders
+* Added bulk booking and printing
+
+= 1.0.0 =
+
+* First version

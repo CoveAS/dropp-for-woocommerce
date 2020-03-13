@@ -129,7 +129,7 @@ trait Shipping_Settings {
 	 */
 	public function get_instance_form_fields() {
 		$form_fields                     = parent::get_instance_form_fields();
-		$form_fields['title']['default'] = __( 'Dropp.is', 'woocommerce' );
+		$form_fields['title']['default'] = __( 'Dropp', 'woocommerce' );
 		return $form_fields;
 	}
 }

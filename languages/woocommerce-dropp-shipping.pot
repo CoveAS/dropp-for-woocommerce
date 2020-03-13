@@ -1,0 +1,408 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: WooCommerce Dropp.is Shipping\n"
+"POT-Creation-Date: 2020-03-13 12:46+0100\n"
+"PO-Revision-Date: 2020-03-13 12:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: woocommerce-dropp-shipping.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#: classes/class-ajax.php:43
+msgid "Nonce verification failed. Please reload the page and try again."
+msgstr ""
+
+#: classes/class-ajax.php:96
+msgid "Dropp booking complete."
+msgstr ""
+
+#: classes/class-ajax.php:124
+msgid "Booked! Re-loading page..."
+msgstr ""
+
+#: classes/class-ajax.php:265
+msgid "Could not find consignment:"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:47
+msgid "Ready"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:48
+msgid "Error"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:49
+msgid "Initial"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:50
+msgid "Transit"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:51
+msgid "Consignment"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:52
+msgid "Delivered"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:53
+msgid "Cancelled"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:200
+msgid "No API key could be found."
+msgstr ""
+
+#. translators: Consignment ID.
+#: classes/class-dropp-consignment.php:441
+#: classes/class-dropp-consignment.php:471
+#: classes/class-dropp-consignment.php:491
+#, php-format
+msgid "Consignment, %d, does not have a dropp order id."
+msgstr ""
+
+#: classes/class-dropp-consignment.php:533 classes/class-dropp-pdf.php:86
+msgid "Response error"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:544 classes/class-dropp-pdf.php:97
+msgid "Invalid json"
+msgstr ""
+
+#: classes/class-dropp-consignment.php:555
+msgid "Empty ID in the response"
+msgstr ""
+
+#: classes/class-dropp-pdf.php:89
+msgid "Missing response headers"
+msgstr ""
+
+#: classes/class-dropp-pdf.php:94
+msgid "API Error"
+msgstr ""
+
+#: classes/class-dropp-pdf.php:212 classes/class-dropp-pdf.php:221
+#: classes/class-dropp-pdf.php:231
+msgid "Could not create directory"
+msgstr ""
+
+#: classes/class-dropp.php:155
+msgid ""
+"Could not load the location selector. Someone from the store will contact "
+"you regarding the delivery location."
+msgstr ""
+
+#: classes/class-dropp.php:171
+msgid "View Dropp Settings"
+msgstr ""
+
+#: classes/class-dropp.php:171
+msgid "Settings"
+msgstr ""
+
+#: classes/class-order-adapter.php:140
+msgid "Cannot book the order because it's over the weight limit of 10 Kg"
+msgstr ""
+
+#: classes/class-order-bulk-actions.php:33
+msgid "Dropp - Book orders"
+msgstr ""
+
+#: classes/class-order-bulk-actions.php:34
+msgid "Dropp - Print labels"
+msgstr ""
+
+#: classes/class-pending-shipping.php:39 classes/class-shipping-method.php:24
+#: traits/trait-shipping-settings.php:132
+msgid "Dropp"
+msgstr ""
+
+#: classes/class-pending-shipping.php:65 classes/class-pending-shipping.php:93
+msgid "Pending Shipment (Dropp)"
+msgstr ""
+
+#: classes/class-pending-shipping.php:72
+#, php-format
+msgid "Pending shipment (Dropp)<span class=\"count\">(%s)</span>"
+msgid_plural "Pending shipment (Dropp)<span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-shipping-item-meta.php:91
+msgid "No location selected. Please select a location for Dropp"
+msgstr ""
+
+#: classes/class-shipping-item-meta.php:149
+msgid "Choose location"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:35
+msgid "Dropp Booking"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:106
+msgid "Actions"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:107
+msgid "Check status"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:108
+msgid "Download"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:109
+msgid "Update order"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:110
+msgid "View order"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:111
+msgid "Cancel order"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:112
+msgid "Barcode"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:113
+#: classes/class-shipping-meta-box.php:124
+msgid "Customer"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:114
+msgid "Status"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:115
+msgid "Created"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:116
+msgid "Updated"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:117
+msgid "Product"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:118
+msgid "Products"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:119
+msgid "Booked consignments"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:120
+msgid "Book now"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:121
+msgid "Remove location"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:122
+msgid "Add shipment"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:123
+msgid "Change location"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:125
+msgid "Name"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:126
+msgid "Email address"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:127
+#: templates/ssn/admin-billing-details.php:2
+#: templates/ssn/customer-details.php:2 templates/ssn/email-order-details.php:3
+#: traits/trait-shipping-settings.php:85
+msgid "Social security number"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:128
+msgid "Address"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:129
+msgid "Phone number"
+msgstr ""
+
+#: classes/class-shipping-method.php:25
+msgid "Deliver parcels at delivery locations in Iceland"
+msgstr ""
+
+#: classes/class-social-security-number.php:51
+msgid "Social security number must be 10 digits."
+msgstr ""
+
+#: classes/class-social-security-number.php:57
+msgid "Invalid social security number."
+msgstr ""
+
+#: classes/class-social-security-number.php:74
+msgid "Social Security Number"
+msgstr ""
+
+#: templates/admin-notices/bulk-booking.php:16
+msgid "These orders were booked previously: "
+msgstr ""
+
+#: templates/admin-notices/bulk-booking.php:20
+msgid "Booked these orders: "
+msgstr ""
+
+#: templates/admin-notices/bulk-booking.php:25
+#: templates/admin-notices/bulk-printing.php:15
+msgid "Click here to download PDF labels for orders:"
+msgstr ""
+
+#: templates/admin-notices/bulk-booking.php:30
+msgid "No dropp shipping method found on these orders: "
+msgstr ""
+
+#: templates/admin-notices/bulk-booking.php:34
+msgid "Failed to book these orders: "
+msgstr ""
+
+#: templates/admin-notices/bulk-printing.php:18
+msgid "Could not find any labels for the selected orders to print."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:45
+msgid "API key"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:47 traits/trait-shipping-settings.php:58
+msgid "API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:49
+#, php-format
+msgid "Click %s to find your API Key."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:50 traits/trait-shipping-settings.php:61
+#: traits/trait-shipping-settings.php:106
+#: traits/trait-shipping-settings.php:117
+msgid "here"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:56
+msgid "API key (test)"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:60
+#, php-format
+msgid "Click %s to find your test API Key."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:67
+msgid "Store ID"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:69
+msgid "Store ID from dropp.is"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:75
+msgid "New order status"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:77
+msgid "Automatically change order status after booking."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:80
+msgid "- No change -"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:86
+msgid "Enable social security number"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:88
+msgid "Enables a new field on checkout for icelandic social security number."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:93
+msgid "Require SSN"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:94
+msgid "Required field"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:96
+msgid "Make social security a required field on checkout."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:101
+msgid "Test mode"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:102
+msgid "Enable test mode"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:105
+msgid "Makes the plugin do requests against staging instead of the live API."
+msgstr ""
+
+#: traits/trait-shipping-settings.php:112
+msgid "Debug mode"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:113
+msgid "Enable debug mode"
+msgstr ""
+
+#: traits/trait-shipping-settings.php:116
+#, php-format
+msgid "Logs requests and other data to a log file. Click %s to see the logs."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Dropp.is Shipping"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://dropp.is/woocommerce"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Shipping method"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Cove AS"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://cove.no/dropp"
+msgstr ""

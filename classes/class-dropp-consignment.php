@@ -86,7 +86,7 @@ class Dropp_Consignment {
 				'status'           => 'ready',
 				'location_id'      => null,
 				'test'             => false,
-				'debug'             => false,
+				'debug'            => false,
 				'updated_at'       => current_time( 'mysql' ),
 				'created_at'       => current_time( 'mysql' ),
 			]
@@ -107,8 +107,7 @@ class Dropp_Consignment {
 		}
 
 		$this->status     = $content['status'];
-		$this->test       = $content['test'];
-		$this->debug      = $content['test'];
+		$this->test       = (int) $content['test'];
 		$this->updated_at = $content['updated_at'];
 		$this->created_at = $content['created_at'];
 
@@ -222,7 +221,6 @@ class Dropp_Consignment {
 		$shipping_method = $consignment->get_shipping_method();
 		if ( ! empty( $shipping_method ) ) {
 			$consignment->debug = $shipping_method->debug_mode;
-			$consignment->test  = $shipping_method->test_mode;
 		}
 		return $consignment;
 	}

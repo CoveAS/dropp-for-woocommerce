@@ -61,6 +61,8 @@ class Dropp {
 		$plugin_path = basename( dirname( __DIR__ ) );
 		$hook        = "plugin_action_links_{$plugin_path}/woocommerce-dropp-shipping.php";
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
+
+		load_plugin_textdomain( 'woocommerce-dropp-shipping', false, basename( dirname(__DIR__) ) . '/languages/' );
 	}
 
 

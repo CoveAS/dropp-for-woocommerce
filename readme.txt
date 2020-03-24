@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
 Tested up to: 5.3.2
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.1
 
 Deliver parcels at delivery locations in Iceland
@@ -52,6 +52,10 @@ When an order has the status **Initial** it can be updated or cancelled.
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
 == Changelog ==
+
+= 1.1.2 =
+
+* Fixed bug that caused shipping to always be free
 
 = 1.1.1 =
 

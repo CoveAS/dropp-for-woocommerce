@@ -6,7 +6,7 @@
  * Author:               Cove AS
  * Author URI:           https://cove.no/dropp
  *
- * Version:              1.1.1
+ * Version:              1.1.2
  * Requires at least:    5.3.2
  * Tested up to:         5.3.2
  *

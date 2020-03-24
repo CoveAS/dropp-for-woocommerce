@@ -59,22 +59,4 @@ class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$is_available = true;
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
-
-	/**
-	 * Called to calculate shipping rates for this method. Rates can be added using the add_rate() method.
-	 *
-	 * @uses WC_Shipping_Method::add_rate()
-	 *
-	 * @param array $package Shipping package.
-	 */
-	public function calculate_shipping( $package = array() ) {
-		$this->add_rate(
-			array(
-				'label'   => $this->title,
-				'cost'    => 0,
-				'taxes'   => false,
-				'package' => $package,
-			)
-		);
-	}
 }

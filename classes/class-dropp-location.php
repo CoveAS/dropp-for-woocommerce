@@ -26,23 +26,36 @@ class Dropp_Location {
 	 *
 	 * @param int $instance_id Shipping method instance.
 	 */
-	public function __construct( $order_item ) {
-		$this->order_item    = $order_item;
-		$this->order_item_id = $order_item->get_id();
+	public function __construct() {
+	}
 
-		if ( 'dropp_home' === $order_item->get_method_id() ) {
-			$this->id      = 'some-id';
-			$this->name    = __( 'Home delivery', 'woocommerce-dropp-shipping' );
-			$this->address = '';
-			return;
-		}
-		$location = $order_item->get_meta( 'dropp_location' );
+	public function home_delivery() {
+		$this->id      = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
+		$this->name    = __( 'Home delivery', 'woocommerce-dropp-shipping' );
+		$this->address = '';
+		return $this;
+	}
 
-		if ( is_array( $location ) ) {
-			$this->id      = $location['id'] ?? null;
-			$this->name    = $location['name'] ?? null;
-			$this->address = $location['address'] ?? null;
+	/**
+	 * From Shipping Item
+	 *
+	 * @param  integer $order_id (optional) Order ID.
+	 * @return array             Array of Dropp_Location.
+	 */
+	public static function from_shipping_item( $shipping_item ) {
+		$location = new self();
+		$location->order_item    = $shipping_item;
+		$location->order_item_id = $shipping_item->get_id();
+		if ( 'dropp_home' === $shipping_item->get_method_id() ) {
+			return $location->home_delivery();
 		}
+		$meta_data = $shipping_item->get_meta( 'dropp_location' );
+		if ( is_array( $meta_data ) ) {
+			$location->id      = $meta_data['id'] ?? null;
+			$location->name    = $meta_data['name'] ?? null;
+			$location->address = $meta_data['address'] ?? null;
+		}
+		return $location;
 	}
 
 	/**
@@ -59,7 +72,7 @@ class Dropp_Location {
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
-			$location = new Dropp_Location( $order_item );
+			$location = Dropp_Location::from_shipping_item( $order_item );
 			if ( ! $location->id ) {
 				continue;
 			}

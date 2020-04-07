@@ -241,6 +241,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -305,6 +311,15 @@ __webpack_require__.r(__webpack_exports__);
         // @TODO.
         console.log(error);
       });
+    },
+    add_home_delivery: function add_home_delivery() {
+      var location = {
+        id: _dropp.home_delivery_location.id,
+        name: _dropp.home_delivery_location.name,
+        barcode: _dropp.home_delivery_location.barcode
+      };
+      location.order_item_id = this.selected_shipping_item;
+      this.locations.push(location);
     },
     show_modal: function show_modal(consignment) {
       this.modal_consignment = consignment;
@@ -2695,6 +2710,17 @@ var render = function() {
                   click: function($event) {
                     $event.preventDefault()
                     return _vm.add_location($event)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "dropp-locations__add-button",
+                domProps: { innerHTML: _vm._s(_vm.i18n.add_home_delivery) },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.add_home_delivery($event)
                   }
                 }
               })

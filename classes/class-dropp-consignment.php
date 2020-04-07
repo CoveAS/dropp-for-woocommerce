@@ -176,7 +176,7 @@ class Dropp_Consignment {
 
 			// Add location.
 			$shipping_item                 = new WC_Order_Item_Shipping( $this->shipping_item_id );
-			$consignment_array['location'] = new Dropp_Location( $shipping_item );
+			$consignment_array['location'] = Dropp_Location::from_shipping_item( $shipping_item );
 		}
 		return $consignment_array;
 	}

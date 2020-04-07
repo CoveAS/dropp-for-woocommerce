@@ -56,6 +56,12 @@
 					v-html="i18n.add_location"
 				>
 				</button>
+				<button
+					class="dropp-locations__add-button"
+					@click.prevent="add_home_delivery"
+					v-html="i18n.add_home_delivery"
+				>
+				</button>
 			</div>
 		</div>
 		<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
@@ -208,6 +214,15 @@
 						// @TODO.
 						console.log( error );
 					});
+			},
+			add_home_delivery: function() {
+				let location = {
+					id: _dropp.home_delivery_location.id,
+					name: _dropp.home_delivery_location.name,
+					barcode: _dropp.home_delivery_location.barcode,
+				};
+				location.order_item_id = this.selected_shipping_item;
+				this.locations.push( location );
 			},
 			show_modal: function( consignment ) {
 				this.modal_consignment = consignment;

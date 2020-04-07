@@ -2,7 +2,7 @@
 /**
  * Shipping item meta
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -89,7 +89,7 @@ class Shipping_Item_Meta {
 			// Validation failed. No location was selected.
 			$errors->add(
 				'shipping',
-				__( 'No location selected. Please select a location for Dropp', 'woocommerce-dropp-shipping' )
+				__( 'No location selected. Please select a location for Dropp', 'dropp-for-woocommerce' )
 			);
 		}
 	}
@@ -147,7 +147,7 @@ class Shipping_Item_Meta {
 		}
 		printf(
 			'<div class="dropp-location" style="display:none"><div class="dropp-location__actions"><span class="dropp-location__button button">%s</span></div>%s<p class="dropp-location__name" style="display:none"></p></div><div class="dropp-error" style="display:none"></div>',
-			esc_html__( 'Choose location', 'woocommerce-dropp-shipping' ),
+			esc_html__( 'Choose location', 'dropp-for-woocommerce' ),
 			implode( '', $fields )
 		);
 	}

@@ -13,7 +13,7 @@
  * WC requires at least: 3.8.1
  * WC tested up to:      4.0.0
  *
- * Text Domain:          woocommerce-dropp-shipping
+ * Text Domain:          dropp-for-woocommerce
  * Domain Path:          /languages
  * License:              GPL v3
  *

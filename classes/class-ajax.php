@@ -2,7 +2,7 @@
 /**
  * Ajax
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -40,7 +40,7 @@ class Ajax {
 			wp_send_json(
 				[
 					'status'      => 'error',
-					'message'     => __( 'Nonce verification failed. Please reload the page and try again.', 'woocommerce-dropp-shipping' ),
+					'message'     => __( 'Nonce verification failed. Please reload the page and try again.', 'dropp-for-woocommerce' ),
 					'errors'      => '',
 				]
 			);
@@ -93,7 +93,7 @@ class Ajax {
 					$order = $order_item->get_order();
 					$order->update_status(
 						$shipping_method->new_order_status,
-						__( 'Dropp booking complete.', 'woocommerce-dropp-shipping' )
+						__( 'Dropp booking complete.', 'dropp-for-woocommerce' )
 					);
 				}
 			} else {
@@ -121,7 +121,7 @@ class Ajax {
 			[
 				'status'      => 'success',
 				'consignment' => $consignment->to_array( false ),
-				'message'     => __( 'Booked! Re-loading page...', 'woocommerce-dropp-shipping' ),
+				'message'     => __( 'Booked! Re-loading page...', 'dropp-for-woocommerce' ),
 				'errors'      => [],
 			]
 		);
@@ -262,7 +262,7 @@ class Ajax {
 			foreach ( $consignment_ids as $consignment_id ) {
 				$consignment = Dropp_Consignment::find( $consignment_id );
 				if ( null === $consignment->dropp_order_id ) {
-					throw new Exception( __( 'Could not find consignment:', 'woocommerce-dropp-shipping' ) . ' ' . $consignment_id );
+					throw new Exception( __( 'Could not find consignment:', 'dropp-for-woocommerce' ) . ' ' . $consignment_id );
 				}
 				$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
 				$api_pdf         = new Dropp_PDF( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );

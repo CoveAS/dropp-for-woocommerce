@@ -2,7 +2,7 @@
 /**
  * Customer
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;

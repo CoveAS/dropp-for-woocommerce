@@ -2,7 +2,7 @@
 /**
  * Booking
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -138,7 +138,7 @@ class Order_Adapter {
 			}
 			if ( $total_weight > 10 ) {
 				$consignment->status         = 'overweight';
-				$consignment->status_message = __( 'Cannot book the order because it\'s over the weight limit of 10 Kg', 'woocommerce-dropp-shipping' );
+				$consignment->status_message = __( 'Cannot book the order because it\'s over the weight limit of 10 Kg', 'dropp-for-woocommerce' );
 				$consignment->save();
 				continue;
 			}

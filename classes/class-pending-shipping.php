@@ -2,7 +2,7 @@
 /**
  * Pending shipping
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -36,7 +36,7 @@ class Pending_Shipping {
 	 * @return array          Columns.
 	 */
 	public static function dropp_status_column( $columns ) {
-		$columns['dropp_booking_count'] = __( 'Dropp', 'woocommerce-dropp-shipping' );
+		$columns['dropp_booking_count'] = __( 'Dropp', 'dropp-for-woocommerce' );
 		return $columns;
 	}
 
@@ -62,7 +62,7 @@ class Pending_Shipping {
 		register_post_status(
 			'wc-dropp-pending',
 			array(
-				'label'                     => __( 'Pending Shipment (Dropp)', 'woocommerce-dropp-shipping' ),
+				'label'                     => __( 'Pending Shipment (Dropp)', 'dropp-for-woocommerce' ),
 				'public'                    => true,
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
@@ -71,7 +71,7 @@ class Pending_Shipping {
 				'label_count'         => _n_noop(
 					'Pending shipment (Dropp)<span class="count">(%s)</span>',
 					'Pending shipment (Dropp)<span class="count">(%s)</span>',
-					'woocommerce-dropp-shipping'
+					'dropp-for-woocommerce'
 				),
 			)
 		);
@@ -90,7 +90,7 @@ class Pending_Shipping {
 		foreach ( $order_statuses as $key => $status ) {
 			$new_order_statuses[ $key ] = $status;
 			if ( 'wc-processing' === $key ) {
-				$new_order_statuses['wc-dropp-pending'] = __( 'Pending Shipment (Dropp)', 'woocommerce-dropp-shipping' );
+				$new_order_statuses['wc-dropp-pending'] = __( 'Pending Shipment (Dropp)', 'dropp-for-woocommerce' );
 			}
 		}
 

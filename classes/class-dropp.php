@@ -2,7 +2,7 @@
 /**
  * Dropp
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -60,10 +60,10 @@ class Dropp {
 
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
-		$hook        = "plugin_action_links_{$plugin_path}/woocommerce-dropp-shipping.php";
+		$hook        = "plugin_action_links_{$plugin_path}/dropp-for-woocommerce.php";
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
-		load_plugin_textdomain( 'woocommerce-dropp-shipping', false, basename( dirname(__DIR__) ) . '/languages/' );
+		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname(__DIR__) ) . '/languages/' );
 	}
 
 
@@ -129,34 +129,34 @@ class Dropp {
 		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 			// Add styles.
 			wp_register_style(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				plugins_url( 'assets/css/dropp.css', __DIR__ ),
 				[],
 				self::VERSION
 			);
-			wp_enqueue_style( 'woocommerce-dropp-shipping' );
+			wp_enqueue_style( 'dropp-for-woocommerce' );
 
 			// Add javascript.
 			wp_register_script(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				plugins_url( 'assets/js/dropp.js', __DIR__ ),
 				array( 'jquery' ),
 				self::VERSION,
 				true
 			);
-			wp_enqueue_script( 'woocommerce-dropp-shipping' );
+			wp_enqueue_script( 'dropp-for-woocommerce' );
 
 			$shipping_method = new Shipping_Method();
 			// Add javascript variables.
 			wp_localize_script(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'_dropp',
 				[
 					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 					'storeid'           => $shipping_method->store_id,
 					'dropplocationsurl' => 'https://app.dropp.is/dropp-locations.min.js',
 					'i18n'              => [
-						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'woocommerce-dropp-shipping' ),
+						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
 					],
 				]
 			);
@@ -172,7 +172,7 @@ class Dropp {
 	public static function plugin_action_links( $links ) {
 		$url          = admin_url( 'admin.php?page=wc-settings&tab=shipping&section=dropp_is' );
 		$action_links = array(
-			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'woocommerce-dropp-shipping' ) . '">' . esc_html__( 'Settings', 'woocommerce-dropp-shipping' ) . '</a>',
+			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'dropp-for-woocommerce' ) . '">' . esc_html__( 'Settings', 'dropp-for-woocommerce' ) . '</a>',
 		);
 		return array_merge( $action_links, $links );
 	}

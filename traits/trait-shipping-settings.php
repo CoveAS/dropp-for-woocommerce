@@ -2,7 +2,7 @@
 /**
  * Shipping settings
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -42,79 +42,79 @@ trait Shipping_Settings {
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'api_key' => array(
-				'title'       => __( 'API key', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'API key', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
-				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
+				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'dropp-for-woocommerce' ),
 				'description' => sprintf(
-					__( 'Click %s to find your API Key.', 'woocommerce-dropp-shipping' ),
-					'<a target="_blank" href="https://umsjon.dropp.is/login">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+					__( 'Click %s to find your API Key.', 'dropp-for-woocommerce' ),
+					'<a target="_blank" href="https://umsjon.dropp.is/login">' . __( 'here', 'dropp-for-woocommerce' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,
 			),
 			'api_key_test' => array(
-				'title'       => __( 'API key (test)', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'API key (test)', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
-				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'woocommerce-dropp-shipping' ),
+				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'dropp-for-woocommerce' ),
 				'description' => sprintf(
-					__( 'Click %s to find your test API Key.', 'woocommerce-dropp-shipping' ),
-					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+					__( 'Click %s to find your test API Key.', 'dropp-for-woocommerce' ),
+					'<a target="_blank" href="https://stage.dropp.is/dropp/admin/store/api/">' . __( 'here', 'dropp-for-woocommerce' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,
 			),
 			'store_id' => array(
-				'title'       => __( 'Store ID', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'Store ID', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
-				'placeholder' => __( 'Store ID from dropp.is', 'woocommerce-dropp-shipping' ),
+				'placeholder' => __( 'Store ID from dropp.is', 'dropp-for-woocommerce' ),
 				'description' => '',
 				'default'     => '',
 				'desc_tip'    => true,
 			),
 			'new_order_status' => array(
-				'title'       => __( 'New order status', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'New order status', 'dropp-for-woocommerce' ),
 				'type'        => 'select',
-				'description' => __( 'Automatically change order status after booking.', 'woocommerce-dropp-shipping' ),
+				'description' => __( 'Automatically change order status after booking.', 'dropp-for-woocommerce' ),
 				'class'       => 'chosen_select',
 				'css'         => 'width: 400px;',
-				'options'     => array( '' => __( '- No change -', 'woocommerce-dropp-shipping' ) ) + wc_get_order_statuses(),
+				'options'     => array( '' => __( '- No change -', 'dropp-for-woocommerce' ) ) + wc_get_order_statuses(),
 				'desc_tip'    => true,
 				'default'     => '',
 			),
 			'enable_ssn' => array(
-				'title'       => __( 'Social security number', 'woocommerce-dropp-shipping' ),
-				'label'       => __( 'Enable social security number', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'Social security number', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Enable social security number', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enables a new field on checkout for icelandic social security number.', 'woocommerce-dropp-shipping' ),
+				'description' => __( 'Enables a new field on checkout for icelandic social security number.', 'dropp-for-woocommerce' ),
 				'default'     => '',
 				'desc_tip'    => false,
 			),
 			'require_ssn' => array(
-				'title'       => __( 'Require SSN', 'woocommerce-dropp-shipping' ),
-				'label'       => __( 'Required field', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'Require SSN', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Required field', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Make social security a required field on checkout.', 'woocommerce-dropp-shipping' ),
+				'description' => __( 'Make social security a required field on checkout.', 'dropp-for-woocommerce' ),
 				'default'     => 'yes',
 				'desc_tip'    => false,
 			),
 			'test_mode' => array(
-				'title'       => __( 'Test mode', 'woocommerce-dropp-shipping' ),
-				'label'       => __( 'Enable test mode', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'Test mode', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Enable test mode', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => sprintf(
-					__( 'Makes the plugin do requests against staging instead of the live API.', 'woocommerce-dropp-shipping' ),
-					'<a href="#">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+					__( 'Makes the plugin do requests against staging instead of the live API.', 'dropp-for-woocommerce' ),
+					'<a href="#">' . __( 'here', 'dropp-for-woocommerce' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => true,
 			),
 			'debug_mode' => array(
-				'title'       => __( 'Debug mode', 'woocommerce-dropp-shipping' ),
-				'label'       => __( 'Enable debug mode', 'woocommerce-dropp-shipping' ),
+				'title'       => __( 'Debug mode', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Enable debug mode', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => sprintf(
-					__( 'Logs requests and other data to a log file. Click %s to see the logs.', 'woocommerce-dropp-shipping' ),
-					'<a href="' . admin_url( 'admin.php?page=wc-status&tab=logs' ) . '">' . __( 'here', 'woocommerce-dropp-shipping' ) . '</a>'
+					__( 'Logs requests and other data to a log file. Click %s to see the logs.', 'dropp-for-woocommerce' ),
+					'<a href="' . admin_url( 'admin.php?page=wc-status&tab=logs' ) . '">' . __( 'here', 'dropp-for-woocommerce' ) . '</a>'
 				),
 				'default'     => '',
 				'desc_tip'    => false,

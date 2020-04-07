@@ -2,7 +2,7 @@
 /**
  * Social security number
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -48,13 +48,13 @@ class Social_Security_Number {
 		}
 		$ssn = $data['billing_dropp_ssn'];
 		if ( ! preg_match( '/^\d{10}$/', $ssn ) ) {
-			$error->add( 'billing', __( 'Social security number must be 10 digits.', 'woocommerce-dropp-shipping' ) );
+			$error->add( 'billing', __( 'Social security number must be 10 digits.', 'dropp-for-woocommerce' ) );
 			return;
 		}
 		$nums  = str_split( $ssn );
 		$combo = (3 * $nums[0]) + (2 * $nums[1]) + (7 * $nums[2]) + (6 * $nums[3]) + (5 * $nums[4]) + (4 * $nums[5]) + (3 * $nums[6]) + (2 * $nums[7]) + (1 * $nums[8]);
 		if ( $combo % 11 <= 0 ) {
-			$error->add( 'billing', __( 'Invalid social security number.', 'woocommerce-dropp-shipping' ) );
+			$error->add( 'billing', __( 'Invalid social security number.', 'dropp-for-woocommerce' ) );
 		}
 	}
 

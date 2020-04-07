@@ -2,7 +2,7 @@
 /**
  * Shipping item meta
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -32,7 +32,7 @@ class Shipping_Meta_Box {
 		}
 		add_meta_box(
 			'woocommerce-order-dropp-booking',
-			__( 'Dropp Booking', 'woocommerce-dropp-shipping' ),
+			__( 'Dropp Booking', 'dropp-for-woocommerce' ),
 			array( __CLASS__, 'render_booking_meta_box' ),
 			'shop_order',
 			'normal',
@@ -105,31 +105,31 @@ class Shipping_Meta_Box {
 				'shipping_items'         => $shipping_items,
 				'status_list'            => Dropp_Consignment::get_status_list(),
 				'i18n'                   => self::nbsp( [
-					'actions'                => __( 'Actions', 'woocommerce-dropp-shipping' ),
-					'check_status'           => __( 'Check status', 'woocommerce-dropp-shipping' ),
-					'download'               => __( 'Download', 'woocommerce-dropp-shipping' ),
-					'update_order'           => __( 'Update order', 'woocommerce-dropp-shipping' ),
-					'view_order'             => __( 'View order', 'woocommerce-dropp-shipping' ),
-					'cancel_order'           => __( 'Cancel order', 'woocommerce-dropp-shipping' ),
-					'barcode'                => __( 'Barcode', 'woocommerce-dropp-shipping' ),
-					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
-					'status'                 => __( 'Status', 'woocommerce-dropp-shipping' ),
-					'created'                => __( 'Created', 'woocommerce-dropp-shipping' ),
-					'updated'                => __( 'Updated', 'woocommerce-dropp-shipping' ),
-					'product'                => __( 'Product', 'woocommerce-dropp-shipping' ),
-					'products'               => __( 'Products', 'woocommerce-dropp-shipping' ),
-					'booked_consignments'    => __( 'Booked consignments', 'woocommerce-dropp-shipping' ),
-					'submit'                 => __( 'Book now', 'woocommerce-dropp-shipping' ),
-					'remove'                 => __( 'Remove location', 'woocommerce-dropp-shipping' ),
-					'add_location'           => __( 'Add shipment', 'woocommerce-dropp-shipping' ),
-					'add_home_delivery'      => __( 'Add home delivery', 'woocommerce-dropp-shipping' ),
-					'change_ocation'         => __( 'Change location', 'woocommerce-dropp-shipping' ),
-					'customer'               => __( 'Customer', 'woocommerce-dropp-shipping' ),
-					'name'                   => __( 'Name', 'woocommerce-dropp-shipping' ),
-					'email_address'          => __( 'Email address', 'woocommerce-dropp-shipping' ),
-					'social_security_number' => __( 'Social security number', 'woocommerce-dropp-shipping' ),
-					'address'                => __( 'Address', 'woocommerce-dropp-shipping' ),
-					'phone_number'           => __( 'Phone number', 'woocommerce-dropp-shipping' ),
+					'actions'                => __( 'Actions', 'dropp-for-woocommerce' ),
+					'check_status'           => __( 'Check status', 'dropp-for-woocommerce' ),
+					'download'               => __( 'Download', 'dropp-for-woocommerce' ),
+					'update_order'           => __( 'Update order', 'dropp-for-woocommerce' ),
+					'view_order'             => __( 'View order', 'dropp-for-woocommerce' ),
+					'cancel_order'           => __( 'Cancel order', 'dropp-for-woocommerce' ),
+					'barcode'                => __( 'Barcode', 'dropp-for-woocommerce' ),
+					'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
+					'status'                 => __( 'Status', 'dropp-for-woocommerce' ),
+					'created'                => __( 'Created', 'dropp-for-woocommerce' ),
+					'updated'                => __( 'Updated', 'dropp-for-woocommerce' ),
+					'product'                => __( 'Product', 'dropp-for-woocommerce' ),
+					'products'               => __( 'Products', 'dropp-for-woocommerce' ),
+					'booked_consignments'    => __( 'Booked consignments', 'dropp-for-woocommerce' ),
+					'submit'                 => __( 'Book now', 'dropp-for-woocommerce' ),
+					'remove'                 => __( 'Remove location', 'dropp-for-woocommerce' ),
+					'add_location'           => __( 'Add shipment', 'dropp-for-woocommerce' ),
+					'add_home_delivery'      => __( 'Add home delivery', 'dropp-for-woocommerce' ),
+					'change_ocation'         => __( 'Change location', 'dropp-for-woocommerce' ),
+					'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
+					'name'                   => __( 'Name', 'dropp-for-woocommerce' ),
+					'email_address'          => __( 'Email address', 'dropp-for-woocommerce' ),
+					'social_security_number' => __( 'Social security number', 'dropp-for-woocommerce' ),
+					'address'                => __( 'Address', 'dropp-for-woocommerce' ),
+					'phone_number'           => __( 'Phone number', 'dropp-for-woocommerce' ),
 				] ),
 			]
 		);

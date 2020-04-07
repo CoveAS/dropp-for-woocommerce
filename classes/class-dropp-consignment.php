@@ -2,7 +2,7 @@
 /**
  * Consignment
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -44,13 +44,13 @@ class Dropp_Consignment {
 	 */
 	public static function get_status_list() {
 		return [
-			'ready'       => __( 'Ready', 'woocommerce-dropp-shipping' ),
-			'error'       => __( 'Error', 'woocommerce-dropp-shipping' ),
-			'initial'     => __( 'Initial', 'woocommerce-dropp-shipping' ),
-			'transit'     => __( 'Transit', 'woocommerce-dropp-shipping' ),
-			'consignment' => __( 'Consignment', 'woocommerce-dropp-shipping' ),
-			'delivered'   => __( 'Delivered', 'woocommerce-dropp-shipping' ),
-			'cancelled'   => __( 'Cancelled', 'woocommerce-dropp-shipping' ),
+			'ready'       => __( 'Ready', 'dropp-for-woocommerce' ),
+			'error'       => __( 'Error', 'dropp-for-woocommerce' ),
+			'initial'     => __( 'Initial', 'dropp-for-woocommerce' ),
+			'transit'     => __( 'Transit', 'dropp-for-woocommerce' ),
+			'consignment' => __( 'Consignment', 'dropp-for-woocommerce' ),
+			'delivered'   => __( 'Delivered', 'dropp-for-woocommerce' ),
+			'cancelled'   => __( 'Cancelled', 'dropp-for-woocommerce' ),
 		];
 	}
 
@@ -197,7 +197,7 @@ class Dropp_Consignment {
 		}
 		$api_key = $shipping_method->get_option( $option_name );
 		if ( empty( $api_key ) ) {
-			throw new Exception( __( 'No API key could be found.', 'woocommerce-dropp-shipping' ), 1 );
+			throw new Exception( __( 'No API key could be found.', 'dropp-for-woocommerce' ), 1 );
 		}
 		return $api_key;
 	}
@@ -418,7 +418,7 @@ class Dropp_Consignment {
 		}
 		if ( $this->debug ) {
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[DEBUG] Remote ' . strtoupper( $method ) . ' request:' . PHP_EOL . $url . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::DEBUG
 			);
@@ -437,7 +437,7 @@ class Dropp_Consignment {
 			throw new Exception(
 				sprintf(
 					// translators: Consignment ID.
-					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
 					$this->id
 				)
 			);
@@ -467,7 +467,7 @@ class Dropp_Consignment {
 			throw new Exception(
 				sprintf(
 					// translators: Consignment ID.
-					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
 					$this->id
 				)
 			);
@@ -487,7 +487,7 @@ class Dropp_Consignment {
 			throw new Exception(
 				sprintf(
 					// translators: Consignment ID.
-					__( 'Consignment, %d, does not have a dropp order id.', 'woocommerce-dropp-shipping' ),
+					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
 					$this->id
 				)
 			);
@@ -508,7 +508,7 @@ class Dropp_Consignment {
 		$log = new WC_Logger();
 		if ( is_wp_error( $response ) ) {
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[ERROR] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::ERROR
 			);
@@ -520,7 +520,7 @@ class Dropp_Consignment {
 				$body = $response['body'];
 			}
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[DEBUG] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . $body,
 				WC_Log_Levels::DEBUG
 			);
@@ -529,7 +529,7 @@ class Dropp_Consignment {
 		// Validate response.
 		if ( is_wp_error( $response ) ) {
 			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
 		}
 		if ( 'delete' === $method ) {
 			// Delete calls should return an empty response.
@@ -540,7 +540,7 @@ class Dropp_Consignment {
 		$dropp_order = json_decode( $response['body'], true );
 		if ( ! is_array( $dropp_order ) ) {
 			$this->errors['invalid_json'] = $response['body'];
-			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
 		}
 		if ( ! empty( $dropp_order['error'] ) ) {
 			throw new Exception( $dropp_order['error'] );
@@ -551,7 +551,7 @@ class Dropp_Consignment {
 			return $this;
 		}
 		if ( empty( $dropp_order['id'] ) ) {
-			throw new Exception( __( 'Empty ID in the response', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Empty ID in the response', 'dropp-for-woocommerce' ) );
 		}
 
 		$dropp_order = json_decode( $response['body'], true );

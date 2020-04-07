@@ -2,7 +2,7 @@
 /**
  * Booking
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -53,7 +53,7 @@ class Dropp_PDF {
 		if ( $this->debug ) {
 
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[DEBUG] PDF request:' . PHP_EOL . $url . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::DEBUG
 			);
@@ -63,7 +63,7 @@ class Dropp_PDF {
 
 		if ( is_wp_error( $response ) ) {
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[ERROR] PDF response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
 				WC_Log_Levels::ERROR
 			);
@@ -75,7 +75,7 @@ class Dropp_PDF {
 				$body = $response['body'];
 			}
 			$log->add(
-				'woocommerce-dropp-shipping',
+				'dropp-for-woocommerce',
 				'[DEBUG] PDF response:' . PHP_EOL . $body,
 				WC_Log_Levels::DEBUG
 			);
@@ -83,18 +83,18 @@ class Dropp_PDF {
 
 		if ( is_wp_error( $response ) ) {
 			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
 		}
 		if ( ! $response['headers'] ) {
-			throw new Exception( __( 'Missing response headers', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Missing response headers', 'dropp-for-woocommerce' ) );
 		}
 		if ( 'application/json' === $response['headers']->offsetGet( 'content-type' ) ) {
 			$data = json_decode( $response['body'] , true );
 			$this->errors[] = $data['error'];
-			throw new Exception( __( 'API Error', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'API Error', 'dropp-for-woocommerce' ) );
 		}
 		if ( 'application/pdf' !== $response['headers']->offsetGet( 'content-type' ) ) {
-			throw new Exception( __( 'Invalid json', 'woocommerce-dropp-shipping' ) );
+			throw new Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
 		}
 
 		return $response['body'];
@@ -209,7 +209,7 @@ class Dropp_PDF {
 
 		$dir = $uploads_dir['basedir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'woocommerce-dropp-shipping' ) . ", \"$dir\"";
+			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
 			return $uploads_dir;
 		}
 		$year                   = gmdate( 'Y' );
@@ -218,7 +218,7 @@ class Dropp_PDF {
 		$uploads_dir['path']   .= "/$year";
 		$dir                    = $uploads_dir['subdir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'woocommerce-dropp-shipping' ) . ", \"$dir\"";
+			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
 			return $uploads_dir;
 		}
 
@@ -228,7 +228,7 @@ class Dropp_PDF {
 		$uploads_dir['path']   .= "/$month";
 		$dir                    = $uploads_dir['subdir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'woocommerce-dropp-shipping' ) . ", \"$dir\"";
+			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
 			return $uploads_dir;
 		}
 		return $uploads_dir;

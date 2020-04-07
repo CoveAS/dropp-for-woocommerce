@@ -2,7 +2,7 @@
 /**
  * Location
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -31,7 +31,7 @@ class Dropp_Location {
 
 	public function home_delivery() {
 		$this->id      = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
-		$this->name    = __( 'Home delivery', 'woocommerce-dropp-shipping' );
+		$this->name    = __( 'Home delivery', 'dropp-for-woocommerce' );
 		$this->address = '';
 		return $this;
 	}

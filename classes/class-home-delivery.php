@@ -2,7 +2,7 @@
 /**
  * Shipping method
  *
- * @package woocommerce-dropp-shipping
+ * @package dropp-for-woocommerce
  */
 
 namespace Dropp;
@@ -20,8 +20,8 @@ class Home_Delivery extends Shipping_Method {
 	public function __construct( $instance_id = 0 ) {
 		$this->id                 = 'dropp_home';
 		$this->instance_id        = absint( $instance_id );
-		$this->method_title       = __( 'Dropp Home Delivery', 'woocommerce-dropp-shipping' );
-		$this->method_description = __( 'Home delivery in Iceland', 'woocommerce-dropp-shipping' );
+		$this->method_title       = __( 'Dropp Home Delivery', 'dropp-for-woocommerce' );
+		$this->method_description = __( 'Home delivery in Iceland', 'dropp-for-woocommerce' );
 
 		$this->supports           = array(
 			'shipping-zones',

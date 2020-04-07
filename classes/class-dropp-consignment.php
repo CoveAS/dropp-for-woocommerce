@@ -140,6 +140,7 @@ class Dropp_Consignment {
 	}
 
 	public function set_products( $products ) {
+		$this->products = [];
 		foreach ( $products as $product ) {
 			$this->products[] = ( new Dropp_Product_Line() )->fill( $product );
 		}

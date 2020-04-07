@@ -53,6 +53,12 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.2.0 =
+
+* Renamed the plugin
+* Added home delivery as a new shipping method
+* Fixed a bug that duplicated product lines when editing an existing consignment
+
 = 1.1.2 =
 
 * Fixed bug that caused shipping to always be free

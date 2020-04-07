@@ -29,11 +29,18 @@ class Dropp_Location {
 	public function __construct( $order_item ) {
 		$this->order_item    = $order_item;
 		$this->order_item_id = $order_item->get_id();
-		$location            = $order_item->get_meta( 'dropp_location' );
+
+		if ( 'dropp_home' === $order_item->get_method_id() ) {
+			$this->id      = 'some-id';
+			$this->name    = __( 'Home delivery', 'woocommerce-dropp-shipping' );
+			$this->address = '';
+			return;
+		}
+		$location = $order_item->get_meta( 'dropp_location' );
 
 		if ( is_array( $location ) ) {
-			$this->id = $location['id'] ?? null;
-			$this->name = $location['name'] ?? null;
+			$this->id      = $location['id'] ?? null;
+			$this->name    = $location['name'] ?? null;
 			$this->address = $location['address'] ?? null;
 		}
 	}

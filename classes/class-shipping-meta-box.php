@@ -66,8 +66,9 @@ class Shipping_Meta_Box {
 		// Maybe update the consignments.
 		$consignments->map( 'maybe_update' );
 
+		$dropp_methods  = [ 'dropp_is', 'dropp_home' ];
 		foreach ( $line_items as $line_item ) {
-			if ( 'dropp_is' !== $line_item->get_method_id() ) {
+			if ( ! in_array( $line_item->get_method_id(), $dropp_methods, true ) ) {
 				continue;
 			}
 			$shipping_items[] = [

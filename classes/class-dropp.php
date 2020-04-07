@@ -32,6 +32,7 @@ class Dropp {
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
 		require_once $plugin_dir . '/classes/class-shipping-method.php';
+		require_once $plugin_dir . '/classes/class-home-delivery.php';
 
 		// Ajax helper class.
 		require_once $plugin_dir . '/classes/class-ajax.php';
@@ -116,7 +117,8 @@ class Dropp {
 	 * @return array $shipping_methods Array of WC_Shipping mehtods.
 	 */
 	public static function add_shipping_method( $shipping_methods ) {
-		$shipping_methods['dropp_is'] = 'Dropp\Shipping_Method';
+		$shipping_methods['dropp_is']   = 'Dropp\Shipping_Method';
+		$shipping_methods['dropp_home'] = 'Dropp\Home_Delivery';
 		return $shipping_methods;
 	}
 

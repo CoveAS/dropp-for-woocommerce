@@ -64,6 +64,7 @@ class Shipping_Item_Meta {
 		$validation_required = false;
 		foreach ( $shipping_methods as $method_id ) {
 			if ( preg_match( '/^dropp_is/', $method_id ) ) {
+				// Note: This validation is not needed for dropp_home
 				$validation_required = true;
 			}
 		}

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
 Tested up to: 5.3.2
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 Requires PHP: 7.1
 
 Deliver parcels at delivery locations in Iceland

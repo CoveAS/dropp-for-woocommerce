@@ -1,1 +1,199 @@
-!function(o){var n={};function e(t){if(n[t])return n[t].exports;var i=n[t]={i:t,l:!1,exports:{}};return o[t].call(i.exports,i,i.exports,e),i.l=!0,i.exports}e.m=o,e.c=n,e.d=function(o,n,t){e.o(o,n)||Object.defineProperty(o,n,{enumerable:!0,get:t})},e.r=function(o){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(o,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(o,"__esModule",{value:!0})},e.t=function(o,n){if(1&n&&(o=e(o)),8&n)return o;if(4&n&&"object"==typeof o&&o&&o.__esModule)return o;var t=Object.create(null);if(e.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:o}),2&n&&"string"!=typeof o)for(var i in o)e.d(t,i,function(n){return o[n]}.bind(null,i));return t},e.n=function(o){var n=o&&o.__esModule?function(){return o.default}:function(){return o};return e.d(n,"a",n),n},e.o=function(o,n){return Object.prototype.hasOwnProperty.call(o,n)},e.p="/",e(e.s=31)}({31:function(o,n,e){o.exports=e(32)},32:function(o,n){jQuery((function(o){var n=0,e={click:function(n){if("undefined"!=typeof chooseDroppLocation){n.preventDefault();var e=o(this).closest(".dropp-location");location.length;var t={input_id:e.find("input.dropp-location__input--id"),input_name:e.find("input.dropp-location__input--name"),input_address:e.find("input.dropp-location__input--address"),name:e.find(".dropp-location__name")};chooseDroppLocation().then((function(o){t.input_id.val(o.id),t.input_name.val(o.name),t.input_address.val(o.address),t.name.text(o.name).show()})).catch((function(o){console.log(o)}))}},show_selector:function(){o(".dropp-error").hide(),o(".dropp-location").show(),o(".dropp-location .button").on("click",e.click),o("#shipping_method").unblock()},block_shipping_methods:function(){o("#shipping_method").block({message:null,overlayCSS:{background:"#fff",opacity:.6}})},init:function(){if(!n&&o(".dropp-location").length){var t=document.createElement("script");t.src=_dropp.dropplocationsurl,t.onload=e.success,t.dataset.storeId=_dropp.storeid,document.body.appendChild(t),e.block_shipping_methods(),n=1}else 2==n?e.show_selector():1==n&&e.block_shipping_methods()},success:function(o,t,i){n=2,e.show_selector()},error:function(e,t,i){n=0,o(".dropp-error").show().text(_dropp.i18n.error_loading),o(".dropp-location").hide(),o("#shipping_method").unblock()}};o(document).on("updated_checkout",e.init),e.init()}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/js/dropp.js":
+/*!*******************************!*\
+  !*** ./resources/js/dropp.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+jQuery(function ($) {
+  var form = $('form.checkout');
+  var loading_status = 0;
+  var dropp_handler = {
+    click: function click(e) {
+      if (typeof chooseDroppLocation === 'undefined') {
+        // @TODO: Error handling for when the choose dropp location function does not exist
+        return;
+      }
+
+      e.preventDefault();
+      var elem = $(this).closest('.dropp-location');
+      if (!location.length) ;
+      var instance_id = elem.data('instance_id');
+      chooseDroppLocation().then(function (location) {
+        if (!location.id) {
+          // Something went wrong.
+          // @TODO
+          console.error(location);
+          return;
+        } // Show the name.
+
+
+        elem.find('.dropp-location__name').text(location.name).show(); // A location was picked. Save it.
+
+        $.post(_dropp.ajaxurl, {
+          action: 'dropp_set_location',
+          instance_id: instance_id,
+          location_id: location.id,
+          location_name: location.name,
+          location_address: location.address,
+          location_pricetype: location.pricetype
+        }, function () {
+          // Location was saved to session.
+          form.trigger('update_checkout');
+        });
+      })["catch"](function (error) {
+        // Something went wrong.
+        // @TODO.
+        console.error(error);
+      });
+    },
+    show_selector: function show_selector() {
+      $('.dropp-error').hide();
+      $('.dropp-location').show();
+      $('.dropp-location .button').on('click', dropp_handler.click);
+      $('#shipping_method').unblock();
+    },
+    block_shipping_methods: function block_shipping_methods() {
+      $('#shipping_method').block({
+        message: null,
+        overlayCSS: {
+          background: '#fff',
+          opacity: 0.6
+        }
+      });
+    },
+    init: function init() {
+      if (!loading_status && $('.dropp-location').length) {
+        // Only load the external script if Dropp.is is part of the available shipping options
+        var script = document.createElement('script');
+        script.src = _dropp.dropplocationsurl;
+        script.onload = dropp_handler.success;
+        script.dataset.storeId = _dropp.storeid;
+        document.body.appendChild(script);
+        dropp_handler.block_shipping_methods();
+        loading_status = 1;
+      } else if (2 == loading_status) {
+        dropp_handler.show_selector();
+      } else if (1 == loading_status) {
+        // Shipping methods were updated, but the selector is still loading.
+        dropp_handler.block_shipping_methods();
+      }
+    },
+    success: function success(content, textStatus, jqXHR) {
+      loading_status = 2;
+      dropp_handler.show_selector();
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      loading_status = 0;
+      $('.dropp-error').show().text(_dropp.i18n.error_loading);
+      $('.dropp-location').hide();
+      $('#shipping_method').unblock();
+    }
+  };
+  $(document).on('updated_checkout', dropp_handler.init);
+  dropp_handler.init();
+});
+
+/***/ }),
+
+/***/ 1:
+/*!*************************************!*\
+  !*** multi ./resources/js/dropp.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! /mnt/c/Workspace/Projects/dropp.x/public/wp-content/plugins/dropp-for-woocommerce/resources/js/dropp.js */"./resources/js/dropp.js");
+
+
+/***/ })
+
+/******/ });

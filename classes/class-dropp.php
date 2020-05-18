@@ -31,8 +31,12 @@ class Dropp {
 
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
-		require_once $plugin_dir . '/classes/class-shipping-method.php';
-		require_once $plugin_dir . '/classes/class-home-delivery.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-shipping-method.php';
+		// require_once $plugin_dir . '/classes/shipping-method/class-flytjandi.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-home-delivery.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-dropp.php';
+
+		add_filter( 'woocommerce_shipping_dropp_is_instance_option', 'Dropp\Shipping_Method\Dropp::get_cost_option', 10, 3 );
 
 		// Ajax helper class.
 		require_once $plugin_dir . '/classes/class-ajax.php';
@@ -117,8 +121,9 @@ class Dropp {
 	 * @return array $shipping_methods Array of WC_Shipping mehtods.
 	 */
 	public static function add_shipping_method( $shipping_methods ) {
-		$shipping_methods['dropp_is']   = 'Dropp\Shipping_Method';
-		$shipping_methods['dropp_home'] = 'Dropp\Home_Delivery';
+		$shipping_methods['dropp_is']        = 'Dropp\Shipping_Method\Dropp';
+		$shipping_methods['dropp_home']      = 'Dropp\Shipping_Method\Home_Delivery';
+		// $shipping_methods['dropp_flytjandi'] = 'Dropp\Shipping_Method\Flytjandi';
 		return $shipping_methods;
 	}
 
@@ -146,7 +151,7 @@ class Dropp {
 			);
 			wp_enqueue_script( 'dropp-for-woocommerce' );
 
-			$shipping_method = new Shipping_Method();
+			$shipping_method = new Shipping_Method\Dropp();
 			// Add javascript variables.
 			wp_localize_script(
 				'dropp-for-woocommerce',

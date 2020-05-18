@@ -64,7 +64,7 @@ class Dropp_Consignment {
 			return null;
 		}
 		$shipping_item = new WC_Order_Item_Shipping( $this->shipping_item_id );
-		return new Shipping_Method( $shipping_item->get_instance_id() );
+		return new Shipping_Method\Dropp( $shipping_item->get_instance_id() );
 	}
 
 	/**

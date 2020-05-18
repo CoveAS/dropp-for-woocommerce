@@ -26,7 +26,7 @@ class Social_Security_Number {
 		// Display field value on the thank you page and order page
 		add_filter( 'woocommerce_order_details_after_customer_details', __CLASS__ . '::after_customer_details', 10, 1 );
 
-		$shipping_method = new Shipping_Method;
+		$shipping_method = new Shipping_Method\Dropp;
 		if ( $shipping_method->enable_ssn ) {
 			// Add fields to Billing address
 			add_filter( 'woocommerce_checkout_fields' , __CLASS__. '::checkout_fields', 10, 1 );
@@ -66,7 +66,7 @@ class Social_Security_Number {
 	 */
 	public static function checkout_fields( $fields ) {
 		// Get the shipping method.
-		$shipping_method = new Shipping_Method;
+		$shipping_method = new Shipping_Method\Dropp;
 
 		// Add the new field.
 		$fields['billing']['billing_dropp_ssn'] = [

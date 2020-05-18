@@ -170,7 +170,7 @@ class Dropp_PDF {
 				]
 			);
 		}
-		$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
+		$shipping_method = new Shipping_Method\Dropp( $consignment->shipping_item_id );
 		$api_pdf         = new self( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
 		return $api_pdf;
 	}

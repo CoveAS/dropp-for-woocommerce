@@ -38,19 +38,14 @@ class Shipping_Item_Meta {
 	 * @param WC_Order               $order       Order.
 	 */
 	public static function attach_item_meta( $item, $package_key, $package, $order ) {
-		$options  = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_BACKTICK;
-		$keys     = [
-			'id'      => sprintf( 'dropp_%d_location_%s%d', $item->get_method_id(), 'id', $item->get_instance_id() ),
-			'name'    => sprintf( 'dropp_%d_location_%s%d', $item->get_method_id(), 'name', $item->get_instance_id() ),
-			'address' => sprintf( 'dropp_%d_location_%s%d', $item->get_method_id(), 'address', $item->get_instance_id() ),
-		];
+		$location_data = WC()->session->get( 'dropp_location_' . $item->get_instance_id() );
 		$location = [
-			'id'      => preg_replace( '/[^a-z\d\-]/', '', $_POST[ $keys['id'] ] ),
-			'name'    => filter_input( INPUT_POST, $keys['name'], FILTER_SANITIZE_STRING, $options ),
-			'address' => filter_input( INPUT_POST, $keys['address'], FILTER_SANITIZE_STRING, $options ),
+			'id'        => preg_replace( '/[^a-z\d\-]/', '', $location_data['id'] ),
+			'name'      => $location_data['name'],
+			'pricetype' => $location_data['pricetype'],
+			'address'   => $location_data['address'],
 		];
-
-		$item->add_meta_data( 'dropp_location', $location, true );
+		$item->add_meta_data( 'dropp_location', $location_data, true );
 	}
 
 	/**
@@ -62,30 +57,20 @@ class Shipping_Item_Meta {
 	public static function validate_location( $data, $errors ) {
 		$shipping_methods    = $data['shipping_method'];
 		$validation_required = false;
+		$instance_id         = 0;
 		foreach ( $shipping_methods as $method_id ) {
-			if ( preg_match( '/^dropp_is/', $method_id ) ) {
+			if ( preg_match( '/^dropp_is:(\d+)$/', $method_id, $matches ) ) {
 				// Note: This validation is not needed for dropp_home
 				$validation_required = true;
+				$instance_id = $matches[1];
 			}
 		}
 		if ( ! $validation_required ) {
 			// Dropp is not used. No validation needed.
 			return;
 		}
-
-		// Assume that the posted data is not valid.
-		$valid       = false;
-		$posted_keys = array_keys( $_POST );
-		foreach ( $posted_keys as $posted_key ) {
-			if ( preg_match( '/^dropp_\d+_location_id\d+$/', $posted_key, $matches ) ) {
-				// Found a correct match in posted data.
-				if ( ! empty( $_POST[ $matches[0] ] ) ) {
-					// This means that a location has been selected.
-					$valid = true;
-				}
-			}
-		}
-		if ( ! $valid ) {
+		$location_data = WC()->session->get( 'dropp_location_' . $instance_id );
+		if ( empty( $location_data ) ) {
 			// Validation failed. No location was selected.
 			$errors->add(
 				'shipping',
@@ -134,21 +119,24 @@ class Shipping_Item_Meta {
 		if ( 'dropp_is' !== $method->get_method_id() ) {
 			return;
 		}
-		$format = '<input class="dropp-location__input--%s" name="dropp_%d_location_%1$s%d" type="hidden" value="">';
-		$keys   = [ 'id', 'address', 'name' ];
-		$fields = [];
-		foreach ( $keys as $key ) {
-			$fields[] = sprintf(
-				$format,
-				$key,
-				esc_attr( $index ),
-				esc_attr( $method->get_instance_id() )
-			);
+
+		$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
+
+		if ( ! in_array( $method->get_id(), $chosen_methods ) ) {
+			return;
 		}
+		$location_name = '';
+		$location_data = WC()->session->get( 'dropp_location_' . $method->get_instance_id() );
+		if ( ! empty( $location_data ) ) {
+			$location_name = $location_data['name'];
+		}
+
 		printf(
-			'<div class="dropp-location" style="display:none"><div class="dropp-location__actions"><span class="dropp-location__button button">%s</span></div>%s<p class="dropp-location__name" style="display:none"></p></div><div class="dropp-error" style="display:none"></div>',
+			'<div class="dropp-location" data-instance_id="%d" style="display:none"><div class="dropp-location__actions"><span class="dropp-location__button button">%s</span></div><p class="dropp-location__name"%s>%s</p></div><div class="dropp-error" style="display:none"></div>',
+			esc_attr( $method->get_instance_id() ),
 			esc_html__( 'Choose location', 'dropp-for-woocommerce' ),
-			implode( '', $fields )
+			( empty( $location_name ) ? ' style="display:none"' : '' ),
+			esc_html( $location_name )
 		);
 	}
 }

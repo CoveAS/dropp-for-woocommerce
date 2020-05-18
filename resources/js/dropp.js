@@ -1,4 +1,5 @@
 jQuery( function( $ ) {
+	var form =  $( 'form.checkout' );
 	var loading_status = 0;
 	var dropp_handler = {
 		click: function( e ) {
@@ -10,24 +11,38 @@ jQuery( function( $ ) {
 			let elem = $( this ).closest( '.dropp-location' );
 
 			if ( ! location.length );
-			var elems = {
-				input_id:      elem.find( 'input.dropp-location__input--id' ),
-				input_name:    elem.find( 'input.dropp-location__input--name' ),
-				input_address: elem.find( 'input.dropp-location__input--address' ),
-				name:          elem.find( '.dropp-location__name' ),
-			};
+			let instance_id = elem.data( 'instance_id' );
 			chooseDroppLocation()
 				.then( function( location ) {
+					if ( ! location.id ) {
+						// Something went wrong.
+						// @TODO
+						console.error( location );
+						return;
+					}
+					// Show the name.
+					 elem.find( '.dropp-location__name' ).text( location.name ).show();
 					// A location was picked. Save it.
-					elems.input_id.val( location.id );
-					elems.input_name.val( location.name );
-					elems.input_address.val( location.address );
-					elems.name.text( location.name ).show();
+					$.post(
+						_dropp.ajaxurl,
+						{
+							action:             'dropp_set_location',
+							instance_id:        instance_id,
+							location_id:        location.id,
+							location_name:      location.name,
+							location_address:   location.address,
+							location_pricetype: location.pricetype,
+						},
+						function() {
+							// Location was saved to session.
+							form.trigger( 'update_checkout' );
+						}
+					);
 				} )
 				.catch( function( error ) {
 					// Something went wrong.
 					// @TODO.
-					console.log( error );
+					console.error( error );
 				});
 		},
 		show_selector: function() {

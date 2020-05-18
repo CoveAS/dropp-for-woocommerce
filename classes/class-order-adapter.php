@@ -111,7 +111,7 @@ class Order_Adapter {
 				continue;
 			}
 			$instance_id     = $shipping_item->get_instance_id();
-			$shipping_method = new Shipping_Method( $instance_id );
+			$shipping_method = new Shipping_Method\Dropp( $instance_id );
 			$location        = Dropp_Location::from_shipping_item( $shipping_item );
 
 			if ( ! $location->id ) {

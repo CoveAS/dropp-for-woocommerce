@@ -5,12 +5,14 @@
  * @package dropp-for-woocommerce
  */
 
-namespace Dropp;
+namespace Dropp\Shipping_Method;
+
+use Dropp\Shipping_Settings;
 
 /**
  * Shipping method
  */
-class Shipping_Method extends \WC_Shipping_Flat_Rate {
+abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	use Shipping_Settings;
 
 	/**

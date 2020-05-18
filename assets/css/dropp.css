@@ -1,1 +1,35 @@
-.dropp-error{color:#860;background-color:#ffe;padding:.6rem 1rem .7rem;white-space:normal;text-align:left;margin:1rem 0;border-radius:4px;border:1px solid #dbdb84}.dropp-location{margin-top:.5rem;text-align:left;display:-webkit-box;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:reverse;flex-direction:row-reverse}.dropp-location__name{padding-right:1rem;margin-top:.25rem}.dropp-location .button{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}
+.dropp-error {
+  color: #860;
+  background-color: #FFE;
+  padding: 0.6rem 1rem 0.7rem;
+  white-space: normal;
+  text-align: left;
+  margin: 1rem 0;
+  border-radius: 4px;
+  border: 1px solid;
+  border-color: #dbdb84;
+}
+
+.dropp-location {
+  margin-top: 0.5rem;
+  text-align: left;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+          flex-direction: row-reverse;
+}
+
+.dropp-location__name {
+  padding-right: 1rem;
+  margin-top: 0.25rem;
+}
+
+.dropp-location .button {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: default;
+}
+

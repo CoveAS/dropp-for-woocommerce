@@ -19,12 +19,49 @@ class Ajax {
 	 * Setup
 	 */
 	public static function setup() {
+		add_action( 'wp_ajax_dropp_set_location', __CLASS__ . '::set_location' );
+		add_action( 'wp_ajax_nopriv_dropp_set_location', __CLASS__ . '::set_location' );
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
 		add_action( 'wp_ajax_dropp_status_update', __CLASS__ . '::dropp_status_update' );
 		add_action( 'wp_ajax_dropp_cancel', __CLASS__ . '::dropp_cancel' );
 		add_action( 'wp_ajax_dropp_update', __CLASS__ . '::dropp_update' );
 		add_action( 'wp_ajax_dropp_pdf', __CLASS__ . '::dropp_pdf' );
 		add_action( 'wp_ajax_dropp_pdf_merge', __CLASS__ . '::dropp_pdf_merge' );
+	}
+
+	/**
+	 * Dropp Set Location
+	 */
+	public static function set_location() {
+		$location_id = filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT );
+		$instance_id = filter_input( INPUT_POST, 'instance_id', FILTER_DEFAULT );
+		if ( empty( $location_id ) || empty( $instance_id ) ) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'message'     => __( 'Required field, location ID, instance ID or index was empty', 'dropp-for-woocommerce' ),
+					'errors'      => '',
+				]
+			);
+			die;
+		}
+
+		$chosen_methods     = WC()->session->set(
+			'dropp_location_' . $instance_id,
+			[
+				'id'        => $location_id,
+				'name'      => filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ),
+				'address'   => filter_input( INPUT_POST, 'location_address', FILTER_DEFAULT ),
+				'pricetype' => filter_input( INPUT_POST, 'location_pricetype', FILTER_DEFAULT ),
+			]
+		);
+		wp_send_json(
+			[
+				'status'      => 'success',
+				'message'     => __( 'Saved location ID', 'dropp-for-woocommerce' ),
+				'errors'      => '',
+			]
+		);
 	}
 
 	/**
@@ -55,7 +92,7 @@ class Ajax {
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
 		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
 		$instance_id     = $order_item->get_instance_id();
-		$shipping_method = new Shipping_Method( $instance_id );
+		$shipping_method = new Shipping_Method\Dropp( $instance_id );
 		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
 		$params = [
 			'location_id'      => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
@@ -264,7 +301,7 @@ class Ajax {
 				if ( null === $consignment->dropp_order_id ) {
 					throw new Exception( __( 'Could not find consignment:', 'dropp-for-woocommerce' ) . ' ' . $consignment_id );
 				}
-				$shipping_method = new Shipping_Method( $consignment->shipping_item_id );
+				$shipping_method = new Shipping_Method\Dropp( $consignment->shipping_item_id );
 				$api_pdf         = new Dropp_PDF( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
 				$files[]         = $api_pdf->download()->get_filename();
 			}

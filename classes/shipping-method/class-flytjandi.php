@@ -1,16 +1,16 @@
 <?php
 /**
- * Shipping method
+ * Flytjandi
  *
  * @package dropp-for-woocommerce
  */
 
-namespace Dropp;
+namespace Dropp\Shipping_Method;
 
 /**
- * Home Delivery
+ * Flytjandi
  */
-class Home_Delivery extends Shipping_Method {
+class Flytjandi extends Shipping_Method {
 
 	/**
 	 * Constructor.
@@ -18,10 +18,10 @@ class Home_Delivery extends Shipping_Method {
 	 * @param int $instance_id Shipping method instance.
 	 */
 	public function __construct( $instance_id = 0 ) {
-		$this->id                 = 'dropp_home';
+		$this->id                 = 'dropp_flytjandi';
 		$this->instance_id        = absint( $instance_id );
-		$this->method_title       = __( 'Dropp Home Delivery', 'dropp-for-woocommerce' );
-		$this->method_description = __( 'Home delivery in Iceland', 'dropp-for-woocommerce' );
+		$this->method_title       = __( 'Flytjandi', 'dropp-for-woocommerce' );
+		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
 
 		$this->supports           = array(
 			'shipping-zones',

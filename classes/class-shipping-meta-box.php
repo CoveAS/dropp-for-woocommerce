@@ -84,7 +84,7 @@ class Shipping_Meta_Box {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
 		$shipping_address['ssn'] = $order->get_meta( '_billing_dropp_ssn', true );
-		$shipping_method = new Shipping_Method();
+		$shipping_method = new Shipping_Method\Dropp();
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
 		wp_localize_script(
 			'dropp-admin-js',

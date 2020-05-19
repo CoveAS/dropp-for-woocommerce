@@ -247,6 +247,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -255,6 +259,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       i18n: _dropp.i18n,
       locations: _dropp.locations,
+      special_locations: _dropp.special_locations,
       shipping_items: _dropp.shipping_items,
       selected_shipping_item: false,
       consignment_container: {
@@ -312,11 +317,11 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    add_home_delivery: function add_home_delivery() {
+    add_special_delivery: function add_special_delivery(raw_location) {
       var location = {
-        id: _dropp.home_delivery_location.id,
-        name: _dropp.home_delivery_location.name,
-        barcode: _dropp.home_delivery_location.barcode
+        id: raw_location.id,
+        name: raw_location.name,
+        barcode: raw_location.barcode
       };
       location.order_item_id = this.selected_shipping_item;
       this.locations.push(location);
@@ -854,6 +859,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1125,7 +1133,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-booking button,\n.dropp-booking [type=submit] {\n  background: #0071a1;\n  border-radius: 3px;\n  outline: none;\n  padding: 0.5rem 1rem;\n  border: 1px solid #0071a1;\n  color: white;\n  -webkit-transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n  transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n}\n.dropp-booking button:focus,\n.dropp-booking [type=submit]:focus {\n  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;\n}\n.dropp-booking button:active,\n.dropp-booking [type=submit]:active {\n  background-color: #fff;\n  color: #000;\n}\n.dropp-booking button:hover,\n.dropp-booking [type=submit]:hover {\n  background-color: #e6fdfe;\n  color: #000;\n}\n.dropp-booking button:disabled,\n.dropp-booking [type=submit]:disabled {\n  opacity: 0.4;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  padding-left: 12px;\n  padding-right: 12px;\n  padding-bottom: 1rem;\n  margin-left: -12px;\n  margin-right: -12px;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 12px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 12px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  margin-left: -12px;\n  margin-right: -12px;\n  width: calc(100% + 24px);\n}\n#woocommerce-order-dropp-booking .dropp-consignments__title {\n  font-size: 1.5rem;\n  font-weight: 700;\n  padding: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}", ""]);
+exports.push([module.i, ".dropp-booking button,\n.dropp-booking [type=submit] {\n  background: #0071a1;\n  border-radius: 3px;\n  outline: none;\n  padding: 0.5rem 1rem;\n  border: 1px solid #0071a1;\n  color: white;\n  -webkit-transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n  transition: background-color 0.2s, border-color 0.2s, color 0.1s;\n}\n.dropp-booking button:focus,\n.dropp-booking [type=submit]:focus {\n  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;\n}\n.dropp-booking button:active,\n.dropp-booking [type=submit]:active {\n  background-color: #fff;\n  color: #000;\n}\n.dropp-booking button:hover,\n.dropp-booking [type=submit]:hover {\n  background-color: #e6fdfe;\n  color: #000;\n}\n.dropp-booking button:disabled,\n.dropp-booking [type=submit]:disabled {\n  opacity: 0.4;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-toggle-locations {\n  padding-left: 12px;\n  padding-right: 12px;\n  padding-bottom: 1rem;\n  margin-left: -12px;\n  margin-right: -12px;\n}\n.dropp-consignments {\n  margin-bottom: 1rem;\n}\n.dropp-consignments th {\n  text-align: left;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 2px 4px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 12px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 12px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  margin-left: -12px;\n  margin-right: -12px;\n  width: calc(100% + 24px);\n}\n#woocommerce-order-dropp-booking .dropp-consignments__title {\n  font-size: 1.5rem;\n  font-weight: 700;\n  padding: 0;\n}\n.dropp-locations__add-location {\n  margin-top: 1rem;\n}\n.dropp-locations__add-button {\n  margin-right: 0.5rem;\n}", ""]);
 
 // exports
 
@@ -1220,7 +1228,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  border-bottom: 1px solid #e5e5e5;\n  margin-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-products,\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n  border-top: 2px solid navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
+exports.push([module.i, ".dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  padding-bottom: 1rem;\n  opacity: 1;\n  -webkit-transition: opacity 0.5s;\n  transition: opacity 0.5s;\n}\n.dropp-location:last-of-type {\n  border-bottom: 1px solid #e5e5e5;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-products,\n.dropp-location .dropp-customer, .dropp-location__actions, .dropp-location__booking-errors, .dropp-location__header {\n  padding: 10px;\n}\n.dropp-location__header {\n  position: relative;\n  background-color: #e6fdfe;\n  color: navy;\n  border-top: 2px solid navy;\n}\n.dropp-location__change {\n  position: absolute;\n  top: 0.75rem;\n  right: 12px;\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  color: navy;\n  font-size: 1.5rem;\n  font-weight: 700;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
 
 // exports
 
@@ -2713,18 +2721,21 @@ var render = function() {
                   }
                 }
               }),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "dropp-locations__add-button",
-                domProps: { innerHTML: _vm._s(_vm.i18n.add_home_delivery) },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.add_home_delivery($event)
+              _vm._l(_vm.special_locations, function(special, shipping_method) {
+                return _c("button", {
+                  key: shipping_method,
+                  staticClass: "dropp-locations__add-button",
+                  domProps: { innerHTML: _vm._s(special.label) },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.add_special_delivery(special.location)
+                    }
                   }
-                }
+                })
               })
-            ]
+            ],
+            2
           )
         ],
         2

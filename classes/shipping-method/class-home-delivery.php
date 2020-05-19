@@ -1,6 +1,6 @@
 <?php
 /**
- * Shipping method
+ * Home Delivery
  *
  * @package dropp-for-woocommerce
  */

@@ -55,11 +55,12 @@
 					@click.prevent="add_location"
 					v-html="i18n.add_location"
 				>
-				</button>
-				<button
+				</button><button
+					v-for="special, shipping_method in special_locations"
+					:key="shipping_method"
 					class="dropp-locations__add-button"
-					@click.prevent="add_home_delivery"
-					v-html="i18n.add_home_delivery"
+					@click.prevent="add_special_delivery( special.location )"
+					v-html="special.label"
 				>
 				</button>
 			</div>
@@ -144,6 +145,9 @@
 		&__add-location {
 			margin-top: 1rem;
 		}
+		&__add-button {
+			margin-right: 0.5rem;
+		}
 	}
 </style>
 
@@ -156,6 +160,7 @@
 			return {
 				i18n: _dropp.i18n,
 				locations: _dropp.locations,
+				special_locations: _dropp.special_locations,
 				shipping_items: _dropp.shipping_items,
 				selected_shipping_item: false,
 				consignment_container: {
@@ -215,11 +220,11 @@
 						console.log( error );
 					});
 			},
-			add_home_delivery: function() {
+			add_special_delivery: function( raw_location ) {
 				let location = {
-					id: _dropp.home_delivery_location.id,
-					name: _dropp.home_delivery_location.name,
-					barcode: _dropp.home_delivery_location.barcode,
+					id: raw_location.id,
+					name: raw_location.name,
+					barcode: raw_location.barcode,
 				};
 				location.order_item_id = this.selected_shipping_item;
 				this.locations.push( location );

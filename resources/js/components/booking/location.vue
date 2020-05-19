@@ -48,11 +48,14 @@
 		margin-left: -12px;
 		margin-right: -12px;
 		// background-color: #f1f1f1;
-		border-bottom: 1px solid #e5e5e5;
-		margin-bottom: 1rem;
+
+		padding-bottom: 1rem;
 
 		opacity: 1;
 		transition: opacity 0.5s;
+		&:last-of-type {
+			border-bottom: 1px solid #e5e5e5;
+		}
 
 		&--loading {
 			opacity: 0.5;

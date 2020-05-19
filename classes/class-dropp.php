@@ -36,6 +36,7 @@ class Dropp {
 		require_once $plugin_dir . '/classes/shipping-method/class-dropp.php';
 		require_once $plugin_dir . '/classes/shipping-method/class-home-delivery.php';
 		require_once $plugin_dir . '/classes/shipping-method/class-flytjandi.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-pickup.php';
 
 		add_filter( 'woocommerce_shipping_dropp_is_instance_option', 'Dropp\Shipping_Method\Dropp::get_cost_option', 10, 3 );
 
@@ -125,6 +126,9 @@ class Dropp {
 		$shipping_methods['dropp_is']        = 'Dropp\Shipping_Method\Dropp';
 		$shipping_methods['dropp_home']      = 'Dropp\Shipping_Method\Home_Delivery';
 		$shipping_methods['dropp_flytjandi'] = 'Dropp\Shipping_Method\Flytjandi';
+		if ( self::is_pickup_enabled() ) {
+			$shipping_methods['dropp_pickup'] = 'Dropp\Shipping_Method\Pickup';
+		}
 		return $shipping_methods;
 	}
 
@@ -181,5 +185,26 @@ class Dropp {
 			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'dropp-for-woocommerce' ) . '">' . esc_html__( 'Settings', 'dropp-for-woocommerce' ) . '</a>',
 		);
 		return array_merge( $action_links, $links );
+	}
+
+	/**
+	 * Is pickup enabled
+	 * @param  Shipping_Method $shipping_method (optional) Shipping method.
+	 * @return boolean                          True if pickup is enabled.
+	 */
+	public static function is_pickup_enabled( $shipping_method = null ) {
+		$pickup_enabled = get_transient( 'dropp_pickup_enabled' );
+		if ( empty( $pickup_enabled ) ) {
+			try {
+				$api            = new API( $shipping_method );
+				$result         = $api->get( 'orders/havepickup' );
+				$pickup_enabled = ( isset( $result['error'] ) ? 'no' : 'yes' );
+				set_transient( 'dropp_pickup_enabled', $pickup_enabled, ( 'yes' === $pickup_enabled ? DAY_IN_SECONDS : 300 ) );
+			}
+			catch (\Exception $e) {
+				$pickup_enabled = false;
+			}
+		}
+		return 'yes' === $pickup_enabled;
 	}
 }

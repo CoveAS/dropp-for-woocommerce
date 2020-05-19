@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Exception;
+use WC_Log_Levels;
 use WC_Logger;
 
 /**

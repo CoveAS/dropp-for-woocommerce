@@ -15,7 +15,7 @@ use Dropp\Dropp_Location;
 class Dropp extends Shipping_Method {
 
 	public static function get_cost_option( $value, $option, $shipping_method ) {
-		if ( 'cost' !== $option ) {
+		if ( 'cost' !== $option || is_admin() || ! WC()->session ) {
 			return $value;
 		}
 

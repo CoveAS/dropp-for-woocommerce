@@ -20,20 +20,35 @@ class Dropp_Location {
 	public $id;
 	public $name;
 	public $barcode;
+	public $type;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.
 	 */
-	public function __construct() {
-	}
+	public function __construct( $type = 'dropp_is' ) {
+		$this->type = $type;
+		// Special location handling for home deliveries.
+		if ( 'dropp_home' === $type ) {
+			$this->id      = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
+			$this->name    = __( 'Home delivery', 'dropp-for-woocommerce' );
+			$this->address = '';
+		}
 
-	public function home_delivery() {
-		$this->id      = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
-		$this->name    = __( 'Home delivery', 'dropp-for-woocommerce' );
-		$this->address = '';
-		return $this;
+		// Special location handling for flytjandi deliveries.
+		if ( 'dropp_flytjandi' === $type ) {
+			$this->id      = 'a178c25e-bb35-4420-8792-d5295f0e7fcc';
+			$this->name    = __( 'Flytjandi', 'dropp-for-woocommerce' );
+			$this->address = '';
+		}
+
+		// Special location handling for pickup.
+		if ( 'dropp_pickup' === $type ) {
+			$this->id      = '30e06a53-2d65-46e7-adc1-18e60de28ecc';
+			$this->name    = __( 'Pick-up at warehouse', 'dropp-for-woocommerce' ). ' (Vatnagarðar 22)';
+			$this->address = '';
+		}
 	}
 
 	/**
@@ -43,17 +58,17 @@ class Dropp_Location {
 	 * @return array             Array of Dropp_Location.
 	 */
 	public static function from_shipping_item( $shipping_item ) {
-		$location = new self();
+		$location = new self( $shipping_item->get_method_id() );
 		$location->order_item    = $shipping_item;
 		$location->order_item_id = $shipping_item->get_id();
-		if ( 'dropp_home' === $shipping_item->get_method_id() ) {
-			return $location->home_delivery();
-		}
-		$meta_data = $shipping_item->get_meta( 'dropp_location' );
-		if ( is_array( $meta_data ) ) {
-			$location->id      = $meta_data['id'] ?? null;
-			$location->name    = $meta_data['name'] ?? null;
-			$location->address = $meta_data['address'] ?? null;
+
+		if ( 'dropp_is' === $location->type ) {
+			$meta_data = $shipping_item->get_meta( 'dropp_location' );
+			if ( is_array( $meta_data ) ) {
+				$location->id      = $meta_data['id'] ?? null;
+				$location->name    = $meta_data['name'] ?? null;
+				$location->address = $meta_data['address'] ?? null;
+			}
 		}
 		return $location;
 	}

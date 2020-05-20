@@ -118,6 +118,7 @@ class Shipping_Meta_Box {
 				'check_status'           => __( 'Check status', 'dropp-for-woocommerce' ),
 				'download'               => __( 'Download', 'dropp-for-woocommerce' ),
 				'update_order'           => __( 'Update order', 'dropp-for-woocommerce' ),
+				'extra_pdf'              => __( 'Add extra pdf', 'dropp-for-woocommerce' ),
 				'view_order'             => __( 'View order', 'dropp-for-woocommerce' ),
 				'cancel_order'           => __( 'Cancel order', 'dropp-for-woocommerce' ),
 				'barcode'                => __( 'Barcode', 'dropp-for-woocommerce' ),

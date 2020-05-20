@@ -18,66 +18,62 @@
 		<td
 			class="dropp-consignment__actions"
 		>
-			<ul v-if="consignment.dropp_order_id">
-				<li>
+			<div
+				:class="context_class"
+				class="dropp-context-menu"
+				v-if="consignment.dropp_order_id"
+			>
+				<div class="dropp-context-menu__main">
 					<a
-					target="_blank"
-					:href="download_url(consignment)"
-					v-html="i18n.download"
+						class="dropp-context-menu__first"
+						target="_blank"
+						:href="download_url(consignment)"
+						v-html="i18n.download"
 					></a>
-				</li>
-				<li>
-					<a
-					href="#"
-					v-html="i18n.check_status"
-					@click.prevent="check_status"
-					></a>
-				</li>
-			</ul>
-		</td>
-		<td
-			class="dropp-consignment__actions"
-			v-if="consignment.dropp_order_id && consignment.status === 'initial'"
-		>
-			<ul>
-				<li>
-					<a
-						class="dropp-consignment__action"
-						href="#"
-						v-html="i18n.view_order"
-						@click.prevent="view_order"
-					></a>
-				</li>
-				<li>
-					<a
-						class="dropp-consignment__action"
-						href="#"
-						v-html="i18n.cancel_order"
-						@click.prevent="cancel_order"
-					></a>
-				</li>
-			</ul>
-		</td>
-		<td
-			class="dropp-consignment__actions"
-			v-else
-		>
-			<ul>
-				<li>
-					<a
-						class="dropp-consignment__action"
-						href="#"
-						v-html="i18n.view_order"
-						@click.prevent="view_order"
-					></a>
-				</li>
-				<li>
 					<span
-						class="dropp-consignment__action dropp-consignment__action--disabled"
-						v-html="i18n.cancel_order">
-					></span>
-				</li>
-			</ul>
+						class="dropp-context-menu__button"
+						@click.prevent="toggle_context"
+					>⚙️</span>
+				</div>
+				<div class="dropp-context-menu__dropdown">
+					<context-pdf class="dropp-context-menu__pdf">
+						<li>
+							<a
+								class="dropp-consignment__action"
+								href="#"
+								v-html="i18n.extra_pdf"
+								@click.prevent="extra_pdf"
+							></a>
+						</li>
+					</context-pdf>
+					<hr>
+					<ul class="dropp-context-menu__actions">
+						<li>
+							<a
+							href="#"
+							v-html="i18n.check_status"
+							@click.prevent="check_status"
+							></a>
+						</li>
+						<li>
+							<a
+								class="dropp-consignment__action"
+								href="#"
+								v-html="i18n.view_order"
+								@click.prevent="view_order"
+							></a>
+						</li>
+						<li v-if="is_initial">
+							<a
+								class="dropp-consignment__action dropp-consignment__action--cancel"
+								href="#"
+								v-html="i18n.cancel_order"
+								@click.prevent="cancel_order"
+							></a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</td>
 	</tr>
 </template>
@@ -113,15 +109,76 @@
 				background: darken(#e6fdfe, 5%);
 			}
 		}
+		&__actions {
+			width: 12rem;
+		}
 		&__action--disabled {
 			color: #999;
 			opacity: 0.5;
 			cursor: not-allowed;
 		}
 	}
+
+	.dropp-context-menu {
+		a {
+			color: #0071a1;
+			text-decoration: none;
+		}
+		position: relative;
+		&__first {
+			flex: 1 0 auto;
+			padding: 0.5rem;
+			border-radius: 5px;
+			&:hover {
+				background-color: #f1f1f1;
+			}
+		}
+		&__button {
+			border-left: 1px solid #0071a1;
+			padding: 0.5rem;
+			user-select: none;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			&:hover {
+				background-color: #f1f1f1;
+			}
+		}
+
+		&__main {
+			background: #f3f5f6;
+			border: 1px solid #0071a1;
+			display: flex;
+			border-radius: 5px;
+		}
+		&__dropdown {
+			display: none;
+			position: absolute;
+			top: 100%;
+			margin: 0;
+			left: 0;
+			right: 0;
+			background: #fff;
+			padding: 1rem;
+			border: 1px solid #0071a1;
+			border-top: none;
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+		&--show {
+			z-index: 3;
+			.dropp-context-menu__dropdown {
+				display: block;
+			}
+			.dropp-context-menu__main {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+	}
 </style>
 
 <script>
+	import ContextPdf from './context-pdf.vue';
 	import Loader from './loader.vue';
 	import time_ago from './time-ago.js';
 	export default {
@@ -129,9 +186,16 @@
 			return {
 				i18n: _dropp.i18n,
 				loading: false,
+				show_context: false,
 			};
 		},
 		props: [ 'consignment' ],
+		mounted: function() {
+			if ( ! window._dropp_closers ) {
+				window._dropp_closers = [];
+			}
+			window._dropp_closers.push( this.close_context );
+		},
 		computed: {
 			classes: function() {
 				let classes = [
@@ -144,6 +208,9 @@
 				}
 				return classes.join( ' ' );
 			},
+			context_class: function() {
+				return this.show_context ? 'dropp-context-menu--show' : '';
+			},
 			created_at: function() {
 				return time_ago( this.consignment.created_at );
 			},
@@ -152,6 +219,9 @@
 			},
 			status: function() {
 				return _dropp.status_list[ this.consignment.status ];
+			},
+			is_initial: function() {
+				return this.consignment.dropp_order_id && this.consignment.status === 'initial';
 			},
 			barcode_html: function() {
 				let consignment = this.consignment;
@@ -163,6 +233,19 @@
 			}
 		},
 		methods: {
+			close_context: function() {
+				this.show_context = false;
+			},
+			toggle_context: function() {
+				if ( this.show_context ) {
+					this.show_context = false;
+				} else {
+					for (var i = 0; i < window._dropp_closers.length; i++) {
+						window._dropp_closers[i]();
+					}
+					this.show_context = true;
+				}
+			},
 			add_location: function() {
 				//@TODO: Location selector.
 				let vm = this;
@@ -182,6 +265,7 @@
 				if (this.loading) {
 					return;
 				}
+				this.show_context = false;
 				this.loading = true;
 				jQuery.ajax( {
 					url: _dropp.ajaxurl,
@@ -195,6 +279,10 @@
 				} );
 			},
 			view_order: function() {
+				this.show_context = false;
+				this.$parent.show_modal( this.consignment );
+			},
+			extra_pdf: function() {
 				this.$parent.show_modal( this.consignment );
 			},
 			cancel_order: function() {
@@ -249,7 +337,8 @@
 			},
 		},
 		components: {
-			loader: Loader,
+			Loader,
+			ContextPdf,
 		},
 	};
 </script>

@@ -8,7 +8,7 @@
 		<header class="dropp-location__header">
 			<h2 class="dropp-location__name" v-html="location.name" :title="'[' + location.id + ']'"></h2>
 			<p class="dropp-location__address" v-html="location.address"></p>
-			<a class="dropp-location__change" v-html="i18n.change_location"></a>
+			<!-- a class="dropp-location__change" v-html="i18n.change_location"></a -->
 		</header>
 		<div class="dropp-location__messages" v-if="response" :class="response_status">
 			<h2 class="dropp-location__message" v-html="response.message"></h2>

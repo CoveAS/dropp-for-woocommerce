@@ -8,7 +8,7 @@
 					<th v-html="i18n.status"></th>
 					<th v-html="i18n.created"></th>
 					<th v-html="i18n.updated"></th>
-					<th v-html="i18n.actions" colspan="2"></th>
+					<th v-html="i18n.actions" class="dropp-consignment__actions"></th>
 				</thead>
 				<tbody>
 					<consignmentrow

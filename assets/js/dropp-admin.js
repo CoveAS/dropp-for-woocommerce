@@ -348,8 +348,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loader.vue */ "./resources/js/components/booking/loader.vue");
-/* harmony import */ var _time_ago_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./time-ago.js */ "./resources/js/components/booking/time-ago.js");
+/* harmony import */ var _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./context-pdf.vue */ "./resources/js/components/booking/context-pdf.vue");
+/* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loader.vue */ "./resources/js/components/booking/loader.vue");
+/* harmony import */ var _time_ago_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./time-ago.js */ "./resources/js/components/booking/time-ago.js");
 //
 //
 //
@@ -473,16 +474,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       i18n: _dropp.i18n,
-      loading: false
+      loading: false,
+      show_context: false
     };
   },
   props: ['consignment'],
+  mounted: function mounted() {
+    if (!window._dropp_closers) {
+      window._dropp_closers = [];
+    }
+
+    window._dropp_closers.push(this.close_context);
+  },
   computed: {
     classes: function classes() {
       var classes = ['dropp-consignment', 'dropp-consignment-' + this.consignment.id, 'dropp-consignment--' + this.consignment.status];
@@ -493,14 +559,20 @@ __webpack_require__.r(__webpack_exports__);
 
       return classes.join(' ');
     },
+    context_class: function context_class() {
+      return this.show_context ? 'dropp-context-menu--show' : '';
+    },
     created_at: function created_at() {
-      return Object(_time_ago_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this.consignment.created_at);
+      return Object(_time_ago_js__WEBPACK_IMPORTED_MODULE_2__["default"])(this.consignment.created_at);
     },
     updated_at: function updated_at() {
-      return Object(_time_ago_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this.consignment.updated_at);
+      return Object(_time_ago_js__WEBPACK_IMPORTED_MODULE_2__["default"])(this.consignment.updated_at);
     },
     status: function status() {
       return _dropp.status_list[this.consignment.status];
+    },
+    is_initial: function is_initial() {
+      return this.consignment.dropp_order_id && this.consignment.status === 'initial';
     },
     barcode_html: function barcode_html() {
       var consignment = this.consignment;
@@ -512,6 +584,20 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    close_context: function close_context() {
+      this.show_context = false;
+    },
+    toggle_context: function toggle_context() {
+      if (this.show_context) {
+        this.show_context = false;
+      } else {
+        for (var i = 0; i < window._dropp_closers.length; i++) {
+          window._dropp_closers[i]();
+        }
+
+        this.show_context = true;
+      }
+    },
     add_location: function add_location() {
       //@TODO: Location selector.
       var vm = this;
@@ -530,6 +616,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.show_context = false;
       this.loading = true;
       jQuery.ajax({
         url: _dropp.ajaxurl,
@@ -543,6 +630,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     view_order: function view_order() {
+      this.show_context = false;
+      this.$parent.show_modal(this.consignment);
+    },
+    extra_pdf: function extra_pdf() {
       this.$parent.show_modal(this.consignment);
     },
     cancel_order: function cancel_order() {
@@ -600,7 +691,36 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    loader: _loader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Loader: _loader_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ContextPdf: _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loader.vue */ "./resources/js/components/booking/loader.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    Loader: _loader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -1152,7 +1272,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".dropp-consignment {\n  opacity: 1;\n  -webkit-transition: opacity 0.2s;\n  transition: opacity 0.2s;\n}\n.dropp-consignment--loading {\n  opacity: 0.5;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--cancelled, .dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--cancelled:nth-of-type(2n), .dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial, .dropp-consignment--transit, .dropp-consignment--consignment, .dropp-consignment--delivered {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n), .dropp-consignment--transit:nth-of-type(2n), .dropp-consignment--consignment:nth-of-type(2n), .dropp-consignment--delivered:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignment__action--disabled {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}", ""]);
+exports.push([module.i, ".dropp-consignment {\n  opacity: 1;\n  -webkit-transition: opacity 0.2s;\n  transition: opacity 0.2s;\n}\n.dropp-consignment--loading {\n  opacity: 0.5;\n}\n.dropp-consignment:nth-of-type(2n) {\n  background: #f2f2f2;\n}\n.dropp-consignment--cancelled, .dropp-consignment--error {\n  background: #FEE;\n}\n.dropp-consignment--cancelled:nth-of-type(2n), .dropp-consignment--error:nth-of-type(2n) {\n  background: #FCC;\n}\n.dropp-consignment--initial, .dropp-consignment--transit, .dropp-consignment--consignment, .dropp-consignment--delivered {\n  color: navy;\n  background: #e6fdfe;\n}\n.dropp-consignment--initial:nth-of-type(2n), .dropp-consignment--transit:nth-of-type(2n), .dropp-consignment--consignment:nth-of-type(2n), .dropp-consignment--delivered:nth-of-type(2n) {\n  background: #cdfbfd;\n}\n.dropp-consignment__actions {\n  width: 12rem;\n}\n.dropp-consignment__action--disabled {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.dropp-context-menu {\n  position: relative;\n}\n.dropp-context-menu a {\n  color: #0071a1;\n  text-decoration: none;\n}\n.dropp-context-menu__first {\n  -webkit-box-flex: 1;\n          flex: 1 0 auto;\n  padding: 0.5rem;\n  border-radius: 5px;\n}\n.dropp-context-menu__first:hover {\n  background-color: #f1f1f1;\n}\n.dropp-context-menu__button {\n  border-left: 1px solid #0071a1;\n  padding: 0.5rem;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n.dropp-context-menu__button:hover {\n  background-color: #f1f1f1;\n}\n.dropp-context-menu__main {\n  background: #f3f5f6;\n  border: 1px solid #0071a1;\n  display: -webkit-box;\n  display: flex;\n  border-radius: 5px;\n}\n.dropp-context-menu__dropdown {\n  display: none;\n  position: absolute;\n  top: 100%;\n  margin: 0;\n  left: 0;\n  right: 0;\n  background: #fff;\n  padding: 1rem;\n  border: 1px solid #0071a1;\n  border-top: none;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px;\n}\n.dropp-context-menu--show {\n  z-index: 3;\n}\n.dropp-context-menu--show .dropp-context-menu__dropdown {\n  display: block;\n}\n.dropp-context-menu--show .dropp-context-menu__main {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}", ""]);
 
 // exports
 
@@ -2577,7 +2697,7 @@ var render = function() {
               _c("th", { domProps: { innerHTML: _vm._s(_vm.i18n.updated) } }),
               _vm._v(" "),
               _c("th", {
-                attrs: { colspan: "2" },
+                staticClass: "dropp-consignment__actions",
                 domProps: { innerHTML: _vm._s(_vm.i18n.actions) }
               })
             ]),
@@ -2818,96 +2938,151 @@ var render = function() {
         _vm._v(" "),
         _c("td", { staticClass: "dropp-consignment__actions" }, [
           _vm.consignment.dropp_order_id
-            ? _c("ul", [
-                _c("li", [
-                  _c("a", {
-                    attrs: {
-                      target: "_blank",
-                      href: _vm.download_url(_vm.consignment)
-                    },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.download) }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", {
-                    attrs: { href: "#" },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.check_status) },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.check_status($event)
-                      }
-                    }
-                  })
-                ])
-              ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm.consignment.dropp_order_id && _vm.consignment.status === "initial"
-          ? _c("td", { staticClass: "dropp-consignment__actions" }, [
-              _c("ul", [
-                _c("li", [
-                  _c("a", {
-                    staticClass: "dropp-consignment__action",
-                    attrs: { href: "#" },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.view_order($event)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", {
-                    staticClass: "dropp-consignment__action",
-                    attrs: { href: "#" },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.cancel_order($event)
-                      }
-                    }
-                  })
-                ])
-              ])
-            ])
-          : _c("td", { staticClass: "dropp-consignment__actions" }, [
-              _c("ul", [
-                _c("li", [
-                  _c("a", {
-                    staticClass: "dropp-consignment__action",
-                    attrs: { href: "#" },
-                    domProps: { innerHTML: _vm._s(_vm.i18n.view_order) },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.view_order($event)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("li", [
+            ? _c(
+                "div",
+                { staticClass: "dropp-context-menu", class: _vm.context_class },
+                [
+                  _c("div", { staticClass: "dropp-context-menu__main" }, [
+                    _c("a", {
+                      staticClass: "dropp-context-menu__first",
+                      attrs: {
+                        target: "_blank",
+                        href: _vm.download_url(_vm.consignment)
+                      },
+                      domProps: { innerHTML: _vm._s(_vm.i18n.download) }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "dropp-context-menu__button",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.toggle_context($event)
+                          }
+                        }
+                      },
+                      [_vm._v("⚙️")]
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "span",
-                    {
-                      staticClass:
-                        "dropp-consignment__action dropp-consignment__action--disabled",
-                      domProps: { innerHTML: _vm._s(_vm.i18n.cancel_order) }
-                    },
-                    [_vm._v("\n\t\t\t\t>")]
+                    "div",
+                    { staticClass: "dropp-context-menu__dropdown" },
+                    [
+                      _c(
+                        "context-pdf",
+                        { staticClass: "dropp-context-menu__pdf" },
+                        [
+                          _c("li", [
+                            _c("a", {
+                              staticClass: "dropp-consignment__action",
+                              attrs: { href: "#" },
+                              domProps: {
+                                innerHTML: _vm._s(_vm.i18n.extra_pdf)
+                              },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.extra_pdf($event)
+                                }
+                              }
+                            })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c("ul", { staticClass: "dropp-context-menu__actions" }, [
+                        _c("li", [
+                          _c("a", {
+                            attrs: { href: "#" },
+                            domProps: {
+                              innerHTML: _vm._s(_vm.i18n.check_status)
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.check_status($event)
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("li", [
+                          _c("a", {
+                            staticClass: "dropp-consignment__action",
+                            attrs: { href: "#" },
+                            domProps: {
+                              innerHTML: _vm._s(_vm.i18n.view_order)
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.view_order($event)
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _vm.is_initial
+                          ? _c("li", [
+                              _c("a", {
+                                staticClass:
+                                  "dropp-consignment__action dropp-consignment__action--cancel",
+                                attrs: { href: "#" },
+                                domProps: {
+                                  innerHTML: _vm._s(_vm.i18n.cancel_order)
+                                },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.cancel_order($event)
+                                  }
+                                }
+                              })
+                            ])
+                          : _vm._e()
+                      ])
+                    ],
+                    1
                   )
-                ])
-              ])
-            ])
+                ]
+              )
+            : _vm._e()
+        ])
       ])
     : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "ul",
+    [_c("li", [_c("loader")], 1), _vm._v(" "), _vm._t("default")],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3345,11 +3520,6 @@ var render = function() {
         _c("p", {
           staticClass: "dropp-location__address",
           domProps: { innerHTML: _vm._s(_vm.location.address) }
-        }),
-        _vm._v(" "),
-        _c("a", {
-          staticClass: "dropp-location__change",
-          domProps: { innerHTML: _vm._s(_vm.i18n.change_location) }
         })
       ]),
       _vm._v(" "),
@@ -15816,6 +15986,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_consignment_row_vue_vue_type_template_id_0883b80e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_consignment_row_vue_vue_type_template_id_0883b80e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/context-pdf.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/booking/context-pdf.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./context-pdf.vue?vue&type=template&id=7d6f5a23& */ "./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23&");
+/* harmony import */ var _context_pdf_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./context-pdf.vue?vue&type=script&lang=js& */ "./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _context_pdf_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/booking/context-pdf.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_context_pdf_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./context-pdf.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/context-pdf.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_context_pdf_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./context-pdf.vue?vue&type=template&id=7d6f5a23& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/booking/context-pdf.vue?vue&type=template&id=7d6f5a23&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_context_pdf_vue_vue_type_template_id_7d6f5a23___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

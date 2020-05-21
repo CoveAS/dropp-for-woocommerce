@@ -34,7 +34,7 @@ class Order_Adapter {
 	 * @return boolean         True if the dropp shipping method is present on the order.
 	 */
 	public function is_dropp() {
-		$dropp_methods  = [ 'dropp_is', 'dropp_home' ];
+		$dropp_methods  = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
 		$shipping_items = $this->order->get_items( 'shipping' );
 		foreach ( $shipping_items as $shipping_item ) {
 			if ( in_array( $shipping_item->get_method_id(), $dropp_methods, true ) ) {
@@ -96,6 +96,7 @@ class Order_Adapter {
 		$billing_address  = $this->order->get_address();
 		$shipping_address = $this->order->get_address( 'shipping' );
 		$line_items       = $this->order->get_items( 'shipping' );
+		$dropp_methods    = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
 
 		// Fix missing args in address.
 		if ( empty( $shipping_address['email'] ) ) {
@@ -107,7 +108,7 @@ class Order_Adapter {
 
 		$any_booked = false;
 		foreach ( $shipping_items as $shipping_item ) {
-			if ( 'dropp_is' !== $shipping_item->get_method_id() ) {
+			if ( ! in_array( $shipping_item->get_method_id(), $dropp_methods ) ) {
 				continue;
 			}
 			$instance_id     = $shipping_item->get_instance_id();
@@ -118,8 +119,7 @@ class Order_Adapter {
 				continue;
 			}
 
-			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
-
+			$product_lines      = Dropp_Product_Line::array_from_order( $this->order, true );
 			$consignment        = new Dropp_Consignment();
 			$consignment->debug = $shipping_method->debug_mode;
 			$consignment->fill(

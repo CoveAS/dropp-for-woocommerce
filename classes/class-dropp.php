@@ -51,6 +51,7 @@ class Dropp {
 		require_once $plugin_dir . '/classes/class-order-bulk-actions.php';
 		require_once $plugin_dir . '/classes/class-social-security-number.php';
 		require_once $plugin_dir . '/classes/class-postcode-validation.php';
+		require_once $plugin_dir . '/classes/class-tracking-code.php';
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
 		Shipping_Item_Meta::setup();
@@ -62,6 +63,7 @@ class Dropp {
 		Order_Bulk_Actions::setup();
 		Social_Security_Number::setup();
 		Postcode_Validation::setup();
+		Tracking_Code::setup();
 
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );

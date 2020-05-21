@@ -8,11 +8,12 @@
 namespace Dropp;
 
 use ArrayAccess;
+use Countable;
 
 /**
  * Dropp
  */
-class Collection implements ArrayAccess {
+class Collection implements ArrayAccess, Countable  {
 	/**
 	 * $container
 	 *
@@ -29,6 +30,14 @@ class Collection implements ArrayAccess {
 		$this->container = $container;
 	}
 
+	/**
+	 * Count
+	 *
+	 * @return integer Item count.
+	 */
+	public function count() {
+		return count( $this->container );
+	}
 	/**
 	 * Add
 	 *
@@ -52,6 +61,17 @@ class Collection implements ArrayAccess {
 	}
 
 	/**
+	 * Filter
+	 *
+	 * @param  Collection $item Collection to merge with.
+	 * @return Collection       This object.
+	 */
+	public function filter( $callback ) {
+		$this->container = array_filter( $this->container, $callback );
+		return $this;
+	}
+
+	/**
 	 * To array
 	 *
 	 * @return array Collection as array.
@@ -61,9 +81,7 @@ class Collection implements ArrayAccess {
 	}
 
 	/**
-	 * To array
-	 *
-	 * @return array Collection converted to array.
+	 * Map
 	 */
 	public function map( $callback, ...$params ) {
 		return array_map(

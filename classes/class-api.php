@@ -70,7 +70,6 @@ class API {
 		if ( $this->test ) {
 			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
 		}
-
 		return $baseurl . $endpoint;
 	}
 

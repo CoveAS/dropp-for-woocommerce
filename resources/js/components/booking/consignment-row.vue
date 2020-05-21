@@ -36,15 +36,11 @@
 					>⚙️</span>
 				</div>
 				<div class="dropp-context-menu__dropdown">
-					<context-pdf class="dropp-context-menu__pdf">
-						<li>
-							<a
-								class="dropp-consignment__action"
-								href="#"
-								v-html="i18n.extra_pdf"
-								@click.prevent="extra_pdf"
-							></a>
-						</li>
+					<context-pdf
+						v-if="show_context"
+						:consignment_id="consignment.id"
+						class="dropp-context-menu__pdf"
+					>
 					</context-pdf>
 					<hr>
 					<ul class="dropp-context-menu__actions">
@@ -112,7 +108,10 @@
 		&__actions {
 			width: 12rem;
 		}
-		&__action--disabled {
+		& &__action--cancel {
+			color: #900;
+		}
+		& &__action--disabled {
 			color: #999;
 			opacity: 0.5;
 			cursor: not-allowed;
@@ -280,9 +279,6 @@
 			},
 			view_order: function() {
 				this.show_context = false;
-				this.$parent.show_modal( this.consignment );
-			},
-			extra_pdf: function() {
 				this.$parent.show_modal( this.consignment );
 			},
 			cancel_order: function() {

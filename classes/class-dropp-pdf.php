@@ -16,19 +16,17 @@ use Exception;
  */
 class Dropp_PDF {
 
-	protected $test = false;
-	protected $debug = false;
-	protected $consignment;
+	protected $barcode = false;
+	public $consignment;
 
 	public $errors = [];
 
 	/**
 	 * Construct
 	 */
-	public function __construct( Dropp_Consignment $consignment, $test, $debug ) {
+	public function __construct( Dropp_Consignment $consignment, $barcode = false ) {
 		$this->consignment = $consignment;
-		$this->test        = $test;
-		$this->debug       = $debug;
+		$this->barcode     = $barcode;
 	}
 
 	/**
@@ -39,52 +37,15 @@ class Dropp_PDF {
 	 * @return Booking          This object.
 	 */
 	public function remote_get() {
-		if ( empty( $this->consignment ) ) {
-			throw new Exception( 'Error Processing Request', 1 );
-		}
-		$log  = new WC_Logger();
-		$args = [
-			'headers' => [
-				'Authorization' => 'Basic ' . $this->consignment->get_api_key(),
-				'Content-Type'  => 'application/json;charset=UTF-8',
-			],
-		];
-		$url = $this->get_url( 'orders/pdf' ) . '/' . $this->consignment->dropp_order_id;
-		if ( $this->debug ) {
+		$api       = new API( $this->consignment->get_shipping_method() );
+		$api->test = $this->consignment->test;
 
-			$log->add(
-				'dropp-for-woocommerce',
-				'[DEBUG] PDF request:' . PHP_EOL . $url . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
-				WC_Log_Levels::DEBUG
-			);
+		$endpoint = "orders/pdf/{$this->consignment->dropp_order_id}";
+		if ( $this->barcode ) {
+			$endpoint = "web/pdf/getpdf/{$this->consignment->dropp_order_id}/{$this->barcode}/";
 		}
-
-		$response = wp_remote_get( $url, $args );
-
-		if ( is_wp_error( $response ) ) {
-			$log->add(
-				'dropp-for-woocommerce',
-				'[ERROR] PDF response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
-				WC_Log_Levels::ERROR
-			);
-		} elseif ( $this->debug ) {
-			$data = json_decode( $response['body'] );
-			if ( ! empty( $data ) ) {
-				$body = wp_json_encode( $data, JSON_PRETTY_PRINT );
-			} else {
-				$body = $response['body'];
-			}
-			$log->add(
-				'dropp-for-woocommerce',
-				'[DEBUG] PDF response:' . PHP_EOL . $body,
-				WC_Log_Levels::DEBUG
-			);
-		}
-
-		if ( is_wp_error( $response ) ) {
-			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
-		}
+		var_dump( $endpoint );
+		$response   = $api->get( $endpoint, 'raw' );
 		if ( ! $response['headers'] ) {
 			throw new Exception( __( 'Missing response headers', 'dropp-for-woocommerce' ) );
 		}
@@ -99,6 +60,7 @@ class Dropp_PDF {
 
 		return $response['body'];
 	}
+
 	/**
 	 * Get filename
 	 *
@@ -107,6 +69,9 @@ class Dropp_PDF {
 	public function get_filename() {
 		$uploads_dir = self::get_dir();
 		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
+		if ( $this->barcode ) {
+			$filename = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '-' . $this->barcode . '.pdf';
+		}
 		return $filename;
 	}
 
@@ -147,48 +112,13 @@ class Dropp_PDF {
 		$uploads_dir = self::get_dir();
 		$filename = $this->get_filename();
 		if ( ! $wp_filesystem->exists( $filename ) ) {
+			$this->download();
+		}
+		if ( ! $wp_filesystem->exists( $filename ) ) {
 			return $this->remote_get();
 		}
 		return $wp_filesystem->get_contents( $filename );
 	}
-
-	/**
-	 * Get pdf from consignment
-	 *
-	 * @param  string $consignment_id Consignment ID.
-	 * @return string                 PDF content.
-	 */
-	public static function get_pdf_from_consignment( $consignment_id ) {
-		$consignment = Dropp_Consignment::find( $consignment_id );
-		if ( null === $consignment->id ) {
-			wp_send_json(
-				[
-					'status'      => 'error',
-					'consignment' => $consignment->to_array( false ),
-					'message'     => 'Could not find consignment',
-					'errors'      => [],
-				]
-			);
-		}
-		$shipping_method = new Shipping_Method\Dropp( $consignment->shipping_item_id );
-		$api_pdf         = new self( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
-		return $api_pdf;
-	}
-
-	/**
-	 * Get URL
-	 *
-	 * @return string URL.
-	 */
-	public function get_url( $endpoint ) {
-		$baseurl = 'https://api.dropp.is/dropp/api/v1/';
-		if ( $this->test ) {
-			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
-		}
-
-		return $baseurl . $endpoint;
-	}
-
 
 	/**
 	 * Get dir

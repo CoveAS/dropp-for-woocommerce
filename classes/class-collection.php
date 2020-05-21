@@ -18,17 +18,47 @@ class Collection implements ArrayAccess {
 	 *
 	 * @var array
 	 */
-	private $container = [];
+	protected $container = [];
 
 	/**
 	 * Construct
 	 *
 	 * @param array $container Data to store.
 	 */
-	public function __construct( $container ) {
+	public function __construct( $container = [] ) {
 		$this->container = $container;
 	}
 
+	/**
+	 * Add
+	 *
+	 * @param  mixed      $item Item to add to the collection.
+	 * @return Collection       This object.
+	 */
+	public function add( $item ) {
+		$this->container[] = $item;
+		return $this;
+	}
+
+	/**
+	 * Merge
+	 *
+	 * @param  Collection $item Collection to merge with.
+	 * @return Collection       This object.
+	 */
+	public function merge( $collection ) {
+		$this->container = array_merge( $this->container, $collection->to_array() );
+		return $this;
+	}
+
+	/**
+	 * To array
+	 *
+	 * @return array Collection as array.
+	 */
+	public function to_array() {
+		return $this->container;
+	}
 
 	/**
 	 * To array

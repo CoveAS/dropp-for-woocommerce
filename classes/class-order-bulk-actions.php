@@ -148,6 +148,7 @@ class Order_Bulk_Actions {
 				}
 			}
 		}
+		$dropp_order_ids = array_unique( $dropp_order_ids );
 		if ( 'bulk_booking' === $action ) {
 			$existing  = self::get_id_array( 'existing' );
 			$success   = self::get_id_array( 'success' );

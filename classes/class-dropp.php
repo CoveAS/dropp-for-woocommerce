@@ -27,6 +27,7 @@ class Dropp {
 		require_once $plugin_dir . '/classes/class-dropp-customer.php';
 		require_once $plugin_dir . '/classes/class-dropp-location.php';
 		require_once $plugin_dir . '/classes/class-dropp-consignment.php';
+		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
 		require_once $plugin_dir . '/classes/class-dropp-pdf.php';
 		require_once $plugin_dir . '/classes/class-order-adapter.php';
 

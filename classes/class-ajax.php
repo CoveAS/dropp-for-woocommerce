@@ -26,7 +26,11 @@ class Ajax {
 		add_action( 'wp_ajax_dropp_cancel', __CLASS__ . '::dropp_cancel' );
 		add_action( 'wp_ajax_dropp_update', __CLASS__ . '::dropp_update' );
 		add_action( 'wp_ajax_dropp_pdf', __CLASS__ . '::dropp_pdf' );
+		add_action( 'wp_ajax_dropp_pdf_single', __CLASS__ . '::dropp_pdf_single' );
 		add_action( 'wp_ajax_dropp_pdf_merge', __CLASS__ . '::dropp_pdf_merge' );
+		add_action( 'wp_ajax_dropp_get_pdf_list', __CLASS__ . '::dropp_get_pdf_list' );
+		add_action( 'wp_ajax_dropp_add_extra_pdf', __CLASS__ . '::dropp_add_extra_pdf' );
+		add_action( 'wp_ajax_dropp_delete_extra_pdf', __CLASS__ . '::dropp_delete_extra_pdf' );
 	}
 
 	/**
@@ -228,7 +232,22 @@ class Ajax {
 	 */
 	public static function dropp_pdf() {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
-		self::dropp_pdf_single( $consignment_id );
+		self::dropp_pdf_consignment( $consignment_id );
+	}
+
+	/**
+	 * Dropp pdf single
+	 */
+	public static function dropp_pdf_single() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		$barcode        = filter_input( INPUT_GET, 'barcode', FILTER_DEFAULT );
+		$consignment    = Dropp_Consignment::find( $consignment_id );
+		if ( empty( $consignment ) || null === $consignment->id ) {
+			throw new Exception( 'Could not find consignment' );
+		}
+		$pdf = new Dropp_PDF( $consignment, $barcode );
+		header( 'Content-type: application/pdf' );
+		echo $pdf->get_content();
 	}
 
 	/**
@@ -238,10 +257,10 @@ class Ajax {
 	 *
 	 * @param string|int $consignment_id Consignment ID.
 	 */
-	protected static function dropp_pdf_single( $consignment_id ) {
-		$pdf = Dropp_PDF::get_pdf_from_consignment( $consignment_id );
+	protected static function dropp_pdf_consignment( $consignment_id ) {
+		$collection = Dropp_PDF_Collection::from_consignment( $consignment_id );
 		try {
-			echo $pdf->get_content();
+			$content = $collection->get_content();
 		} catch ( Exception $e ) {
 			wp_send_json(
 				[
@@ -252,6 +271,7 @@ class Ajax {
 			);
 		}
 		header( 'Content-type: application/pdf' );
+		echo $content;
 		die;
 	}
 
@@ -289,22 +309,25 @@ class Ajax {
 		$consignment_ids = array_unique( $consignment_ids );
 		if ( 1 === count( $consignment_ids ) ) {
 			// No need to merge 1 pdf.
-			self::dropp_pdf_single( reset( $consignment_ids ) );
+			self::dropp_pdf_consignment( reset( $consignment_ids ) );
 			return;
 		}
 
 		// Grab pdf's and save them.
-		$files = [];
+		$collection = new Dropp_PDF_Collection;
 		try {
 			foreach ( $consignment_ids as $consignment_id ) {
 				$consignment = Dropp_Consignment::find( $consignment_id );
 				if ( null === $consignment->dropp_order_id ) {
 					throw new Exception( __( 'Could not find consignment:', 'dropp-for-woocommerce' ) . ' ' . $consignment_id );
 				}
-				$shipping_method = new Shipping_Method\Dropp( $consignment->shipping_item_id );
-				$api_pdf         = new Dropp_PDF( $consignment, $shipping_method->test_mode, $shipping_method->debug_mode );
-				$files[]         = $api_pdf->download()->get_filename();
+				if ( in_array( $consignment->status, ['cancelled', 'error', 'ready'] ) ) {
+					continue;
+				}
+				$collection->merge( Dropp_PDF_Collection::from_consignment( $consignment ) );
 			}
+
+			$content = $collection->get_content();
 		} catch ( Exception $e ) {
 			wp_send_json(
 				[
@@ -313,16 +336,74 @@ class Ajax {
 				]
 			);
 		}
-
-		require_once dirname( __DIR__ ) . '/includes/loader.php';
-
-		$merger = new \iio\libmergepdf\Merger;
-		foreach ( $files as $file ) {
-			$merger->addFile( $file );
-		}
-		$created_pdf = $merger->merge();
 		header( 'Content-type: application/pdf' );
-		echo $created_pdf;
+		echo $content;
 		die;
+	}
+
+	/**
+	 * Dropp get pdf list
+	 */
+	public static function dropp_get_pdf_list() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		self::json_pdf_list( $consignment_id, 'list' );
+	}
+
+	/**
+	 * Dropp add extra pdf
+	 */
+	public static function dropp_add_extra_pdf() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		self::json_pdf_list( $consignment_id, 'add_extra' );
+	}
+
+	/**
+	 * Dropp delete extra pdf
+	 */
+	public static function dropp_delete_extra_pdf() {
+		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
+		$barcode        = filter_input( INPUT_GET, 'barcode', FILTER_DEFAULT );
+		self::json_pdf_list( $consignment_id, 'delete_extra', $barcode );
+	}
+
+	/**
+	 * JSON PDF List
+	 *
+	 * @param  integer        $consignment_id Consignment ID.
+	 * @param  string         $method         Dropp_PDF method.
+	 * @param  boolean|string $barcode        (optional) Barcode to delete.
+	 */
+	protected static function json_pdf_list( $consignment_id, $method, $barcode = false ) {
+		$consignment = Dropp_Consignment::find( $consignment_id );
+		$api         = new API( $consignment->get_shipping_method() );
+		$api->test   = $consignment->test;
+
+		$endpoint = "orders/extrabyorder/{$consignment->dropp_order_id}/";
+		if ( 'add_extra' == $method ) {
+			$endpoint = "orders/addextra/{$consignment->dropp_order_id}/";
+		}
+		if ( 'delete_extra' == $method ) {
+			$endpoint = "orders/deleteextraorder/{$consignment->dropp_order_id}/{$barcode}/";
+		}
+
+		$result = $api->get( $endpoint );
+		$list   = $result['extraOrders'];
+		$pdfs   = [];
+		foreach ( $list as $extra_pdf ) {
+			$pdfs[] = [
+				'label' => $extra_pdf['barcode'] . '.pdf',
+				'barcode' => $extra_pdf['barcode'],
+			];
+		}
+		wp_send_json(
+			array_merge(
+				[
+					[
+						'label' => "{$consignment->barcode}.pdf",
+					],
+				],
+				$pdfs
+			)
+		);
 	}
 }

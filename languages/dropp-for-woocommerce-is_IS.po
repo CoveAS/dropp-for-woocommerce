@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2020-05-21 18:43+0200\n"
-"PO-Revision-Date: 2020-05-21 18:44+0200\n"
+"PO-Revision-Date: 2020-05-22 13:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -105,7 +105,7 @@ msgstr "Vantar ID í svar"
 
 #: classes/class-dropp-location.php:35
 msgid "Home delivery"
-msgstr "Heimili afhending"
+msgstr "Heimsending"
 
 #: classes/class-dropp-location.php:42
 #: classes/shipping-method/class-flytjandi.php:25
@@ -114,7 +114,7 @@ msgstr "Flytjandi"
 
 #: classes/class-dropp-location.php:49
 msgid "Pick-up at warehouse"
-msgstr "Tínsla í vöruhúsi"
+msgstr "Sótt í vöruhús (Vatnagarðar 22)"
 
 #: classes/class-dropp-pdf.php:50
 msgid "Missing response headers"
@@ -134,7 +134,7 @@ msgid ""
 "Could not load the location selector. Someone from the store will contact "
 "you regarding the delivery location."
 msgstr ""
-"Ekki tókst að hlaða staðsetningarval. Einhver úr versluninni mun hafa "
+"Ekki tókst að hlaða staðsetningarvali. Einhver úr versluninni mun hafa "
 "samband við þig varðandi afhendingarstaðinn."
 
 #: classes/class-dropp.php:190
@@ -336,11 +336,11 @@ msgstr "Heimsending á Íslandi"
 
 #: classes/shipping-method/class-pickup.php:25
 msgid "Pick-up at warehouse (Vatnagarðar 22)"
-msgstr "Tínsla í vöruhúsi (vatnagarðar 22)"
+msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 
 #: classes/shipping-method/class-pickup.php:26
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
-msgstr "Pakkar eru afhentir í vöruhúsinu við vatnagarðar 22 að pallbílum"
+msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
 #: templates/admin-notices/bulk-booking.php:16
 msgid "These orders were booked previously: "

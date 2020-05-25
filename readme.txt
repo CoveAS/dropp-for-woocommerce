@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
 Tested up to: 5.3.2
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 Requires PHP: 7.1
 
 Deliver parcels at delivery locations in Iceland
@@ -53,7 +53,7 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
-= 1.3.0 =
+= 1.3.2 =
 
 * Added flytjandi and pickup shipping methods
 * Restricted home delivery based on post codes

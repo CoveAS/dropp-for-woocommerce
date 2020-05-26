@@ -14,14 +14,14 @@ jQuery( function( $ ) {
 			let instance_id = elem.data( 'instance_id' );
 			chooseDroppLocation()
 				.then( function( location ) {
-					if ( ! location.id ) {
+					if ( ! location || ! location.id ) {
 						// Something went wrong.
 						// @TODO
 						console.error( location );
 						return;
 					}
 					// Show the name.
-					 elem.find( '.dropp-location__name' ).text( location.name ).show();
+					elem.find( '.dropp-location__name' ).text( location.name ).show();
 					// A location was picked. Save it.
 					$.post(
 						_dropp.ajaxurl,

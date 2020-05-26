@@ -9,6 +9,7 @@ namespace Dropp;
 
 use WC_Logger;
 use WC_Order_Item_Shipping;
+use WC_Cache_Helper;
 use Exception;
 
 /**
@@ -50,15 +51,21 @@ class Ajax {
 			die;
 		}
 
-		$chosen_methods     = WC()->session->set(
-			'dropp_location_' . $instance_id,
-			[
-				'id'        => $location_id,
-				'name'      => filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ),
-				'address'   => filter_input( INPUT_POST, 'location_address', FILTER_DEFAULT ),
-				'pricetype' => filter_input( INPUT_POST, 'location_pricetype', FILTER_DEFAULT ),
-			]
-		);
+		$old_location = WC()->session->get( 'dropp_location_' . $instance_id );
+		if ( empty( $old_location ) || $old_location['id'] !== $location_id ) {
+			// Invalidate the shipping rate transient.
+			WC_Cache_Helper::get_transient_version( 'shipping', true );
+			// Save the new location to session.
+			WC()->session->set(
+				'dropp_location_' . $instance_id,
+				[
+					'id'        => $location_id,
+					'name'      => filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ),
+					'address'   => filter_input( INPUT_POST, 'location_address', FILTER_DEFAULT ),
+					'pricetype' => filter_input( INPUT_POST, 'location_pricetype', FILTER_DEFAULT ),
+				]
+			);
+		}
 		wp_send_json(
 			[
 				'status'      => 'success',

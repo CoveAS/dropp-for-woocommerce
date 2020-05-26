@@ -46,6 +46,7 @@ class Dropp_PDF_Collection extends Collection {
 
 	public function get_content() {
 		if ( 1 === count( $this->container ) ) {
+			$item = reset( $this->container );
 			return $item->get_content();
 		}
 		require_once dirname( __DIR__ ) . '/includes/loader.php';

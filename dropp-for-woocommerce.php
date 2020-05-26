@@ -6,9 +6,9 @@
  * Author:               Cove AS
  * Author URI:           https://cove.no/dropp
  *
- * Version:              1.3.2
- * Requires at least:    5.3.2
- * Tested up to:         5.3.2
+ * Version:              1.3.3
+ * Requires at least:    5.2
+ * Tested up to:         5.4.1
  *
  * WC requires at least: 3.8.1
  * WC tested up to:      4.0.0

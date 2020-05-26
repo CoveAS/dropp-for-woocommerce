@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
 Tested up to: 5.4.1
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 Requires PHP: 7.1
 
 Deliver parcels at delivery locations in Iceland
@@ -53,8 +53,9 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
-= 1.3.3 =
+= 1.3.4 =
 
+* Fixed bulk print bug when printing only one pdf
 * Fixed a bug where shipping rates were cached between price types
 
 = 1.3.2 =

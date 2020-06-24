@@ -51,9 +51,19 @@ class Social_Security_Number {
 			$error->add( 'billing', __( 'Social security number must be 10 digits.', 'dropp-for-woocommerce' ) );
 			return;
 		}
-		$nums  = str_split( $ssn );
-		$combo = (3 * $nums[0]) + (2 * $nums[1]) + (7 * $nums[2]) + (6 * $nums[3]) + (5 * $nums[4]) + (4 * $nums[5]) + (3 * $nums[6]) + (2 * $nums[7]) + (1 * $nums[8]);
-		if ( $combo % 11 <= 0 ) {
+		$nums = str_split( $ssn );
+		$sum =
+			(3 * $nums[0]) +
+			(2 * $nums[1]) +
+			(7 * $nums[2]) +
+			(6 * $nums[3]) +
+			(5 * $nums[4]) +
+			(4 * $nums[5]) +
+			(3 * $nums[6]) +
+			(2 * $nums[7]);
+		$checksum = (11 - ($sum % 11)) % 11;
+
+		if ($checksum != $nums[8]) {
 			$error->add( 'billing', __( 'Invalid social security number.', 'dropp-for-woocommerce' ) );
 		}
 	}

@@ -1,5 +1,5 @@
 === Dropp for WooCommerce ===
-Contributors: Cove
+Contributors: Forsvunnet
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland

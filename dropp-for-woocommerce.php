@@ -6,12 +6,12 @@
  * Author:               Cove AS
  * Author URI:           https://cove.no/dropp
  *
- * Version:              1.3.5
+ * Version:              1.3.6
  * Requires at least:    5.2
- * Tested up to:         5.4.1
+ * Tested up to:         5.5
  *
  * WC requires at least: 3.8.1
- * WC tested up to:      4.1.0
+ * WC tested up to:      4.3.1
  *
  * Text Domain:          dropp-for-woocommerce
  * Domain Path:          /languages

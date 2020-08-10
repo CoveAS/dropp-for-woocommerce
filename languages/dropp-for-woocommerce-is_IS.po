@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2020-05-21 18:43+0200\n"
-"PO-Revision-Date: 2020-05-22 13:28+0200\n"
+"POT-Creation-Date: 2020-08-10 13:09+0200\n"
+"PO-Revision-Date: 2020-08-10 13:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n%10==1 && n%100!=11);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: dropp-for-woocommerce.php\n"
@@ -22,31 +22,28 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 
-#: classes/class-ajax.php:46
-#, fuzzy
+#: classes/class-ajax.php:47
 msgid "Required field, location ID, instance ID or index was empty"
 msgstr ""
 "Nauðsynlegur reitur, KENNI staðsetningar, KENNI tilviks eða vísir var autt"
 
-#: classes/class-ajax.php:65
-#, fuzzy
-#| msgid "Remove location"
+#: classes/class-ajax.php:72
 msgid "Saved location ID"
-msgstr "Eyða afhendingarstað"
+msgstr "Vistað staðsetningarkenni"
 
-#: classes/class-ajax.php:84
+#: classes/class-ajax.php:91
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr "Ekki tókst að sannreyna. Reyndu aftur með að endurhlaða síðunni."
 
-#: classes/class-ajax.php:137
+#: classes/class-ajax.php:144
 msgid "Dropp booking complete."
 msgstr "Dropp bókun tókst."
 
-#: classes/class-ajax.php:165
+#: classes/class-ajax.php:172
 msgid "Booked! Re-loading page..."
 msgstr "Bókað! Er að endurhlaða síðunni..."
 
-#: classes/class-ajax.php:322
+#: classes/class-ajax.php:329
 msgid "Could not find consignment:"
 msgstr "Fann ekki afhendingarstað:"
 
@@ -129,7 +126,7 @@ msgstr "API Villa"
 msgid "Could not create directory"
 msgstr "Gat ekki búið til svæði"
 
-#: classes/class-dropp.php:174
+#: classes/class-dropp.php:186
 msgid ""
 "Could not load the location selector. Someone from the store will contact "
 "you regarding the delivery location."
@@ -137,11 +134,11 @@ msgstr ""
 "Ekki tókst að hlaða staðsetningarvali. Einhver úr versluninni mun hafa "
 "samband við þig varðandi afhendingarstaðinn."
 
-#: classes/class-dropp.php:190
+#: classes/class-dropp.php:202
 msgid "View Dropp Settings"
 msgstr "Skoða Dropp Stillingar"
 
-#: classes/class-dropp.php:190
+#: classes/class-dropp.php:202
 msgid "Settings"
 msgstr "Stillingar"
 
@@ -190,10 +187,8 @@ msgid "Add home delivery"
 msgstr "Bæta við heimsendingu"
 
 #: classes/class-shipping-meta-box.php:108
-#, fuzzy
-#| msgid "Add home delivery"
 msgid "Add Flytjandi delivery"
-msgstr "Bæta við heimsendingu"
+msgstr "Bæta við Flytjandi"
 
 #: classes/class-shipping-meta-box.php:112
 msgid "Add Pickup at warehouse"
@@ -303,11 +298,11 @@ msgstr "Símanúmer"
 msgid "Social security number must be 10 digits."
 msgstr "Kennitala verður að vera 10 stafir."
 
-#: classes/class-social-security-number.php:57
+#: classes/class-social-security-number.php:67
 msgid "Invalid social security number."
 msgstr "Ekki lögleg kennitala."
 
-#: classes/class-social-security-number.php:74
+#: classes/class-social-security-number.php:84
 msgid "Social Security Number"
 msgstr "Kennitala"
 
@@ -317,7 +312,7 @@ msgid_plural "Tracking codes"
 msgstr[0] "Rakningarkóði"
 msgstr[1] "Rakningarkóði"
 
-#: classes/shipping-method/class-dropp.php:45
+#: classes/shipping-method/class-dropp.php:39
 msgid "Cost 2"
 msgstr "Kostnaður 2"
 
@@ -341,6 +336,22 @@ msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 #: classes/shipping-method/class-pickup.php:26
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
+
+#: classes/shipping-method/class-shipping-method.php:97
+msgid "Free shipping"
+msgstr "Ókeypis sendingar"
+
+#: classes/shipping-method/class-shipping-method.php:98
+msgid "Enable"
+msgstr "Virkja"
+
+#: classes/shipping-method/class-shipping-method.php:106
+msgid "Free shipping treshold"
+msgstr "Free Shipping til"
+
+#: classes/shipping-method/class-shipping-method.php:109
+msgid "Only enable free shipping if the cart total exceeds this value."
+msgstr "Aðeins gera ókeypis sendingar ef körfu Samtals fer yfir þetta gildi."
 
 #: templates/admin-notices/bulk-booking.php:16
 msgid "These orders were booked previously: "

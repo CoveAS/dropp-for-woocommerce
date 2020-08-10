@@ -53,7 +53,7 @@ class Dropp extends Shipping_Method {
 					'sanitize_callback' => array( $this, 'sanitize_cost' ),
 				],
 			],
-			parent::get_additional_form_fields($form_fields),
+			parent::get_additional_form_fields($form_fields)
 		);
 	}
 }

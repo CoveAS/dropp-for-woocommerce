@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2020-08-10 13:09+0200\n"
+"POT-Creation-Date: 2020-08-10 14:24+0200\n"
 "PO-Revision-Date: 2020-03-13 12:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -309,8 +309,12 @@ msgid_plural "Tracking codes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/shipping-method/class-dropp.php:39
-msgid "Cost 2"
+#: classes/shipping-method/class-dropp.php:38
+msgid "Capital area"
+msgstr ""
+
+#: classes/shipping-method/class-dropp.php:47
+msgid "Outside capital area"
 msgstr ""
 
 #: classes/shipping-method/class-flytjandi.php:26
@@ -343,7 +347,7 @@ msgid "Enable"
 msgstr ""
 
 #: classes/shipping-method/class-shipping-method.php:106
-msgid "Free shipping treshold"
+msgid "Free shipping for orders above"
 msgstr ""
 
 #: classes/shipping-method/class-shipping-method.php:109

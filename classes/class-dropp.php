@@ -68,6 +68,7 @@ class Dropp {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
+		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
@@ -77,6 +78,17 @@ class Dropp {
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname(__DIR__) ) . '/languages/' );
 	}
 
+	/**
+	 * Admin enqueue script
+	 *
+	 * @param string $hook Hook.
+	 */
+	public static function admin_enqueue_scripts( $hook ) {
+		if ( 'woocommerce_page_wc-settings' !== $hook ) {
+			return;
+		}
+		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
+	}
 
 	/**
 	 * Upgrade

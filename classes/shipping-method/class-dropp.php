@@ -32,25 +32,20 @@ class Dropp extends Shipping_Method {
 		return $shipping_method->get_instance_option( 'cost_2' );
 	}
 
-	/**
-	 * Get setting form fields for instances of this shipping method within zones.
-	 *
-	 * @return array
-	 */
-	public function get_instance_form_fields() {
-		$form_fields                     = parent::get_instance_form_fields();
-		$form_fields['title']['default'] = $this->method_title;
-		if ( isset( $form_fields['cost'] ) ) {
-			$form_fields['cost_2'] = array(
-				'title'             => __( 'Cost 2', 'dropp-for-woocommerce' ),
-				'type'              => 'text',
-				'placeholder'       => '',
-				'description'       => $form_fields['cost']['description'],
-				'default'           => '0',
-				'desc_tip'          => true,
-				'sanitize_callback' => array( $this, 'sanitize_cost' ),
-			);
-		}
-		return $form_fields;
+	public function get_additional_form_fields($form_fields) {
+		return array_merge(
+			[
+				'cost_2' => [
+					'title'             => __( 'Cost 2', 'dropp-for-woocommerce' ),
+					'type'              => 'text',
+					'placeholder'       => '',
+					'description'       => $form_fields['cost']['description'],
+					'default'           => '0',
+					'desc_tip'          => true,
+					'sanitize_callback' => array( $this, 'sanitize_cost' ),
+				],
+			],
+			parent::get_additional_form_fields($form_fields),
+		);
 	}
 }

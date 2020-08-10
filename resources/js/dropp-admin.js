@@ -1,4 +1,4 @@
-// import ProductItem from './components/product-item';
+
 import Booking from './components/booking/booking';
 
 if ( window._dropp ) {
@@ -25,3 +25,5 @@ if ( window._dropp ) {
 		}
 	} );
 }
+
+require( './scripts/free-shipping-threshold.js' );

@@ -53,8 +53,9 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
-= 1.3.6 =
+= 1.3.7 =
 
+* Added free shipping settings
 * Updated javascript development dependencies
 
 = 1.3.5 =

@@ -32,11 +32,19 @@ class Dropp extends Shipping_Method {
 		return $shipping_method->get_instance_option( 'cost_2' );
 	}
 
+	public function get_instance_form_fields() {
+		$form_fields = parent::get_instance_form_fields();
+		if (! empty($form_fields['cost'])) {
+			$form_fields['cost']['title'] = __( 'Capital area', 'dropp-for-woocommerce' );
+		}
+		return $form_fields;
+	}
+
 	public function get_additional_form_fields($form_fields) {
 		return array_merge(
 			[
 				'cost_2' => [
-					'title'             => __( 'Cost 2', 'dropp-for-woocommerce' ),
+					'title'             => __( 'Outside capital area', 'dropp-for-woocommerce' ),
 					'type'              => 'text',
 					'placeholder'       => '',
 					'description'       => $form_fields['cost']['description'],

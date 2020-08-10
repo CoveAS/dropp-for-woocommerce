@@ -103,7 +103,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 				'desc_tip'          => false,
 			],
 			'free_shipping_threshold' => [
-				'title'             => __( 'Free shipping treshold', 'dropp-for-woocommerce' ),
+				'title'             => __( 'Free shipping for orders above', 'dropp-for-woocommerce' ),
 				'type'              => 'text',
 				'placeholder'       => '0',
 				'description'       => __( 'Only enable free shipping if the cart total exceeds this value.', 'dropp-for-woocommerce' ),

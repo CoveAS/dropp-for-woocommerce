@@ -21,7 +21,6 @@
 					{{product._quantity}}
 				</span>
 				<span v-html="'&times; ' + product.name"></span>
-				<span v-html="product.weight + ' Kg'"></span>
 				<span v-html="product.weight * product._quantity + ' Kg'"></span>
 			</label>
 		</div>

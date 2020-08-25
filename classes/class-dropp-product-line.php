@@ -61,10 +61,11 @@ class Dropp_Product_Line {
 
 		if ( ! empty( $this->id ) ) {
 			$order_item           = new WC_Order_Item_Product( $this->id );
+			$product              = $order_item->get_product();
 			$this->name           = $order_item->get_name();
-			$this->weight         = $order_item->get_product()->get_weight();
-			$this->barcode        = $order_item->get_product()->get_sku();
-			$this->needs_shipping = $order_item->get_product()->needs_shipping();
+			$this->weight         = ($product ? $product->get_weight() : '');
+			$this->barcode        = ($product ? $product->get_sku() : '');
+			$this->needs_shipping = ($product ? $product->needs_shipping() : true);
 		}
 
 		return $this;
@@ -116,12 +117,13 @@ class Dropp_Product_Line {
 	 * @return Dropp_Product_Line             This.
 	 */
 	public function from_order_item( $order_item ) {
+		$product              = $order_item->get_product();
 		$this->id             = $order_item->get_id();
 		$this->name           = $order_item->get_name();
-		$this->weight         = $order_item->get_product()->get_weight();
 		$this->quantity       = $order_item->get_quantity();
-		$this->barcode        = $order_item->get_product()->get_sku();
-		$this->needs_shipping = $order_item->get_product()->needs_shipping();
+		$this->weight         = ($product ? $product->get_weight() : '');
+		$this->barcode        = ($product ? $product->get_sku() : '');
+		$this->needs_shipping = ($product ? $product->needs_shipping() : true);
 		return $this;
 	}
 

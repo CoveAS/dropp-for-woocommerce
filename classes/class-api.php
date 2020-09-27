@@ -76,8 +76,9 @@ class API {
 	/**
 	 * Remote get
 	 *
-	 * @throws Exception   $e     Sending exception.
-	 * @return Consignment          This object.
+	 * @param  string $endpoint  Endpoint.
+	 * @param  string $data_type (optional) 'json', 'body' or 'raw'.
+	 * @return array|string      Decoded json, string body or raw response object.
 	 */
 	public function get( $endpoint, $data_type = 'json' ) {
 		$response = $this->remote( 'get', self::endpoint_url( $endpoint ) );
@@ -87,8 +88,10 @@ class API {
 	/**
 	 * Remote post
 	 *
-	 * @throws Exception   $e     Sending exception.
-	 * @return Consignment          This object.
+	 * @param  string      $endpoint  Endpoint.
+	 * @param  Dropp\Model $model     Model.
+	 * @param  string      $data_type (optional) 'json', 'body' or 'raw'.
+	 * @return array|string           Decoded json, string body or raw response object.
 	 */
 	public function post( $endpoint, Model $model, $data_type = 'json' ) {
 		$response = $this->remote( 'post', self::endpoint_url( $endpoint ), $model );
@@ -98,11 +101,11 @@ class API {
 	/**
 	 * Remote args
 	 *
-	 * @throws Exception      Unknown method.
+	 * @throws Exception           Unknown method.
 	 * @param  string      $method Remote method, either 'get' or 'post'.
 	 * @param  string      $url    Url.
 	 * @param  Dropp\Model $model  Model.
-	 * @return array          Remote arguments.
+	 * @return array               Remote arguments.
 	 */
 	public function remote( $method, $url, Model $model = null ) {
 		$log  = new WC_Logger();

@@ -14,7 +14,7 @@ use Exception;
 /**
  * Dropp PDF
  */
-class Dropp_PDF {
+class Dropp_PDF extends Model {
 
 	protected $barcode = false;
 	public $consignment;
@@ -27,6 +27,17 @@ class Dropp_PDF {
 	public function __construct( Dropp_Consignment $consignment, $barcode = false ) {
 		$this->consignment = $consignment;
 		$this->barcode     = $barcode;
+	}
+
+	/**
+	 * To array
+	 *
+	 * @return array Array representation.
+	 */
+	public function to_array() {
+		return [
+			'barcode' => $this->barcode,
+		];
 	}
 
 	/**

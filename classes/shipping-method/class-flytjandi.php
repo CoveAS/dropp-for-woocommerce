@@ -24,7 +24,6 @@ class Flytjandi extends Home_Delivery {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Flytjandi', 'dropp-for-woocommerce' );
 		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
-
 		$this->supports           = array(
 			'shipping-zones',
 			'instance-settings',
@@ -47,7 +46,7 @@ class Flytjandi extends Home_Delivery {
 		if ( 'IS' !== $package['destination']['country'] ) {
 			return false;
 		}
-		// Flytjandi is only available outside of the dropp home delivery zone
+		// Flytjandi is only available outside of the dropp home delivery zone.
 		if ( in_array( $package['destination']['postcode'], $this->get_valid_postcodes(), false ) ) {
 			return false;
 		}

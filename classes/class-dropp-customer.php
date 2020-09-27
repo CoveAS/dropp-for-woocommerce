@@ -10,7 +10,7 @@ namespace Dropp;
 /**
  * Dropp Customer
  */
-class Dropp_Customer {
+class Dropp_Customer extends Model {
 
 	public $name;
 	public $email_address;

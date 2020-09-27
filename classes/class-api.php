@@ -85,14 +85,26 @@ class API {
 	}
 
 	/**
+	 * Remote post
+	 *
+	 * @throws Exception   $e     Sending exception.
+	 * @return Consignment          This object.
+	 */
+	public function post( $endpoint, Model $model, $data_type = 'json' ) {
+		$response = $this->remote( 'post', self::endpoint_url( $endpoint ), $model );
+		return $this->process_response( 'post', $response, $data_type );
+	}
+
+	/**
 	 * Remote args
 	 *
 	 * @throws Exception      Unknown method.
-	 * @param  string $method Remote method, either 'get' or 'post'.
-	 * @param  string $url    Url.
+	 * @param  string      $method Remote method, either 'get' or 'post'.
+	 * @param  string      $url    Url.
+	 * @param  Dropp\Model $model  Model.
 	 * @return array          Remote arguments.
 	 */
-	public function remote( $method, $url ) {
+	public function remote( $method, $url, Model $model = null ) {
 		$log  = new WC_Logger();
 		$args = [
 			'headers' => [
@@ -112,7 +124,7 @@ class API {
 			$args['method'] = 'DELETE';
 		}
 		if ( 'patch' === $method || 'post' === $method ) {
-			$args['body'] = wp_json_encode( $this->to_array() );
+			$args['body'] = wp_json_encode( $model->to_array() ?? '' );
 		}
 		if ( $this->debug ) {
 			$log->add(

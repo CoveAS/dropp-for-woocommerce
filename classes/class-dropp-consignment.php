@@ -15,7 +15,7 @@ use WC_Log_Levels;
 /**
  * Consignment
  */
-class Dropp_Consignment {
+class Dropp_Consignment extends Model {
 
 	public $id;
 	public $barcode = '';
@@ -313,6 +313,7 @@ class Dropp_Consignment {
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
+			var_dump($order_item);
 			$collection = array_merge( $collection, self::from_shipping_item( $order_item ) );
 		}
 		return $collection;
@@ -494,6 +495,17 @@ class Dropp_Consignment {
 		}
 		$response = $this->remote( 'delete', $this->get_url( 'orders/' . $this->dropp_order_id ) );
 		return $this->process_response( 'delete', $response );
+	}
+
+	/**
+	 * Remote add
+	 *
+	 * @return array|string Decoded json, string body or raw response object.
+	 */
+	public function remote_add() {
+		$api       = new API( $this->get_shipping_method() );
+		$api->test = $this->test;
+		return $api->post( 'orders/addnew/', $this );
 	}
 
 	/**

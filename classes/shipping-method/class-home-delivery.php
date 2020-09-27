@@ -24,7 +24,6 @@ class Home_Delivery extends Shipping_Method {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp Home Delivery', 'dropp-for-woocommerce' );
 		$this->method_description = __( 'Home delivery in Iceland', 'dropp-for-woocommerce' );
-
 		$this->supports           = array(
 			'shipping-zones',
 			'instance-settings',

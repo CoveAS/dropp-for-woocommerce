@@ -25,7 +25,6 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp', 'dropp-for-woocommerce' );
 		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
-
 		$this->supports           = array(
 			'shipping-zones',
 			'settings',
@@ -73,12 +72,14 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		if ( empty( $form_fields['cost'] ) ) {
 			return $form_fields;
 		}
-		$additional = $this->get_additional_form_fields($form_fields);
+		$additional = $this->get_additional_form_fields( $form_fields );
 		if ( empty( $additional ) ) {
 			return $form_fields;
 		}
 		$pos = array_search( 'cost', array_keys( $form_fields ) ) + 1;
 		$len = count( $form_fields );
+
+		// Insert additional fields after costs.
 		$form_fields = array_merge(
 			array_slice( $form_fields, 0, $pos ),
 			$additional,
@@ -89,18 +90,20 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 
 	/**
 	 * Get additional form fields
-	 * @return array Additional form fields.
+	 *
+	 * @param  array $form_fields Form fields.
+	 * @return array              Additional form fields.
 	 */
-	public function get_additional_form_fields($form_fields) {
+	public function get_additional_form_fields( $form_fields ) {
 		return [
-			'free_shipping' => [
-				'title'             => __( 'Free shipping', 'dropp-for-woocommerce' ),
-				'label'             => __( 'Enable', 'dropp-for-woocommerce' ),
-				'type'              => 'checkbox',
-				'placeholder'       => '',
-				'description'       => '',
-				'default'           => '0',
-				'desc_tip'          => false,
+			'free_shipping'           => [
+				'title'       => __( 'Free shipping', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Enable', 'dropp-for-woocommerce' ),
+				'type'        => 'checkbox',
+				'placeholder' => '',
+				'description' => '',
+				'default'     => '0',
+				'desc_tip'    => false,
 			],
 			'free_shipping_threshold' => [
 				'title'             => __( 'Free shipping for orders above', 'dropp-for-woocommerce' ),
@@ -132,16 +135,16 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			// No threshold or no cost specified. Shipping is free.
 			return 0;
 		}
-		$cart                 = WC()->cart;
-		$cart_items           = $cart ? $cart->get_cart() : [];
-		$cart_total           = 0;
+		$cart       = WC()->cart;
+		$cart_items = $cart ? $cart->get_cart() : [];
+		$cart_total = 0;
 
 		foreach ( $cart_items as $values ) {
 			$_product    = $values['data'];
 			$cart_total += $_product->get_price() * $values['quantity'];
 		}
 
-		if ($cart_total < $threshold) {
+		if ( $cart_total < $threshold ) {
 			// Cart is less than threshold. Shipping is not free.
 			return $cost;
 		}

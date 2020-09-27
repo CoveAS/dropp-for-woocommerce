@@ -20,9 +20,12 @@ class Dropp {
 	public static function loaded() {
 		$plugin_dir = dirname( __DIR__ );
 
-		// Models.
+		// Utility classes.
 		require_once $plugin_dir . '/classes/class-api.php';
 		require_once $plugin_dir . '/classes/class-collection.php';
+		require_once $plugin_dir . '/classes/class-model.php';
+
+		// Models.
 		require_once $plugin_dir . '/classes/class-dropp-product-line.php';
 		require_once $plugin_dir . '/classes/class-dropp-customer.php';
 		require_once $plugin_dir . '/classes/class-dropp-location.php';
@@ -52,6 +55,7 @@ class Dropp {
 		require_once $plugin_dir . '/classes/class-social-security-number.php';
 		require_once $plugin_dir . '/classes/class-postcode-validation.php';
 		require_once $plugin_dir . '/classes/class-tracking-code.php';
+		require_once $plugin_dir . '/classes/class-checkout.php';
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
 		Shipping_Item_Meta::setup();
@@ -64,8 +68,8 @@ class Dropp {
 		Social_Security_Number::setup();
 		Postcode_Validation::setup();
 		Tracking_Code::setup();
+		Checkout::setup();
 
-		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
@@ -150,47 +154,6 @@ class Dropp {
 	}
 
 	/**
-	 * Load checkout javascript
-	 */
-	public static function checkout_javascript() {
-		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
-			// Add styles.
-			wp_register_style(
-				'dropp-for-woocommerce',
-				plugins_url( 'assets/css/dropp.css', __DIR__ ),
-				[],
-				self::VERSION
-			);
-			wp_enqueue_style( 'dropp-for-woocommerce' );
-
-			// Add javascript.
-			wp_register_script(
-				'dropp-for-woocommerce',
-				plugins_url( 'assets/js/dropp.js', __DIR__ ),
-				array( 'jquery' ),
-				self::VERSION,
-				true
-			);
-			wp_enqueue_script( 'dropp-for-woocommerce' );
-
-			$shipping_method = new Shipping_Method\Dropp();
-			// Add javascript variables.
-			wp_localize_script(
-				'dropp-for-woocommerce',
-				'_dropp',
-				[
-					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-					'storeid'           => $shipping_method->store_id,
-					'dropplocationsurl' => 'https://app.dropp.is/dropp-locations.min.js',
-					'i18n'              => [
-						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
-					],
-				]
-			);
-		}
-	}
-
-	/**
 	 * Show action links on the plugin screen
 	 *
 	 * @param array $links The action links displayed for each plugin in the Plugins list table.
@@ -206,6 +169,7 @@ class Dropp {
 
 	/**
 	 * Is pickup enabled
+	 *
 	 * @param  Shipping_Method $shipping_method (optional) Shipping method.
 	 * @return boolean                          True if pickup is enabled.
 	 */
@@ -217,8 +181,7 @@ class Dropp {
 				$result         = $api->get( 'orders/havepickup/' );
 				$pickup_enabled = ( ! empty( $result['pickup'] ) && $result['pickup'] ? 'yes' : 'no' );
 				set_transient( 'dropp_pickup_enabled', $pickup_enabled, ( 'yes' === $pickup_enabled ? DAY_IN_SECONDS : 300 ) );
-			}
-			catch (\Exception $e) {
+			} catch ( \Exception $e ) {
 				$pickup_enabled = false;
 			}
 		}

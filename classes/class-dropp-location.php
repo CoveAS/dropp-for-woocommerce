@@ -10,7 +10,7 @@ namespace Dropp;
 /**
  * Shipping method
  */
-class Dropp_Location {
+class Dropp_Location extends Model {
 	/**
 	 * WC_Order_Item $order_item
 	 */
@@ -104,5 +104,20 @@ class Dropp_Location {
 	 */
 	public static function array_from_order( $order_id = false ) {
 		return self::from_order($order_id);
+	}
+
+	/**
+	 * To array
+	 *
+	 * @return array Array representation.
+	 */
+	public function to_array() {
+		return [
+			'order_item_id' => $this->order_item_id,
+			'id'            => $this->id,
+			'name'          => $this->name,
+			'barcode'       => $this->barcode,
+			'type'          => $this->type,
+		];
 	}
 }

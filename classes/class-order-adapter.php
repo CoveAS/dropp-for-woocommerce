@@ -86,17 +86,21 @@ class Order_Adapter {
 		return new Collection( $container );
 	}
 
+
 	/**
-	 * Book order
+	 * Make consignment
 	 *
-	 * @return boolean True if any order was booked.
+	 * @param  WC_Shipping_Item $shipping_item Shipping item.
+	 * @return Dropp\Dropp_Consignment         Consignment.
 	 */
-	public function book() {
-		$shipping_items   = $this->order->get_items( 'shipping' );
+	public function make_consignment( $shipping_item ) {
+		$dropp_methods = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
+		if ( ! in_array( $shipping_item->get_method_id(), $dropp_methods, true ) ) {
+			return null;
+		}
 		$billing_address  = $this->order->get_address();
 		$shipping_address = $this->order->get_address( 'shipping' );
 		$line_items       = $this->order->get_items( 'shipping' );
-		$dropp_methods    = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
 
 		// Fix missing args in address.
 		if ( empty( $shipping_address['email'] ) ) {
@@ -106,32 +110,42 @@ class Order_Adapter {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
 
+		$instance_id     = $shipping_item->get_instance_id();
+		$shipping_method = new Shipping_Method\Dropp( $instance_id );
+		$location        = Dropp_Location::from_shipping_item( $shipping_item );
+
+		if ( ! $location->id ) {
+			return null;
+		}
+
+		$product_lines      = Dropp_Product_Line::array_from_order( $this->order, true );
+		$consignment        = new Dropp_Consignment();
+		$consignment->debug = $shipping_method->debug_mode;
+		$consignment->fill(
+			[
+				'shipping_item_id' => $shipping_item->get_id(),
+				'location_id'      => $location->id,
+				'customer'         => Dropp_Customer::from_shipping_address( $shipping_address ),
+				'products'         => $product_lines,
+				'test'             => $shipping_method->test_mode,
+			]
+		);
+		return $consignment;
+	}
+	/**
+	 * Book order
+	 *
+	 * @return boolean True if any order was booked.
+	 */
+	public function book() {
+		$shipping_items = $this->order->get_items( 'shipping' );
+
 		$any_booked = false;
 		foreach ( $shipping_items as $shipping_item ) {
-			if ( ! in_array( $shipping_item->get_method_id(), $dropp_methods ) ) {
+			$this->make_consignment( $shipping_item );
+			if ( ! $consignment ) {
 				continue;
 			}
-			$instance_id     = $shipping_item->get_instance_id();
-			$shipping_method = new Shipping_Method\Dropp( $instance_id );
-			$location        = Dropp_Location::from_shipping_item( $shipping_item );
-
-			if ( ! $location->id ) {
-				continue;
-			}
-
-			$product_lines      = Dropp_Product_Line::array_from_order( $this->order, true );
-			$consignment        = new Dropp_Consignment();
-			$consignment->debug = $shipping_method->debug_mode;
-			$consignment->fill(
-				[
-					'shipping_item_id' => $shipping_item->get_id(),
-					'location_id'      => $location->id,
-					'customer'         => Dropp_Customer::from_shipping_address( $shipping_address ),
-					'products'         => $product_lines,
-					'test'             => $shipping_method->test_mode,
-				]
-			);
-
 			$total_weight = 0;
 			foreach ( $product_lines as $product_line ) {
 				$total_weight += $product_line->weight * $product_line->quantity;
@@ -156,5 +170,37 @@ class Order_Adapter {
 			}
 		}
 		return $any_booked;
+	}
+
+	/**
+	 * Book order
+	 *
+	 * @return boolean True if any order was booked.
+	 */
+	public function add_new() {
+		$shipping_items = $this->order->get_items( 'shipping' );
+
+		$any_added = false;
+		foreach ( $shipping_items as $shipping_item ) {
+			$consignment = $this->make_consignment( $shipping_item );
+			var_dump($consignment);
+			if ( ! $consignment ) {
+				continue;
+			}
+			try {
+				$response  = $consignment->remote_add();
+				$success   = ( $response['status'] ?? null ) === 0;
+				$any_added = ( $success || $any_added );
+			} catch ( Exception $e ) {
+				// Log the error.
+				$log = new WC_Logger();
+				$log->add(
+					'dropp-for-woocommerce',
+					'[ERROR] ' . $e->getMessage(),
+					WC_Log_Levels::ERROR
+				);
+			}
+		}
+		return $any_added;
 	}
 }

@@ -12,7 +12,7 @@ use WC_Order_Item_Product;
 /**
  * Product
  */
-class Dropp_Product_Line {
+class Dropp_Product_Line extends Model {
 	/**
 	 * WC_Order_Item $order_item
 	 */

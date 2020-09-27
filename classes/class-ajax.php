@@ -105,11 +105,13 @@ class Ajax {
 		$instance_id     = $order_item->get_instance_id();
 		$shipping_method = new Shipping_Method\Dropp( $instance_id );
 		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
+
 		$params = [
-			'location_id'      => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
-			'customer'         => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
-			'products'         => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
+			'location_id' => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
+			'customer'    => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
+			'products'    => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 		];
+
 		if ( empty( $consignment_id ) ) {
 			$consignment = new Dropp_Consignment();
 			$consignment->fill(

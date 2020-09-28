@@ -55,7 +55,6 @@ class Dropp_PDF extends Model {
 		if ( $this->barcode ) {
 			$endpoint = "web/pdf/getpdf/{$this->consignment->dropp_order_id}/{$this->barcode}/";
 		}
-		var_dump( $endpoint );
 		$response   = $api->get( $endpoint, 'raw' );
 		if ( ! $response['headers'] ) {
 			throw new Exception( __( 'Missing response headers', 'dropp-for-woocommerce' ) );

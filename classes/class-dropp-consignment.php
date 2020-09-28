@@ -313,7 +313,6 @@ class Dropp_Consignment extends Model {
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
-			var_dump($order_item);
 			$collection = array_merge( $collection, self::from_shipping_item( $order_item ) );
 		}
 		return $collection;

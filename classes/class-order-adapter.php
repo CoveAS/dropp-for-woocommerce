@@ -186,7 +186,6 @@ class Order_Adapter {
 		$any_added = false;
 		foreach ( $shipping_items as $shipping_item ) {
 			$consignment = $this->make_consignment( $shipping_item );
-			var_dump($consignment);
 			if ( ! $consignment ) {
 				continue;
 			}

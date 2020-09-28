@@ -145,7 +145,7 @@ class Order_Adapter {
 		$any_booked = false;
 		foreach ( $shipping_items as $shipping_item ) {
 			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
-			$this->make_consignment( $shipping_item, $product_lines );
+			$consignment   = $this->make_consignment( $shipping_item, $product_lines );
 			if ( ! $consignment ) {
 				continue;
 			}

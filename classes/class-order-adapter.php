@@ -93,7 +93,7 @@ class Order_Adapter {
 	 * @param  WC_Shipping_Item $shipping_item Shipping item.
 	 * @return Dropp\Dropp_Consignment         Consignment.
 	 */
-	public function make_consignment( $shipping_item ) {
+	public function make_consignment( $shipping_item, $product_lines = [] ) {
 		$dropp_methods = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
 		if ( ! in_array( $shipping_item->get_method_id(), $dropp_methods, true ) ) {
 			return null;
@@ -118,7 +118,9 @@ class Order_Adapter {
 			return null;
 		}
 
-		$product_lines      = Dropp_Product_Line::array_from_order( $this->order, true );
+		if ( empty( $product_lines ) ) {
+			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
+		}
 		$consignment        = new Dropp_Consignment();
 		$consignment->debug = $shipping_method->debug_mode;
 		$consignment->fill(
@@ -142,7 +144,8 @@ class Order_Adapter {
 
 		$any_booked = false;
 		foreach ( $shipping_items as $shipping_item ) {
-			$this->make_consignment( $shipping_item );
+			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
+			$this->make_consignment( $shipping_item, $product_lines );
 			if ( ! $consignment ) {
 				continue;
 			}

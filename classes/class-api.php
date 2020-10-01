@@ -163,6 +163,12 @@ class API {
 			} else {
 				$body = $response['body'];
 			}
+			if ( 'raw' === $data_type ) {
+				if ( 100 < strlen( $body ) ) {
+					$body = substr( $body, 0, 100 ) . '...';
+				}
+				$body = htmlspecialchars( $body );
+			}
 			$log->add(
 				'dropp-for-woocommerce',
 				'[DEBUG] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . $body,

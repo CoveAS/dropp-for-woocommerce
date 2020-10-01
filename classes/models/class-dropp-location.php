@@ -87,7 +87,7 @@ class Dropp_Location extends Model {
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
-			$location = Dropp_Location::from_shipping_item( $order_item );
+			$location = self::from_shipping_item( $order_item );
 			if ( ! $location->id ) {
 				continue;
 			}

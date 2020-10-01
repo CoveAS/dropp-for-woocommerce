@@ -23,16 +23,43 @@
 				</ul>
 			</div>
 			<droppproducts :products="products" :editable="editable"></droppproducts>
+			<div class="dropp-delivery-instructions">
+				<div class="dropp-delivery-instructions__field">
+					<h3 class="dropp-delivery-instructions__title" v-html="i18n.delivery_instructions"></h3>
+					<textarea
+						v-if="editable"
+						class="dropp-delivery-instructions__input"
+						v-model="delivery_instructions"
+					></textarea>
+					<blockquote
+						v-else
+						class="dropp-delivery-instructions__text"
+						v-html="delivery_instructions"
+					></blockquote>
+				</div>
+				<div class="dropp-delivery-instructions__notes">
+					<h3 class="dropp-delivery-instructions__title" v-html="i18n.customer_note"></h3>
+					<blockquote class="dropp-delivery-instructions__text" v-html="customer_note"></blockquote>
+					<button
+						v-if="editable"
+						type="button"
+						v-html="i18n.copy_to_delivery"
+						@click.prevent="copy_customer_note"
+					></button>
+				</div>
+			</div>
 			<droppcustomer :customer="customer" :editable="editable"></droppcustomer>
 			<div class="dropp-location__actions">
 				<button
 					v-if="editable"
+					type="button"
 					class="dropp-location__action dropp-location__action--book"
 					:disabled="disabled"
 					v-html="book_button_text"
 					@click.prevent="book"
 				></button>
 				<button
+					type="button"
 					class="dropp-location__action dropp-location__action--remove"
 					v-html="i18n.remove"
 					v-if="show_remove_button"
@@ -59,6 +86,34 @@
 
 		&--loading {
 			opacity: 0.5;
+		}
+		.dropp-delivery-instructions {
+			display: flex;
+			padding: 10px;
+			&__field {
+				flex: 0 1 20rem;
+				min-width: 15rem;
+			}
+			&__input {
+				resize-x: none;
+				min-height: 3rem;
+				width: 100%;
+			}
+			&__notes {
+				margin-left: 1rem;
+				flex: 1 1 10rem;
+				max-width: 20rem;
+			}
+			blockquote {
+				margin: 0 0 0.5rem 0;
+				background-color: #eee;
+				min-height: 3rem;
+			}
+			&__text {
+				border: 1px solid #ccc;
+				padding: 0.5rem;
+				margin-bottom: 1rem;
+			}
 		}
 		.dropp-products,
 		.dropp-customer,
@@ -132,6 +187,8 @@
 			var data =  {
 				products: [],
 				customer: null,
+				delivery_instructions: _dropp.delivery_instructions,
+				customer_note: _dropp.customer_note,
 				i18n: _dropp.i18n,
 				loading: false,
 				booked: false,
@@ -178,6 +235,7 @@
 					location_id: this.location.id,
 					order_item_id: this.location.order_item_id,
 					products: this.get_products(),
+					comment: this.delivery_instructions,
 					customer: this.customer,
 					dropp_nonce: _dropp.nonce,
 				};
@@ -218,6 +276,9 @@
 					vm.loading = false;
 				} );
 			},
+			copy_customer_note: function() {
+				this.delivery_instructions = this.customer_note;
+			}
 		},
 		computed: {
 			product_errors: function() {
@@ -259,7 +320,8 @@
 				return this.$parent._data.locations && this.$parent._data.locations.length > 1;
 			},
 			book_button_text: function() {
-				return this.consignment ? this.i18n.update_order : this.i18n.submit;
+				let testing = _dropp.testing ? ' (' + this.i18n.test + ')' : '';
+				return (this.consignment ? this.i18n.update_order : this.i18n.submit) + testing;
 			},
 			editable: function() {
 				if ( ! this.consignment ) {

@@ -8,6 +8,7 @@
 namespace Dropp\Models;
 
 use Dropp\API;
+use Dropp\Shipping_Method\Dropp;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
@@ -20,6 +21,7 @@ class Dropp_Consignment extends Model {
 
 	public $id;
 	public $barcode = '';
+	public $comment = '';
 	public $dropp_order_id;
 	public $status = 'ready';
 	public $shipping_item_id;
@@ -65,7 +67,7 @@ class Dropp_Consignment extends Model {
 			return null;
 		}
 		$shipping_item = new WC_Order_Item_Shipping( $this->shipping_item_id );
-		return new Shipping_Method\Dropp( $shipping_item->get_instance_id() );
+		return new Dropp( $shipping_item->get_instance_id() );
 	}
 
 	/**
@@ -85,6 +87,7 @@ class Dropp_Consignment extends Model {
 				'dropp_order_id'   => null,
 				'shipping_item_id' => null,
 				'status'           => 'ready',
+				'comment'          => null,
 				'location_id'      => null,
 				'test'             => false,
 				'debug'            => false,
@@ -107,6 +110,10 @@ class Dropp_Consignment extends Model {
 			$this->{$name} = $content[ $name ];
 		}
 
+		if ( $content['debug'] ) {
+			$this->debug = true;
+		}
+		$this->comment    = $content['comment'];
 		$this->status     = $content['status'];
 		$this->test       = (int) $content['test'];
 		$this->updated_at = $content['updated_at'];
@@ -166,6 +173,7 @@ class Dropp_Consignment extends Model {
 			'barcode'    => $this->barcode,
 			'products'   => $products,
 			'customer'   => $this->get_customer_array(),
+			'comment'    => $this->comment,
 		];
 		if ( ! $for_request ) {
 			$consignment_array['id']               = $this->id;
@@ -258,6 +266,7 @@ class Dropp_Consignment extends Model {
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
 				'products'         => wp_json_encode( $this->products ),
+				'comment'          => $this->comment,
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,
@@ -288,6 +297,7 @@ class Dropp_Consignment extends Model {
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
 				'products'         => wp_json_encode( $this->products ),
+				'comment'          => $this->comment,
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,

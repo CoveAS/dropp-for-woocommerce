@@ -99,15 +99,15 @@ class Dropp {
 	 */
 	public static function upgrade() {
 		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
-		if ( version_compare( $saved_version, '0.0.1' ) === -1 && self::upgrade_001() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.1' );
+		if ( version_compare( $saved_version, '0.0.2' ) === -1 && self::schema() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.2' );
 		}
 	}
 
 	/**
 	 * Install Consignment table
 	 */
-	public static function upgrade_001() {
+	public static function schema() {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'dropp_consignments';
@@ -119,6 +119,7 @@ class Dropp {
 			barcode varchar(63) NULL,
 			dropp_order_id varchar(63) NULL,
 			status varchar(15) NOT NULL,
+			`comment` text NOT NULL,
 			shipping_item_id varchar(63) NOT NULL,
 			location_id varchar(63) NOT NULL,
 			products text NOT NULL,

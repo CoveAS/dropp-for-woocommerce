@@ -88,22 +88,30 @@ class Shipping_Meta_Box {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
 		$shipping_address['ssn'] = $order->get_meta( '_billing_dropp_ssn', true );
-		$shipping_method = new Shipping_Method\Dropp();
+		$shipping_method         = new Shipping_Method\Dropp();
+		$customer_note           = $order->get_customer_note();
+		$delivery_instructions   = '';
+		if ( 'yes' === $shipping_method->copy_order_notes ) {
+			$delivery_instructions = $customer_note;
+		}
 		$dropp_object = [
-			'nonce'             => wp_create_nonce( 'dropp' ),
-			'time_now'          => current_time( 'mysql' ),
-			'order_id'          => $order_id,
-			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-			'dropplocationsurl' => '//app.dropp.is/dropp-locations.min.js',
-			'storeid'           => $shipping_method->store_id,
-			'ssn_enabled'       => $shipping_method->enable_ssn,
-			'products'          => Dropp_Product_Line::array_from_order(),
-			'consignments'      => $consignments->map( 'to_array', false ),
-			'customer'          => $shipping_address,
-			'shipping_items'    => $shipping_items,
-			'status_list'       => Dropp_Consignment::get_status_list(),
-			'locations'         => Dropp_Location::array_from_order(),
-			'special_locations' => [
+			'testing'               => ( new Api( $shipping_method ) )->test,
+			'nonce'                 => wp_create_nonce( 'dropp' ),
+			'time_now'              => current_time( 'mysql' ),
+			'order_id'              => $order_id,
+			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+			'dropplocationsurl'     => '//app.dropp.is/dropp-locations.min.js',
+			'customer_note'         => $customer_note,
+			'delivery_instructions' => $delivery_instructions,
+			'storeid'               => $shipping_method->store_id,
+			'ssn_enabled'           => $shipping_method->enable_ssn,
+			'products'              => Dropp_Product_Line::array_from_order(),
+			'consignments'          => $consignments->map( 'to_array', false ),
+			'customer'              => $shipping_address,
+			'shipping_items'        => $shipping_items,
+			'status_list'           => Dropp_Consignment::get_status_list(),
+			'locations'             => Dropp_Location::array_from_order(),
+			'special_locations'     => [
 				'dropp_home'      => [
 					'label'    => __( 'Add home delivery', 'dropp-for-woocommerce' ),
 					'location' => new Dropp_Location( 'dropp_home' ),
@@ -117,33 +125,39 @@ class Shipping_Meta_Box {
 					'location' => new Dropp_Location( 'dropp_pickup' ),
 				],
 			],
-			'i18n'              => self::nbsp( [
-				'actions'                => __( 'Actions', 'dropp-for-woocommerce' ),
-				'check_status'           => __( 'Check status', 'dropp-for-woocommerce' ),
-				'download'               => __( 'Download', 'dropp-for-woocommerce' ),
-				'update_order'           => __( 'Update order', 'dropp-for-woocommerce' ),
-				'extra_pdf'              => __( 'Add extra pdf', 'dropp-for-woocommerce' ),
-				'view_order'             => __( 'View order', 'dropp-for-woocommerce' ),
-				'cancel_order'           => __( 'Cancel order', 'dropp-for-woocommerce' ),
-				'barcode'                => __( 'Barcode', 'dropp-for-woocommerce' ),
-				'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
-				'status'                 => __( 'Status', 'dropp-for-woocommerce' ),
-				'created'                => __( 'Created', 'dropp-for-woocommerce' ),
-				'updated'                => __( 'Updated', 'dropp-for-woocommerce' ),
-				'product'                => __( 'Product', 'dropp-for-woocommerce' ),
-				'products'               => __( 'Products', 'dropp-for-woocommerce' ),
-				'booked_consignments'    => __( 'Booked consignments', 'dropp-for-woocommerce' ),
-				'submit'                 => __( 'Book now', 'dropp-for-woocommerce' ),
-				'remove'                 => __( 'Remove location', 'dropp-for-woocommerce' ),
-				'add_location'           => __( 'Add shipment', 'dropp-for-woocommerce' ),
-				'change_location'        => __( 'Change location', 'dropp-for-woocommerce' ),
-				'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
-				'name'                   => __( 'Name', 'dropp-for-woocommerce' ),
-				'email_address'          => __( 'Email address', 'dropp-for-woocommerce' ),
-				'social_security_number' => __( 'Social security number', 'dropp-for-woocommerce' ),
-				'address'                => __( 'Address', 'dropp-for-woocommerce' ),
-				'phone_number'           => __( 'Phone number', 'dropp-for-woocommerce' ),
-			] ),
+			'i18n'                  => self::nbsp(
+				[
+					'test'                   => __( 'Test', 'dropp-for-woocommerce' ),
+					'actions'                => __( 'Actions', 'dropp-for-woocommerce' ),
+					'check_status'           => __( 'Check status', 'dropp-for-woocommerce' ),
+					'download'               => __( 'Download', 'dropp-for-woocommerce' ),
+					'customer_note'          => __( 'Customer note', 'dropp-for-woocommerce' ),
+					'copy_to_delivery'       => __( 'Copy to delivery instructions', 'dropp-for-woocommerce' ),
+					'delivery_instructions'  => __( 'Delivery instructions', 'dropp-for-woocommerce' ),
+					'update_order'           => __( 'Update order', 'dropp-for-woocommerce' ),
+					'extra_pdf'              => __( 'Add extra pdf', 'dropp-for-woocommerce' ),
+					'view_order'             => __( 'View order', 'dropp-for-woocommerce' ),
+					'cancel_order'           => __( 'Cancel order', 'dropp-for-woocommerce' ),
+					'barcode'                => __( 'Barcode', 'dropp-for-woocommerce' ),
+					'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
+					'status'                 => __( 'Status', 'dropp-for-woocommerce' ),
+					'created'                => __( 'Created', 'dropp-for-woocommerce' ),
+					'updated'                => __( 'Updated', 'dropp-for-woocommerce' ),
+					'product'                => __( 'Product', 'dropp-for-woocommerce' ),
+					'products'               => __( 'Products', 'dropp-for-woocommerce' ),
+					'booked_consignments'    => __( 'Booked consignments', 'dropp-for-woocommerce' ),
+					'submit'                 => __( 'Book now', 'dropp-for-woocommerce' ),
+					'remove'                 => __( 'Remove location', 'dropp-for-woocommerce' ),
+					'add_location'           => __( 'Add shipment', 'dropp-for-woocommerce' ),
+					'change_location'        => __( 'Change location', 'dropp-for-woocommerce' ),
+					'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
+					'name'                   => __( 'Name', 'dropp-for-woocommerce' ),
+					'email_address'          => __( 'Email address', 'dropp-for-woocommerce' ),
+					'social_security_number' => __( 'Social security number', 'dropp-for-woocommerce' ),
+					'address'                => __( 'Address', 'dropp-for-woocommerce' ),
+					'phone_number'           => __( 'Phone number', 'dropp-for-woocommerce' ),
+				]
+			),
 		];
 
 		if ( ! Dropp::is_pickup_enabled( $shipping_method ) ) {

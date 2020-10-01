@@ -112,6 +112,7 @@ class Ajax {
 		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
 
 		$params = [
+			'comment'     => filter_input( INPUT_POST, 'comment', FILTER_DEFAULT ),
 			'location_id' => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
 			'customer'    => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 			'products'    => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
@@ -131,6 +132,7 @@ class Ajax {
 			);
 		} else {
 			$consignment              = Dropp_Consignment::find( $consignment_id );
+			$consignment->comment     = $params['comment'];
 			$consignment->location_id = $params['location_id'];
 			$consignment->set_customer( $params['customer'] );
 			$consignment->set_products( $params['products'] );

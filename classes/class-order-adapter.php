@@ -127,12 +127,17 @@ class Order_Adapter {
 		}
 		$consignment        = new Dropp_Consignment();
 		$consignment->debug = $shipping_method->debug_mode;
+		$comment            = '';
+		if ( 'yes' === $shipping_method->copy_order_notes ) {
+			$comment = $order->get_customer_note();
+		}
 		$consignment->fill(
 			[
 				'shipping_item_id' => $shipping_item->get_id(),
 				'location_id'      => $location->id,
 				'customer'         => Dropp_Customer::from_shipping_address( $shipping_address ),
 				'products'         => $product_lines,
+				'comment'          => $comment,
 				'test'             => $shipping_method->test_mode,
 			]
 		);

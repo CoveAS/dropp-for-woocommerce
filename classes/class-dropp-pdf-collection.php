@@ -8,6 +8,9 @@
 namespace Dropp;
 
 use Exception;
+use Dropp\Models\Dropp_PDF;
+use Dropp\Models\Dropp_Consignment;
+
 /**
  * Dropp PDF
  */
@@ -15,8 +18,8 @@ class Dropp_PDF_Collection extends Collection {
 	/**
 	 * From consignment
 	 *
-	 * @param  string|integer|Dropp_Consignment $consignment Consignment or consignment ID.
-	 * @return Dropp_PDF_Collection                          PDF collection.
+	 * @param  string|integer|Dropp\\Models\\Dropp_Consignment $consignment Consignment or consignment ID.
+	 * @return Dropp_PDF_Collection                                         PDF collection.
 	 */
 	public static function from_consignment( $consignment ) {
 		if ( is_int( $consignment ) || ctype_digit( $consignment ) ) {

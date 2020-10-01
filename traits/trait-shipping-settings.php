@@ -30,6 +30,7 @@ trait Shipping_Settings {
 		$this->api_key_test     = $this->get_option( 'api_key_test' );
 		$this->store_id         = $this->get_option( 'store_id' );
 		$this->new_order_status = $this->get_option( 'new_order_status' );
+		$this->copy_order_notes = $this->get_option( 'copy_order_comment' );
 		$this->test_mode        = 'yes' === $this->get_option( 'test_mode' );
 		$this->debug_mode       = 'yes' === $this->get_option( 'debug_mode' );
 		$this->enable_ssn       = 'yes' === $this->get_option( 'enable_ssn' );
@@ -81,13 +82,21 @@ trait Shipping_Settings {
 				'desc_tip'    => true,
 				'default'     => '',
 			),
+			'copy_order_notes' => array(
+				'title'       => __( 'Copy order notes ', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Copy order notes to delivery instructions', 'dropp-for-woocommerce' ),
+				'type'        => 'checkbox',
+				'description' => '',
+				'default'     => '',
+				'desc_tip'    => false,
+			),
 			'enable_ssn' => array(
 				'title'       => __( 'Social security number', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Enable social security number', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => __( 'Enables a new field on checkout for icelandic social security number.', 'dropp-for-woocommerce' ),
 				'default'     => '',
-				'desc_tip'    => false,
+				'desc_tip'    => true,
 			),
 			'require_ssn' => array(
 				'title'       => __( 'Require SSN', 'dropp-for-woocommerce' ),

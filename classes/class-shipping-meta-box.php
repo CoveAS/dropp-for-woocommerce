@@ -7,6 +7,10 @@
 
 namespace Dropp;
 
+use Dropp\Models\Dropp_Consignment;
+use Dropp\Models\Dropp_Location;
+use Dropp\Models\Dropp_Product_Line;
+
 /**
  * Shipping item meta
  */

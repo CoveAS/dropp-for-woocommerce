@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Dropp\Models\Dropp_Consignment;
 use WC_Logger;
 
 /**

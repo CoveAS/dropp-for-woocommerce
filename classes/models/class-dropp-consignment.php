@@ -5,12 +5,13 @@
  * @package dropp-for-woocommerce
  */
 
-namespace Dropp;
+namespace Dropp\Models;
 
+use Dropp\API;
 use Exception;
+use WC_Log_Levels;
 use WC_Logger;
 use WC_Order_Item_Shipping;
-use WC_Log_Levels;
 
 /**
  * Consignment

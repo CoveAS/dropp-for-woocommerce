@@ -7,8 +7,6 @@
 
 namespace Dropp\Shipping_Method;
 
-use Dropp\Dropp_Location;
-
 /**
  * Shipping method
  */

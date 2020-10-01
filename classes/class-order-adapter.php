@@ -7,10 +7,14 @@
 
 namespace Dropp;
 
-use WC_Order;
-use WC_Logger;
-use WC_Log_Levels;
+use Dropp\Models\Dropp_Consignment;
+use Dropp\Models\Dropp_Customer;
+use Dropp\Models\Dropp_Location;
+use Dropp\Models\Dropp_Product_Line;
 use Exception;
+use WC_Log_Levels;
+use WC_Logger;
+use WC_Order;
 
 /**
  * API Booking

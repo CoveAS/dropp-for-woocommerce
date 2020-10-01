@@ -5,7 +5,7 @@
  * @package dropp-for-woocommerce
  */
 
-namespace Dropp;
+namespace Dropp\Models;
 
 use WC_Order_Item_Product;
 

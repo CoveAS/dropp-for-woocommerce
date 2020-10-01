@@ -23,16 +23,16 @@ class Dropp {
 		// Utility classes.
 		require_once $plugin_dir . '/classes/class-api.php';
 		require_once $plugin_dir . '/classes/class-collection.php';
-		require_once $plugin_dir . '/classes/class-model.php';
+		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
+		require_once $plugin_dir . '/classes/class-order-adapter.php';
 
 		// Models.
-		require_once $plugin_dir . '/classes/class-dropp-product-line.php';
-		require_once $plugin_dir . '/classes/class-dropp-customer.php';
-		require_once $plugin_dir . '/classes/class-dropp-location.php';
-		require_once $plugin_dir . '/classes/class-dropp-consignment.php';
-		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
-		require_once $plugin_dir . '/classes/class-dropp-pdf.php';
-		require_once $plugin_dir . '/classes/class-order-adapter.php';
+		require_once $plugin_dir . '/classes/models/class-model.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-product-line.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-customer.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-location.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-consignment.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-pdf.php';
 
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';

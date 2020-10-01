@@ -11,6 +11,11 @@ use WC_Logger;
 use WC_Order_Item_Shipping;
 use WC_Cache_Helper;
 use Exception;
+use Dropp\Models\Dropp_Consignment;
+use Dropp\Models\Dropp_Customer;
+use Dropp\Models\Dropp_Location;
+use Dropp\Models\Dropp_Product_Line;
+use Dropp\Models\Dropp_PDF;
 
 /**
  * Ajax

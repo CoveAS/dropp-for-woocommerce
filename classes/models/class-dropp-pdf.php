@@ -5,11 +5,12 @@
  * @package dropp-for-woocommerce
  */
 
-namespace Dropp;
+namespace Dropp\Models;
 
-use WC_Logger;
-use WC_Log_Levels;
+use Dropp\API;
 use Exception;
+use WC_Log_Levels;
+use WC_Logger;
 
 /**
  * Dropp PDF

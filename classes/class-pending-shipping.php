@@ -7,7 +7,6 @@
 
 namespace Dropp;
 
-
 /**
  * Pending shipping
  *

@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use Dropp\Models\Dropp_Consignment;
+
 /**
  * Tracking Code
  */

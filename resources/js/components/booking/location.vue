@@ -337,6 +337,10 @@
 				product._quantity = product.quantity;
 				this.products.push( product );
 			}
+
+			if (this.consignment) {
+				this.delivery_instructions = this.consignment.comment;
+			}
 		},
 		props: [
 			'consignment',

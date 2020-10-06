@@ -17,7 +17,7 @@ class Checkout {
 	public static function setup() {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_action( 'woocommerce_checkout_order_processed', __CLASS__ . '::tag_order', 10, 3 );
-		add_action( 'dropp_schedule_add_new', __CLASS__ . '::add_new' );
+		add_action( 'dropp_schedule_add_new', 'Dropp\Checkout::add_new', 10, 0 );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Checkout {
 
 		if ( ! wp_next_scheduled( 'dropp_schedule_add_new' ) ) {
 			// Schedule adding new items.
-			wp_schedule_single_event( time(), 'dropp_schedule_add_new' );
+			wp_schedule_single_event( time() + 5, 'dropp_schedule_add_new' );
 		}
 	}
 
@@ -50,8 +50,8 @@ class Checkout {
 	 */
 	public static function add_new() {
 		global $wpdb;
-		// API request to add new.
 
+		// API request to add new.
 		$post_ids = $wpdb->get_col(
 			"SELECT ID FROM {$wpdb->posts} p
 			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_ID

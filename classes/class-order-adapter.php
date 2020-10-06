@@ -35,7 +35,7 @@ class Order_Adapter {
 	/**
 	 * Is dropp
 	 *
-	 * @return boolean         True if the dropp shipping method is present on the order.
+	 * @return boolean True if the dropp shipping method is present on the order.
 	 */
 	public function is_dropp() {
 		$dropp_methods  = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
@@ -90,11 +90,11 @@ class Order_Adapter {
 		return new Collection( $container );
 	}
 
-
 	/**
 	 * Make consignment
 	 *
 	 * @param  WC_Shipping_Item $shipping_item Shipping item.
+	 * @param  array            $product_lines Product lines.
 	 * @return Dropp\Dropp_Consignment         Consignment.
 	 */
 	public function make_consignment( $shipping_item, $product_lines = [] ) {
@@ -129,7 +129,7 @@ class Order_Adapter {
 		$consignment->debug = $shipping_method->debug_mode;
 		$comment            = '';
 		if ( 'yes' === $shipping_method->copy_order_notes ) {
-			$comment = $order->get_customer_note();
+			$comment = $this->order->get_customer_note();
 		}
 		$consignment->fill(
 			[

@@ -18,46 +18,10 @@ class Dropp {
 	 * Setup
 	 */
 	public static function loaded() {
-		$plugin_dir = dirname( __DIR__ );
-
-		// Utility classes.
-		require_once $plugin_dir . '/classes/class-api.php';
-		require_once $plugin_dir . '/classes/class-collection.php';
-		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
-		require_once $plugin_dir . '/classes/class-order-adapter.php';
-
-		// Models.
-		require_once $plugin_dir . '/classes/models/class-model.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-product-line.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-customer.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-location.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-consignment.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-pdf.php';
-
-		// Shipping method.
-		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-shipping-method.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-dropp.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-home-delivery.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-flytjandi.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-pickup.php';
-
-		add_filter( 'woocommerce_shipping_dropp_is_instance_option', 'Dropp\Shipping_Method\Dropp::get_cost_option', 10, 3 );
-
-		// Ajax helper class.
-		require_once $plugin_dir . '/classes/class-ajax.php';
-
-		// WooCommerce utility classes.
-		require_once $plugin_dir . '/classes/class-shipping-meta-box.php';
-		require_once $plugin_dir . '/classes/class-shipping-item-meta.php';
-		require_once $plugin_dir . '/classes/class-pending-shipping.php';
-		require_once $plugin_dir . '/classes/class-order-bulk-actions.php';
-		require_once $plugin_dir . '/classes/class-social-security-number.php';
-		require_once $plugin_dir . '/classes/class-postcode-validation.php';
-		require_once $plugin_dir . '/classes/class-tracking-code.php';
-		require_once $plugin_dir . '/classes/class-checkout.php';
+		self::load_classes();
 
 		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
+		add_filter( 'woocommerce_shipping_dropp_is_instance_option', 'Dropp\Shipping_Method\Dropp::get_cost_option', 10, 3 );
 		Shipping_Item_Meta::setup();
 		// Initialise pending shipping status for orders.
 		Pending_Shipping::setup();
@@ -80,6 +44,48 @@ class Dropp {
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname(__DIR__) ) . '/languages/' );
+	}
+
+	/**
+	 * Load classes
+	 */
+	public static function load_classes() {
+		$plugin_dir = dirname( __DIR__ );
+
+		// Utility classes.
+		require_once $plugin_dir . '/classes/class-api.php';
+		require_once $plugin_dir . '/classes/class-collection.php';
+		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
+		require_once $plugin_dir . '/classes/class-order-adapter.php';
+		require_once $plugin_dir . '/classes/class-checkout.php';
+
+		// Models.
+		require_once $plugin_dir . '/classes/models/class-model.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-product-line.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-customer.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-location.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-consignment.php';
+		require_once $plugin_dir . '/classes/models/class-dropp-pdf.php';
+
+		// Shipping method.
+		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-shipping-method.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-dropp.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-home-delivery.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-flytjandi.php';
+		require_once $plugin_dir . '/classes/shipping-method/class-pickup.php';
+
+		// Ajax helper class.
+		require_once $plugin_dir . '/classes/class-ajax.php';
+
+		// WooCommerce utility classes.
+		require_once $plugin_dir . '/classes/class-shipping-meta-box.php';
+		require_once $plugin_dir . '/classes/class-shipping-item-meta.php';
+		require_once $plugin_dir . '/classes/class-pending-shipping.php';
+		require_once $plugin_dir . '/classes/class-order-bulk-actions.php';
+		require_once $plugin_dir . '/classes/class-social-security-number.php';
+		require_once $plugin_dir . '/classes/class-postcode-validation.php';
+		require_once $plugin_dir . '/classes/class-tracking-code.php';
 	}
 
 	/**

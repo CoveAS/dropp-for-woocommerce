@@ -42,7 +42,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-require_once 'classes/class-dropp.php';
+require_once __DIR__ . '/classes/class-dropp.php';
 
 add_action( 'plugins_loaded', 'Dropp\Dropp::loaded' );
-register_deactivation_hook( __FILE__, 'Bring_Fraktguiden::plugin_deactivate' );

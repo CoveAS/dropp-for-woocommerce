@@ -134,4 +134,14 @@ class Collection implements ArrayAccess, Countable  {
 	public function offsetGet( $offset ) {
 		return isset( $this->container[ $offset ] ) ? $this->container[ $offset ] : null;
 	}
+
+	/**
+	 * Is empty
+	 *
+	 * @param  int|string $offset Offset.
+	 * @return mixed              Value.
+	 */
+	public function isEmpty() {
+		return empty( $this->container );
+	}
 }

@@ -57,25 +57,32 @@ class Tracking_Code {
 		$adapter      = new Order_Adapter( $order );
 		$consignments = $adapter->consignments();
 		// Remove unwanted statuses.
-		$consignments->filter( function( $consignment ) {
-			return ! in_array( $consignment->status, ['cancelled', 'error', 'ready'] );
-		} );
-		if ( empty( $consignments ) ) {
+		$consignments->filter(
+			function ( $consignment ) {
+				if ( empty( $consignment->dropp_order_id ) ) {
+					return false;
+				}
+				return ! in_array( $consignment->status, [ 'cancelled', 'error', 'ready' ] );
+			}
+		);
+
+		if ( $consignments->isEmpty() ) {
 			return $shipping;
 		}
 
-		// Get the tracking codes
+		// Get the tracking codes.
 		$codes = array_map(
-			function( $consignment ) {
+			function ( $consignment ) {
 				$tracking_code = new Tracking_Code( $consignment );
 				return $tracking_code->html();
 			},
 			$consignments->to_array()
 		);
+
 		$format = '<div class="dropp-tracking-codes"><strong class="dropp-tracking-codes__title">%s</strong><ul class="dropp-tracking-codes__list">%s</ul></div>';
-		$html = sprintf(
+		$html   = sprintf(
 			$format,
-			esc_html( _n( 'Tracking code', 'Tracking codes', count( $consignments ), 'dropp-for-woocommerce' ) ),
+			esc_html( _n( 'Tracking code', 'Tracking codes', count( $codes ), 'dropp-for-woocommerce' ) ),
 			implode( ' ', $codes )
 		);
 		return "$shipping $html";

@@ -30,7 +30,7 @@ trait Shipping_Settings {
 		$this->api_key_test     = $this->get_option( 'api_key_test' );
 		$this->store_id         = $this->get_option( 'store_id' );
 		$this->new_order_status = $this->get_option( 'new_order_status' );
-		$this->copy_order_notes = $this->get_option( 'copy_order_comment' );
+		$this->copy_order_notes = $this->get_option( 'copy_order_comment', 'yes' );
 		$this->test_mode        = 'yes' === $this->get_option( 'test_mode' );
 		$this->debug_mode       = 'yes' === $this->get_option( 'debug_mode' );
 		$this->enable_ssn       = 'yes' === $this->get_option( 'enable_ssn' );
@@ -83,11 +83,11 @@ trait Shipping_Settings {
 				'default'     => '',
 			),
 			'copy_order_notes' => array(
-				'title'       => __( 'Copy order notes ', 'dropp-for-woocommerce' ),
-				'label'       => __( 'Copy order notes to delivery instructions', 'dropp-for-woocommerce' ),
+				'title'       => __( 'Copy customer notes ', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Copy customer notes from the order to delivery instructions in the dropp booking', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
 				'description' => '',
-				'default'     => '',
+				'default'     => 'yes',
 				'desc_tip'    => false,
 			),
 			'enable_ssn' => array(

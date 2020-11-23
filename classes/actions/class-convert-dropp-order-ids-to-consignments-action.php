@@ -27,8 +27,6 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action
 	public function handle() {
 		$shipping_items = $this->adapter->get_shipping_items();
 
-		// var_dump($this->adapter->count_consignments( true ));die;
-
 		if ( $this->adapter->count_consignments( true ) > 0 ) {
 			return;
 		}
@@ -60,7 +58,6 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action
 						$consignment->save();
 					}
 				} catch ( \Exception $e ) {
-					var_dump($e);die;
 					// Silent fail.
 				}
 			}

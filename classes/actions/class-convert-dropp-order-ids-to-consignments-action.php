@@ -32,6 +32,9 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action
 		}
 
 		foreach ( $shipping_items as $shipping_item ) {
+			if ( empty( $shipping_item->get_id() ) ) {
+				continue;
+			}
 			$dropp_order_ids = $shipping_item->get_meta( 'dropp_consignments' );
 
 			if ( empty( $dropp_order_ids ) ) {

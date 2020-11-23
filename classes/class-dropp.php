@@ -37,6 +37,7 @@ class Dropp {
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
+		add_action( 'woocommerce_before_order_object_save', __CLASS__ . '::maybe_convert_dropp_order_ids' );
 
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
@@ -144,6 +145,16 @@ class Dropp {
 		dbDelta( $sql );
 
 		return true;
+	}
+
+
+	/**
+	 * @param WC_Abstract_Order $order Order.
+	 */
+	public static function maybe_convert_dropp_order_ids( $order ) {
+		$adapter = new Order_Adapter( $order );
+		$action  = new Actions\Convert_Dropp_Order_Ids_To_Consignments_Action( $adapter );
+		$action->handle();
 	}
 
 	/**

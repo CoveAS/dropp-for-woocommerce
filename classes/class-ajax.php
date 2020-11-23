@@ -191,8 +191,18 @@ class Ajax {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
-			$consignment->remote_get();
-			$consignment->save();
+			$api       = new API( $consignment->get_shipping_method() );
+			$api->test = $consignment->test;
+
+			// Search the API.
+			$remote_consignment = Dropp_Consignment::remote_find(
+				$consignment->shipping_item_id,
+				$consignment->dropp_order_id
+			);
+			if ( $remote_consignment->status != $consignment->status ) {
+				$consignment->status = $remote_consignment->status;
+				$consignment->save();
+			}
 		} catch ( \Exception $e ) {
 			wp_send_json(
 				[

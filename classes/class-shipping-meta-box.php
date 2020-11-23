@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Dropp\Actions\Convert_Dropp_Order_Ids_To_Consignments_Action;
 use Dropp\Models\Dropp_Consignment;
 use Dropp\Models\Dropp_Location;
 use Dropp\Models\Dropp_Product_Line;
@@ -61,14 +62,10 @@ class Shipping_Meta_Box {
 		$order_id         = get_the_ID();
 		$order            = wc_get_order( $order_id );
 		$adapter          = new Order_Adapter( $order );
-		$consignments     = $adapter->consignments();
 		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address( 'shipping' );
 		$line_items       = $order->get_items( 'shipping' );
 		$shipping_items   = [];
-
-		// Maybe update the consignments.
-		$consignments->map( 'maybe_update' );
 
 		$dropp_methods  = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
 		foreach ( $line_items as $line_item ) {
@@ -81,6 +78,14 @@ class Shipping_Meta_Box {
 				'label'       => $line_item->get_name(),
 			];
 		}
+
+		$action = new Convert_Dropp_Order_Ids_To_Consignments_Action( $adapter );
+		$action->handle();
+
+		$consignments = $adapter->consignments();
+		// Maybe update the consignments.
+		$consignments->map( 'maybe_update' );
+
 		if ( empty( $shipping_address['email'] ) ) {
 			$shipping_address['email'] = $billing_address['email'];
 		}

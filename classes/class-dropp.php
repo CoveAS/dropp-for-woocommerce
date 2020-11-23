@@ -67,6 +67,9 @@ class Dropp {
 		require_once $plugin_dir . '/classes/models/class-dropp-consignment.php';
 		require_once $plugin_dir . '/classes/models/class-dropp-pdf.php';
 
+		// Actions.
+		require_once $plugin_dir . '/classes/actions/class-convert-dropp-order-ids-to-consignments-action.php';
+
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
 		require_once $plugin_dir . '/classes/shipping-method/class-shipping-method.php';

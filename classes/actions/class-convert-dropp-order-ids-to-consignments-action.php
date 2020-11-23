@@ -1,0 +1,69 @@
+<?php
+namespace Dropp\Actions;
+
+use Dropp\Models\Dropp_Consignment;
+use Dropp\Models\Dropp_Location;
+use Dropp\Order_Adapter;
+
+/**
+ * Get Condignment from API
+ */
+class Convert_Dropp_Order_Ids_To_Consignments_Action
+{
+	public $adapter;
+
+	/**
+	 * Construct
+	 *
+	 * @param \Dropp\Order_Adapter $adapter Order adapter.
+	 */
+	public function __construct( Order_Adapter $adapter ) {
+		$this->adapter = $adapter;
+	}
+
+	/**
+	 * Handle
+	 */
+	public function handle() {
+		$shipping_items = $this->adapter->get_shipping_items();
+
+		// var_dump($this->adapter->count_consignments( true ));die;
+
+		if ( $this->adapter->count_consignments( true ) > 0 ) {
+			return;
+		}
+
+		foreach ( $shipping_items as $shipping_item ) {
+			$dropp_order_ids = $shipping_item->get_meta( 'dropp_consignments' );
+
+			if ( empty( $dropp_order_ids ) ) {
+				continue;
+			}
+			foreach ( $dropp_order_ids as $dropp_order_id ) {
+				try {
+					$consignment = Dropp_Consignment::remote_find(
+						$shipping_item->get_id(),
+						$dropp_order_id
+					);
+
+					if ( ! $consignment ) {
+						continue;
+					}
+
+					$location = Dropp_Location::remote_find( $consignment->location_id );
+					if ($location) {
+						$shipping_item->add_meta_data( 'dropp_location', $location->to_array(), true );
+						$shipping_item->save();
+					}
+
+					if ( $consignment ) {
+						$consignment->save();
+					}
+				} catch ( \Exception $e ) {
+					var_dump($e);die;
+					// Silent fail.
+				}
+			}
+		}
+	}
+}

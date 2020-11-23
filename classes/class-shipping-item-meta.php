@@ -20,7 +20,7 @@ class Shipping_Item_Meta {
 		add_action( 'woocommerce_after_shipping_rate', __CLASS__ . '::choose_location_button', 10, 2 );
 
 		// Save the fields during checkout.
-		add_action( 'woocommerce_checkout_create_order_shipping_item', __CLASS__ . '::attach_item_meta', 10, 4 );
+		add_action( 'woocommerce_checkout_create_order_shipping_item', __CLASS__ . '::attach_item_meta' );
 
 		// Validation that a location has been selected.
 		add_action( 'woocommerce_after_checkout_validation', __CLASS__ . '::validate_location', 10, 2 );
@@ -32,14 +32,11 @@ class Shipping_Item_Meta {
 	/**
 	 * Attach item meta
 	 *
-	 * @param WC_Order_Item_Shipping $item        Shipping item.
-	 * @param integer                $package_key Package key.
-	 * @param array                  $package     Package.
-	 * @param WC_Order               $order       Order.
+	 * @param WC_Order_Item_Shipping $item Shipping item.
 	 */
-	public static function attach_item_meta( $item, $package_key, $package, $order ) {
+	public static function attach_item_meta( $item ) {
 		$location_data = WC()->session->get( 'dropp_location_' . $item->get_instance_id() );
-		$location = [
+		$location      = [
 			'id'        => preg_replace( '/[^a-z\d\-]/', '', $location_data['id'] ),
 			'name'      => $location_data['name'],
 			'pricetype' => $location_data['pricetype'],
@@ -60,7 +57,7 @@ class Shipping_Item_Meta {
 		$instance_id         = 0;
 		foreach ( $shipping_methods as $method_id ) {
 			if ( preg_match( '/^dropp_is:(\d+)$/', $method_id, $matches ) ) {
-				// Note: This validation is not needed for dropp_home
+				// Note: This validation is not needed for dropp_home.
 				$validation_required = true;
 				$instance_id = $matches[1];
 			}

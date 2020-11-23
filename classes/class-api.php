@@ -137,6 +137,7 @@ class API {
 				WC_Log_Levels::DEBUG
 			);
 		}
+
 		return wp_remote_request( $url, $args );
 	}
 

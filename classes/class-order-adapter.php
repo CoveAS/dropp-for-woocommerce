@@ -39,7 +39,7 @@ class Order_Adapter {
 	 */
 	public function is_dropp() {
 		$dropp_methods  = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
-		$shipping_items = $this->order->get_items( 'shipping' );
+		$shipping_items = $this->get_shipping_items();
 		foreach ( $shipping_items as $shipping_item ) {
 			if ( in_array( $shipping_item->get_method_id(), $dropp_methods, true ) ) {
 				return true;
@@ -56,7 +56,7 @@ class Order_Adapter {
 	 */
 	public function count_consignments( $only_booked = false ) {
 		global $wpdb;
-		$shipping_items    = $this->order->get_items( 'shipping' );
+		$shipping_items    = $this->get_shipping_items();
 		$shipping_item_ids = [];
 		foreach ( $shipping_items as $shipping_item ) {
 			$shipping_item_ids[] = $shipping_item->get_id();
@@ -79,7 +79,7 @@ class Order_Adapter {
 	 * @return Collection Collection of consignments.
 	 */
 	public function consignments() {
-		$line_items = $this->order->get_items( 'shipping' );
+		$line_items = $this->get_shipping_items();
 		$container  = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
 			$container = array_merge(
@@ -104,7 +104,7 @@ class Order_Adapter {
 		}
 		$billing_address  = $this->order->get_address();
 		$shipping_address = $this->order->get_address( 'shipping' );
-		$line_items       = $this->order->get_items( 'shipping' );
+		$line_items       = $this->get_shipping_items();
 
 		// Fix missing args in address.
 		if ( empty( $shipping_address['email'] ) ) {
@@ -149,7 +149,7 @@ class Order_Adapter {
 	 * @return boolean True if any order was booked.
 	 */
 	public function book() {
-		$shipping_items = $this->order->get_items( 'shipping' );
+		$shipping_items = $this->get_shipping_items();
 
 		$any_booked = false;
 		foreach ( $shipping_items as $shipping_item ) {
@@ -190,7 +190,7 @@ class Order_Adapter {
 	 * @return boolean True if any order was booked.
 	 */
 	public function add_new() {
-		$shipping_items = $this->order->get_items( 'shipping' );
+		$shipping_items = $this->get_shipping_items();
 
 		$any_added = false;
 		foreach ( $shipping_items as $shipping_item ) {
@@ -213,5 +213,14 @@ class Order_Adapter {
 			}
 		}
 		return $any_added;
+	}
+
+	/**
+	 * Get shipping items
+	 *
+	 * @return array Shipping items.
+	 */
+	public function get_shipping_items() {
+		return $this->order->get_items( 'shipping' );
 	}
 }

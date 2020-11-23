@@ -87,8 +87,8 @@ class Dropp_Consignment extends Model {
 				'dropp_order_id'   => null,
 				'shipping_item_id' => null,
 				'status'           => 'ready',
-				'comment'          => null,
-				'location_id'      => null,
+				'comment'          => '',
+				'location_id'      => '',
 				'test'             => false,
 				'debug'            => false,
 				'updated_at'       => current_time( 'mysql' ),
@@ -366,7 +366,17 @@ class Dropp_Consignment extends Model {
 			return false;
 		}
 		try {
-			$this->remote_get()->save();
+			$api       = new API( $this->get_shipping_method() );
+			$api->test = $this->test;
+			// Search the API.
+			$consignment = self::remote_find(
+				$this->shipping_item_id,
+				$this->dropp_order_id
+			);
+			if ( $consignment && $consignment->status != $this->status ) {
+				$this->status = $consignment->status;
+				$this->save();
+			}
 		} catch ( Exception $e ) {
 			return false;
 		}
@@ -438,26 +448,6 @@ class Dropp_Consignment extends Model {
 	}
 
 	/**
-	 * Remote get
-	 *
-	 * @throws Exception   $e     Sending exception.
-	 * @return Consignment          This object.
-	 */
-	public function remote_get() {
-		if ( ! $this->dropp_order_id ) {
-			throw new Exception(
-				sprintf(
-					// translators: Consignment ID.
-					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
-					$this->id
-				)
-			);
-		}
-		$response = $this->remote( 'get', self::get_url( 'orders/' . $this->dropp_order_id ) );
-		return $this->process_response( 'get', $response );
-	}
-
-	/**
 	 * Remote post / Booking
 	 *
 	 * @return Consignment          This object.
@@ -519,6 +509,42 @@ class Dropp_Consignment extends Model {
 	}
 
 	/**
+	 * Remote add
+	 *
+	 * @return array|string Decoded json, string body or raw response object.
+	 */
+	public static function remote_find( $shipping_item_id, $dropp_order_id ) {
+		// Instantiate a new consignment.
+		$consignment                   = new self();
+		$consignment->shipping_item_id = $shipping_item_id;
+
+		// Ask the API about the dropp order id.
+		$api      = new API( $consignment->get_shipping_method() );
+		$response = $api->get( "orders/{$dropp_order_id}" );
+
+		if ( ! empty( $response['id'] ) ) {
+			$response['dropp_order_id'] = $response['id'];
+			unset( $response['id'] );
+		}
+
+		if ( ! empty( $response['locationId'] ) ) {
+			$response['location_id'] = $response['locationId'];
+			unset( $response['locationId'] );
+		}
+
+		if ( empty( $response['products'] ) ) {
+			$response['products'] = [];
+		}
+		if ( ! empty( $response['error'] ) ) {
+			return null;
+		}
+		$response['test'] = $api->test;
+
+		// Return the filled consignment.
+		return $consignment->fill( $response );
+	}
+
+	/**
 	 * Process response
 	 *
 	 * @throws Exception      $e        Response exception.
@@ -575,8 +601,6 @@ class Dropp_Consignment extends Model {
 		if ( empty( $dropp_order['id'] ) ) {
 			throw new Exception( __( 'Empty ID in the response', 'dropp-for-woocommerce' ) );
 		}
-
-		$dropp_order = json_decode( $response['body'], true );
 
 		$this->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->status         = $dropp_order['status'] ?? '';

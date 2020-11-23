@@ -7,6 +7,8 @@
 
 namespace Dropp\Models;
 
+use Dropp\API;
+
 /**
  * Shipping method
  */
@@ -96,6 +98,45 @@ class Dropp_Location extends Model {
 		return $collection;
 	}
 
+	public static function remote_find( $location_id ) {
+		$type = false;
+		// Special logic for hard-coded locations.
+		if ( '9ec1f30c-2564-4b73-8954-25b7b3186ed3' === $location_id ) {
+			$type = 'dropp_home';
+		} else if ( 'a178c25e-bb35-4420-8792-d5295f0e7fcc' === $location_id ) {
+			$type = 'dropp_flytjandi';
+		} else if ( '30e06a53-2d65-46e7-adc1-18e60de28ecc' === $location_id ) {
+			$type = 'dropp_pickup';
+		}
+		if ( $type ) {
+			return new self($type);
+		}
+
+		// Ask the API about the dropp order id.
+		$api      = new API();
+		$response = $api->get( "dropp/locations" );
+
+		if (empty($response['locations'])) {
+			throw new \Exception('Could not find any locations');
+		}
+		$locations = $response['locations'];
+
+		$location = false;
+		foreach ( $locations as $location_data ) {
+			if ( $location_id != $location_data['id'] ) {
+				continue;
+			}
+			$location = new self();
+			$location->id        = $location_id;
+			$location->name      = $location_data['name'] ?? '';
+			$location->address   = $location_data['address'] ?? '';
+			$location->pricetype = $location_data['pricetype'] ?? '1';
+			break;
+		}
+
+		return $location;
+	}
+
 	/**
 	 * Array From Order
 	 *
@@ -116,6 +157,7 @@ class Dropp_Location extends Model {
 			'order_item_id' => $this->order_item_id,
 			'id'            => $this->id,
 			'name'          => $this->name,
+			'address'       => $this->address,
 			'barcode'       => $this->barcode,
 			'type'          => $this->type,
 		];

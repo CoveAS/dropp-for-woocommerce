@@ -128,28 +128,31 @@ class Order_Bulk_Actions {
 			return;
 		}
 		$action = $_REQUEST['bulk_action']; // WPCS: input var ok, CSRF ok.
-		if ( 'bulk_booking' === $action || 'bulk_printing' === $action ) {
-			$consignment_ids = [];
-			// Get order id's.
-			$order_ids       = self::get_id_array(
-				( 'bulk_booking' == $action ? 'success' : 'ids' )
-			);
-			$dropp_order_ids = [];
-			foreach ( $order_ids as $id ) {
-				$collection = Dropp_Consignment::from_order( $id );
-				$valid = false;
-				foreach ( $collection as $consignment ) {
-					if ( ! $consignment->dropp_order_id ) {
-						continue;
-					}
-					$consignment_ids[] = $consignment->id;
-					if ( in_array( $id, $order_ids ) ) {
-						$dropp_order_ids[] = $id;
-					}
+		if ( 'bulk_booking' !== $action && 'bulk_printing' !== $action ) {
+			return;
+		}
+
+		$consignment_ids = [];
+		// Get order id's.
+		$order_ids       = self::get_id_array(
+			( 'bulk_booking' == $action ? 'success' : 'ids' )
+		);
+		$dropp_order_ids = [];
+		foreach ( $order_ids as $id ) {
+			$collection = Dropp_Consignment::from_order( $id );
+			$valid = false;
+			foreach ( $collection as $consignment ) {
+				if ( ! $consignment->dropp_order_id ) {
+					continue;
+				}
+				$consignment_ids[] = $consignment->id;
+				if ( in_array( $id, $order_ids ) ) {
+					$dropp_order_ids[] = $id;
 				}
 			}
 		}
 		$dropp_order_ids = array_unique( $dropp_order_ids );
+
 		if ( 'bulk_booking' === $action ) {
 			$existing  = self::get_id_array( 'existing' );
 			$success   = self::get_id_array( 'success' );

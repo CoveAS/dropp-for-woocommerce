@@ -16,22 +16,27 @@ class Social_Security_Number {
 	 * Setup
 	 */
 	public static function setup() {
-
-		// Display field value on the order edit page
+		// Display field value on the order edit page.
 		add_action( 'woocommerce_admin_order_data_after_billing_address', __CLASS__ . '::admin_order_billing_details', 10, 1 );
 
-		// Display field value in the order emails
+		// Display field value in the order emails.
 		add_action( 'woocommerce_email_customer_details', __CLASS__ . '::order_email_details', 20, 1 );
 
-		// Display field value on the thank you page and order page
+		// Display field value on the thank you page and order page.
 		add_filter( 'woocommerce_order_details_after_customer_details', __CLASS__ . '::after_customer_details', 10, 1 );
 
-		$shipping_method = new Shipping_Method\Dropp;
-		if ( $shipping_method->enable_ssn ) {
-			// Add fields to Billing address
+		$settings   = get_option( 'woocommerce_dropp_is_settings' );
+		$enable_ssn = apply_filters(
+			'woocommerce_shipping_dropp_is_option',
+			$settings['enable_ssn'] ?? '',
+			'enable_ssn'
+		);
+
+		if ( $enable_ssn ) {
+			// Add fields to Billing address.
 			add_filter( 'woocommerce_checkout_fields' , __CLASS__. '::checkout_fields', 10, 1 );
 
-			// Validate SSN number
+			// Validate SSN number.
 			add_action( 'woocommerce_after_checkout_validation', __CLASS__ . '::validate_ssn', 10, 2 );
 		}
 	}

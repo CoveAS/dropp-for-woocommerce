@@ -207,7 +207,6 @@ class Dropp_Consignment extends Model {
 	 * @return string API key.
 	 */
 	public function get_api_key() {
-
 		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
 		$shipping_method  = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
 		$option_name      = 'api_key';
@@ -376,7 +375,7 @@ class Dropp_Consignment extends Model {
 			return false;
 		}
 		try {
-			$api       = new API( $this->get_shipping_method() );
+			$api       = new API();
 			$api->test = $this->test;
 			// Search the API.
 			$consignment = self::remote_find(
@@ -420,6 +419,11 @@ class Dropp_Consignment extends Model {
 		return $this->customer->to_array();
 	}
 
+	/**
+	 * Check weight
+	 *
+	 * @return boolean True if weight is within limits.
+	 */
 	public function check_weight() {
 		$total_weight = 0;
 		foreach ( $this->products as $product ) {
@@ -427,6 +431,23 @@ class Dropp_Consignment extends Model {
 		}
 		$shipping_method = $this->get_shipping_method();
 		return $total_weight <= ( $shipping_method->weight_limit ?? 10 );
+	}
+
+	/**
+	 * Maybe Update order status
+	 */
+	public function maybe_update_order_status() {
+		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
+		$shipping_method  = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$shipping_item    = new WC_Order_Item_Shipping( $this->shipping_item_id );
+		if ( '' !== $shipping_method->new_order_status ) {
+			$order = $shipping_item->get_order();
+			$order->update_status(
+				$shipping_method->new_order_status,
+				__( 'Dropp booking complete.', 'dropp-for-woocommerce' )
+			);
+		}
+		return $this;
 	}
 
 	/**

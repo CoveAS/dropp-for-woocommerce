@@ -160,13 +160,7 @@ class Ajax {
 		try {
 			if ( empty( $dropp_order_id ) ) {
 				$consignment->remote_post()->save();
-				if ( '' !== $shipping_method->new_order_status ) {
-					$order = $order_item->get_order();
-					$order->update_status(
-						$shipping_method->new_order_status,
-						__( 'Dropp booking complete.', 'dropp-for-woocommerce' )
-					);
-				}
+				$consignment->maybe_update_order_status();
 			} else {
 				$consignment->remote_patch()->save();
 			}

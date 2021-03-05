@@ -173,6 +173,7 @@ class Order_Adapter {
 			try {
 				$consignment->remote_post();
 				$consignment->save();
+				$consignment->maybe_update_order_status();
 				$any_booked = true;
 			} catch ( \Exception $e ) {
 				$consignment->status         = 'error';

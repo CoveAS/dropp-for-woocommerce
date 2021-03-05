@@ -100,7 +100,7 @@ class Shipping_Meta_Box {
 			$delivery_instructions = $customer_note;
 		}
 		$dropp_object = [
-			'testing'               => ( new Api( $shipping_method ) )->test,
+			'testing'               => ( new Api() )->test,
 			'nonce'                 => wp_create_nonce( 'dropp' ),
 			'time_now'              => current_time( 'mysql' ),
 			'order_id'              => $order_id,

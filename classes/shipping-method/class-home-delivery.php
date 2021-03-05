@@ -15,6 +15,13 @@ use Dropp\API;
 class Home_Delivery extends Shipping_Method {
 
 	/**
+	 * Weight Limit in KG
+	 *
+	 * @var int
+	 */
+	public $weight_limit = 20;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.

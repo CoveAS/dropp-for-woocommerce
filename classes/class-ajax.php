@@ -7,14 +7,10 @@
 
 namespace Dropp;
 
-use WC_Logger;
 use WC_Order_Item_Shipping;
 use WC_Cache_Helper;
 use Exception;
 use Dropp\Models\Dropp_Consignment;
-use Dropp\Models\Dropp_Customer;
-use Dropp\Models\Dropp_Location;
-use Dropp\Models\Dropp_Product_Line;
 use Dropp\Models\Dropp_PDF;
 
 /**
@@ -143,6 +139,24 @@ class Ajax {
 			$consignment->save();
 		}
 
+		if ( ! $consignment->check_weight() ) {
+			$consignment->status         = 'overweight';
+			$consignment->status_message = sprintf(
+				__( 'Cannot book the order because it\'s over the weight limit of %d Kg', 'dropp-for-woocommerce' ),
+				$consignment->get_shipping_method()->weight_limit ?? 10
+			);
+			$consignment->save();
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'consignment' => $consignment->to_array( false ),
+					'message'     => $consignment->status_message,
+					'errors'      => $consignment->errors,
+				]
+			);
+			die;
+		}
+
 		try {
 			if ( empty( $dropp_order_id ) ) {
 				$consignment->remote_post()->save();
@@ -191,7 +205,7 @@ class Ajax {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
-			$api       = new API( $consignment->get_shipping_method() );
+			$api       = new API();
 			$api->test = $consignment->test;
 
 			// Search the API.
@@ -340,7 +354,7 @@ class Ajax {
 		}
 
 		// Grab pdf's and save them.
-		$collection = new Dropp_PDF_Collection;
+		$collection = new Dropp_PDF_Collection();
 		try {
 			foreach ( $consignment_ids as $consignment_id ) {
 				$consignment = Dropp_Consignment::find( $consignment_id );

@@ -10,26 +10,24 @@ namespace Dropp;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
+use WC_Shipping;
 use Dropp\Models\Model;
 
 /**
  * API
  */
 class API {
-	public $require_auth = true;
-	public $test         = false;
-	public $debug        = false;
-	public $errors       = [];
-	protected $shipping_method;
+	public    $require_auth    = true;
+	public    $test            = false;
+	public    $debug           = false;
+	public    $errors          = [];
+	protected $shipping_method = null;
 
-	public function __construct( $shipping_method = null ) {
-		if ( empty( $shipping_method ) ) {
-			$shipping_method = new Shipping_Method\Dropp;
-		}
-		$this->shipping_method = $shipping_method;
-
-		$this->test  = $shipping_method->test_mode;
-		$this->debug = $shipping_method->debug_mode;
+	public function __construct() {
+		$shipping_methods      = WC_Shipping::instance()->get_shipping_methods();
+		$this->shipping_method = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$this->test            = $this->shipping_method->test_mode;
+		$this->debug           = $this->shipping_method->debug_mode;
 	}
 
 	/**

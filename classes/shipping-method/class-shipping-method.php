@@ -9,11 +9,19 @@ namespace Dropp\Shipping_Method;
 
 use Dropp\Shipping_Settings;
 
+
 /**
  * Shipping method
  */
 abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	use Shipping_Settings;
+
+	/**
+	 * Weight Limit in KG
+	 *
+	 * @var int
+	 */
+	public $weight_limit = 10;
 
 	/**
 	 * Constructor.
@@ -65,7 +73,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			}
 			$total_weight += $item['quantity'] * wc_get_weight( $item['data']->get_weight(), 'kg' );
 		}
-		if ( $total_weight > 10 ) {
+		if ( $total_weight > $this->weight_limit ) {
 			$is_available = false;
 		}
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );

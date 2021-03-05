@@ -291,8 +291,8 @@
 						total_weight += product.weight * product._quantity;
 					}
 				}
-				if ( total_weight > 10 ) {
-					errors.push( 'Error: Each consignment must be 10 Kg or less. Please reduce number of items or remove products from booking.' );
+				if ( total_weight > this.location.weight_limit ) {
+					errors.push( 'Error: Each consignment must be ' + this.location.weight_limit + ' Kg or less. Please reduce number of items or remove products from booking.' );
 				}
 
 				return errors;

@@ -25,6 +25,13 @@ class Dropp_Location extends Model {
 	public $type;
 
 	/**
+	 * Weight Limit in KG
+	 *
+	 * @var int
+	 */
+	public $weight_limit = 10;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.
@@ -33,16 +40,18 @@ class Dropp_Location extends Model {
 		$this->type = $type;
 		// Special location handling for home deliveries.
 		if ( 'dropp_home' === $type ) {
-			$this->id      = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
-			$this->name    = __( 'Home delivery', 'dropp-for-woocommerce' );
-			$this->address = '';
+			$this->id           = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
+			$this->name         = __( 'Home delivery', 'dropp-for-woocommerce' );
+			$this->weight_limit = 20;
+			$this->address      = '';
 		}
 
 		// Special location handling for flytjandi deliveries.
 		if ( 'dropp_flytjandi' === $type ) {
-			$this->id      = 'a178c25e-bb35-4420-8792-d5295f0e7fcc';
-			$this->name    = __( 'Flytjandi', 'dropp-for-woocommerce' );
-			$this->address = '';
+			$this->id           = 'a178c25e-bb35-4420-8792-d5295f0e7fcc';
+			$this->name         = __( 'Flytjandi', 'dropp-for-woocommerce' );
+			$this->weight_limit = 20;
+			$this->address      = '';
 		}
 
 		// Special location handling for pickup.
@@ -109,15 +118,15 @@ class Dropp_Location extends Model {
 			$type = 'dropp_pickup';
 		}
 		if ( $type ) {
-			return new self($type);
+			return new self( $type );
 		}
 
 		// Ask the API about the dropp order id.
 		$api      = new API();
-		$response = $api->get( "dropp/locations" );
+		$response = $api->get( 'dropp/locations' );
 
-		if (empty($response['locations'])) {
-			throw new \Exception('Could not find any locations');
+		if ( empty( $response['locations'] ) ) {
+			throw new \Exception( 'Could not find any locations' );
 		}
 		$locations = $response['locations'];
 
@@ -126,7 +135,7 @@ class Dropp_Location extends Model {
 			if ( $location_id != $location_data['id'] ) {
 				continue;
 			}
-			$location = new self();
+			$location            = new self();
 			$location->id        = $location_id;
 			$location->name      = $location_data['name'] ?? '';
 			$location->address   = $location_data['address'] ?? '';
@@ -144,7 +153,7 @@ class Dropp_Location extends Model {
 	 * @return array             Array of Dropp_Location arrays.
 	 */
 	public static function array_from_order( $order_id = false ) {
-		return self::from_order($order_id);
+		return self::from_order( $order_id );
 	}
 
 	/**
@@ -157,6 +166,7 @@ class Dropp_Location extends Model {
 			'order_item_id' => $this->order_item_id,
 			'id'            => $this->id,
 			'name'          => $this->name,
+			'weight_limit'  => $this->weight_limit,
 			'address'       => $this->address,
 			'barcode'       => $this->barcode,
 			'type'          => $this->type,

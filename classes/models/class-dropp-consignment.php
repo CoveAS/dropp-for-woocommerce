@@ -13,6 +13,7 @@ use Exception;
 use WC_Log_Levels;
 use WC_Logger;
 use WC_Order_Item_Shipping;
+use WC_Shipping;
 
 /**
  * Consignment
@@ -24,6 +25,7 @@ class Dropp_Consignment extends Model {
 	public $comment = '';
 	public $dropp_order_id;
 	public $status = 'ready';
+	public $status_message = '';
 	public $shipping_item_id;
 	public $location_id;
 	public $products;
@@ -50,6 +52,7 @@ class Dropp_Consignment extends Model {
 			'ready'       => __( 'Ready', 'dropp-for-woocommerce' ),
 			'error'       => __( 'Error', 'dropp-for-woocommerce' ),
 			'initial'     => __( 'Initial', 'dropp-for-woocommerce' ),
+			'overweight'  => __( 'Overweight', 'dropp-for-woocommerce' ),
 			'transit'     => __( 'Transit', 'dropp-for-woocommerce' ),
 			'consignment' => __( 'Consignment', 'dropp-for-woocommerce' ),
 			'delivered'   => __( 'Delivered', 'dropp-for-woocommerce' ),
@@ -66,8 +69,13 @@ class Dropp_Consignment extends Model {
 		if ( ! $this->shipping_item_id ) {
 			return null;
 		}
-		$shipping_item = new WC_Order_Item_Shipping( $this->shipping_item_id );
-		return new Dropp( $shipping_item->get_instance_id() );
+		$shipping_item      = new WC_Order_Item_Shipping( $this->shipping_item_id );
+		$shipping_methods   = WC_Shipping::instance()->get_shipping_methods();
+		$shipping_method_id = $shipping_item->get_method_id();
+		if ( empty( $shipping_methods[ $shipping_method_id ] ) ) {
+			return new Dropp( $shipping_item->get_instance_id() );
+		}
+		return $shipping_methods[ $shipping_method_id ];
 	}
 
 	/**
@@ -199,8 +207,10 @@ class Dropp_Consignment extends Model {
 	 * @return string API key.
 	 */
 	public function get_api_key() {
-		$shipping_method = $this->get_shipping_method();
-		$option_name     = 'api_key';
+
+		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
+		$shipping_method  = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$option_name      = 'api_key';
 		if ( $this->test ) {
 			$option_name = 'api_key_test';
 		}
@@ -258,7 +268,7 @@ class Dropp_Consignment extends Model {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'dropp_consignments';
 		$this->updated_at = current_time( 'mysql' );
-		$row_count = $wpdb->update(
+		$wpdb->update(
 			$table_name,
 			[
 				'barcode'          => $this->barcode,
@@ -408,6 +418,15 @@ class Dropp_Consignment extends Model {
 			return [];
 		}
 		return $this->customer->to_array();
+	}
+
+	public function check_weight() {
+		$total_weight = 0;
+		foreach ( $this->products as $product ) {
+			$total_weight += $product->weight * $product->quantity;
+		}
+		$shipping_method = $this->get_shipping_method();
+		return $total_weight <= ( $shipping_method->weight_limit ?? 10 );
 	}
 
 	/**

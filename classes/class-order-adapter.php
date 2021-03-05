@@ -158,13 +158,12 @@ class Order_Adapter {
 			if ( ! $consignment ) {
 				continue;
 			}
-			$total_weight = 0;
-			foreach ( $product_lines as $product_line ) {
-				$total_weight += $product_line->weight * $product_line->quantity;
-			}
-			if ( $total_weight > 10 ) {
+			if ( ! $consignment->check_weight() ) {
 				$consignment->status         = 'overweight';
-				$consignment->status_message = __( 'Cannot book the order because it\'s over the weight limit of 10 Kg', 'dropp-for-woocommerce' );
+				$consignment->status_message = sprintf(
+					__( 'Cannot book the order because it\'s over the weight limit of %d Kg', 'dropp-for-woocommerce' ),
+					$consignment->get_shipping_method()->weight_limit ?? 10
+				);
 				$consignment->save();
 				continue;
 			}

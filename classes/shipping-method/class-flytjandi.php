@@ -14,6 +14,8 @@ use Dropp\API;
  */
 class Flytjandi extends Home_Delivery {
 
+	// Home delivery has a 20kg weight limit.
+
 	/**
 	 * Constructor.
 	 *

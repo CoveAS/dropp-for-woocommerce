@@ -27,6 +27,7 @@ class Dropp_Consignment extends Model {
 	public $status = 'ready';
 	public $status_message = '';
 	public $shipping_item_id;
+	public $day_delivery = false;
 	public $location_id;
 	public $products;
 	public $customer;
@@ -97,6 +98,7 @@ class Dropp_Consignment extends Model {
 				'status'           => 'ready',
 				'comment'          => '',
 				'location_id'      => '',
+				'day_delivery'     => false,
 				'test'             => false,
 				'debug'            => false,
 				'updated_at'       => current_time( 'mysql' ),
@@ -177,11 +179,12 @@ class Dropp_Consignment extends Model {
 			$products[] = $product->to_array();
 		}
 		$consignment_array = [
-			'locationId' => $this->location_id,
-			'barcode'    => $this->barcode,
-			'products'   => $products,
-			'customer'   => $this->get_customer_array(),
-			'comment'    => $this->comment,
+			'locationId'   => $this->location_id,
+			'barcode'      => $this->barcode,
+			'products'     => $products,
+			'customer'     => $this->get_customer_array(),
+			'daydelivery'  => $this->day_delivery,
+			'comment'      => $this->comment,
 		];
 		if ( ! $for_request ) {
 			$consignment_array['id']               = $this->id;
@@ -271,6 +274,7 @@ class Dropp_Consignment extends Model {
 			$table_name,
 			[
 				'barcode'          => $this->barcode,
+				'day_delivery'     => $this->day_delivery,
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
@@ -302,6 +306,7 @@ class Dropp_Consignment extends Model {
 			$table_name,
 			[
 				'barcode'          => $this->barcode,
+				'day_delivery'     => $this->day_delivery,
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
@@ -425,6 +430,9 @@ class Dropp_Consignment extends Model {
 	 * @return boolean True if weight is within limits.
 	 */
 	public function check_weight() {
+		if ( 0 === $shipping_method->weight_limit ) {
+			return true;
+		}
 		$total_weight = 0;
 		foreach ( $this->products as $product ) {
 			$total_weight += $product->weight * $product->quantity;
@@ -644,6 +652,7 @@ class Dropp_Consignment extends Model {
 
 		$this->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->status         = $dropp_order['status'] ?? '';
+		$this->day_delivery   = $dropp_order['day_delivery'] ?? false;
 		if ( ! empty( $dropp_order['barcode'] ) ) {
 			$this->barcode = $dropp_order['barcode'];
 		}

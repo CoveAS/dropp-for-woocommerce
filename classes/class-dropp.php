@@ -44,7 +44,25 @@ class Dropp {
 		$hook        = "plugin_action_links_{$plugin_path}/dropp-for-woocommerce.php";
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
-		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname(__DIR__) ) . '/languages/' );
+		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname( __DIR__ ) ) . '/languages/' );
+	}
+
+	/**
+	 * Validate shipping class file
+	 *
+	 * @param string $class_file Path to class file.
+	 * @return boolean
+	 */
+	public static function shipping_method_class_loader( $class_file ) {
+		if ( ! preg_match( '/^Dropp\\\Shipping_Method\\\(.*)$/', $class_file, $matches ) ) {
+			return false;
+		}
+		$file_name = strtolower( $matches[1] );
+		$file_name = preg_replace( '/_/', '-', $file_name );
+		$file_name = __DIR__ . "/shipping-method/class-{$file_name}.php";
+		if ( file_exists( $file_name ) ) {
+			require_once $file_name;
+		}
 	}
 
 	/**
@@ -73,11 +91,7 @@ class Dropp {
 
 		// Shipping method.
 		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-shipping-method.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-dropp.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-home-delivery.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-flytjandi.php';
-		require_once $plugin_dir . '/classes/shipping-method/class-pickup.php';
+		spl_autoload_register( __CLASS__ . '::shipping_method_class_loader' );
 
 		// Ajax helper class.
 		require_once $plugin_dir . '/classes/class-ajax.php';
@@ -109,8 +123,8 @@ class Dropp {
 	 */
 	public static function upgrade() {
 		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
-		if ( version_compare( $saved_version, '0.0.2' ) === -1 && self::schema() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.2' );
+		if ( version_compare( $saved_version, '0.0.3' ) === -1 && self::schema() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.3' );
 		}
 	}
 
@@ -127,6 +141,7 @@ class Dropp {
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			barcode varchar(63) NULL,
+			day_delivery tinyint(1) DEFAULT 0 NOT NULL,
 			dropp_order_id varchar(63) NULL,
 			status varchar(15) NOT NULL,
 			`comment` text NOT NULL,
@@ -160,15 +175,29 @@ class Dropp {
 	/**
 	 * Add shipping methods
 	 *
-	 * @param  array $shipping_methods Array of WC_Shipping mehtods.
+	 * @param  WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
 	 *
-	 * @return array $shipping_methods Array of WC_Shipping mehtods.
+	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
 	 */
 	public static function add_shipping_method( $shipping_methods ) {
-		$shipping_methods['dropp_is']        = 'Dropp\Shipping_Method\Dropp';
-		$shipping_methods['dropp_home']      = 'Dropp\Shipping_Method\Home_Delivery';
-		$shipping_methods['dropp_flytjandi'] = 'Dropp\Shipping_Method\Flytjandi';
-		if ( self::is_pickup_enabled() ) {
+		return $shipping_methods + self::get_shipping_methods( self::is_pickup_enabled() );
+	}
+
+	/**
+	 * Get shipping methods
+	 *
+	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
+	 */
+	public static function get_shipping_methods( $with_pickup = false ) {
+		$shipping_methods = [
+			'dropp_is'            => 'Dropp\Shipping_Method\Dropp',
+			'dropp_home'          => 'Dropp\Shipping_Method\Home_Delivery',
+			'dropp_home_oca'      => 'Dropp\Shipping_Method\Home_Delivery_Outside_Capital_Area',
+			'dropp_corporate'     => 'Dropp\Shipping_Method\Corporate_Home_Delivery',
+			'dropp_corporate_oca' => 'Dropp\Shipping_Method\Corporate_Home_Delivery_Outside_Capital_Area',
+			'dropp_flytjandi'     => 'Dropp\Shipping_Method\Flytjandi',
+		];
+		if ( $with_pickup ) {
 			$shipping_methods['dropp_pickup'] = 'Dropp\Shipping_Method\Pickup';
 		}
 		return $shipping_methods;

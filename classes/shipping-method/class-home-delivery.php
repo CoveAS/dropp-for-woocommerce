@@ -19,7 +19,14 @@ class Home_Delivery extends Shipping_Method {
 	 *
 	 * @var int
 	 */
-	public $weight_limit = 20;
+	public $weight_limit = 60;
+
+	/**
+	 * Capital Area
+	 *
+	 * @var string One of 'inside', 'outside' or 'both'
+	 */
+	protected static $capital_area = 'inside';
 
 	/**
 	 * Constructor.
@@ -41,24 +48,31 @@ class Home_Delivery extends Shipping_Method {
 	}
 
 	/**
-	 * Get valid post codes
+	 * Validate postcode
 	 *
-	 * @return array Valid post codes.
+	 * @return boolean Valid post code.
 	 */
-	public function get_valid_postcodes() {
-		$api = new API( $this );
-		$valid_postcodes = get_transient( 'dropp_delivery_postcodes' );
-		if ( empty( $valid_postcodes ) ) {
-			$response = $api->noauth()->get( 'dropp/location/deliveryzips' );
-			$valid_postcodes = array_map(
-				function( $item ) {
-					return $item['code'];
-				},
-				$response['codes']
-			);
-			set_transient( 'dropp_delivery_postcodes', $valid_postcodes, DAY_IN_SECONDS );
+	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
+		$api       = new API( $this );
+		$postcodes = get_transient( 'dropp_delivery_postcodes' );
+		if ( empty( $postcodes ) || ! is_array( $postcodes[0] ) ) {
+			$response  = $api->noauth()->get( 'dropp/location/deliveryzips' );
+			$postcodes = $response['codes'];
+			set_transient( 'dropp_delivery_postcodes', $postcodes, DAY_IN_SECONDS );
 		}
-		return $valid_postcodes;
+
+		foreach ( $postcodes as $area ) {
+			if ( "{$area['code']}" !== "{$postcode}" ) {
+				continue;
+			}
+			if ( 'both' === $capital_area ) {
+				return true;
+			}
+			// Check if area matches inside or outside capital area.
+			return ( 'inside' === $capital_area ) === $area['capital'];
+		}
+
+		return false;
 	}
 
 	/**
@@ -74,10 +88,7 @@ class Home_Delivery extends Shipping_Method {
 		if ( 'IS' !== $package['destination']['country'] ) {
 			return false;
 		}
-		if ( ! in_array( $package['destination']['postcode'], $this->get_valid_postcodes(), false ) ) {
-			return false;
-		}
-		return true;
+		return $this->validate_postcode( $package['destination']['postcode'], static::$capital_area );
 	}
 
 	/**

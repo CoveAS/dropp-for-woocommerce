@@ -73,7 +73,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			}
 			$total_weight += $item['quantity'] * wc_get_weight( $item['data']->get_weight(), 'kg' );
 		}
-		if ( $total_weight > $this->weight_limit ) {
+		if ( $total_weight > $this->weight_limit && 0 !== $this->weight_limit ) {
 			$is_available = false;
 		}
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );

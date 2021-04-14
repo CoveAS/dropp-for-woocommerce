@@ -8,6 +8,7 @@
 namespace Dropp\Shipping_Method;
 
 use Dropp\Shipping_Settings;
+use Dropp\API;
 
 
 /**
@@ -22,6 +23,13 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @var int
 	 */
 	public $weight_limit = 10;
+
+	/**
+	 * Capital Area
+	 *
+	 * @var string One of 'inside', 'outside' or 'both'
+	 */
+	protected static $capital_area = 'both';
 
 	/**
 	 * Constructor.
@@ -59,9 +67,9 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	}
 
 	/**
-	 * See if free shipping is available based on the package and cart.
+	 * Is this method available?
 	 *
-	 * @param array $package Shipping package.
+	 * @param array $package Package.
 	 * @return bool
 	 */
 	public function is_available( $package ) {
@@ -75,8 +83,44 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		}
 		if ( $total_weight > $this->weight_limit && 0 !== $this->weight_limit ) {
 			$is_available = false;
+		} elseif ( empty( $package['destination']['country'] ) || empty( $package['destination']['postcode'] ) ) {
+			$is_available = false;
+		} elseif ( 'IS' !== $package['destination']['country'] ) {
+			$is_available = false;
+		} elseif ( 'both' !== static::$capital_area && ! static::validate_postcode( $package['destination']['postcode'], static::$capital_area ) ) {
+			$is_available = false;
 		}
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
+	}
+
+	/**
+	 * Validate postcode
+	 *
+	 * @param string $postcode     Postcode.
+	 * @param string $capital_area (optional) One of 'inside', 'outside' or 'both'.
+	 * @return boolean Valid post code.
+	 */
+	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
+		$api       = new API( $this );
+		$postcodes = get_transient( 'dropp_delivery_postcodes' );
+		if ( empty( $postcodes ) || ! is_array( $postcodes[0] ) ) {
+			$response  = $api->noauth()->get( 'dropp/location/deliveryzips' );
+			$postcodes = $response['codes'];
+			set_transient( 'dropp_delivery_postcodes', $postcodes, DAY_IN_SECONDS );
+		}
+
+		foreach ( $postcodes as $area ) {
+			if ( "{$area['code']}" !== "{$postcode}" ) {
+				continue;
+			}
+			if ( 'both' === $capital_area ) {
+				return true;
+			}
+			// Check if area matches inside or outside capital area.
+			return ( 'inside' === $capital_area ) === $area['capital'];
+		}
+
+		return false;
 	}
 
 	/**
@@ -157,6 +201,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$cart_items = $cart ? $cart->get_cart() : [];
 		$cart_total = 0;
 
+
+
 		foreach ( $cart_items as $values ) {
 			$_product    = $values['data'];
 			$cart_total += $_product->get_price() * $values['quantity'];
@@ -169,5 +215,15 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 
 		// Free shipping aquired.
 		return 0;
+	}
+
+	/**
+	 * Get pricetype
+	 *
+	 * @return int
+	 */
+	protected function get_pricetype() {
+		$location_data = WC()->session->get( 'dropp_location_' . $this->get_instance_id() );
+		return absint( $location_data['pricetype'] ) ?? 1;
 	}
 }

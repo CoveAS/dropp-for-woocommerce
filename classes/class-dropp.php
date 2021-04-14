@@ -20,8 +20,6 @@ class Dropp {
 	public static function loaded() {
 		self::load_classes();
 
-		// Attach meta field to the shipping method in the checkout that saves to the shipping items.
-		add_filter( 'woocommerce_shipping_dropp_is_instance_option', 'Dropp\Shipping_Method\Dropp::get_cost_option', 10, 3 );
 		Shipping_Item_Meta::setup();
 		// Initialise pending shipping status for orders.
 		Pending_Shipping::setup();
@@ -123,6 +121,46 @@ class Dropp {
 	 */
 	public static function upgrade() {
 		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
+		if ( version_compare( $saved_version, '0.0.3' ) === -1 ) {
+			/**
+			 * In version 1.4.0 (database 0.0.3) we removed cost_2 field from the dropp_is shipping method.
+			 * This field is now refactored as a separate shipping method (Dropp Outside Capital Area).
+			 *
+			 * Note: cost_2 was used based on location pricetype being '2'.
+			 * Pricetype is now refactored to be a parameter/shortcode as part of the cost setting.
+			 */
+			$zones = \WC_Shipping_Zones::get_zones();
+			foreach ( $zones as $zone_data ) {
+				$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
+				foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
+					if ( 'Dropp\Shipping_Method\Dropp' !== get_class( $shipping_method ) ) {
+						continue;
+					}
+					$instance_id = $zone->add_shipping_method( 'dropp_is_oca' );
+					if ( ! $instance_id ) {
+						continue;
+					}
+					$shipping_methods    = $zone->get_shipping_methods();
+					$new_shipping_method = $shipping_methods[ $instance_id ];
+					$instance_settings   = $shipping_method->instance_settings;
+
+					// Configure shipping method.
+					if ( $instance_settings['cost_2'] ) {
+						$instance_settings['cost'] = $instance_settings['cost_2'];
+					}
+					unset( $instance_settings['cost_2'] );
+					update_option(
+						$new_shipping_method->get_instance_option_key(),
+						apply_filters(
+							'woocommerce_shipping_' . $new_shipping_method->id . '_instance_settings_values',
+							$instance_settings,
+							$new_shipping_method
+						),
+						'yes'
+					);
+				}
+			}
+		}
 		if ( version_compare( $saved_version, '0.0.3' ) === -1 && self::schema() ) {
 			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.3' );
 		}
@@ -194,7 +232,7 @@ class Dropp {
 			'dropp_is_oca'    => 'Dropp\Shipping_Method\Dropp_Outside_Capital_Area',
 			'dropp_home'      => 'Dropp\Shipping_Method\Home_Delivery',
 			'dropp_home_oca'  => 'Dropp\Shipping_Method\Home_Delivery_Outside_Capital_Area',
-			'dropp_daytime'   => 'Dropp\Shipping_Method\Corporate_Home_Delivery',
+			'dropp_daytime'   => 'Dropp\Shipping_Method\Daytime_Delivery',
 			'dropp_flytjandi' => 'Dropp\Shipping_Method\Flytjandi',
 		];
 		if ( $with_pickup ) {

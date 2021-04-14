@@ -12,6 +12,13 @@ namespace Dropp\Shipping_Method;
  */
 class Dropp extends Shipping_Method {
 
+	/**
+	 * Capital Area
+	 *
+	 * @var string One of 'inside', 'outside' or 'both'
+	 */
+	protected static $capital_area = 'inside';
+
 	public static function get_cost_option( $value, $option, $shipping_method ) {
 		if ( 'cost' !== $option || is_admin() || ! WC()->session ) {
 			return $value;

@@ -30,7 +30,7 @@ class Home_Delivery_Outside_Capital_Area extends Home_Delivery {
 		$this->id                 = 'dropp_home_oca';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp Home Delivery Outside Capital Area', 'dropp-for-woocommerce' );
-		$this->method_description = __( 'Home delivery in Iceland', 'dropp-for-woocommerce' );
+		$this->method_description = __( 'Home delivery in Iceland between 19:00-22:00', 'dropp-for-woocommerce' );
 		$this->supports           = array(
 			'shipping-zones',
 			'instance-settings',

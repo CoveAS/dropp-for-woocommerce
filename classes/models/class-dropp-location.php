@@ -38,11 +38,18 @@ class Dropp_Location extends Model {
 	 */
 	public function __construct( $type = 'dropp_is' ) {
 		$this->type = $type;
+
 		// Special location handling for home deliveries.
-		if ( 'dropp_home' === $type ) {
+		$dropp_home_ids = [
+			'dropp_home',
+			'dropp_home_oca',
+			'dropp_daytime',
+		];
+
+		if ( in_array( $type, $dropp_home_ids, true ) ) {
 			$this->id           = '9ec1f30c-2564-4b73-8954-25b7b3186ed3';
 			$this->name         = __( 'Home delivery', 'dropp-for-woocommerce' );
-			$this->weight_limit = 20;
+			$this->weight_limit = 60;
 			$this->address      = '';
 		}
 
@@ -50,7 +57,7 @@ class Dropp_Location extends Model {
 		if ( 'dropp_flytjandi' === $type ) {
 			$this->id           = 'a178c25e-bb35-4420-8792-d5295f0e7fcc';
 			$this->name         = __( 'Flytjandi', 'dropp-for-woocommerce' );
-			$this->weight_limit = 20;
+			$this->weight_limit = 0;
 			$this->address      = '';
 		}
 
@@ -73,7 +80,7 @@ class Dropp_Location extends Model {
 		$location->order_item    = $shipping_item;
 		$location->order_item_id = $shipping_item->get_id();
 
-		if ( 'dropp_is' === $location->type ) {
+		if ( 'dropp_is' === $location->type || 'dropp_is_oca' === $location->type ) {
 			$meta_data = $shipping_item->get_meta( 'dropp_location' );
 			if ( is_array( $meta_data ) ) {
 				$location->id      = $meta_data['id'] ?? null;

@@ -93,12 +93,12 @@ class Dropp_Consignment extends Model {
 			$content,
 			[
 				'barcode'          => null,
+				'day_delivery'     => false,
 				'dropp_order_id'   => null,
 				'shipping_item_id' => null,
 				'status'           => 'ready',
 				'comment'          => '',
 				'location_id'      => '',
-				'day_delivery'     => false,
 				'test'             => false,
 				'debug'            => false,
 				'updated_at'       => current_time( 'mysql' ),

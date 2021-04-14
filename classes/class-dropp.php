@@ -190,12 +190,12 @@ class Dropp {
 	 */
 	public static function get_shipping_methods( $with_pickup = false ) {
 		$shipping_methods = [
-			'dropp_is'            => 'Dropp\Shipping_Method\Dropp',
-			'dropp_home'          => 'Dropp\Shipping_Method\Home_Delivery',
-			'dropp_home_oca'      => 'Dropp\Shipping_Method\Home_Delivery_Outside_Capital_Area',
-			'dropp_corporate'     => 'Dropp\Shipping_Method\Corporate_Home_Delivery',
-			'dropp_corporate_oca' => 'Dropp\Shipping_Method\Corporate_Home_Delivery_Outside_Capital_Area',
-			'dropp_flytjandi'     => 'Dropp\Shipping_Method\Flytjandi',
+			'dropp_is'        => 'Dropp\Shipping_Method\Dropp',
+			'dropp_is_oca'    => 'Dropp\Shipping_Method\Dropp_Outside_Capital_Area',
+			'dropp_home'      => 'Dropp\Shipping_Method\Home_Delivery',
+			'dropp_home_oca'  => 'Dropp\Shipping_Method\Home_Delivery_Outside_Capital_Area',
+			'dropp_daytime'   => 'Dropp\Shipping_Method\Corporate_Home_Delivery',
+			'dropp_flytjandi' => 'Dropp\Shipping_Method\Flytjandi',
 		];
 		if ( $with_pickup ) {
 			$shipping_methods['dropp_pickup'] = 'Dropp\Shipping_Method\Pickup';

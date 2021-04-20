@@ -47,7 +47,6 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			'instance-settings',
 			'instance-settings-modal',
 		);
-
 		$this->init();
 	}
 
@@ -222,8 +221,34 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return int
 	 */
-	protected function get_pricetype() {
+	public function get_pricetype() {
 		$location_data = WC()->session->get( 'dropp_location_' . $this->get_instance_id() );
 		return absint( $location_data['pricetype'] ) ?? 1;
+	}
+
+	/**
+	 * Calculate the shipping costs.
+	 *
+	 * @param array $package Package of items from cart.
+	 */
+	public function calculate_shipping( $package = array() ) {
+		do_action( 'dropp_before_calculate_shipping', $package, $this );
+		parent::calculate_shipping( $package );
+		do_action( 'dropp_after_calculate_shipping', $package, $this );
+	}
+
+	/**
+	 * Sanitize the cost field.
+	 *
+	 * @since 3.4.0
+	 * @param string $value Unsanitized value.
+	 * @throws Exception Last error triggered.
+	 * @return string
+	 */
+	public function sanitize_cost( $value ) {
+		do_action( 'dropp_before_calculate_shipping', [], $this );
+		$value = parent::sanitize_cost( $value );
+		do_action( 'dropp_after_calculate_shipping', [], $this );
+		return $value;
 	}
 }

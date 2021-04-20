@@ -20,6 +20,7 @@ class Dropp {
 	public static function loaded() {
 		self::load_classes();
 
+		Shipping_Calculation_Shortcodes::setup();
 		Shipping_Item_Meta::setup();
 		// Initialise pending shipping status for orders.
 		Pending_Shipping::setup();
@@ -75,6 +76,7 @@ class Dropp {
 		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
 		require_once $plugin_dir . '/classes/class-order-adapter.php';
 		require_once $plugin_dir . '/classes/class-checkout.php';
+		require_once $plugin_dir . '/classes/class-shipping-calculation-shortcodes.php';
 
 		// Models.
 		require_once $plugin_dir . '/classes/models/class-model.php';

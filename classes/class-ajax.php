@@ -52,13 +52,13 @@ class Ajax {
 			die;
 		}
 
-		$old_location = WC()->session->get( 'dropp_location_' . $instance_id );
+		$old_location = WC()->session->get( 'dropp_session_location' );
 		if ( empty( $old_location ) || $old_location['id'] !== $location_id ) {
 			// Invalidate the shipping rate transient.
 			WC_Cache_Helper::get_transient_version( 'shipping', true );
 			// Save the new location to session.
 			WC()->session->set(
-				'dropp_location_' . $instance_id,
+				'dropp_session_location',
 				[
 					'id'        => $location_id,
 					'name'      => filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ),

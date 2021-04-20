@@ -35,7 +35,7 @@ class Shipping_Item_Meta {
 	 * @param WC_Order_Item_Shipping $item Shipping item.
 	 */
 	public static function attach_item_meta( $item ) {
-		$location_data = WC()->session->get( 'dropp_location_' . $item->get_instance_id() );
+		$location_data = WC()->session->get( 'dropp_session_location' );
 		$location      = [
 			'id'        => preg_replace( '/[^a-z\d\-]/', '', $location_data['id'] ),
 			'name'      => $location_data['name'],
@@ -66,7 +66,7 @@ class Shipping_Item_Meta {
 			// Dropp is not used. No validation needed.
 			return;
 		}
-		$location_data = WC()->session->get( 'dropp_location_' . $instance_id );
+		$location_data = WC()->session->get( 'dropp_session_location' );
 		if ( empty( $location_data ) ) {
 			// Validation failed. No location was selected.
 			$errors->add(
@@ -93,7 +93,7 @@ class Shipping_Item_Meta {
 		if ( 'shipping' !== $item->get_type() ) {
 			return $title;
 		}
-		if ( 'dropp_is' !== $item->get_method_id() ) {
+		if ( ! in_array($item->get_method_id(), ['dropp_is', 'dropp_is_oca'] ) ) {
 			return $title;
 		}
 		$location = $item->get_meta( 'dropp_location' );
@@ -113,7 +113,7 @@ class Shipping_Item_Meta {
 		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}
-		if ( 'dropp_is' !== $method->get_method_id() ) {
+		if ( ! in_array($method->get_method_id(), ['dropp_is', 'dropp_is_oca'] ) ) {
 			return;
 		}
 
@@ -123,7 +123,7 @@ class Shipping_Item_Meta {
 			return;
 		}
 		$location_name = '';
-		$location_data = WC()->session->get( 'dropp_location_' . $method->get_instance_id() );
+		$location_data = WC()->session->get( 'dropp_session_location' );
 		if ( ! empty( $location_data ) ) {
 			$location_name = $location_data['name'];
 		}

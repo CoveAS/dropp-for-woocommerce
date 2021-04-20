@@ -13,12 +13,13 @@ use Dropp\API;
  * Home Delivery
  */
 class Dropp_Outside_Capital_Area extends Dropp {
+
 	/**
-	 * Capital Area
+	 * Price Type
 	 *
-	 * @var string One of 'inside', 'outside' or 'both'
+	 * @var integer Either 1 or 2. One being inside capital area, and 2 outside.
 	 */
-	protected static $capital_area = 'outside';
+	protected static $price_type = 2;
 
 	/**
 	 * Constructor.

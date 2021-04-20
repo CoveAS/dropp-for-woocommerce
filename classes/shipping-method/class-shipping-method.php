@@ -86,7 +86,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			$is_available = false;
 		} elseif ( 'IS' !== $package['destination']['country'] ) {
 			$is_available = false;
-		} elseif ( 'both' !== static::$capital_area && ! static::validate_postcode( $package['destination']['postcode'], static::$capital_area ) ) {
+		} elseif ( ! $this->validate_postcode( $package['destination']['postcode'], static::$capital_area ) ) {
 			$is_available = false;
 		}
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
@@ -100,6 +100,9 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @return boolean Valid post code.
 	 */
 	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
+		if ('both' === static::$capital_area ) {
+			return true;
+		}
 		$api       = new API( $this );
 		$postcodes = get_transient( 'dropp_delivery_postcodes' );
 		if ( empty( $postcodes ) || ! is_array( $postcodes[0] ) ) {
@@ -222,8 +225,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @return int
 	 */
 	public function get_pricetype() {
-		$location_data = WC()->session->get( 'dropp_location_' . $this->get_instance_id() );
-		return absint( $location_data['pricetype'] ) ?? 1;
+		$location_data = WC()->session->get( 'dropp_session_location' );
+		return intval( $location_data['pricetype'] ) ?? 1;
 	}
 
 	/**

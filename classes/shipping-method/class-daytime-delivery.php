@@ -10,7 +10,7 @@ namespace Dropp\Shipping_Method;
 use Dropp\API;
 
 /**
- * Home Delivery
+ * Daytime Delivery
  */
 class Daytime_Delivery extends Home_Delivery {
 

@@ -100,7 +100,9 @@ class Order_Adapter {
 	 * @return Dropp\Dropp_Consignment         Consignment.
 	 */
 	public function make_consignment( $shipping_item, $product_lines = [] ) {
-		$dropp_methods = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
+		$dropp_methods = array_keys(
+			Dropp::get_shipping_methods( true )
+		);
 		if ( ! in_array( $shipping_item->get_method_id(), $dropp_methods, true ) ) {
 			return null;
 		}

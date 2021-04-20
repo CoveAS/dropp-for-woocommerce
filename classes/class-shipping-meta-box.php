@@ -67,7 +67,9 @@ class Shipping_Meta_Box {
 		$line_items       = $order->get_items( 'shipping' );
 		$shipping_items   = [];
 
-		$dropp_methods  = [ 'dropp_is', 'dropp_home', 'dropp_flytjandi', 'dropp_pickup' ];
+		$dropp_methods = array_keys(
+			Dropp::get_shipping_methods( true )
+		);
 		foreach ( $line_items as $line_item ) {
 			if ( ! in_array( $line_item->get_method_id(), $dropp_methods, true ) ) {
 				continue;

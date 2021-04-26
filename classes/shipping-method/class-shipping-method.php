@@ -226,7 +226,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 */
 	public function get_pricetype() {
 		$location_data = WC()->session->get( 'dropp_session_location' );
-		return intval( $location_data['pricetype'] ) ?? 1;
+		return intval( $location_data['pricetype'] ?? 1 );
 	}
 
 	/**

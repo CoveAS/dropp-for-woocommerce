@@ -23,7 +23,7 @@ class Dropp extends Shipping_Method {
 	 * Validate postcode
 	 *
 	 * @param string $postcode     Postcode.
-	 * @param string $capital_area (optional) One of 'inside', 'outside' or 'both'.
+	 * @param string $capital_area (optional) One of 'inside', 'outside', '!inside' or 'both'.
 	 * @return boolean Valid post code.
 	 */
 	public function validate_postcode( $postcode, $capital_area = 'inside' ) {

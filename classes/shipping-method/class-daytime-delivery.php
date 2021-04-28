@@ -17,7 +17,7 @@ class Daytime_Delivery extends Home_Delivery {
 	/**
 	 * Capital Area
 	 *
-	 * @var string One of 'inside', 'outside' or 'both'
+	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
 	protected static $capital_area = 'inside';
 

@@ -17,7 +17,7 @@ class Home_Delivery_Outside_Capital_Area extends Home_Delivery {
 	/**
 	 * Capital Area
 	 *
-	 * @var string One of 'inside', 'outside' or 'both'
+	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
 	protected static $capital_area = 'outside';
 

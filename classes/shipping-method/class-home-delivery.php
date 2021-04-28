@@ -24,7 +24,7 @@ class Home_Delivery extends Shipping_Method {
 	/**
 	 * Capital Area
 	 *
-	 * @var string One of 'inside', 'outside' or 'both'
+	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
 	protected static $capital_area = 'inside';
 

@@ -27,7 +27,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	/**
 	 * Capital Area
 	 *
-	 * @var string One of 'inside', 'outside' or 'both'
+	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
 	protected static $capital_area = 'both';
 
@@ -96,7 +96,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * Validate postcode
 	 *
 	 * @param string $postcode     Postcode.
-	 * @param string $capital_area (optional) One of 'inside', 'outside' or 'both'.
+	 * @param string $capital_area (optional) One of 'inside', 'outside', '!inside' or 'both'.
 	 * @return boolean Valid post code.
 	 */
 	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
@@ -108,7 +108,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		if ( empty( $postcodes ) || ! is_array( $postcodes[0] ) ) {
 			$response  = $api->noauth()->get( 'dropp/location/deliveryzips' );
 			$postcodes = $response['codes'];
-			set_transient( 'dropp_delivery_postcodes', $postcodes, DAY_IN_SECONDS );
+			set_transient( 'dropp_delivery_postcodes', $postcodes, 600 );
 		}
 
 		foreach ( $postcodes as $area ) {
@@ -120,6 +120,10 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			}
 			// Check if area matches inside or outside capital area.
 			return ( 'inside' === $capital_area ) === $area['capital'];
+		}
+
+		if ( '!inside' === $capital_area ) {
+			return true;
 		}
 
 		return false;

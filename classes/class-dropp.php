@@ -18,7 +18,8 @@ class Dropp {
 	 * Setup
 	 */
 	public static function loaded() {
-		self::load_classes();
+		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
+		spl_autoload_register( __CLASS__ . '::class_loader' );
 
 		Shipping_Calculation_Shortcodes::setup();
 		Shipping_Item_Meta::setup();
@@ -32,11 +33,13 @@ class Dropp {
 		Postcode_Validation::setup();
 		Tracking_Code::setup();
 		Checkout::setup();
+		Dropp_Oca_Admin_Warning::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 		add_action( 'woocommerce_before_order_object_save', __CLASS__ . '::maybe_convert_dropp_order_ids' );
+		add_action( 'woocommerce_shipping_zone_method_added', __CLASS__ . '::maybe_add_oca', 10, 3 );
 
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
@@ -47,63 +50,26 @@ class Dropp {
 	}
 
 	/**
-	 * Validate shipping class file
+	 * Class loader
 	 *
-	 * @param string $class_file Path to class file.
-	 * @return boolean
+	 * @param string $class_name Path to class file.
 	 */
-	public static function shipping_method_class_loader( $class_file ) {
-		if ( ! preg_match( '/^Dropp\\\Shipping_Method\\\(.*)$/', $class_file, $matches ) ) {
-			return false;
+	public static function class_loader( $class_name ) {
+		if ( ! preg_match( '/^Dropp(\\\.*)$/', $class_name, $matches ) ) {
+			return;
 		}
-		$file_name = strtolower( $matches[1] );
-		$file_name = preg_replace( '/_/', '-', $file_name );
-		$file_name = __DIR__ . "/shipping-method/class-{$file_name}.php";
+		$path      = substr( strtolower( $matches[1] ), 1 );
+		$path      = preg_replace( '/_/', '-', $path );
+		$parts     = explode( '\\', $path );
+		$file_name = array_pop( $parts );
+		$dir       = implode( '/', $parts );
+		if ( $dir ) {
+			$dir = "/$dir";
+		}
+		$file_name = __DIR__ . "{$dir}/class-{$file_name}.php";
 		if ( file_exists( $file_name ) ) {
 			require_once $file_name;
 		}
-	}
-
-	/**
-	 * Load classes
-	 */
-	public static function load_classes() {
-		$plugin_dir = dirname( __DIR__ );
-
-		// Utility classes.
-		require_once $plugin_dir . '/classes/class-api.php';
-		require_once $plugin_dir . '/classes/class-collection.php';
-		require_once $plugin_dir . '/classes/class-dropp-pdf-collection.php';
-		require_once $plugin_dir . '/classes/class-order-adapter.php';
-		require_once $plugin_dir . '/classes/class-checkout.php';
-		require_once $plugin_dir . '/classes/class-shipping-calculation-shortcodes.php';
-
-		// Models.
-		require_once $plugin_dir . '/classes/models/class-model.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-product-line.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-customer.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-location.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-consignment.php';
-		require_once $plugin_dir . '/classes/models/class-dropp-pdf.php';
-
-		// Actions.
-		require_once $plugin_dir . '/classes/actions/class-convert-dropp-order-ids-to-consignments-action.php';
-
-		// Shipping method.
-		require_once $plugin_dir . '/traits/trait-shipping-settings.php';
-		spl_autoload_register( __CLASS__ . '::shipping_method_class_loader' );
-
-		// Ajax helper class.
-		require_once $plugin_dir . '/classes/class-ajax.php';
-
-		// WooCommerce utility classes.
-		require_once $plugin_dir . '/classes/class-shipping-meta-box.php';
-		require_once $plugin_dir . '/classes/class-shipping-item-meta.php';
-		require_once $plugin_dir . '/classes/class-pending-shipping.php';
-		require_once $plugin_dir . '/classes/class-order-bulk-actions.php';
-		require_once $plugin_dir . '/classes/class-social-security-number.php';
-		require_once $plugin_dir . '/classes/class-postcode-validation.php';
-		require_once $plugin_dir . '/classes/class-tracking-code.php';
 	}
 
 	/**
@@ -123,7 +89,7 @@ class Dropp {
 	 */
 	public static function upgrade() {
 		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
-		if ( version_compare( $saved_version, '0.0.3' ) === -1 ) {
+		if ( version_compare( $saved_version, '0.0.3' ) === - 1 ) {
 			/**
 			 * In version 1.4.0 (database 0.0.3) we removed cost_2 field from the dropp_is shipping method.
 			 * This field is now refactored as a separate shipping method (Dropp Outside Capital Area).
@@ -163,9 +129,42 @@ class Dropp {
 				}
 			}
 		}
-		if ( version_compare( $saved_version, '0.0.3' ) === -1 && self::schema() ) {
+		if ( version_compare( $saved_version, '0.0.3' ) === - 1 && self::schema() ) {
 			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.3' );
 		}
+	}
+
+	/**
+	 * Maybe add OCA
+	 */
+	public static function maybe_add_oca( $instance_id, $type, $id ) {
+		if ( 'dropp_is' !== $type ) {
+			return;
+		}
+
+		$zones = \WC_Shipping_Zones::get_zones();
+		$zone  = false;
+		foreach ( $zones as $zone_data ) {
+			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
+				if ( $instance_id !== $shipping_method->instance_id ) {
+					continue;
+				}
+				$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
+				break;
+			}
+		}
+		if ( ! $zone ) {
+			return;
+		}
+
+		foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
+			// Don't add duplicates.
+			if ( 'dropp_is_oca' === $shipping_method->id ) {
+				return;
+			}
+		}
+
+		$zone->add_shipping_method( 'dropp_is_oca' );
 	}
 
 	/**
@@ -215,7 +214,7 @@ class Dropp {
 	/**
 	 * Add shipping methods
 	 *
-	 * @param  WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
+	 * @param WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
 	 *
 	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
 	 */
@@ -240,6 +239,7 @@ class Dropp {
 		if ( $with_pickup ) {
 			$shipping_methods['dropp_pickup'] = 'Dropp\Shipping_Method\Pickup';
 		}
+
 		return $shipping_methods;
 	}
 
@@ -247,20 +247,23 @@ class Dropp {
 	 * Show action links on the plugin screen
 	 *
 	 * @param array $links The action links displayed for each plugin in the Plugins list table.
+	 *
 	 * @return array
 	 */
 	public static function plugin_action_links( $links ) {
 		$url          = admin_url( 'admin.php?page=wc-settings&tab=shipping&section=dropp_is' );
-		$action_links = array(
+		$action_links = [
 			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'dropp-for-woocommerce' ) . '">' . esc_html__( 'Settings', 'dropp-for-woocommerce' ) . '</a>',
-		);
+		];
+
 		return array_merge( $action_links, $links );
 	}
 
 	/**
 	 * Is pickup enabled
 	 *
-	 * @param  Shipping_Method $shipping_method (optional) Shipping method.
+	 * @param Shipping_Method $shipping_method (optional) Shipping method.
+	 *
 	 * @return boolean                          True if pickup is enabled.
 	 */
 	public static function is_pickup_enabled( $shipping_method = null ) {
@@ -275,6 +278,7 @@ class Dropp {
 				$pickup_enabled = false;
 			}
 		}
+
 		return 'yes' === $pickup_enabled;
 	}
 }

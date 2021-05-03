@@ -56,7 +56,7 @@ class Dropp_Location extends Model {
 		// Special location handling for flytjandi deliveries.
 		if ( 'dropp_flytjandi' === $type ) {
 			$this->id           = 'a178c25e-bb35-4420-8792-d5295f0e7fcc';
-			$this->name         = __( 'Flytjandi', 'dropp-for-woocommerce' );
+			$this->name         = __( 'Dropp - Other pickup locations', 'dropp-for-woocommerce' );
 			$this->weight_limit = 0;
 			$this->address      = '';
 		}

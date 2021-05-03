@@ -36,7 +36,7 @@ class Flytjandi extends Home_Delivery {
 	public function __construct( $instance_id = 0 ) {
 		$this->id                 = 'dropp_flytjandi';
 		$this->instance_id        = absint( $instance_id );
-		$this->method_title       = __( 'Flytjandi', 'dropp-for-woocommerce' );
+		$this->method_title       = __( 'Dropp - Other pickup locations', 'dropp-for-woocommerce' );
 		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
 		$this->supports           = array(
 			'shipping-zones',

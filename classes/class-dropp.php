@@ -12,7 +12,7 @@ namespace Dropp;
  */
 class Dropp {
 
-	const VERSION = '1.3.10';
+	const VERSION = '1.4.0';
 
 	/**
 	 * Setup

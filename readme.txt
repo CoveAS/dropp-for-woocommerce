@@ -53,6 +53,16 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.4.0 =
+
+* Added new shipping methods, Dropp Outside Capital Area, Dropp Home Delivery Outside Capital Area
+* Renamed Flytjandi to Dropp - Other pickup locations
+* Increased weight limitation for home delivery and removed it for Dropp - Other pickup locations.
+* Added weight shortcode for cost calculation
+* Fixed order status update when mass booking orders
+* Added a fix to make the plugin compatible with WooCommerce advanced shipping methods plugin
+* Added conversion of dropp order ids in the order meta data to allow third party interaction
+
 = 1.3.10 =
 
 * Implemented new booking field for delivery instructions

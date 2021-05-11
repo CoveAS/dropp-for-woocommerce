@@ -53,6 +53,10 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.4.1 =
+
+* Fixed bug with weight limit validation
+
 = 1.4.0 =
 
 * Added new shipping methods, Dropp Outside Capital Area, Dropp Home Delivery Outside Capital Area

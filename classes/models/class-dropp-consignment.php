@@ -430,6 +430,7 @@ class Dropp_Consignment extends Model {
 	 * @return boolean True if weight is within limits.
 	 */
 	public function check_weight() {
+		$shipping_method = $this->get_shipping_method();
 		if ( 0 === $shipping_method->weight_limit ) {
 			return true;
 		}
@@ -437,7 +438,6 @@ class Dropp_Consignment extends Model {
 		foreach ( $this->products as $product ) {
 			$total_weight += $product->weight * $product->quantity;
 		}
-		$shipping_method = $this->get_shipping_method();
 		return $total_weight <= ( $shipping_method->weight_limit ?? 10 );
 	}
 

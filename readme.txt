@@ -53,6 +53,10 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.4.3 =
+
+* Added location name to shipping description for order emails
+
 = 1.4.2 =
 
 * Fixed bug with SSN always being enabled

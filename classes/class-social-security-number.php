@@ -32,7 +32,7 @@ class Social_Security_Number {
 			'enable_ssn'
 		);
 
-		if ( $enable_ssn ) {
+		if ( 'yes' === $enable_ssn ) {
 			// Add fields to Billing address.
 			add_filter( 'woocommerce_checkout_fields' , __CLASS__. '::checkout_fields', 10, 1 );
 

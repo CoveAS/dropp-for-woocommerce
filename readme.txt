@@ -53,8 +53,9 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
-= 1.4.1 =
+= 1.4.2 =
 
+* Fixed bug with SSN always being enabled
 * Fixed bug with weight limit validation
 
 = 1.4.0 =

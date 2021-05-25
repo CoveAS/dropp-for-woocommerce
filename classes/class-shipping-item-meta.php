@@ -85,9 +85,8 @@ class Shipping_Item_Meta {
 	 */
 	public static function get_order_item_title( $title, $item ) {
 		global $wp;
-		if ( empty( $wp->query_vars['order-received'] ) ) {
-			// Skip on any page except on the thank you page.
-			// @TODO: Also don't skip in the emails.
+		if ( empty( $wp->query_vars['order-received'] ) && ! did_action( 'woocommerce_email_header' ) ) {
+			// Skip on any page except on the thank you page and in emails.
 			return $title;
 		}
 		if ( 'shipping' !== $item->get_type() ) {

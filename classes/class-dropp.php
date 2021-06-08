@@ -129,8 +129,8 @@ class Dropp {
 				}
 			}
 		}
-		if ( version_compare( $saved_version, '0.0.3' ) === - 1 && self::schema() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.3' );
+		if ( version_compare( $saved_version, '0.0.4' ) === - 1 && self::schema() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.4' );
 		}
 	}
 
@@ -189,6 +189,7 @@ class Dropp {
 			products text NOT NULL,
 			customer text NOT NULL,
 			test tinyint(1) DEFAULT 0 NOT NULL,
+			mynto_id varchar(63) NULL,
 			created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY  (id)

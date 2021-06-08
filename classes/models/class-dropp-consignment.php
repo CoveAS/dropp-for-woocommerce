@@ -32,9 +32,10 @@ class Dropp_Consignment extends Model {
 	public $products;
 	public $customer;
 	public $test = false;
+	public $debug = false;
+	public $mynto_id;
 	public $updated_at;
 	public $created_at;
-	public $debug = false;
 	public $errors = [];
 
 	/**
@@ -101,6 +102,7 @@ class Dropp_Consignment extends Model {
 				'location_id'      => '',
 				'test'             => false,
 				'debug'            => false,
+				'mynto_id'         => null,
 				'updated_at'       => current_time( 'mysql' ),
 				'created_at'       => current_time( 'mysql' ),
 			]
@@ -126,6 +128,7 @@ class Dropp_Consignment extends Model {
 		$this->comment    = $content['comment'];
 		$this->status     = $content['status'];
 		$this->test       = (int) $content['test'];
+		$this->mynto_id   = $content['mynto_id'];
 		$this->updated_at = $content['updated_at'];
 		$this->created_at = $content['created_at'];
 
@@ -192,6 +195,7 @@ class Dropp_Consignment extends Model {
 			$consignment_array['dropp_order_id']   = $this->dropp_order_id;
 			$consignment_array['shipping_item_id'] = $this->shipping_item_id;
 			$consignment_array['test']             = $this->test;
+			$consignment_array['mynto_id']         = $this->mynto_id;
 			$consignment_array['created_at']       = $this->created_at;
 			$consignment_array['updated_at']       = $this->updated_at;
 
@@ -283,6 +287,7 @@ class Dropp_Consignment extends Model {
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,
+				'mynto_id'         => $this->mynto_id,
 				'updated_at'       => $this->updated_at,
 			],
 			[
@@ -315,6 +320,7 @@ class Dropp_Consignment extends Model {
 				'status'           => $this->status,
 				'customer'         => wp_json_encode( $this->get_customer_array() ),
 				'test'             => $this->test,
+				'mynto_id'         => $this->mynto_id,
 				'updated_at'       => $this->updated_at,
 				'created_at'       => $this->created_at,
 			]

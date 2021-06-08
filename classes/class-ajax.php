@@ -114,16 +114,19 @@ class Ajax {
 			'products'    => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 		];
 
+
 		if ( empty( $consignment_id ) ) {
 			$consignment = new Dropp_Consignment();
+			$create_params =  [
+				'shipping_item_id' => $order_item_id,
+				'test'             => $shipping_method->test_mode,
+				'debug'            => $shipping_method->debug_mode,
+				'mynto_id'         => $order_item->get_meta('mynto_id'),
+			];
 			$consignment->fill(
 				array_merge(
 					$params,
-					[
-						'shipping_item_id' => $order_item_id,
-						'test'             => $shipping_method->test_mode,
-						'debug'            => $shipping_method->debug_mode,
-					]
+					$create_params
 				)
 			);
 		} else {

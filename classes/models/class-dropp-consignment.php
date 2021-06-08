@@ -189,13 +189,16 @@ class Dropp_Consignment extends Model {
 			'daydelivery'  => $this->day_delivery,
 			'comment'      => $this->comment,
 		];
+		if ($this->mynto_id) {
+			$consignment_array['mynto_id'] = $this->mynto_id;
+		}
+
 		if ( ! $for_request ) {
 			$consignment_array['id']               = $this->id;
 			$consignment_array['status']           = $this->status;
 			$consignment_array['dropp_order_id']   = $this->dropp_order_id;
 			$consignment_array['shipping_item_id'] = $this->shipping_item_id;
 			$consignment_array['test']             = $this->test;
-			$consignment_array['mynto_id']         = $this->mynto_id;
 			$consignment_array['created_at']       = $this->created_at;
 			$consignment_array['updated_at']       = $this->updated_at;
 

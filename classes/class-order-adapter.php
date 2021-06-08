@@ -143,6 +143,7 @@ class Order_Adapter {
 				'products'         => $product_lines,
 				'comment'          => $comment,
 				'test'             => $shipping_method->test_mode,
+				'mynto_id'         => $shipping_item->get_meta('mynto_id'),
 			]
 		);
 		return $consignment;

@@ -20,6 +20,13 @@ class Dropp extends Shipping_Method {
 	protected static $price_type = 1;
 
 	/**
+	 * No address available
+	 *
+	 * @var boolean Available when no address is provided
+	 */
+	protected static $no_address_available = true;
+
+	/**
 	 * Validate postcode
 	 *
 	 * @param string $postcode     Postcode.

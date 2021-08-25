@@ -32,6 +32,13 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	protected static $capital_area = 'both';
 
 	/**
+	 * No address available
+	 *
+	 * @var boolean Available when no address is provided
+	 */
+	protected static $no_address_available = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.
@@ -72,6 +79,9 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @return bool
 	 */
 	public function is_available( $package ) {
+		if ( static::$no_address_available && empty( $package['destination']['postcode'] ) ) {
+			return true;
+		}
 		$is_available = true;
 		$total_weight = 0;
 		foreach ( $package['contents'] as $item ) {

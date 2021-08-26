@@ -29,6 +29,14 @@ class Home_Delivery extends Shipping_Method {
 	protected static $capital_area = 'inside';
 
 	/**
+	 * No address available
+	 *
+	 * @var boolean Available when no address is provided
+	 */
+	protected static $no_address_available = true;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.

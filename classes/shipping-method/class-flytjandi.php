@@ -29,6 +29,13 @@ class Flytjandi extends Home_Delivery {
 	protected static $capital_area = '!inside';
 
 	/**
+	 * No address available
+	 *
+	 * @var boolean Available when no address is provided
+	 */
+	protected static $no_address_available = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.

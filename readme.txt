@@ -4,9 +4,11 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 5.5
-Stable tag: 1.4.4
-Requires PHP: 7.2
+Tested up to: 5.8
+Requires PHP: 7.4
+WC requires at least: 3.4.0
+WC tested up to: 5.6
+Stable tag: 1.4.5
 
 Deliver parcels at delivery locations in Iceland
 
@@ -52,6 +54,11 @@ When an order has the status **Initial** it can be updated or cancelled.
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
 == Changelog ==
+
+= 1.4.5 =
+
+* Made Dropp and Dropp home delivery methods available before any address information has been provided. 
+* Added a fix to not lose selection of the Dropp shipping method when changing location between inside and outside capital area.
 
 = 1.4.4 =
 

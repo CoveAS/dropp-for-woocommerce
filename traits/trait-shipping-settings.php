@@ -25,16 +25,17 @@ trait Shipping_Settings {
 	 */
 	public function init_properties() {
 		// Define user set variables.
-		$this->title            = $this->get_option( 'title' );
-		$this->api_key          = $this->get_option( 'api_key' );
-		$this->api_key_test     = $this->get_option( 'api_key_test' );
-		$this->store_id         = $this->get_option( 'store_id' );
-		$this->new_order_status = $this->get_option( 'new_order_status' );
-		$this->copy_order_notes = $this->get_option( 'copy_order_comment', 'yes' );
-		$this->test_mode        = 'yes' === $this->get_option( 'test_mode' );
-		$this->debug_mode       = 'yes' === $this->get_option( 'debug_mode' );
-		$this->enable_ssn       = 'yes' === $this->get_option( 'enable_ssn' );
-		$this->require_ssn      = 'yes' === $this->get_option( 'require_ssn' );
+		$this->title                  = $this->get_option( 'title' );
+		$this->api_key                = $this->get_option( 'api_key' );
+		$this->api_key_test           = $this->get_option( 'api_key_test' );
+		$this->store_id               = $this->get_option( 'store_id' );
+		$this->new_order_status       = $this->get_option( 'new_order_status' );
+		$this->copy_order_notes       = $this->get_option( 'copy_order_comment', 'yes' );
+		$this->test_mode              = 'yes' === $this->get_option( 'test_mode' );
+		$this->debug_mode             = 'yes' === $this->get_option( 'debug_mode' );
+		$this->enable_ssn             = 'yes' === $this->get_option( 'enable_ssn' );
+		$this->require_ssn            = 'yes' === $this->get_option( 'require_ssn', 'yes' );
+		$this->location_name_in_label = 'yes' === $this->get_option('location_name_in_label');
 	}
 
 	/**
@@ -104,6 +105,13 @@ trait Shipping_Settings {
 				'type'        => 'checkbox',
 				'description' => __( 'Make social security a required field on checkout.', 'dropp-for-woocommerce' ),
 				'default'     => 'yes',
+				'desc_tip'    => false,
+			),
+			'location_name_in_label' => array(
+				'title'       => __( 'Location in label', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Enable location name in the shipping item label', 'dropp-for-woocommerce' ),
+				'type'        => 'checkbox',
+				'default'     => '',
 				'desc_tip'    => false,
 			),
 			'test_mode' => array(

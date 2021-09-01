@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use WC_Shipping;
+
 /**
  * Shipping item meta
  */
@@ -105,34 +107,49 @@ class Shipping_Item_Meta {
 	/**
 	 * Choose location button
 	 *
-	 * @param  WC_Shipping_Method $method Shipping method.
+	 * @param  WC_Shipping_Rate $shipping_rate Shipping rate.
 	 * @param  integer            $index  Index.
 	 */
-	public static function choose_location_button( $method, $index ) {
+	public static function choose_location_button( $shipping_rate, $index ) {
 		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}
-		if ( ! in_array($method->get_method_id(), ['dropp_is', 'dropp_is_oca'] ) ) {
+		if ( ! in_array($shipping_rate->get_method_id(), ['dropp_is', 'dropp_is_oca'] ) ) {
 			return;
 		}
 
 		$chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
 
-		if ( ! in_array( $method->get_id(), $chosen_methods ) ) {
+		if ( ! in_array( $shipping_rate->get_id(), $chosen_methods ) ) {
 			return;
-		}
-		$location_name = '';
-		$location_data = WC()->session->get( 'dropp_session_location' );
-		if ( ! empty( $location_data ) ) {
-			$location_name = $location_data['name'];
 		}
 
 		printf(
-			'<div class="dropp-location" data-instance_id="%d" style="display:none"><div class="dropp-location__actions"><span class="dropp-location__button button">%s</span></div><p class="dropp-location__name"%s>%s</p></div><div class="dropp-error" style="display:none"></div>',
-			esc_attr( $method->get_instance_id() ),
-			esc_html__( 'Choose location', 'dropp-for-woocommerce' ),
-			( empty( $location_name ) ? ' style="display:none"' : '' ),
-			esc_html( $location_name )
+			'<div class="dropp-location" data-instance_id="%d" style="display:none"><div class="dropp-location__actions"></div>',
+			esc_attr( $shipping_rate->get_instance_id() )
 		);
+
+		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
+		$shipping_method  = $shipping_methods[$shipping_rate->get_method_id()];
+
+		if (! $shipping_method->location_name_in_label) {
+			$location_name = '';
+			$location_data = WC()->session->get( 'dropp_session_location' );
+			if ( ! empty( $location_data ) ) {
+				$location_name = $location_data['name'];
+			}
+			printf(
+				'<p class="dropp-location__name"%s>%s</p>',
+				(empty($location_name) ? ' style="display:none"' : ''),
+				esc_html($location_name)
+			);
+		}
+
+		printf(
+		'<span class="dropp-location__button button">%s</span>',
+			esc_html__( 'Choose location', 'dropp-for-woocommerce' )
+		);
+
+		echo '</div><div class="dropp-error" style="display:none"></div>';
 	}
 }

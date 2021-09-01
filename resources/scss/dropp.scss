@@ -11,15 +11,17 @@
 }
 .dropp-location {
 	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 	text-align: left;
 	display: flex;
-	flex-direction: row-reverse;
+	flex-direction: column;
 	&__actions {
 		// order: 2;
 	}
 	&__name {
 		padding-right: 1rem;
-		margin-top: 0.25rem;
+		margin-top: 0;
+	  	margin-bottom: 0.25rem;
 	}
 	.button {
 		user-select: none;

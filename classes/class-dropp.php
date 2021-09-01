@@ -50,6 +50,7 @@ class Dropp {
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname( __DIR__ ) ) . '/languages/' );
+
 	}
 
 	/**

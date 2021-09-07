@@ -1,10 +1,9 @@
 
 import Booking from './components/booking/booking';
 
+import Vue from 'vue';
+
 if ( window._dropp ) {
-
-	window.Vue = require( 'vue' );
-
 	var settings = new Vue( {
 		el: '#dropp-booking',
 		render:  function( createElement ) {

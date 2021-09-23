@@ -95,7 +95,7 @@ class Shipping_Meta_Box {
 			$shipping_address['phone'] = $billing_address['phone'];
 		}
 		$shipping_address['ssn'] = $order->get_meta( '_billing_dropp_ssn', true );
-		$shipping_method         = new Shipping_Method\Dropp();
+		$shipping_method         = Shipping_Method\Dropp::get_instance();
 		$customer_note           = $order->get_customer_note();
 		$delivery_instructions   = '';
 		if ( 'yes' === $shipping_method->copy_order_notes ) {

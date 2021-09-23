@@ -217,8 +217,7 @@ class Dropp_Consignment extends Model {
 	 * @return string API key.
 	 */
 	public function get_api_key() {
-		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
-		$shipping_method  = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$shipping_method  = Dropp::get_instance();
 		$option_name      = 'api_key';
 		if ( $this->test ) {
 			$option_name = 'api_key_test';
@@ -454,8 +453,7 @@ class Dropp_Consignment extends Model {
 	 * Maybe Update order status
 	 */
 	public function maybe_update_order_status() {
-		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
-		$shipping_method  = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$shipping_method  = Dropp::get_instance();
 		$shipping_item    = new WC_Order_Item_Shipping( $this->shipping_item_id );
 		if ( '' !== $shipping_method->new_order_status ) {
 			$order = $shipping_item->get_order();

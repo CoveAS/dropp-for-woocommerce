@@ -81,7 +81,7 @@ class Social_Security_Number {
 	 */
 	public static function checkout_fields( $fields ) {
 		// Get the shipping method.
-		$shipping_method = new Shipping_Method\Dropp;
+		$shipping_method = Shipping_Method\Dropp::get_instance();
 
 		// Add the new field.
 		$fields['billing']['billing_dropp_ssn'] = [

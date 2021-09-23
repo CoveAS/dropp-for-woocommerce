@@ -24,8 +24,7 @@ class API {
 	protected $shipping_method = null;
 
 	public function __construct() {
-		$shipping_methods      = WC_Shipping::instance()->get_shipping_methods();
-		$this->shipping_method = $shipping_methods['dropp_is'] ?? new Shipping_Method\Dropp;
+		$this->shipping_method = Shipping_Method\Dropp::get_instance();
 		$this->test            = $this->shipping_method->test_mode;
 		$this->debug           = $this->shipping_method->debug_mode;
 	}

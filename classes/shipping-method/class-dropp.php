@@ -54,12 +54,30 @@ class Dropp extends Shipping_Method {
 	 */
 	public function calculate_shipping( $package = array() ) {
 		$location_data = WC()->session->get( 'dropp_session_location' );
-		if ( $this->location_name_in_label && ! empty( $location_data['name'] ) ) {
+		if ( self::get_instance()->location_name_in_label && ! empty( $location_data['name'] ) ) {
 			if ( ! $this->original_title ) {
 				$this->original_title = $this->title;
 			}
 			$this->title = $this->original_title . ' - ' . $location_data['name'];
 		}
 		parent::calculate_shipping( $package );
+	}
+
+
+	/**
+	 * Get instance of \Dropp\Shipping_Method\Dropp
+	 *
+	 * @return Dropp\Shipping_Method\Dropp
+	 */
+	public static function get_instance() {
+		static $instance = false;
+		if (! $instance) {
+			if (class_exists('WC_Shipping')) {
+				$shipping_methods = \WC_Shipping::instance()->get_shipping_methods();
+				$instance = $shipping_methods['dropp_is'] ?? null;
+			}
+			$instance = $instance ?: new self;
+		}
+		return $instance;
 	}
 }

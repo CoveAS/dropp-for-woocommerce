@@ -95,7 +95,7 @@ class Checkout {
 			);
 			wp_enqueue_script( 'dropp-for-woocommerce' );
 
-			$shipping_method = new Shipping_Method\Dropp();
+			$shipping_method = Shipping_Method\Dropp::get_instance();
 			// Add javascript variables.
 			wp_localize_script(
 				'dropp-for-woocommerce',

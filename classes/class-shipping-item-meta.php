@@ -129,9 +129,7 @@ class Shipping_Item_Meta {
 			esc_attr( $shipping_rate->get_instance_id() )
 		);
 
-		$shipping_methods = WC_Shipping::instance()->get_shipping_methods();
-		$shipping_method  = $shipping_methods[$shipping_rate->get_method_id()];
-
+		$shipping_method = Shipping_Method\Dropp::get_instance();
 		if (! $shipping_method->location_name_in_label) {
 			$location_name = '';
 			$location_data = WC()->session->get( 'dropp_session_location' );

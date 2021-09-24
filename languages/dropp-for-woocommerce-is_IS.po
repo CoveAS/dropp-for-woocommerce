@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2021-05-03 11:33+0200\n"
-"PO-Revision-Date: 2021-05-03 11:36+0200\n"
+"POT-Creation-Date: 2021-09-24 10:58+0200\n"
+"PO-Revision-Date: 2021-09-24 10:59+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -35,28 +35,28 @@ msgstr "Vistað staðsetningarkenni"
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr "Ekki tókst að sannreyna. Reyndu aftur með að endurhlaða síðunni."
 
-#: classes/class-ajax.php:145 classes/class-order-adapter.php:168
+#: classes/class-ajax.php:148 classes/class-order-adapter.php:169
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr "Get ekki bókað sendinguna þar sem hún er meira en %d kg"
 
-#: classes/class-ajax.php:189
+#: classes/class-ajax.php:192
 msgid "Booked! Re-loading page..."
 msgstr "Bókað! Er að endurhlaða síðunni..."
 
-#: classes/class-ajax.php:356
+#: classes/class-ajax.php:359
 msgid "Could not find consignment:"
 msgstr "Fann ekki afhendingarstað:"
 
-#: classes/class-api.php:56 classes/models/class-dropp-consignment.php:221
+#: classes/class-api.php:55 classes/models/class-dropp-consignment.php:227
 msgid "No API key could be found."
 msgstr "Enginn API lykill fannst."
 
-#: classes/class-api.php:182 classes/models/class-dropp-consignment.php:628
+#: classes/class-api.php:181 classes/models/class-dropp-consignment.php:635
 msgid "Response error"
 msgstr "Villa"
 
-#: classes/class-api.php:196 classes/models/class-dropp-consignment.php:639
+#: classes/class-api.php:195 classes/models/class-dropp-consignment.php:646
 #: classes/models/class-dropp-pdf.php:69
 msgid "Invalid json"
 msgstr "Ekki löglegt json"
@@ -94,11 +94,11 @@ msgstr ""
 msgid "Click here to go to the zone settings."
 msgstr "Smelltu hér til að fara í svæðisstillingarnar."
 
-#: classes/class-dropp.php:256
+#: classes/class-dropp.php:261
 msgid "View Dropp Settings"
 msgstr "Skoða Dropp Stillingar"
 
-#: classes/class-dropp.php:256
+#: classes/class-dropp.php:261
 msgid "Settings"
 msgstr "Stillingar"
 
@@ -111,7 +111,7 @@ msgid "Dropp - Print labels"
 msgstr "Dropp - Prenta miða"
 
 #: classes/class-pending-shipping.php:38
-#: classes/shipping-method/class-shipping-method.php:42
+#: classes/shipping-method/class-shipping-method.php:49
 msgid "Dropp"
 msgstr "Dropp"
 
@@ -126,11 +126,11 @@ msgid_plural "Pending shipment (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[0] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[1] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 
-#: classes/class-shipping-item-meta.php:74
+#: classes/class-shipping-item-meta.php:76
 msgid "No location selected. Please select a location for Dropp"
 msgstr "Enginn afhendingarstaður valinn. Veldur afhendingarstað fyrir Dropp"
 
-#: classes/class-shipping-item-meta.php:134
+#: classes/class-shipping-item-meta.php:148
 msgid "Choose location"
 msgstr "Veldu afhendingarstað"
 
@@ -254,7 +254,7 @@ msgstr "Netfang"
 #: classes/class-shipping-meta-box.php:163
 #: templates/ssn/admin-billing-details.php:2
 #: templates/ssn/customer-details.php:2 templates/ssn/email-order-details.php:3
-#: traits/trait-shipping-settings.php:94
+#: traits/trait-shipping-settings.php:95
 msgid "Social security number"
 msgstr "Kennitala"
 
@@ -284,50 +284,50 @@ msgid_plural "Tracking codes"
 msgstr[0] "Rakningarkóði"
 msgstr[1] "Rakningarkóði"
 
-#: classes/models/class-dropp-consignment.php:53
+#: classes/models/class-dropp-consignment.php:54
 msgid "Ready"
 msgstr "Tilbúið"
 
-#: classes/models/class-dropp-consignment.php:54
+#: classes/models/class-dropp-consignment.php:55
 msgid "Error"
 msgstr "Villa"
 
-#: classes/models/class-dropp-consignment.php:55
+#: classes/models/class-dropp-consignment.php:56
 msgid "Initial"
 msgstr "Beðið eftir akstri"
 
-#: classes/models/class-dropp-consignment.php:56
+#: classes/models/class-dropp-consignment.php:57
 msgid "Overweight"
 msgstr "Yfirvigt"
 
-#: classes/models/class-dropp-consignment.php:57
+#: classes/models/class-dropp-consignment.php:58
 msgid "Transit"
 msgstr "Í akstri"
 
-#: classes/models/class-dropp-consignment.php:58
+#: classes/models/class-dropp-consignment.php:59
 msgid "Consignment"
 msgstr "Á afhendingarstað"
 
-#: classes/models/class-dropp-consignment.php:59
+#: classes/models/class-dropp-consignment.php:60
 msgid "Delivered"
 msgstr "Sótt"
 
-#: classes/models/class-dropp-consignment.php:60
+#: classes/models/class-dropp-consignment.php:61
 msgid "Cancelled"
 msgstr "Hætt við"
 
-#: classes/models/class-dropp-consignment.php:455
+#: classes/models/class-dropp-consignment.php:462
 msgid "Dropp booking complete."
 msgstr "Dropp bókun tókst."
 
 #. translators: Consignment ID.
-#: classes/models/class-dropp-consignment.php:519
-#: classes/models/class-dropp-consignment.php:539
+#: classes/models/class-dropp-consignment.php:526
+#: classes/models/class-dropp-consignment.php:546
 #, php-format
 msgid "Consignment, %d, does not have a dropp order id."
 msgstr "Afhendingarstaður, %d, er ekki með neina pöntun."
 
-#: classes/models/class-dropp-consignment.php:650
+#: classes/models/class-dropp-consignment.php:657
 msgid "Empty ID in the response"
 msgstr "Vantar ID í svar"
 
@@ -336,7 +336,7 @@ msgid "Home delivery"
 msgstr "Heimsending"
 
 #: classes/models/class-dropp-location.php:59
-#: classes/shipping-method/class-flytjandi.php:39
+#: classes/shipping-method/class-flytjandi.php:46
 msgid "Dropp - Other pickup locations"
 msgstr "Dropp - Landsbyggð"
 
@@ -358,34 +358,34 @@ msgstr "API Villa"
 msgid "Could not create directory"
 msgstr "Gat ekki búið til svæði"
 
-#: classes/shipping-method/class-daytime-delivery.php:32
+#: classes/shipping-method/class-daytime-delivery.php:39
 msgid "Dropp Daytime Delivery"
 msgstr "Dropp heimili afhending"
 
-#: classes/shipping-method/class-daytime-delivery.php:33
+#: classes/shipping-method/class-daytime-delivery.php:40
 msgid "Home delivery in Iceland between 10:00-17:00"
 msgstr "Heimsending á Íslandi milli kl. 10:00-17:00"
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:32
+#: classes/shipping-method/class-dropp-outside-capital-area.php:39
 msgid "Dropp Outside Capital Area"
 msgstr "Dropp utan höfuðborgarsvæðis"
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:33
-#: classes/shipping-method/class-flytjandi.php:40
-#: classes/shipping-method/class-shipping-method.php:43
+#: classes/shipping-method/class-dropp-outside-capital-area.php:40
+#: classes/shipping-method/class-flytjandi.php:47
+#: classes/shipping-method/class-shipping-method.php:50
 msgid "Deliver parcels at delivery locations in Iceland"
 msgstr "Afhenda sendingar á Íslandi"
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:32
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:39
 msgid "Dropp Home Delivery Outside Capital Area"
 msgstr "Dropp Heimsending utan höfuðborgarsvæðis"
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:33
-#: classes/shipping-method/class-home-delivery.php:40
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:40
+#: classes/shipping-method/class-home-delivery.php:48
 msgid "Home delivery in Iceland between 19:00-22:00"
 msgstr "Heimsending á Íslandi milli kl. 19:00-22:00"
 
-#: classes/shipping-method/class-home-delivery.php:39
+#: classes/shipping-method/class-home-delivery.php:47
 msgid "Dropp Home Delivery"
 msgstr "Dropp heimili afhending"
 
@@ -397,19 +397,19 @@ msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
-#: classes/shipping-method/class-shipping-method.php:168
+#: classes/shipping-method/class-shipping-method.php:178
 msgid "Free shipping"
 msgstr "Ókeypis sendingar"
 
-#: classes/shipping-method/class-shipping-method.php:169
+#: classes/shipping-method/class-shipping-method.php:179
 msgid "Enable"
 msgstr "Virkja"
 
-#: classes/shipping-method/class-shipping-method.php:177
+#: classes/shipping-method/class-shipping-method.php:187
 msgid "Free shipping for orders above"
 msgstr "Frír sendingarkostnaður fyrir pantanir að ofan"
 
-#: classes/shipping-method/class-shipping-method.php:180
+#: classes/shipping-method/class-shipping-method.php:190
 msgid "Only enable free shipping if the cart total exceeds this value."
 msgstr "Aðeins gera ókeypis sendingar ef körfu Samtals fer yfir þetta gildi."
 
@@ -438,59 +438,59 @@ msgstr "Tókst ekki að bóka þessar pantanir: "
 msgid "Could not find any labels for the selected orders to print."
 msgstr "Fann ekki miða fyrir valdar pantanir til að prenta."
 
-#: traits/trait-shipping-settings.php:46
+#: traits/trait-shipping-settings.php:47
 msgid "API key"
 msgstr "API lykill"
 
-#: traits/trait-shipping-settings.php:48 traits/trait-shipping-settings.php:59
+#: traits/trait-shipping-settings.php:49 traits/trait-shipping-settings.php:60
 msgid "API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......"
 msgstr "API lykill frá Dropp er t.d.: NTAyZDIzZGYtNzg0Yi00OWVjLW......"
 
-#: traits/trait-shipping-settings.php:50
+#: traits/trait-shipping-settings.php:51
 #, php-format
 msgid "Click %s to find your API Key."
 msgstr "Smelltu hér %s til að sækja API lykilinn þinn."
 
-#: traits/trait-shipping-settings.php:51 traits/trait-shipping-settings.php:62
-#: traits/trait-shipping-settings.php:115
-#: traits/trait-shipping-settings.php:126
+#: traits/trait-shipping-settings.php:52 traits/trait-shipping-settings.php:63
+#: traits/trait-shipping-settings.php:123
+#: traits/trait-shipping-settings.php:134
 msgid "here"
 msgstr "hérna"
 
-#: traits/trait-shipping-settings.php:57
+#: traits/trait-shipping-settings.php:58
 msgid "API key (test)"
 msgstr "API lykill (test)"
 
-#: traits/trait-shipping-settings.php:61
+#: traits/trait-shipping-settings.php:62
 #, php-format
 msgid "Click %s to find your test API Key."
 msgstr "Smelltu hér %s til að sækja (test) API lykilinn þinn."
 
-#: traits/trait-shipping-settings.php:68
+#: traits/trait-shipping-settings.php:69
 msgid "Store ID"
 msgstr "Verslun ID"
 
-#: traits/trait-shipping-settings.php:70
+#: traits/trait-shipping-settings.php:71
 msgid "Store ID from dropp.is"
 msgstr "Verslun ID frá Dropp"
 
-#: traits/trait-shipping-settings.php:76
+#: traits/trait-shipping-settings.php:77
 msgid "New order status"
 msgstr "Ný pöntun, staða"
 
-#: traits/trait-shipping-settings.php:78
+#: traits/trait-shipping-settings.php:79
 msgid "Automatically change order status after booking."
 msgstr "Sjálfvirkt breyta stöðu pöntunar eftir bókun."
 
-#: traits/trait-shipping-settings.php:81
+#: traits/trait-shipping-settings.php:82
 msgid "- No change -"
 msgstr "- Ekki breyta -"
 
-#: traits/trait-shipping-settings.php:86
+#: traits/trait-shipping-settings.php:87
 msgid "Copy customer notes "
 msgstr "Afrita athugasemdir viðskiptavina "
 
-#: traits/trait-shipping-settings.php:87
+#: traits/trait-shipping-settings.php:88
 msgid ""
 "Copy customer notes from the order to delivery instructions in the dropp "
 "booking"
@@ -498,47 +498,55 @@ msgstr ""
 "Afrita athugasemdir viðskiptavina úr pöntuninni í afhendingarleiðbeiningar í "
 "fellibókuninni"
 
-#: traits/trait-shipping-settings.php:95
+#: traits/trait-shipping-settings.php:96
 msgid "Enable social security number"
 msgstr "Virkja kennitölu"
 
-#: traits/trait-shipping-settings.php:97
+#: traits/trait-shipping-settings.php:98
 msgid "Enables a new field on checkout for icelandic social security number."
 msgstr "Virkjar nýjtt svæði fyrir kennitölu í afgreiðslu."
 
-#: traits/trait-shipping-settings.php:102
+#: traits/trait-shipping-settings.php:103
 msgid "Require SSN"
 msgstr "Kennitölu má ekki vanta"
 
-#: traits/trait-shipping-settings.php:103
+#: traits/trait-shipping-settings.php:104
 msgid "Required field"
 msgstr "Verður að vera fyllt út"
 
-#: traits/trait-shipping-settings.php:105
+#: traits/trait-shipping-settings.php:106
 msgid "Make social security a required field on checkout."
 msgstr "Gera kennitölu að svæði sem verður að fylla út."
 
-#: traits/trait-shipping-settings.php:110
+#: traits/trait-shipping-settings.php:111
+msgid "Location in label"
+msgstr "Staðsetning í merki"
+
+#: traits/trait-shipping-settings.php:112
+msgid "Enable location name in the shipping item label"
+msgstr "Virkja staðsetningarheiti í merki sendingarvöru"
+
+#: traits/trait-shipping-settings.php:118
 msgid "Test mode"
 msgstr "Test útgáfa"
 
-#: traits/trait-shipping-settings.php:111
+#: traits/trait-shipping-settings.php:119
 msgid "Enable test mode"
 msgstr "Virkja test útgáfu"
 
-#: traits/trait-shipping-settings.php:114
+#: traits/trait-shipping-settings.php:122
 msgid "Makes the plugin do requests against staging instead of the live API."
 msgstr "Láta Dropp virka á móti test en ekki live API."
 
-#: traits/trait-shipping-settings.php:121
+#: traits/trait-shipping-settings.php:129
 msgid "Debug mode"
 msgstr "Debug mode"
 
-#: traits/trait-shipping-settings.php:122
+#: traits/trait-shipping-settings.php:130
 msgid "Enable debug mode"
 msgstr "Enable debug mode"
 
-#: traits/trait-shipping-settings.php:125
+#: traits/trait-shipping-settings.php:133
 #, php-format
 msgid "Logs requests and other data to a log file. Click %s to see the logs."
 msgstr "Logs requests and other data to a log file. Click %s to see the logs."

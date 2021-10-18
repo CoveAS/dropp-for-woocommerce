@@ -7,6 +7,7 @@
 
 namespace Dropp\Models;
 
+use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
 
 /**
@@ -64,7 +65,7 @@ class Dropp_Location extends Model {
 		// Special location handling for pickup.
 		if ( 'dropp_pickup' === $type ) {
 			$this->id      = '30e06a53-2d65-46e7-adc1-18e60de28ecc';
-			$this->name    = __( 'Pick-up at warehouse', 'dropp-for-woocommerce' ). ' (Vatnagarðar 22)';
+			$this->name    = __( 'Pick-up at warehouse', 'dropp-for-woocommerce' ) . ' (Vatnagarðar 22)';
 			$this->address = '';
 		}
 	}
@@ -72,11 +73,12 @@ class Dropp_Location extends Model {
 	/**
 	 * From Shipping Item
 	 *
-	 * @param  integer $order_id (optional) Order ID.
-	 * @return array             Array of Dropp_Location.
+	 * @param integer $order_id (optional) Order ID.
+	 *
+	 * @return Dropp_Location Array of Dropp_Location.
 	 */
-	public static function from_shipping_item( $shipping_item ) {
-		$location = new self( $shipping_item->get_method_id() );
+	public static function from_shipping_item( $shipping_item, $day_delivery = null ) {
+		$location                = new self( $shipping_item->get_method_id() );
 		$location->order_item    = $shipping_item;
 		$location->order_item_id = $shipping_item->get_id();
 
@@ -88,13 +90,23 @@ class Dropp_Location extends Model {
 				$location->address = $meta_data['address'] ?? null;
 			}
 		}
+
+		if (is_null($day_delivery)) {
+			return $location;
+		}
+
+		if ( 'dropp_home' === $location->type || 'dropp_daytime' === $location->type ) {
+			$location->type = ( $day_delivery ? 'dropp_daytime' : 'dropp_home' );
+		}
+
 		return $location;
 	}
 
 	/**
 	 * From Order
 	 *
-	 * @param  integer $order_id (optional) Order ID.
+	 * @param integer $order_id (optional) Order ID.
+	 *
 	 * @return array             Array of Dropp_Location.
 	 */
 	public static function from_order( $order_id = false ) {
@@ -111,6 +123,7 @@ class Dropp_Location extends Model {
 			}
 			$collection[] = $location;
 		}
+
 		return $collection;
 	}
 
@@ -156,7 +169,8 @@ class Dropp_Location extends Model {
 	/**
 	 * Array From Order
 	 *
-	 * @param  integer $order_id (optional) Order ID.
+	 * @param integer $order_id (optional) Order ID.
+	 *
 	 * @return array             Array of Dropp_Location arrays.
 	 */
 	public static function array_from_order( $order_id = false ) {
@@ -173,6 +187,7 @@ class Dropp_Location extends Model {
 			'order_item_id' => $this->order_item_id,
 			'id'            => $this->id,
 			'name'          => $this->name,
+			'day_delivery'  => $this->day_delivery,
 			'weight_limit'  => $this->weight_limit,
 			'address'       => $this->address,
 			'barcode'       => $this->barcode,

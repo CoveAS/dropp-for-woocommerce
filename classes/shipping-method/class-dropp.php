@@ -67,7 +67,7 @@ class Dropp extends Shipping_Method {
 	/**
 	 * Get instance of \Dropp\Shipping_Method\Dropp
 	 *
-	 * @return Dropp\Shipping_Method\Dropp
+	 * @return Dropp
 	 */
 	public static function get_instance() {
 		static $instance = false;

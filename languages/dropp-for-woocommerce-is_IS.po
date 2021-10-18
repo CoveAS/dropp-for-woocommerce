@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2021-09-24 10:58+0200\n"
-"PO-Revision-Date: 2021-09-24 10:59+0200\n"
+"POT-Creation-Date: 2021-10-18 14:18+0200\n"
+"PO-Revision-Date: 2021-10-18 14:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -35,28 +35,28 @@ msgstr "Vistað staðsetningarkenni"
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr "Ekki tókst að sannreyna. Reyndu aftur með að endurhlaða síðunni."
 
-#: classes/class-ajax.php:148 classes/class-order-adapter.php:169
+#: classes/class-ajax.php:151 classes/class-order-adapter.php:171
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr "Get ekki bókað sendinguna þar sem hún er meira en %d kg"
 
-#: classes/class-ajax.php:192
+#: classes/class-ajax.php:195
 msgid "Booked! Re-loading page..."
 msgstr "Bókað! Er að endurhlaða síðunni..."
 
-#: classes/class-ajax.php:359
+#: classes/class-ajax.php:362
 msgid "Could not find consignment:"
 msgstr "Fann ekki afhendingarstað:"
 
-#: classes/class-api.php:55 classes/models/class-dropp-consignment.php:227
+#: classes/class-api.php:55 classes/models/class-dropp-consignment.php:231
 msgid "No API key could be found."
 msgstr "Enginn API lykill fannst."
 
-#: classes/class-api.php:181 classes/models/class-dropp-consignment.php:635
+#: classes/class-api.php:181 classes/models/class-dropp-consignment.php:663
 msgid "Response error"
 msgstr "Villa"
 
-#: classes/class-api.php:195 classes/models/class-dropp-consignment.php:646
+#: classes/class-api.php:195 classes/models/class-dropp-consignment.php:675
 #: classes/models/class-dropp-pdf.php:69
 msgid "Invalid json"
 msgstr "Ekki löglegt json"
@@ -111,7 +111,7 @@ msgid "Dropp - Print labels"
 msgstr "Dropp - Prenta miða"
 
 #: classes/class-pending-shipping.php:38
-#: classes/shipping-method/class-shipping-method.php:49
+#: classes/shipping-method/class-shipping-method.php:56
 msgid "Dropp"
 msgstr "Dropp"
 
@@ -134,137 +134,140 @@ msgstr "Enginn afhendingarstaður valinn. Veldur afhendingarstað fyrir Dropp"
 msgid "Choose location"
 msgstr "Veldu afhendingarstað"
 
-#: classes/class-shipping-meta-box.php:40
+#: classes/class-shipping-meta-box.php:41
 msgid "Dropp Booking"
 msgstr "Dropp bókun"
 
-#: classes/class-shipping-meta-box.php:123
+#: classes/class-shipping-meta-box.php:131
 msgid "Add home delivery"
 msgstr "Bæta við heimsendingu"
 
-#: classes/class-shipping-meta-box.php:127
+#: classes/class-shipping-meta-box.php:135
 msgid "Add Flytjandi delivery"
 msgstr "Bæta við Flytjandi"
 
-#: classes/class-shipping-meta-box.php:131
+#: classes/class-shipping-meta-box.php:139
 msgid "Add Pickup at warehouse"
 msgstr "Bæta við tiltekt í vöruhúsi"
 
-#: classes/class-shipping-meta-box.php:137
+#: classes/class-shipping-meta-box.php:145
 msgid "Test"
 msgstr "Próf"
 
-#: classes/class-shipping-meta-box.php:138
+#: classes/class-shipping-meta-box.php:146
 msgid "Actions"
 msgstr "Aðgerðir"
 
-#: classes/class-shipping-meta-box.php:139
+#: classes/class-shipping-meta-box.php:147
 msgid "Check status"
 msgstr "Athuga stöðu"
 
-#: classes/class-shipping-meta-box.php:140
+#: classes/class-shipping-meta-box.php:148
 msgid "Download"
 msgstr "Sækja"
 
-#: classes/class-shipping-meta-box.php:141
+#: classes/class-shipping-meta-box.php:149
 msgid "Customer note"
 msgstr "Athugasemd viðskiptavinar"
 
-#: classes/class-shipping-meta-box.php:142
+#: classes/class-shipping-meta-box.php:150
 msgid "Copy to delivery instructions"
 msgstr "Afrita í afhendingarleiðbeiningar"
 
-#: classes/class-shipping-meta-box.php:143
+#: classes/class-shipping-meta-box.php:151
 msgid "Delivery instructions"
 msgstr "Leiðbeiningar um afhendingu"
 
-#: classes/class-shipping-meta-box.php:144
+#: classes/class-shipping-meta-box.php:152
 msgid "Update order"
 msgstr "Uppfæra pöntun"
 
-#: classes/class-shipping-meta-box.php:145
+#: classes/class-shipping-meta-box.php:153
 msgid "Add extra pdf"
 msgstr "Bæta við auka PDF"
 
-#: classes/class-shipping-meta-box.php:146
+#: classes/class-shipping-meta-box.php:154
 msgid "View order"
 msgstr "Skoða pöntun"
 
-#: classes/class-shipping-meta-box.php:147
+#: classes/class-shipping-meta-box.php:155
 msgid "Cancel order"
 msgstr "Hætta við pöntun"
 
-#: classes/class-shipping-meta-box.php:148
+#: classes/class-shipping-meta-box.php:156
 msgid "Barcode"
 msgstr "Strikamerki"
 
-#: classes/class-shipping-meta-box.php:149
-#: classes/class-shipping-meta-box.php:160
+#: classes/class-shipping-meta-box.php:157
 msgid "Customer"
 msgstr "Viðskiptavinur"
 
-#: classes/class-shipping-meta-box.php:150
+#: classes/class-shipping-meta-box.php:158
 msgid "Status"
 msgstr "Staða"
 
-#: classes/class-shipping-meta-box.php:151
+#: classes/class-shipping-meta-box.php:159
 msgid "Created"
 msgstr "Búin til"
 
-#: classes/class-shipping-meta-box.php:152
+#: classes/class-shipping-meta-box.php:160
 msgid "Updated"
 msgstr "Uppfærð"
 
-#: classes/class-shipping-meta-box.php:153
+#: classes/class-shipping-meta-box.php:161
 msgid "Product"
 msgstr "Vara"
 
-#: classes/class-shipping-meta-box.php:154
+#: classes/class-shipping-meta-box.php:162
 msgid "Products"
 msgstr "Vörur"
 
-#: classes/class-shipping-meta-box.php:155
+#: classes/class-shipping-meta-box.php:163
 msgid "Booked consignments"
 msgstr "Bókaðir afhendingastaðir"
 
-#: classes/class-shipping-meta-box.php:156
+#: classes/class-shipping-meta-box.php:164
 msgid "Book now"
 msgstr "Bóka núna"
 
-#: classes/class-shipping-meta-box.php:157
+#: classes/class-shipping-meta-box.php:165
 msgid "Remove location"
 msgstr "Eyða afhendingarstað"
 
-#: classes/class-shipping-meta-box.php:158
+#: classes/class-shipping-meta-box.php:166
 msgid "Add shipment"
 msgstr "Bæta við afhendingarmáta"
 
-#: classes/class-shipping-meta-box.php:159
+#: classes/class-shipping-meta-box.php:167
 msgid "Change location"
 msgstr "Breyta afhendingarstað"
 
-#: classes/class-shipping-meta-box.php:161
+#: classes/class-shipping-meta-box.php:168
 msgid "Name"
 msgstr "Nafn"
 
-#: classes/class-shipping-meta-box.php:162
+#: classes/class-shipping-meta-box.php:169
 msgid "Email address"
 msgstr "Netfang"
 
-#: classes/class-shipping-meta-box.php:163
+#: classes/class-shipping-meta-box.php:170
 #: templates/ssn/admin-billing-details.php:2
 #: templates/ssn/customer-details.php:2 templates/ssn/email-order-details.php:3
 #: traits/trait-shipping-settings.php:95
 msgid "Social security number"
 msgstr "Kennitala"
 
-#: classes/class-shipping-meta-box.php:164
+#: classes/class-shipping-meta-box.php:171
 msgid "Address"
 msgstr "Heimilisfang"
 
-#: classes/class-shipping-meta-box.php:165
+#: classes/class-shipping-meta-box.php:172
 msgid "Phone number"
 msgstr "Símanúmer"
+
+#: classes/class-shipping-meta-box.php:173
+msgid "day delivery"
+msgstr "dagsafhending"
 
 #: classes/class-social-security-number.php:56
 msgid "Social security number must be 10 digits."
@@ -284,63 +287,63 @@ msgid_plural "Tracking codes"
 msgstr[0] "Rakningarkóði"
 msgstr[1] "Rakningarkóði"
 
-#: classes/models/class-dropp-consignment.php:54
+#: classes/models/class-dropp-consignment.php:56
 msgid "Ready"
 msgstr "Tilbúið"
 
-#: classes/models/class-dropp-consignment.php:55
+#: classes/models/class-dropp-consignment.php:57
 msgid "Error"
 msgstr "Villa"
 
-#: classes/models/class-dropp-consignment.php:56
+#: classes/models/class-dropp-consignment.php:58
 msgid "Initial"
 msgstr "Beðið eftir akstri"
 
-#: classes/models/class-dropp-consignment.php:57
+#: classes/models/class-dropp-consignment.php:59
 msgid "Overweight"
 msgstr "Yfirvigt"
 
-#: classes/models/class-dropp-consignment.php:58
+#: classes/models/class-dropp-consignment.php:60
 msgid "Transit"
 msgstr "Í akstri"
 
-#: classes/models/class-dropp-consignment.php:59
+#: classes/models/class-dropp-consignment.php:61
 msgid "Consignment"
 msgstr "Á afhendingarstað"
 
-#: classes/models/class-dropp-consignment.php:60
+#: classes/models/class-dropp-consignment.php:62
 msgid "Delivered"
 msgstr "Sótt"
 
-#: classes/models/class-dropp-consignment.php:61
+#: classes/models/class-dropp-consignment.php:63
 msgid "Cancelled"
 msgstr "Hætt við"
 
-#: classes/models/class-dropp-consignment.php:462
+#: classes/models/class-dropp-consignment.php:481
 msgid "Dropp booking complete."
 msgstr "Dropp bókun tókst."
 
 #. translators: Consignment ID.
-#: classes/models/class-dropp-consignment.php:526
-#: classes/models/class-dropp-consignment.php:546
+#: classes/models/class-dropp-consignment.php:549
+#: classes/models/class-dropp-consignment.php:570
 #, php-format
 msgid "Consignment, %d, does not have a dropp order id."
 msgstr "Afhendingarstaður, %d, er ekki með neina pöntun."
 
-#: classes/models/class-dropp-consignment.php:657
+#: classes/models/class-dropp-consignment.php:686
 msgid "Empty ID in the response"
 msgstr "Vantar ID í svar"
 
-#: classes/models/class-dropp-location.php:51
+#: classes/models/class-dropp-location.php:52
 msgid "Home delivery"
 msgstr "Heimsending"
 
-#: classes/models/class-dropp-location.php:59
+#: classes/models/class-dropp-location.php:60
 #: classes/shipping-method/class-flytjandi.php:46
 msgid "Dropp - Other pickup locations"
 msgstr "Dropp - Landsbyggð"
 
-#: classes/models/class-dropp-location.php:67
+#: classes/models/class-dropp-location.php:68
 msgid "Pick-up at warehouse"
 msgstr "Sótt í vöruhús (Vatnagarðar 22)"
 
@@ -358,11 +361,11 @@ msgstr "API Villa"
 msgid "Could not create directory"
 msgstr "Gat ekki búið til svæði"
 
-#: classes/shipping-method/class-daytime-delivery.php:39
+#: classes/shipping-method/class-daytime-delivery.php:38
 msgid "Dropp Daytime Delivery"
 msgstr "Dropp heimili afhending"
 
-#: classes/shipping-method/class-daytime-delivery.php:40
+#: classes/shipping-method/class-daytime-delivery.php:39
 msgid "Home delivery in Iceland between 10:00-17:00"
 msgstr "Heimsending á Íslandi milli kl. 10:00-17:00"
 
@@ -372,7 +375,7 @@ msgstr "Dropp utan höfuðborgarsvæðis"
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:40
 #: classes/shipping-method/class-flytjandi.php:47
-#: classes/shipping-method/class-shipping-method.php:50
+#: classes/shipping-method/class-shipping-method.php:57
 msgid "Deliver parcels at delivery locations in Iceland"
 msgstr "Afhenda sendingar á Íslandi"
 
@@ -397,19 +400,19 @@ msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
-#: classes/shipping-method/class-shipping-method.php:178
+#: classes/shipping-method/class-shipping-method.php:185
 msgid "Free shipping"
 msgstr "Ókeypis sendingar"
 
-#: classes/shipping-method/class-shipping-method.php:179
+#: classes/shipping-method/class-shipping-method.php:186
 msgid "Enable"
 msgstr "Virkja"
 
-#: classes/shipping-method/class-shipping-method.php:187
+#: classes/shipping-method/class-shipping-method.php:194
 msgid "Free shipping for orders above"
 msgstr "Frír sendingarkostnaður fyrir pantanir að ofan"
 
-#: classes/shipping-method/class-shipping-method.php:190
+#: classes/shipping-method/class-shipping-method.php:197
 msgid "Only enable free shipping if the cart total exceeds this value."
 msgstr "Aðeins gera ókeypis sendingar ef körfu Samtals fer yfir þetta gildi."
 

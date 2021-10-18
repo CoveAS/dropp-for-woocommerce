@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Dropp\Actions\Convert_Dropp_Order_Ids_To_Consignments_Action;
+use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\Models\Dropp_Consignment;
 use Dropp\Models\Dropp_Location;
 use Dropp\Models\Dropp_Product_Line;
@@ -74,10 +75,17 @@ class Shipping_Meta_Box {
 			if ( ! in_array( $line_item->get_method_id(), $dropp_methods, true ) ) {
 				continue;
 			}
+			try {
+				$shipping_method = ( new Get_Shipping_Method_From_Shipping_Item_Action() )( $line_item );
+			} catch ( \Exception $e ) {
+				continue;
+			}
+
 			$shipping_items[] = [
-				'id'          => $line_item->get_id(),
-				'instance_id' => $line_item->get_instance_id(),
-				'label'       => $line_item->get_name(),
+				'id'           => $line_item->get_id(),
+				'instance_id'  => $line_item->get_instance_id(),
+				'label'        => $line_item->get_name(),
+				'day_delivery' => $shipping_method->day_delivery,
 			];
 		}
 
@@ -157,12 +165,12 @@ class Shipping_Meta_Box {
 					'remove'                 => __( 'Remove location', 'dropp-for-woocommerce' ),
 					'add_location'           => __( 'Add shipment', 'dropp-for-woocommerce' ),
 					'change_location'        => __( 'Change location', 'dropp-for-woocommerce' ),
-					'customer'               => __( 'Customer', 'dropp-for-woocommerce' ),
 					'name'                   => __( 'Name', 'dropp-for-woocommerce' ),
 					'email_address'          => __( 'Email address', 'dropp-for-woocommerce' ),
 					'social_security_number' => __( 'Social security number', 'dropp-for-woocommerce' ),
 					'address'                => __( 'Address', 'dropp-for-woocommerce' ),
 					'phone_number'           => __( 'Phone number', 'dropp-for-woocommerce' ),
+					'day_delivery'           => __( 'day delivery', 'dropp-for-woocommerce' ),
 				]
 			),
 		];

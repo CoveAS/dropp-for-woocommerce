@@ -7,8 +7,10 @@
 
 namespace Dropp\Models;
 
+use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
 use Dropp\Shipping_Method\Dropp;
+use Dropp\Shipping_Method\Shipping_Method;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
@@ -63,27 +65,24 @@ class Dropp_Consignment extends Model {
 	}
 
 	/**
-	 * Get status list.
+	 * Get shipping method
 	 *
-	 * @return array List of status.
+	 * @return Shipping_Method
+	 * @throws Exception
 	 */
 	public function get_shipping_method() {
 		if ( ! $this->shipping_item_id ) {
 			return null;
 		}
-		$shipping_item      = new WC_Order_Item_Shipping( $this->shipping_item_id );
-		$shipping_methods   = WC_Shipping::instance()->get_shipping_methods();
-		$shipping_method_id = $shipping_item->get_method_id();
-		if ( empty( $shipping_methods[ $shipping_method_id ] ) ) {
-			return new Dropp( $shipping_item->get_instance_id() );
-		}
-		return $shipping_methods[ $shipping_method_id ];
+
+		return ( new Get_Shipping_Method_From_Shipping_Item_Action() )( (int) $this->shipping_item_id );
 	}
 
 	/**
 	 * Fill
 	 *
-	 * @param  array            $content Content.
+	 * @param array $content Content.
+	 *
 	 * @return Dropp_Consigment          This object.
 	 */
 	public function fill( $content ) {
@@ -125,12 +124,13 @@ class Dropp_Consignment extends Model {
 		if ( $content['debug'] ) {
 			$this->debug = true;
 		}
-		$this->comment    = $content['comment'];
-		$this->status     = $content['status'];
-		$this->test       = (int) $content['test'];
-		$this->mynto_id   = $content['mynto_id'];
-		$this->updated_at = $content['updated_at'];
-		$this->created_at = $content['created_at'];
+		$this->comment      = $content['comment'];
+		$this->status       = $content['status'];
+		$this->test         = (int) $content['test'];
+		$this->mynto_id     = $content['mynto_id'];
+		$this->updated_at   = $content['updated_at'];
+		$this->created_at   = $content['created_at'];
+		$this->day_delivery = ( filter_var( $content['day_delivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
 
 		// Process customer.
 		if ( $content['customer'] instanceof Dropp_Customer ) {
@@ -157,6 +157,7 @@ class Dropp_Consignment extends Model {
 		if ( is_array( $products ) ) {
 			$this->set_products( $products );
 		}
+
 		return $this;
 	}
 
@@ -166,14 +167,16 @@ class Dropp_Consignment extends Model {
 			$this->products[] = ( new Dropp_Product_Line() )->fill( $product );
 		}
 	}
+
 	public function set_customer( $customer ) {
-			$this->customer = ( new Dropp_Customer() )->fill( $customer );
+		$this->customer = ( new Dropp_Customer() )->fill( $customer );
 	}
 
 	/**
 	 * To array
 	 *
-	 * @param  boolean $for_request True limits the fields to only those used to send to Dropp.is.
+	 * @param boolean $for_request True limits the fields to only those used to send to Dropp.is.
+	 *
 	 * @return array                Array representation.
 	 */
 	public function to_array( $for_request = true ) {
@@ -182,14 +185,14 @@ class Dropp_Consignment extends Model {
 			$products[] = $product->to_array();
 		}
 		$consignment_array = [
-			'locationId'   => $this->location_id,
-			'barcode'      => $this->barcode,
-			'products'     => $products,
-			'customer'     => $this->get_customer_array(),
-			'daydelivery'  => $this->day_delivery,
-			'comment'      => $this->comment,
+			'locationId'  => $this->location_id,
+			'barcode'     => $this->barcode,
+			'products'    => $products,
+			'customer'    => $this->get_customer_array(),
+			'daydelivery' => $this->day_delivery ? true : false,
+			'comment'     => $this->comment,
 		];
-		if ($this->mynto_id) {
+		if ( $this->mynto_id ) {
 			$consignment_array['mynto_id'] = $this->mynto_id;
 		}
 
@@ -204,8 +207,9 @@ class Dropp_Consignment extends Model {
 
 			// Add location.
 			$shipping_item                 = new WC_Order_Item_Shipping( $this->shipping_item_id );
-			$consignment_array['location'] = Dropp_Location::from_shipping_item( $shipping_item );
+			$consignment_array['location'] = Dropp_Location::from_shipping_item( $shipping_item, $this->day_delivery );
 		}
+
 		return $consignment_array;
 	}
 
@@ -213,12 +217,12 @@ class Dropp_Consignment extends Model {
 	/**
 	 * Get API key
 	 *
-	 * @throws Exception When API key is not available.
 	 * @return string API key.
+	 * @throws Exception When API key is not available.
 	 */
 	public function get_api_key() {
-		$shipping_method  = Dropp::get_instance();
-		$option_name      = 'api_key';
+		$shipping_method = Dropp::get_instance();
+		$option_name     = 'api_key';
 		if ( $this->test ) {
 			$option_name = 'api_key_test';
 		}
@@ -226,18 +230,20 @@ class Dropp_Consignment extends Model {
 		if ( empty( $api_key ) ) {
 			throw new Exception( __( 'No API key could be found.', 'dropp-for-woocommerce' ), 1 );
 		}
+
 		return $api_key;
 	}
 
 	/**
 	 * Find
 	 *
-	 * @param  int               $id ID.
+	 * @param int $id ID.
+	 *
 	 * @return Dropp_Consignment     This.
 	 */
 	public static function find( $id ) {
 		global $wpdb;
-		$sql = $wpdb->prepare(
+		$sql         = $wpdb->prepare(
 			"SELECT * FROM {$wpdb->prefix}dropp_consignments WHERE id = %d",
 			$id
 		);
@@ -250,6 +256,7 @@ class Dropp_Consignment extends Model {
 		if ( ! empty( $shipping_method ) ) {
 			$consignment->debug = $shipping_method->debug_mode;
 		}
+
 		return $consignment;
 	}
 
@@ -264,6 +271,7 @@ class Dropp_Consignment extends Model {
 		} else {
 			$this->insert();
 		}
+
 		return $this;
 	}
 
@@ -274,7 +282,7 @@ class Dropp_Consignment extends Model {
 	 */
 	protected function update() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'dropp_consignments';
+		$table_name       = $wpdb->prefix . 'dropp_consignments';
 		$this->updated_at = current_time( 'mysql' );
 		$wpdb->update(
 			$table_name,
@@ -296,6 +304,7 @@ class Dropp_Consignment extends Model {
 				'id' => $this->id,
 			]
 		);
+
 		return $this;
 	}
 
@@ -308,7 +317,8 @@ class Dropp_Consignment extends Model {
 		global $wpdb;
 		$this->created_at = current_time( 'mysql' );
 		$this->updated_at = current_time( 'mysql' );
-		$table_name = $wpdb->prefix . 'dropp_consignments';
+		$table_name       = $wpdb->prefix . 'dropp_consignments';
+
 		$row_count = $wpdb->insert(
 			$table_name,
 			[
@@ -329,13 +339,15 @@ class Dropp_Consignment extends Model {
 		);
 
 		$this->id = $wpdb->insert_id;
+
 		return $this;
 	}
 
 	/**
 	 * From Order
 	 *
-	 * @param  integer $order_id (optional) Order ID.
+	 * @param integer $order_id (optional) Order ID.
+	 *
 	 * @return array             Array of Dropp_Consignment.
 	 */
 	public static function from_order( $order_id = false ) {
@@ -348,13 +360,15 @@ class Dropp_Consignment extends Model {
 		foreach ( $line_items as $order_item_id => $order_item ) {
 			$collection = array_merge( $collection, self::from_shipping_item( $order_item ) );
 		}
+
 		return $collection;
 	}
 
 	/**
 	 * From Shipping Item
 	 *
-	 * @param  WC_Order_Item_Shipping $shipping_item Shipping item.
+	 * @param WC_Order_Item_Shipping $shipping_item Shipping item.
+	 *
 	 * @return array                                 Array of Dropp_Consignment.
 	 */
 	public static function from_shipping_item( $shipping_item ) {
@@ -375,6 +389,7 @@ class Dropp_Consignment extends Model {
 			$consignment->fill( $consignment_data );
 			$collection[] = $consignment;
 		}
+
 		return $collection;
 	}
 
@@ -402,13 +417,15 @@ class Dropp_Consignment extends Model {
 		} catch ( Exception $e ) {
 			return false;
 		}
+
 		return true;
 	}
 
 	/**
 	 * Get URL
 	 *
-	 * @param  string $endpoint Endpoint.
+	 * @param string $endpoint Endpoint.
+	 *
 	 * @return string URL.
 	 */
 	public function get_url( $endpoint ) {
@@ -429,6 +446,7 @@ class Dropp_Consignment extends Model {
 		if ( empty( $this->customer ) ) {
 			return [];
 		}
+
 		return $this->customer->to_array();
 	}
 
@@ -446,6 +464,7 @@ class Dropp_Consignment extends Model {
 		foreach ( $this->products as $product ) {
 			$total_weight += $product->weight * $product->quantity;
 		}
+
 		return $total_weight <= ( $shipping_method->weight_limit ?? 10 );
 	}
 
@@ -453,8 +472,8 @@ class Dropp_Consignment extends Model {
 	 * Maybe Update order status
 	 */
 	public function maybe_update_order_status() {
-		$shipping_method  = Dropp::get_instance();
-		$shipping_item    = new WC_Order_Item_Shipping( $this->shipping_item_id );
+		$shipping_method = Dropp::get_instance();
+		$shipping_item   = new WC_Order_Item_Shipping( $this->shipping_item_id );
 		if ( '' !== $shipping_method->new_order_status ) {
 			$order = $shipping_item->get_order();
 			$order->update_status(
@@ -462,20 +481,22 @@ class Dropp_Consignment extends Model {
 				__( 'Dropp booking complete.', 'dropp-for-woocommerce' )
 			);
 		}
+
 		return $this;
 	}
 
 	/**
 	 * Remote args
 	 *
-	 * @throws Exception      Unknown method.
-	 * @param  string $method Remote method, either 'get' or 'post'.
-	 * @param  string $url    Url.
+	 * @param string $method Remote method, either 'get' or 'post'.
+	 * @param string $url Url.
+	 *
 	 * @return array          Remote arguments.
+	 * @throws Exception      Unknown method.
 	 */
 	public function remote( $method, $url ) {
-		$log  = new WC_Logger();
-		$args = [
+		$log             = new WC_Logger();
+		$args            = [
 			'headers' => [
 				'Authorization' => 'Basic ' . $this->get_api_key(),
 				'Content-Type'  => 'application/json;charset=UTF-8',
@@ -499,6 +520,7 @@ class Dropp_Consignment extends Model {
 				WC_Log_Levels::DEBUG
 			);
 		}
+
 		return wp_remote_request( $url, $args );
 	}
 
@@ -509,46 +531,49 @@ class Dropp_Consignment extends Model {
 	 */
 	public function remote_post() {
 		$response = $this->remote( 'post', $this->get_url( 'orders' ) );
+
 		return $this->process_response( 'post', $response );
 	}
 
 	/**
 	 * Remote patch / Update booking
 	 *
-	 * @throws Exception   $e     Sending exception.
 	 * @return Consignment          This object.
+	 * @throws Exception   $e     Sending exception.
 	 */
 	public function remote_patch() {
 		if ( ! $this->dropp_order_id ) {
 			throw new Exception(
 				sprintf(
-					// translators: Consignment ID.
+				// translators: Consignment ID.
 					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
 					$this->id
 				)
 			);
 		}
 		$response = $this->remote( 'patch', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+
 		return $this->process_response( 'patch', $response );
 	}
 
 	/**
 	 * Remote delete / Cancel order
 	 *
-	 * @throws Exception   $e     Sending exception.
 	 * @return Consignment          This object.
+	 * @throws Exception   $e     Sending exception.
 	 */
 	public function remote_delete() {
 		if ( ! $this->dropp_order_id ) {
 			throw new Exception(
 				sprintf(
-					// translators: Consignment ID.
+				// translators: Consignment ID.
 					__( 'Consignment, %d, does not have a dropp order id.', 'dropp-for-woocommerce' ),
 					$this->id
 				)
 			);
 		}
 		$response = $this->remote( 'delete', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+
 		return $this->process_response( 'delete', $response );
 	}
 
@@ -560,6 +585,7 @@ class Dropp_Consignment extends Model {
 	public function remote_add() {
 		$api       = new API( $this->get_shipping_method() );
 		$api->test = $this->test;
+
 		return $api->post( 'orders/addnew/', $this );
 	}
 
@@ -602,10 +628,11 @@ class Dropp_Consignment extends Model {
 	/**
 	 * Process response
 	 *
-	 * @throws Exception      $e        Response exception.
-	 * @param  string         $method   Remote method, either 'get' or 'post'.
-	 * @param  WP_Error|array $response Array with response data on success.
+	 * @param string $method Remote method, either 'get' or 'post'.
+	 * @param WP_Error|array $response Array with response data on success.
+	 *
 	 * @return Consignment              This object.
+	 * @throws Exception      $e        Response exception.
 	 */
 	protected function process_response( $method, $response ) {
 		$log = new WC_Logger();
@@ -631,6 +658,7 @@ class Dropp_Consignment extends Model {
 
 		// Validate response.
 		if ( is_wp_error( $response ) ) {
+			/* @var $response \WP_Error */
 			$this->errors = $response->get_error_messages();
 			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
 		}
@@ -638,6 +666,7 @@ class Dropp_Consignment extends Model {
 			// Delete calls should return an empty response.
 			// No need for further processing.
 			$this->status = 'cancelled';
+
 			return $this;
 		}
 		$dropp_order = json_decode( $response['body'], true );
@@ -659,10 +688,13 @@ class Dropp_Consignment extends Model {
 
 		$this->dropp_order_id = $dropp_order['id'] ?? '';
 		$this->status         = $dropp_order['status'] ?? '';
-		$this->day_delivery   = $dropp_order['day_delivery'] ?? false;
+		if ( isset( $dropp_order['daydelivery'] ) ) {
+			$this->day_delivery = ( filter_var( $dropp_order['daydelivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
+		}
 		if ( ! empty( $dropp_order['barcode'] ) ) {
 			$this->barcode = $dropp_order['barcode'];
 		}
+
 		// $this->updated_at     = $dropp_order['updatedAt'] ?? '';
 		return $this;
 	}

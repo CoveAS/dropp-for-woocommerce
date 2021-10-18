@@ -8,7 +8,7 @@ Tested up to: 5.8
 Requires PHP: 7.4
 WC requires at least: 3.4.0
 WC tested up to: 5.6
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 
 Deliver parcels at delivery locations in Iceland
 
@@ -55,8 +55,9 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
-= 1.4.7 =
+= 1.4.8 =
 
+* Fixed a bug with the name in label option where it would not work with locations outside capital area
 * Fixed a javascript bug causing the booking panel to not initialize
 * Added option to include the dropp location as part of the shipping rate name
 * Made Dropp and Dropp home delivery methods available before any address information has been provided. 

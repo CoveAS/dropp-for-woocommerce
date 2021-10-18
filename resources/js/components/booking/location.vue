@@ -6,7 +6,7 @@
 		@submit.prevent=book
 	>
 		<header class="dropp-location__header">
-			<h2 class="dropp-location__name" v-html="location.name" :title="'[' + location.id + ']'"></h2>
+			<h2 class="dropp-location__name" v-html="location_name" :title="'[' + location.id + ']'"></h2>
 			<p class="dropp-location__address" v-html="location.address"></p>
 			<!-- a class="dropp-location__change" v-html="i18n.change_location"></a -->
 		</header>
@@ -22,6 +22,7 @@
 					<li v-for="error in product_errors" v-html="error"></li>
 				</ul>
 			</div>
+
 			<droppproducts :products="products" :editable="editable"></droppproducts>
 			<div class="dropp-delivery-instructions">
 				<div class="dropp-delivery-instructions__field">
@@ -36,6 +37,15 @@
 						class="dropp-delivery-instructions__text"
 						v-html="delivery_instructions"
 					></blockquote>
+					<div  class="dropp-day-delivery">
+						<label v-if="day_delivery_available">
+							<input
+									type="checkbox"
+									v-model="day_delivery"
+							>
+							<span v-html="day_delivery_label"></span>
+						</label>
+					</div>
 				</div>
 				<div class="dropp-delivery-instructions__notes">
 					<h3 class="dropp-delivery-instructions__title" v-html="i18n.customer_note"></h3>
@@ -86,6 +96,9 @@
 
 		&--loading {
 			opacity: 0.5;
+		}
+		.dropp-day-delivery {
+			margin-top: 0.5rem;
 		}
 		.dropp-delivery-instructions {
 			display: flex;
@@ -193,6 +206,7 @@
 				loading: false,
 				booked: false,
 				response: false,
+				day_delivery: false,
 				errors: [],
 			};
 			if ( this.consignment && this.consignment.customer )
@@ -200,6 +214,15 @@
 			else
 				data.customer = new_customer();
 			return data;
+		},
+		watch: {
+			day_delivery(newVal, oldVal) {
+				if (newVal) {
+					this.location.type = 'dropp_daytime';
+				} else {
+					this.location.type = 'dropp_home';
+				}
+			}
 		},
 		methods: {
 			get_products: function() {
@@ -234,6 +257,7 @@
 					action: 'dropp_booking',
 					location_id: this.location.id,
 					order_item_id: this.location.order_item_id,
+					day_delivery: this.day_delivery,
 					products: this.get_products(),
 					comment: this.delivery_instructions,
 					customer: this.customer,
@@ -281,6 +305,15 @@
 			}
 		},
 		computed: {
+			day_delivery_available() {
+				return this.location.type === 'dropp_daytime' || this.location.type === 'dropp_home';
+			},
+			day_delivery_label() {
+				return this.i18n.day_delivery.charAt(0).toUpperCase() + this.i18n.day_delivery.slice(1);
+			},
+			location_name() {
+				return this.location.name + (this.location.type === 'dropp_daytime' ? ' (' + this.i18n.day_delivery + ')' : '');
+			},
 			product_errors: function() {
 				let errors = this.errors;
 
@@ -331,6 +364,9 @@
 			},
 		},
 		created: function() {
+			if (this.location.type === 'dropp_daytime') {
+				this.day_delivery = true;
+			}
 			for ( let i = 0; i < _dropp.products.length; i++ ) {
 				let product = _dropp.products[i];
 				product.checked = true;

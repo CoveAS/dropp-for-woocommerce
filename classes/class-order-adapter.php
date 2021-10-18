@@ -15,6 +15,7 @@ use Exception;
 use WC_Log_Levels;
 use WC_Logger;
 use WC_Order;
+use WC_Order_Item_Shipping;
 
 /**
  * API Booking
@@ -95,9 +96,9 @@ class Order_Adapter {
 	/**
 	 * Make consignment
 	 *
-	 * @param  WC_Shipping_Item $shipping_item Shipping item.
+	 * @param  WC_Order_Item_Shipping $shipping_item Shipping item.
 	 * @param  array            $product_lines Product lines.
-	 * @return Dropp\Dropp_Consignment         Consignment.
+	 * @return Dropp_Consignment         Consignment.
 	 */
 	public function make_consignment( $shipping_item, $product_lines = [] ) {
 		$dropp_methods = array_keys(
@@ -141,6 +142,7 @@ class Order_Adapter {
 				'location_id'      => $location->id,
 				'customer'         => Dropp_Customer::from_shipping_address( $shipping_address ),
 				'products'         => $product_lines,
+				'day_delivery'     => $shipping_item->get_method_id() === 'dropp_daytime',
 				'comment'          => $comment,
 				'test'             => $shipping_method->test_mode,
 				'mynto_id'         => $shipping_item->get_meta('mynto_id'),

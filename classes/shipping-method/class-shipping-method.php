@@ -25,6 +25,13 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	public $weight_limit = 10;
 
 	/**
+	 * Daytime delivery true or false
+	 *
+	 * @var boolean
+	 */
+	public $day_delivery = false;
+
+	/**
 	 * Capital Area
 	 *
 	 * @var string One of 'inside', 'outside', '!inside' or 'both'

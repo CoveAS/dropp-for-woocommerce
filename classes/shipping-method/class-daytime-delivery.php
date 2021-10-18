@@ -13,20 +13,19 @@ use Dropp\API;
  * Daytime Delivery
  */
 class Daytime_Delivery extends Home_Delivery {
-
-	/**
-	 * Capital Area
-	 *
-	 * @var string One of 'inside', 'outside', '!inside' or 'both'
-	 */
-	protected static $capital_area = 'inside';
-
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
 	protected static $no_address_available = false;
+
+	/**
+	 * Daytime delivery true or false
+	 *
+	 * @var boolean
+	 */
+	public $day_delivery = true;
 
 	/**
 	 * Constructor.

@@ -86,7 +86,7 @@ class Social_Security_Number {
 		// Add the new field.
 		$fields['billing']['billing_dropp_ssn'] = [
 			'type'        => 'textarea',
-			'label'       => __( 'Social Security Number', 'sage' ),
+			'label'       => __( 'Social Security Number', 'dropp-for-woocommerce' ),
 			'placeholder' => '0000000000',
 			'required'    => $shipping_method->require_ssn,
 			'priority'    => 100,

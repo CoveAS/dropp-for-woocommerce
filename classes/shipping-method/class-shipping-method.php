@@ -220,18 +220,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			// No threshold or no cost specified. Shipping is free.
 			return 0;
 		}
-		$cart       = WC()->cart;
-		$cart_items = $cart ? $cart->get_cart() : [];
-		$cart_total = 0;
 
-
-
-		foreach ( $cart_items as $values ) {
-			$_product    = $values['data'];
-			$cart_total += $_product->get_price() * $values['quantity'];
-		}
-
-		if ( $cart_total < $threshold ) {
+		if ( WC()->cart->get_cart_contents_total() < $threshold ) {
 			// Cart is less than threshold. Shipping is not free.
 			return $cost;
 		}

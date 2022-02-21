@@ -9,6 +9,7 @@ namespace Dropp\Shipping_Method;
 
 use Dropp\Shipping_Settings;
 use Dropp\API;
+use WC_Tax;
 
 
 /**
@@ -83,6 +84,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * Is this method available?
 	 *
 	 * @param array $package Package.
+	 *
 	 * @return bool
 	 */
 	public function is_available( $package ) {
@@ -106,18 +108,20 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		} elseif ( ! $this->validate_postcode( $package['destination']['postcode'], static::$capital_area ) ) {
 			$is_available = false;
 		}
+
 		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
 	}
 
 	/**
 	 * Validate postcode
 	 *
-	 * @param string $postcode     Postcode.
+	 * @param string $postcode Postcode.
 	 * @param string $capital_area (optional) One of 'inside', 'outside', '!inside' or 'both'.
+	 *
 	 * @return boolean Valid post code.
 	 */
 	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
-		if ('both' === static::$capital_area ) {
+		if ( 'both' === static::$capital_area ) {
 			return true;
 		}
 		$api       = new API( $this );
@@ -135,6 +139,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			if ( 'both' === $capital_area ) {
 				return true;
 			}
+
 			// Check if area matches inside or outside capital area.
 			return ( 'inside' === $capital_area ) === $area['capital'];
 		}
@@ -170,13 +175,15 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			$additional,
 			array_slice( $form_fields, $pos, null )
 		);
+
 		return $form_fields;
 	}
 
 	/**
 	 * Get additional form fields
 	 *
-	 * @param  array $form_fields Form fields.
+	 * @param array $form_fields Form fields.
+	 *
 	 * @return array              Additional form fields.
 	 */
 	public function get_additional_form_fields( $form_fields ) {
@@ -205,8 +212,9 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	/**
 	 * Evaluate a cost from a sum/string.
 	 *
-	 * @param  string $sum Sum of shipping.
-	 * @param  array  $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat reasons.
+	 * @param string $sum Sum of shipping.
+	 * @param array $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat reasons.
+	 *
 	 * @return string
 	 */
 	protected function evaluate_cost( $sum, $args = array() ) {
@@ -220,8 +228,27 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			// No threshold or no cost specified. Shipping is free.
 			return 0;
 		}
+		$total      = WC()->cart->get_cart_contents_total();
+		$calc_taxes = filter_var(
+			get_option( 'woocommerce_calc_taxes' ),
+			FILTER_VALIDATE_BOOLEAN
+		);
+		if ( $calc_taxes ) {
+			$prices_including_tax  = filter_var(
+				get_option( 'woocommerce_prices_include_tax' ),
+				FILTER_VALIDATE_BOOLEAN
+			);
+			$display_including_tax = 'incl' === get_option( 'woocommerce_tax_display_cart' );
+			if ( $prices_including_tax && $display_including_tax ) {
+				$total += WC()->cart->get_cart_contents_tax();
+			}
+			if ( $prices_including_tax && ! $display_including_tax ) {
+				$taxes     = WC_Tax::calc_inclusive_tax( $threshold, WC_Tax::get_shipping_tax_rates() );
+				$threshold -= array_sum( $taxes );
+			}
+		}
 
-		if ( WC()->cart->get_cart_contents_total() < $threshold ) {
+		if ( $total < $threshold ) {
 			// Cart is less than threshold. Shipping is not free.
 			return $cost;
 		}
@@ -237,6 +264,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 */
 	public function get_pricetype() {
 		$location_data = WC()->session->get( 'dropp_session_location' );
+
 		return intval( $location_data['pricetype'] ?? 1 );
 	}
 
@@ -254,15 +282,17 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	/**
 	 * Sanitize the cost field.
 	 *
-	 * @since 3.4.0
 	 * @param string $value Unsanitized value.
-	 * @throws Exception Last error triggered.
+	 *
 	 * @return string
+	 * @throws Exception Last error triggered.
+	 * @since 3.4.0
 	 */
 	public function sanitize_cost( $value ) {
 		do_action( 'dropp_before_calculate_shipping', [], $this );
 		$value = parent::sanitize_cost( $value );
 		do_action( 'dropp_after_calculate_shipping', [], $this );
+
 		return $value;
 	}
 }

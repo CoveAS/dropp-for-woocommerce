@@ -133,8 +133,8 @@ class Dropp {
 				}
 			}
 		}
-		if ( version_compare( $saved_version, '0.0.4' ) === - 1 && self::schema() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.4' );
+		if ( version_compare( $saved_version, '0.0.5' ) === - 1 && self::schema() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.5' );
 		}
 	}
 
@@ -184,6 +184,7 @@ class Dropp {
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			barcode varchar(63) NULL,
+			return_barcode varchar(63) NULL,
 			day_delivery tinyint(1) DEFAULT 0 NOT NULL,
 			dropp_order_id varchar(63) NULL,
 			status varchar(15) NOT NULL,

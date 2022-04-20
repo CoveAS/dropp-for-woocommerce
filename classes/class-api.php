@@ -60,10 +60,11 @@ class API {
 	/**
 	 * Get URL
 	 *
-	 * @param  string $endpoint Endpoint.
+	 * @param string $endpoint Endpoint.
+	 *
 	 * @return string URL.
 	 */
-	public function endpoint_url( $endpoint ) {
+	public function endpoint_url( string $endpoint ): string {
 		$baseurl = 'https://api.dropp.is/dropp/api/v1/';
 		if ( $this->test ) {
 			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
@@ -97,15 +98,46 @@ class API {
 	}
 
 	/**
+	 * Remote patch
+	 *
+	 * @param string $endpoint Endpoint.
+	 * @param Model $model Model.
+	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
+	 *
+	 * @return array|string           Decoded json, string body or raw response object.
+	 * @throws Exception
+	 */
+	public function patch( string $endpoint, Model $model, string $data_type = 'json' ) {
+		$response = $this->remote( 'patch', self::endpoint_url( $endpoint ), $model );
+		return $this->process_response( 'patch', $response, $data_type );
+	}
+
+	/**
+	 * Remote delete
+	 *
+	 * @param string $endpoint Endpoint.
+	 * @param Model $model Model.
+	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
+	 *
+	 * @return array|string           Decoded json, string body or raw response object.
+	 * @throws Exception
+	 */
+	public function delete( string $endpoint, Model $model, string $data_type = 'json' ) {
+		$response = $this->remote( 'delete', self::endpoint_url( $endpoint ), $model );
+		return $this->process_response( 'delete', $response, $data_type );
+	}
+
+	/**
 	 * Remote args
 	 *
-	 * @throws Exception           Unknown method.
-	 * @param  string      $method Remote method, either 'get' or 'post'.
-	 * @param  string      $url    Url.
-	 * @param  Dropp\Model $model  Model.
+	 * @param string $method Remote method, either 'get' or 'post'.
+	 * @param string $url Url.
+	 * @param ?Model $model Model.
+	 *
 	 * @return array               Remote arguments.
+	 * @throws Exception Unknown method.
 	 */
-	public function remote( $method, $url, Model $model = null ) {
+	public function remote( string $method, string $url, ?Model $model = null ): array {
 		$log  = new WC_Logger();
 		$args = [
 			'headers' => [

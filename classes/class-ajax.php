@@ -306,7 +306,7 @@ class Ajax {
 				[
 					'status'  => 'error',
 					'message' => $e->getMessage(),
-					'errors'  => $pdf->errors,
+					'errors'  => [],
 				]
 			);
 		}

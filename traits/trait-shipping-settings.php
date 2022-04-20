@@ -18,7 +18,58 @@ trait Shipping_Settings {
 	 *
 	 * @var string
 	 */
-	public $api_key = '';
+	public string $api_key = '';
+
+	/**
+	 * @var string
+	 */
+	public string $api_key_test;
+
+	/**
+	 * @var string
+	 */
+	public string $store_id;
+
+	/**
+	 * @var string
+	 */
+	public string $new_order_status;
+
+	/**
+	 * @var bool
+	 */
+	public bool $enable_return_labels;
+
+	/**
+	 * @var string
+	 */
+	public string $copy_order_notes;
+
+
+	/**
+	 * @var bool
+	 */
+	public bool $test_mode;
+
+	/**
+	 * @var bool
+	 */
+	public bool $debug_mode;
+
+	/**
+	 * @var bool
+	 */
+	public bool $enable_ssn;
+
+	/**
+	 * @var bool
+	 */
+	public bool $require_ssn;
+
+	/**
+	 * @var bool
+	 */
+	public bool $location_name_in_label;
 
 	/**
 	 * Init properties.
@@ -30,12 +81,13 @@ trait Shipping_Settings {
 		$this->api_key_test           = $this->get_option( 'api_key_test' );
 		$this->store_id               = $this->get_option( 'store_id' );
 		$this->new_order_status       = $this->get_option( 'new_order_status' );
+		$this->enable_return_labels   = 'yes' === $this->get_option( 'enable_return_labels' );
 		$this->copy_order_notes       = $this->get_option( 'copy_order_comment', 'yes' );
 		$this->test_mode              = 'yes' === $this->get_option( 'test_mode' );
 		$this->debug_mode             = 'yes' === $this->get_option( 'debug_mode' );
 		$this->enable_ssn             = 'yes' === $this->get_option( 'enable_ssn' );
 		$this->require_ssn            = 'yes' === $this->get_option( 'require_ssn', 'yes' );
-		$this->location_name_in_label = 'yes' === $this->get_option('location_name_in_label');
+		$this->location_name_in_label = 'yes' === $this->get_option( 'location_name_in_label' );
 	}
 
 	/**
@@ -43,7 +95,7 @@ trait Shipping_Settings {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
-			'api_key' => array(
+			'api_key'                => array(
 				'title'       => __( 'API key', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
 				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'dropp-for-woocommerce' ),
@@ -54,7 +106,7 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => false,
 			),
-			'api_key_test' => array(
+			'api_key_test'           => array(
 				'title'       => __( 'API key (test)', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
 				'placeholder' => __( 'API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......', 'dropp-for-woocommerce' ),
@@ -65,7 +117,7 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => false,
 			),
-			'store_id' => array(
+			'store_id'               => array(
 				'title'       => __( 'Store ID', 'dropp-for-woocommerce' ),
 				'type'        => 'text',
 				'placeholder' => __( 'Store ID from dropp.is', 'dropp-for-woocommerce' ),
@@ -73,7 +125,7 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => true,
 			),
-			'new_order_status' => array(
+			'new_order_status'       => array(
 				'title'       => __( 'New order status', 'dropp-for-woocommerce' ),
 				'type'        => 'select',
 				'description' => __( 'Automatically change order status after booking.', 'dropp-for-woocommerce' ),
@@ -83,7 +135,15 @@ trait Shipping_Settings {
 				'desc_tip'    => true,
 				'default'     => '',
 			),
-			'copy_order_notes' => array(
+			'enable_return_labels'   => [
+				'title'       => __( 'Return labels', 'dropp-for-woocommerce' ),
+				'label'       => __( 'Generate return labels when booking', 'dropp-for-woocommerce' ),
+				'type'        => 'checkbox',
+				'description' => '',
+				'default'     => 'no',
+				'desc_tip'    => false,
+			],
+			'copy_order_notes'       => array(
 				'title'       => __( 'Copy customer notes ', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Copy customer notes from the order to delivery instructions in the dropp booking', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -91,7 +151,7 @@ trait Shipping_Settings {
 				'default'     => 'yes',
 				'desc_tip'    => false,
 			),
-			'enable_ssn' => array(
+			'enable_ssn'             => array(
 				'title'       => __( 'Social security number', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Enable social security number', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -99,7 +159,7 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => true,
 			),
-			'require_ssn' => array(
+			'require_ssn'            => array(
 				'title'       => __( 'Require SSN', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Required field', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -108,13 +168,13 @@ trait Shipping_Settings {
 				'desc_tip'    => false,
 			),
 			'location_name_in_label' => array(
-				'title'       => __( 'Location in label', 'dropp-for-woocommerce' ),
-				'label'       => __( 'Enable location name in the shipping item label', 'dropp-for-woocommerce' ),
-				'type'        => 'checkbox',
-				'default'     => '',
-				'desc_tip'    => false,
+				'title'    => __( 'Location in label', 'dropp-for-woocommerce' ),
+				'label'    => __( 'Enable location name in the shipping item label', 'dropp-for-woocommerce' ),
+				'type'     => 'checkbox',
+				'default'  => '',
+				'desc_tip' => false,
 			),
-			'test_mode' => array(
+			'test_mode'              => array(
 				'title'       => __( 'Test mode', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Enable test mode', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -125,7 +185,7 @@ trait Shipping_Settings {
 				'default'     => '',
 				'desc_tip'    => true,
 			),
-			'debug_mode' => array(
+			'debug_mode'             => array(
 				'title'       => __( 'Debug mode', 'dropp-for-woocommerce' ),
 				'label'       => __( 'Enable debug mode', 'dropp-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -147,6 +207,7 @@ trait Shipping_Settings {
 	public function get_instance_form_fields() {
 		$form_fields                     = parent::get_instance_form_fields();
 		$form_fields['title']['default'] = $this->method_title;
+
 		return $form_fields;
 	}
 }

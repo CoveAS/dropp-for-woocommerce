@@ -16,29 +16,31 @@ use WC_Log_Levels;
 use WC_Logger;
 use WC_Order_Item_Shipping;
 use WC_Shipping;
+use WP_Error;
 
 /**
  * Consignment
  */
 class Dropp_Consignment extends Model {
 
-	public $id;
-	public $barcode = '';
-	public $comment = '';
-	public $dropp_order_id;
-	public $status = 'ready';
-	public $status_message = '';
-	public $shipping_item_id;
-	public $day_delivery = false;
-	public $location_id;
-	public $products;
-	public $customer;
-	public $test = false;
-	public $debug = false;
-	public $mynto_id;
-	public $updated_at;
-	public $created_at;
-	public $errors = [];
+	public int $id;
+	public ?string $barcode = null;
+	public ?string $return_barcode = null;
+	public string $comment = '';
+	public ?string $dropp_order_id;
+	public string $status = 'ready';
+	public string $status_message = '';
+	public int $shipping_item_id;
+	public bool $day_delivery = false;
+	public string $location_id;
+	public array $products;
+	public ?Dropp_Customer $customer;
+	public bool $test = false;
+	public bool $debug = false;
+	public ?string $mynto_id;
+	public string $updated_at;
+	public string $created_at;
+	public array $errors = [];
 
 	/**
 	 * Constructor.
@@ -93,6 +95,7 @@ class Dropp_Consignment extends Model {
 			$content,
 			[
 				'barcode'          => null,
+				'return_barcode'   => null,
 				'day_delivery'     => false,
 				'dropp_order_id'   => null,
 				'shipping_item_id' => null,
@@ -124,13 +127,14 @@ class Dropp_Consignment extends Model {
 		if ( $content['debug'] ) {
 			$this->debug = true;
 		}
-		$this->comment      = $content['comment'];
-		$this->status       = $content['status'];
-		$this->test         = (int) $content['test'];
-		$this->mynto_id     = $content['mynto_id'];
-		$this->updated_at   = $content['updated_at'];
-		$this->created_at   = $content['created_at'];
-		$this->day_delivery = ( filter_var( $content['day_delivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
+		$this->return_barcode = $content['return_barcode'];
+		$this->comment        = $content['comment'];
+		$this->status         = $content['status'];
+		$this->test           = (int) $content['test'];
+		$this->mynto_id       = $content['mynto_id'];
+		$this->updated_at     = $content['updated_at'];
+		$this->created_at     = $content['created_at'];
+		$this->day_delivery   = ( filter_var( $content['day_delivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
 
 		// Process customer.
 		if ( $content['customer'] instanceof Dropp_Customer ) {
@@ -184,6 +188,7 @@ class Dropp_Consignment extends Model {
 		foreach ( $this->products as $product ) {
 			$products[] = $product->to_array();
 		}
+		$shipping_method   = Dropp::get_instance();
 		$consignment_array = [
 			'locationId'  => $this->location_id,
 			'barcode'     => $this->barcode,
@@ -191,13 +196,16 @@ class Dropp_Consignment extends Model {
 			'customer'    => $this->get_customer_array(),
 			'daydelivery' => $this->day_delivery ? true : false,
 			'comment'     => $this->comment,
+			'returnorder' => $shipping_method ? $shipping_method->enable_return_labels : false,
 		];
+
 		if ( $this->mynto_id ) {
 			$consignment_array['mynto_id'] = $this->mynto_id;
 		}
 
 		if ( ! $for_request ) {
 			$consignment_array['id']               = $this->id;
+			$consignment_array['return_barcode']   = $this->return_barcode;
 			$consignment_array['status']           = $this->status;
 			$consignment_array['dropp_order_id']   = $this->dropp_order_id;
 			$consignment_array['shipping_item_id'] = $this->shipping_item_id;
@@ -211,27 +219,6 @@ class Dropp_Consignment extends Model {
 		}
 
 		return $consignment_array;
-	}
-
-
-	/**
-	 * Get API key
-	 *
-	 * @return string API key.
-	 * @throws Exception When API key is not available.
-	 */
-	public function get_api_key() {
-		$shipping_method = Dropp::get_instance();
-		$option_name     = 'api_key';
-		if ( $this->test ) {
-			$option_name = 'api_key_test';
-		}
-		$api_key = $shipping_method->get_option( $option_name );
-		if ( empty( $api_key ) ) {
-			throw new Exception( __( 'No API key could be found.', 'dropp-for-woocommerce' ), 1 );
-		}
-
-		return $api_key;
 	}
 
 	/**
@@ -288,6 +275,7 @@ class Dropp_Consignment extends Model {
 			$table_name,
 			[
 				'barcode'          => $this->barcode,
+				'return_barcode'   => $this->return_barcode,
 				'day_delivery'     => $this->day_delivery,
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
@@ -422,22 +410,6 @@ class Dropp_Consignment extends Model {
 	}
 
 	/**
-	 * Get URL
-	 *
-	 * @param string $endpoint Endpoint.
-	 *
-	 * @return string URL.
-	 */
-	public function get_url( $endpoint ) {
-		$baseurl = 'https://api.dropp.is/dropp/api/v1/';
-		if ( $this->test ) {
-			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
-		}
-
-		return $baseurl . $endpoint;
-	}
-
-	/**
 	 * Get customer array
 	 *
 	 * @return array Customer data.
@@ -486,62 +458,27 @@ class Dropp_Consignment extends Model {
 	}
 
 	/**
-	 * Remote args
-	 *
-	 * @param string $method Remote method, either 'get' or 'post'.
-	 * @param string $url Url.
-	 *
-	 * @return array          Remote arguments.
-	 * @throws Exception      Unknown method.
-	 */
-	public function remote( $method, $url ) {
-		$log             = new WC_Logger();
-		$args            = [
-			'headers' => [
-				'Authorization' => 'Basic ' . $this->get_api_key(),
-				'Content-Type'  => 'application/json;charset=UTF-8',
-			],
-		];
-		$allowed_methods = [ 'get', 'post', 'delete', 'patch' ];
-		if ( ! in_array( $method, $allowed_methods, true ) ) {
-			throw new Exception( "Unknown method, \"$method\"" );
-		}
-		$args['method'] = strtoupper( $method );
-		if ( 'delete' === $method ) {
-			$args['method'] = 'DELETE';
-		}
-		if ( 'patch' === $method || 'post' === $method ) {
-			$args['body'] = wp_json_encode( $this->to_array() );
-		}
-		if ( $this->debug ) {
-			$log->add(
-				'dropp-for-woocommerce',
-				'[DEBUG] Remote ' . strtoupper( $method ) . ' request:' . PHP_EOL . $url . PHP_EOL . wp_json_encode( $args, JSON_PRETTY_PRINT ),
-				WC_Log_Levels::DEBUG
-			);
-		}
-
-		return wp_remote_request( $url, $args );
-	}
-
-	/**
 	 * Remote post / Booking
 	 *
-	 * @return Consignment          This object.
+	 * @return Dropp_Consignment          This object.
+	 * @throws Exception
 	 */
-	public function remote_post() {
-		$response = $this->remote( 'post', $this->get_url( 'orders' ) );
+	public function remote_post(): Dropp_Consignment {
+		$api       = new API();
+		$api->test = $this->test;
 
-		return $this->process_response( 'post', $response );
+		$response = $api->post( 'orders', $this );
+
+		return $this->process_remote_consignment( 'post', $response );
 	}
 
 	/**
 	 * Remote patch / Update booking
 	 *
-	 * @return Consignment          This object.
+	 * @return Dropp_Consignment          This object.
 	 * @throws Exception   $e     Sending exception.
 	 */
-	public function remote_patch() {
+	public function remote_patch(): Dropp_Consignment {
 		if ( ! $this->dropp_order_id ) {
 			throw new Exception(
 				sprintf(
@@ -551,18 +488,21 @@ class Dropp_Consignment extends Model {
 				)
 			);
 		}
-		$response = $this->remote( 'patch', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+		$api       = new API();
+		$api->test = $this->test;
 
-		return $this->process_response( 'patch', $response );
+		$response = $api->patch( 'orders/' . $this->dropp_order_id, $this );
+
+		return $this->process_remote_consignment( 'patch', $response );
 	}
 
 	/**
 	 * Remote delete / Cancel order
 	 *
-	 * @return Consignment          This object.
+	 * @return Dropp_Consignment          This object.
 	 * @throws Exception   $e     Sending exception.
 	 */
-	public function remote_delete() {
+	public function remote_delete(): Dropp_Consignment {
 		if ( ! $this->dropp_order_id ) {
 			throw new Exception(
 				sprintf(
@@ -572,9 +512,12 @@ class Dropp_Consignment extends Model {
 				)
 			);
 		}
-		$response = $this->remote( 'delete', $this->get_url( 'orders/' . $this->dropp_order_id ) );
+		$api       = new API();
+		$api->test = $this->test;
 
-		return $this->process_response( 'delete', $response );
+		$response = $api->delete( 'orders/' . $this->dropp_order_id, $this );
+
+		return $this->process_remote_consignment( 'delete', $response );
 	}
 
 	/**
@@ -583,7 +526,7 @@ class Dropp_Consignment extends Model {
 	 * @return array|string Decoded json, string body or raw response object.
 	 */
 	public function remote_add() {
-		$api       = new API( $this->get_shipping_method() );
+		$api       = new API();
 		$api->test = $this->test;
 
 		return $api->post( 'orders/addnew/', $this );
@@ -600,7 +543,7 @@ class Dropp_Consignment extends Model {
 		$consignment->shipping_item_id = $shipping_item_id;
 
 		// Ask the API about the dropp order id.
-		$api      = new API( $consignment->get_shipping_method() );
+		$api      = new API();
 		$response = $api->get( "orders/{$dropp_order_id}" );
 
 		if ( ! empty( $response['id'] ) ) {
@@ -631,71 +574,39 @@ class Dropp_Consignment extends Model {
 	 * @param string $method Remote method, either 'get' or 'post'.
 	 * @param WP_Error|array $response Array with response data on success.
 	 *
-	 * @return Consignment              This object.
+	 * @return Dropp_Consignment              This object.
 	 * @throws Exception      $e        Response exception.
 	 */
-	protected function process_response( $method, $response ) {
-		$log = new WC_Logger();
-		if ( is_wp_error( $response ) ) {
-			$log->add(
-				'dropp-for-woocommerce',
-				'[ERROR] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . wp_json_encode( $response->errors, JSON_PRETTY_PRINT ),
-				WC_Log_Levels::ERROR
-			);
-		} elseif ( $this->debug ) {
-			$data = json_decode( $response['body'] );
-			if ( ! empty( $data ) ) {
-				$body = wp_json_encode( $data, JSON_PRETTY_PRINT );
-			} else {
-				$body = $response['body'];
-			}
-			$log->add(
-				'dropp-for-woocommerce',
-				'[DEBUG] Remote ' . strtoupper( $method ) . ' response:' . PHP_EOL . $body,
-				WC_Log_Levels::DEBUG
-			);
-		}
-
-		// Validate response.
-		if ( is_wp_error( $response ) ) {
-			/* @var $response \WP_Error */
-			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
-		}
-		if ( 'delete' === $method ) {
-			// Delete calls should return an empty response.
-			// No need for further processing.
-			$this->status = 'cancelled';
-
-			return $this;
-		}
-		$dropp_order = json_decode( $response['body'], true );
-		if ( ! is_array( $dropp_order ) ) {
+	protected function process_remote_consignment( string $method, $response ): Dropp_Consignment {
+		if ( ! is_array( $response ) ) {
 			$this->errors['invalid_json'] = $response['body'];
 			throw new Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
 		}
-		if ( ! empty( $dropp_order['error'] ) ) {
-			throw new Exception( $dropp_order['error'] );
+		if ( ! empty( $response['error'] ) ) {
+			throw new Exception( $response['error'] );
 		}
 		if ( 'patch' === $method ) {
 			// Patch calls should return an empty response.
 			// No need for further processing.
 			return $this;
 		}
-		if ( empty( $dropp_order['id'] ) ) {
+		if ( empty( $response['id'] ) ) {
 			throw new Exception( __( 'Empty ID in the response', 'dropp-for-woocommerce' ) );
 		}
 
-		$this->dropp_order_id = $dropp_order['id'] ?? '';
-		$this->status         = $dropp_order['status'] ?? '';
-		if ( isset( $dropp_order['daydelivery'] ) ) {
-			$this->day_delivery = ( filter_var( $dropp_order['daydelivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
+		$this->dropp_order_id = $response['id'] ?? '';
+		$this->status         = $response['status'] ?? '';
+		if ( isset( $response['daydelivery'] ) ) {
+			$this->day_delivery = ( filter_var( $response['daydelivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
 		}
-		if ( ! empty( $dropp_order['barcode'] ) ) {
-			$this->barcode = $dropp_order['barcode'];
+		if ( ! empty( $response['barcode'] ) ) {
+			$this->barcode = $response['barcode'];
 		}
 
-		// $this->updated_at     = $dropp_order['updatedAt'] ?? '';
+		if ( ! empty( $response['returnbarcode'] ) ) {
+			$this->return_barcode = $response['returnbarcode'];
+		}
+
 		return $this;
 	}
 }

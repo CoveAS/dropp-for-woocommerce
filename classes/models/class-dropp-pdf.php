@@ -41,32 +41,38 @@ class Dropp_PDF extends Model {
 		];
 	}
 
+	protected function get_endpoint() {
+		if ( $this->barcode ) {
+			return "web/pdf/getpdf/{$this->consignment->dropp_order_id}/{$this->barcode}/";
+		}
+
+		return "orders/pdf/{$this->consignment->dropp_order_id}";
+	}
+
 	/**
 	 * Request
 	 *
-	 * @throws Exception $e     Sending exception.
-	 * @param  Boolean   $debug Debug.
+	 * @param Boolean $debug Debug.
+	 *
 	 * @return Booking          This object.
+	 * @throws Exception $e     Sending exception.
 	 */
 	public function remote_get() {
-		$api       = new API( $this->consignment->get_shipping_method() );
+		$api       = new API();
 		$api->test = $this->consignment->test;
 
-		$endpoint = "orders/pdf/{$this->consignment->dropp_order_id}";
-		if ( $this->barcode ) {
-			$endpoint = "web/pdf/getpdf/{$this->consignment->dropp_order_id}/{$this->barcode}/";
-		}
-		$response   = $api->get( $endpoint, 'raw' );
+		$endpoint = $this->get_endpoint();
+		$response = $api->get( $endpoint, 'raw' );
 		if ( ! $response['headers'] ) {
 			throw new Exception( __( 'Missing response headers', 'dropp-for-woocommerce' ) );
 		}
 		if ( 'application/json' === $response['headers']->offsetGet( 'content-type' ) ) {
-			$data = json_decode( $response['body'] , true );
+			$data           = json_decode( $response['body'], true );
 			$this->errors[] = $data['error'];
 			throw new Exception( __( 'API Error', 'dropp-for-woocommerce' ) );
 		}
 		if ( 'application/pdf' !== $response['headers']->offsetGet( 'content-type' ) ) {
-			throw new Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
+			throw new Exception( __( 'Invalid PDF', 'dropp-for-woocommerce' ) );
 		}
 
 		return $response['body'];
@@ -83,15 +89,17 @@ class Dropp_PDF extends Model {
 		if ( $this->barcode ) {
 			$filename = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '-' . $this->barcode . '.pdf';
 		}
+
 		return $filename;
 	}
 
 	/**
 	 * Download
 	 *
-	 * @throws Exception $e        Sending exception.
-	 * @param  Boolean   $this->debug    Debug.
+	 * @param Boolean $this- >debug    Debug.
+	 *
 	 * @return Dropp_PDF             This object.
+	 * @throws Exception $e        Sending exception.
 	 */
 	public function download() {
 		global $wp_filesystem;
@@ -103,6 +111,7 @@ class Dropp_PDF extends Model {
 			$pdf = $this->remote_get();
 			$wp_filesystem->put_contents( $filename, $pdf );
 		}
+
 		return $this;
 	}
 
@@ -111,8 +120,8 @@ class Dropp_PDF extends Model {
 	 *
 	 * First attempts to get a downloaded PDF, then tries to get from remote.
 	 *
-	 * @throws Exception $e        Sending exception.
 	 * @return string              PDF content.
+	 * @throws Exception $e        Sending exception.
 	 */
 	public function get_content() {
 		global $wp_filesystem;
@@ -121,13 +130,14 @@ class Dropp_PDF extends Model {
 		WP_Filesystem();
 
 		$uploads_dir = self::get_dir();
-		$filename = $this->get_filename();
+		$filename    = $this->get_filename();
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			$this->download();
 		}
 		if ( ! $wp_filesystem->exists( $filename ) ) {
 			return $this->remote_get();
 		}
+
 		return $wp_filesystem->get_contents( $filename );
 	}
 
@@ -144,34 +154,38 @@ class Dropp_PDF extends Model {
 
 		$uploads_dir['baseurl'] .= '/dropp-labels';
 		$uploads_dir['basedir'] .= '/dropp-labels';
-		$uploads_dir['subdir']   = $uploads_dir['basedir'];
-		$uploads_dir['path']     = $uploads_dir['basedir'];
-		$uploads_dir['url']      = $uploads_dir['baseurl'];
+		$uploads_dir['subdir']  = $uploads_dir['basedir'];
+		$uploads_dir['path']    = $uploads_dir['basedir'];
+		$uploads_dir['url']     = $uploads_dir['baseurl'];
 
 		$dir = $uploads_dir['basedir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
 			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
+
 			return $uploads_dir;
 		}
-		$year                   = gmdate( 'Y' );
+		$year                  = gmdate( 'Y' );
 		$uploads_dir['subdir'] .= "/$year";
 		$uploads_dir['url']    .= "/$year";
 		$uploads_dir['path']   .= "/$year";
-		$dir                    = $uploads_dir['subdir'];
+		$dir                   = $uploads_dir['subdir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
 			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
+
 			return $uploads_dir;
 		}
 
-		$month                  = gmdate( 'm' );
+		$month                 = gmdate( 'm' );
 		$uploads_dir['subdir'] .= "/$month";
 		$uploads_dir['url']    .= "/$month";
 		$uploads_dir['path']   .= "/$month";
-		$dir                    = $uploads_dir['subdir'];
+		$dir                   = $uploads_dir['subdir'];
 		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
 			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
+
 			return $uploads_dir;
 		}
+
 		return $uploads_dir;
 	}
 }

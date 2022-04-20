@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Dropp\Models\Dropp_Return_PDF;
 use Exception;
 use Dropp\Models\Dropp_PDF;
 use Dropp\Models\Dropp_Consignment;
@@ -15,11 +16,15 @@ use Dropp\Models\Dropp_Consignment;
  * Dropp PDF
  */
 class Dropp_PDF_Collection extends Collection {
+	public array $errors;
+
 	/**
 	 * From consignment
 	 *
-	 * @param  string|integer|Dropp\\Models\\Dropp_Consignment $consignment Consignment or consignment ID.
+	 * @param string|integer|Dropp_Consignment $consignment Consignment or consignment ID.
+	 *
 	 * @return Dropp_PDF_Collection                                         PDF collection.
+	 * @throws Exception
 	 */
 	public static function from_consignment( $consignment ) {
 		if ( is_int( $consignment ) || ctype_digit( $consignment ) ) {
@@ -34,8 +39,14 @@ class Dropp_PDF_Collection extends Collection {
 			new Dropp_PDF( $consignment )
 		);
 
+		if ($consignment->return_barcode) {
+			$collection->add(
+				new Dropp_Return_PDF( $consignment )
+			);
+		}
+
 		// Get list of consignments from the API.
-		$api    = new API( $consignment->get_shipping_method() );
+		$api    = new API();
 		$result = $api->get( "orders/extrabyorder/{$consignment->dropp_order_id}/" );
 
 		// Add PDF's to collection.

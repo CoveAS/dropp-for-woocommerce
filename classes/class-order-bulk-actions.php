@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Dropp\Models\Dropp_Consignment;
+use Exception;
 use WC_Logger;
 
 /**
@@ -27,10 +28,11 @@ class Order_Bulk_Actions {
 	/**
 	 * Define bulk actions.
 	 *
-	 * @param  array $actions Existing actions.
+	 * @param array $actions Existing actions.
+	 *
 	 * @return array
 	 */
-	public static function define_bulk_actions( $actions ) {
+	public static function define_bulk_actions( array $actions ): array {
 		$actions['dropp_bulk_booking']  = __( 'Dropp - Book orders', 'woocommerce' );
 		$actions['dropp_bulk_printing'] = __( 'Dropp - Print labels', 'woocommerce' );
 		return $actions;
@@ -40,12 +42,14 @@ class Order_Bulk_Actions {
 	/**
 	 * Handle bulk actions.
 	 *
-	 * @param  string $redirect_to URL to redirect to.
-	 * @param  string $action      Action name.
-	 * @param  array  $ids         List of ids.
+	 * @param string $redirect_to URL to redirect to.
+	 * @param string $action Action name.
+	 * @param array $ids List of ids.
+	 *
 	 * @return string
+	 * @throws Exception
 	 */
-	public static function handle_bulk_actions( $redirect_to, $action, $ids ) {
+	public static function handle_bulk_actions( string $redirect_to, string $action, array $ids ): string {
 		if ( 'dropp_bulk_booking' === $action ) {
 			return self::handle_bulk_booking( $redirect_to, $ids );
 		}
@@ -58,11 +62,13 @@ class Order_Bulk_Actions {
 	/**
 	 * Handle bulk booking.
 	 *
-	 * @param  string $redirect_to URL to redirect to.
-	 * @param  array  $ids         List of ids.
+	 * @param string $redirect_to URL to redirect to.
+	 * @param array $ids List of ids.
+	 *
 	 * @return string
+	 * @throws Exception
 	 */
-	public static function handle_bulk_booking( $redirect_to, $ids ) {
+	public static function handle_bulk_booking( string $redirect_to, array $ids ): string {
 		$result = [
 			'existing'  => [],
 			'success'   => [],
@@ -102,11 +108,12 @@ class Order_Bulk_Actions {
 	/**
 	 * Handle bulk printing.
 	 *
-	 * @param  string $redirect_to URL to redirect to.
-	 * @param  array  $ids         List of ids.
+	 * @param string $redirect_to URL to redirect to.
+	 * @param array $ids         List of ids.
+	 *
 	 * @return string
 	 */
-	public static function handle_bulk_printing( $redirect_to, $ids ) {
+	public static function handle_bulk_printing( string $redirect_to, array $ids ): string {
 		$redirect_to = add_query_arg(
 			array(
 				'post_type'   => 'shop_order',
@@ -121,7 +128,7 @@ class Order_Bulk_Actions {
 	/**
 	 * Show confirmation message that order status changed for number of orders.
 	 */
-	public static function bulk_admin_notices() {
+	public static function bulk_admin_notices(): void {
 		global $post_type, $pagenow;
 		// Bail out if not on shop order list page.
 		if ( 'edit.php' !== $pagenow || 'shop_order' !== $post_type || ! isset( $_REQUEST['bulk_action'] ) ) { // WPCS: input var ok, CSRF ok.
@@ -168,10 +175,11 @@ class Order_Bulk_Actions {
 	/**
 	 * Get ID array
 	 *
-	 * @param  string $param Parameter.
+	 * @param string $param Parameter.
+	 *
 	 * @return array         IDs.
 	 */
-	protected static function get_id_array( $param ) {
+	protected static function get_id_array( string $param ): array {
 		$csv           = $_REQUEST[ $param ] ?? ''; // WPCS: input var ok, CSRF ok.
 		$tentative_ids = explode( ',', $csv );
 		$tentative_ids = array_map( 'trim', $tentative_ids );

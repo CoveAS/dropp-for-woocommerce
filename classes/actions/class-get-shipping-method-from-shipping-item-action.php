@@ -9,7 +9,7 @@ use WC_Order_Item_Shipping;
 use WC_Shipping;
 
 /**
- * Get Condignment from API
+ * Get shipping method from shipping item
  */
 class Get_Shipping_Method_From_Shipping_Item_Action {
 	/**

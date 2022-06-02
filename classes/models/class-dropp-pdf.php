@@ -18,9 +18,9 @@ use WC_Logger;
 class Dropp_PDF extends Model {
 
 	protected $barcode = false;
-	public $consignment;
+	public Dropp_Consignment $consignment;
 
-	public $errors = [];
+	public array $errors = [];
 
 	/**
 	 * Construct
@@ -35,13 +35,13 @@ class Dropp_PDF extends Model {
 	 *
 	 * @return array Array representation.
 	 */
-	public function to_array() {
+	public function to_array(): array {
 		return [
 			'barcode' => $this->barcode,
 		];
 	}
 
-	protected function get_endpoint() {
+	protected function get_endpoint(): string {
 		if ( $this->barcode ) {
 			return "web/pdf/getpdf/{$this->consignment->dropp_order_id}/{$this->barcode}/";
 		}
@@ -52,12 +52,10 @@ class Dropp_PDF extends Model {
 	/**
 	 * Request
 	 *
-	 * @param Boolean $debug Debug.
-	 *
-	 * @return Booking          This object.
+	 * @return string          This object.
 	 * @throws Exception $e     Sending exception.
 	 */
-	public function remote_get() {
+	public function remote_get(): string {
 		$api       = new API();
 		$api->test = $this->consignment->test;
 
@@ -83,7 +81,7 @@ class Dropp_PDF extends Model {
 	 *
 	 * @return  string Filename.
 	 */
-	public function get_filename() {
+	public function get_filename(): string {
 		$uploads_dir = self::get_dir();
 		$filename    = $uploads_dir['subdir'] . '/' . $this->consignment->dropp_order_id . '.pdf';
 		if ( $this->barcode ) {
@@ -96,12 +94,10 @@ class Dropp_PDF extends Model {
 	/**
 	 * Download
 	 *
-	 * @param Boolean $this- >debug    Debug.
-	 *
 	 * @return Dropp_PDF             This object.
 	 * @throws Exception $e        Sending exception.
 	 */
-	public function download() {
+	public function download(): Dropp_PDF {
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
@@ -123,7 +119,7 @@ class Dropp_PDF extends Model {
 	 * @return string              PDF content.
 	 * @throws Exception $e        Sending exception.
 	 */
-	public function get_content() {
+	public function get_content(): string {
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
@@ -146,7 +142,7 @@ class Dropp_PDF extends Model {
 	 *
 	 * @return array
 	 */
-	public static function get_dir() {
+	public static function get_dir(): array {
 		$uploads_dir = wp_upload_dir();
 		if ( $uploads_dir['error'] ) {
 			return $uploads_dir;

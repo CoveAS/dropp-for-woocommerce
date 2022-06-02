@@ -17,5 +17,5 @@ abstract class Model {
 	 *
 	 * @return array Array representation.
 	 */
-	abstract public function to_array();
+	abstract public function to_array(): array;
 }

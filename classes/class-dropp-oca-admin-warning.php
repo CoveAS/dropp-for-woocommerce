@@ -15,11 +15,11 @@ class Dropp_Oca_Admin_Warning {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		add_action( 'admin_notices', __CLASS__ . '::admin_notice' );
 	}
 
-	public static function admin_notice() {
+	public static function admin_notice(): void {
 		$screen = get_current_screen();
 		if ( 'woocommerce_page_wc-settings' !== $screen->id ) {
 			return;
@@ -27,7 +27,7 @@ class Dropp_Oca_Admin_Warning {
 		self::check();
 	}
 
-	public static function dropp_check( $shipping_method, $zone, $zone_data ) {
+	public static function dropp_check( $shipping_method, $zone, $zone_data ): void {
 		if ( ! $shipping_method->enabled ) {
 			return;
 		}
@@ -45,7 +45,7 @@ class Dropp_Oca_Admin_Warning {
 		self::warn( $zone, esc_html__( "You have enabled Dropp for zone, %s, but you have not enabled Dropp Outside Capital Area. This can result in Dropp becoming unavailable if a location that is outside the capital area is selected." ) );
 	}
 
-	public static function dropp_oca_check( $shipping_method, $zone, $zone_data ) {
+	public static function dropp_oca_check( $shipping_method, $zone, $zone_data ): void {
 		if ( ! $shipping_method->enabled ) {
 			return;
 		}
@@ -63,7 +63,7 @@ class Dropp_Oca_Admin_Warning {
 		self::warn( $zone, esc_html__( "You have enabled Dropp Outside Capital Area for zone, %s, but you have not enabled Dropp. It will not work without it." ) );
 	}
 
-	public static function warn( $zone, $message ) {
+	public static function warn( $zone, $message ): void {
 		$message = sprintf( $message, $zone->get_zone_name() );
 		$link    = sprintf(
 			'<a href="%s">%s</a>',
@@ -78,7 +78,7 @@ class Dropp_Oca_Admin_Warning {
 		);
 	}
 
-	public static function check() {
+	public static function check(): void {
 		$zones = \WC_Shipping_Zones::get_zones();
 		foreach ( $zones as $zone_data ) {
 			$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );

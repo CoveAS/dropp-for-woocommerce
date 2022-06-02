@@ -8,18 +8,19 @@
 namespace Dropp;
 
 use Dropp\Models\Dropp_Consignment;
+use WC_Order;
 
 /**
  * Tracking Code
  */
 class Tracking_Code {
 
-	public $consignment;
+	public Dropp_Consignment $consignment;
 
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		add_filter( 'woocommerce_order_shipping_to_display', __CLASS__ . '::tracking_html', 10, 2 );
 	}
 
@@ -36,7 +37,7 @@ class Tracking_Code {
 	 *
 	 * @return string HTML.
 	 */
-	public function html() {
+	public function html(): string {
 		$format = '<li><a class="dropp-tracking-codes__item" href="%s" target="_blank">%s</a></li>';
 		return sprintf(
 			$format,
@@ -48,12 +49,12 @@ class Tracking_Code {
 	/**
 	 * Tracking HTML
 	 *
-	 * @param  string   $shipping HTML.
-	 * @param  WC_Order $order    Order.
+	 * @param string $shipping HTML.
+	 * @param WC_Order $order    Order.
 	 *
 	 * @return string             new HTML.
 	 */
-	public static function tracking_html( $shipping, $order ) {
+	public static function tracking_html( string $shipping, WC_Order $order ): string {
 		$adapter      = new Order_Adapter( $order );
 		$consignments = $adapter->consignments();
 		// Remove unwanted statuses.
@@ -93,7 +94,7 @@ class Tracking_Code {
 	 *
 	 * @return string URL.
 	 */
-	public function get_url() {
+	public function get_url(): string {
 		$url = 'https://api.dropp.is/dropp/tracking/';
 		if ( $this->consignment->test ) {
 			$url = 'https://stage.dropp.is/dropp/tracking/';

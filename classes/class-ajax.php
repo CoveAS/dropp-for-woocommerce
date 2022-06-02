@@ -20,7 +20,7 @@ class Ajax {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		add_action( 'wp_ajax_dropp_set_location', __CLASS__ . '::set_location' );
 		add_action( 'wp_ajax_nopriv_dropp_set_location', __CLASS__ . '::set_location' );
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
@@ -38,7 +38,7 @@ class Ajax {
 	/**
 	 * Dropp Set Location
 	 */
-	public static function set_location() {
+	public static function set_location(): void {
 		$location_id = filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT );
 		$instance_id = filter_input( INPUT_POST, 'instance_id', FILTER_DEFAULT );
 		if ( empty( $location_id ) || empty( $instance_id ) ) {
@@ -79,7 +79,7 @@ class Ajax {
 	/**
 	 * Dropp booking
 	 */
-	public static function nonce_verification( $method = 'post' ) {
+	public static function nonce_verification( $method = 'post' ): void {
 		if ( 'post' === $method ) {
 			$nonce = filter_input( INPUT_POST, 'dropp_nonce', FILTER_DEFAULT );
 		} else {
@@ -99,7 +99,7 @@ class Ajax {
 	/**
 	 * Dropp booking
 	 */
-	public static function dropp_booking() {
+	public static function dropp_booking(): void {
 		self::nonce_verification();
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
 		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
@@ -201,7 +201,7 @@ class Ajax {
 	/**
 	 * Dropp status update
 	 */
-	public static function dropp_status_update() {
+	public static function dropp_status_update(): void {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
 		try {
@@ -240,7 +240,7 @@ class Ajax {
 	/**
 	 * Dropp cancel booking
 	 */
-	public static function dropp_cancel() {
+	public static function dropp_cancel(): void {
 		self::nonce_verification( 'get' );
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
@@ -270,15 +270,16 @@ class Ajax {
 	/**
 	 * Dropp pdf
 	 */
-	public static function dropp_pdf() {
+	public static function dropp_pdf(): void {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		self::dropp_pdf_consignment( $consignment_id );
 	}
 
 	/**
 	 * Dropp pdf single
+	 * @throws Exception
 	 */
-	public static function dropp_pdf_single() {
+	public static function dropp_pdf_single(): void {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$barcode        = filter_input( INPUT_GET, 'barcode', FILTER_DEFAULT );
 		$consignment    = Dropp_Consignment::find( $consignment_id );
@@ -296,8 +297,10 @@ class Ajax {
 	 * Renders a single pdf and kills further execuion.
 	 *
 	 * @param string|int $consignment_id Consignment ID.
+	 *
+	 * @throws Exception
 	 */
-	protected static function dropp_pdf_consignment( $consignment_id ) {
+	protected static function dropp_pdf_consignment( $consignment_id ): void {
 		$collection = Dropp_PDF_Collection::from_consignment( $consignment_id );
 		try {
 			$content = $collection->get_content();
@@ -309,6 +312,7 @@ class Ajax {
 					'errors'  => [],
 				]
 			);
+			die;
 		}
 		header( 'Content-type: application/pdf' );
 		echo $content;
@@ -334,6 +338,7 @@ class Ajax {
 					'message' => 'Missing consignment ids.',
 				]
 			);
+			die;
 		}
 
 		$uploads_dir = Dropp_PDF::get_dir();
@@ -344,6 +349,7 @@ class Ajax {
 					'message' => $uploads_dir['error'],
 				]
 			);
+			die;
 		}
 
 		$consignment_ids = array_unique( $consignment_ids );
@@ -375,6 +381,7 @@ class Ajax {
 					'message' => $e->getMessage(),
 				]
 			);
+			die;
 		}
 		header( 'Content-type: application/pdf' );
 		echo $content;
@@ -409,11 +416,13 @@ class Ajax {
 	/**
 	 * JSON PDF List
 	 *
-	 * @param  integer        $consignment_id Consignment ID.
-	 * @param  string         $method         Dropp_PDF method.
-	 * @param  boolean|string $barcode        (optional) Barcode to delete.
+	 * @param integer $consignment_id Consignment ID.
+	 * @param string $method Dropp_PDF method.
+	 * @param boolean|string $barcode (optional) Barcode to delete.
+	 *
+	 * @throws Exception
 	 */
-	protected static function json_pdf_list( $consignment_id, $method, $barcode = false ) {
+	protected static function json_pdf_list( int $consignment_id, string $method, $barcode = false ) {
 		$consignment = Dropp_Consignment::find( $consignment_id );
 		$api         = new API( $consignment->get_shipping_method() );
 		$api->test   = $consignment->test;

@@ -17,8 +17,7 @@ use WC_Logger;
  */
 class Dropp_Return_PDF extends Dropp_PDF {
 
-	protected function get_endpoint()
-	{
+	protected function get_endpoint(): string {
 		return "orders/returnpdf/{$this->consignment->return_barcode}";
 	}
 
@@ -27,7 +26,7 @@ class Dropp_Return_PDF extends Dropp_PDF {
 	 *
 	 * @return  string Filename.
 	 */
-	public function get_filename() {
+	public function get_filename(): string {
 		$uploads_dir = self::get_dir();
 
 		return $uploads_dir['subdir'] . '/' . $this->consignment->return_barcode . '.pdf';

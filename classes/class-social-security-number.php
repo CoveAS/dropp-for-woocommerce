@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use WC_Order;
+
 /**
  * Social security number
  */
@@ -15,7 +17,7 @@ class Social_Security_Number {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		// Display field value on the order edit page.
 		add_action( 'woocommerce_admin_order_data_after_billing_address', __CLASS__ . '::admin_order_billing_details', 10, 1 );
 
@@ -44,10 +46,12 @@ class Social_Security_Number {
 	/**
 	 * Validate ssn
 	 *
-	 * @param  array $fields Checkout fields.
-	 * @return array         Checkout fields.
+	 * @param $data
+	 * @param $error
+	 *
+	 * @return void
 	 */
-	public static function validate_ssn( $data, $error ) {
+	public static function validate_ssn( $data, $error ): void {
 		if ( empty( $data['billing_dropp_ssn'] ) ) {
 			return;
 		}
@@ -76,10 +80,11 @@ class Social_Security_Number {
 	/**
 	 * Checkout fields
 	 *
-	 * @param  array $fields Checkout fields.
+	 * @param array $fields Checkout fields.
+	 *
 	 * @return array         Checkout fields.
 	 */
-	public static function checkout_fields( $fields ) {
+	public static function checkout_fields( array $fields ): array {
 		// Get the shipping method.
 		$shipping_method = Shipping_Method\Dropp::get_instance();
 
@@ -98,9 +103,9 @@ class Social_Security_Number {
 	/**
 	 * After customer details
 	 *
-	 * @param  WC_Order $order   Order.
+	 * @param WC_Order $order   Order.
 	 */
-	public static function after_customer_details( $order ) {
+	public static function after_customer_details( WC_Order $order ): void {
 		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
 		if ( $dropp_ssn ) {
 			require dirname( __DIR__ ) . '/templates/ssn/customer-details.php';
@@ -112,7 +117,7 @@ class Social_Security_Number {
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public static function admin_order_billing_details( $order ) {
+	public static function admin_order_billing_details( WC_Order $order ): void {
 		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
 		if ( $dropp_ssn ) {
 			require dirname( __DIR__ ) . '/templates/ssn/admin-billing-details.php';
@@ -124,7 +129,7 @@ class Social_Security_Number {
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public static function order_email_details( $order ) {
+	public static function order_email_details( WC_Order $order ): void {
 		$dropp_ssn = $order->get_meta( '_billing_dropp_ssn', true );
 		if ( $dropp_ssn ) {
 			require dirname( __DIR__ ) . '/templates/ssn/email-order-details.php';

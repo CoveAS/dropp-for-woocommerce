@@ -1,4 +1,5 @@
 <?php
+
 namespace Dropp\Actions;
 
 use Dropp\Models\Dropp_Consignment;
@@ -6,16 +7,15 @@ use Dropp\Models\Dropp_Location;
 use Dropp\Order_Adapter;
 
 /**
- * Get Condignment from API
+ * Get Consignment from API
  */
-class Convert_Dropp_Order_Ids_To_Consignments_Action
-{
-	public $adapter;
+class Convert_Dropp_Order_Ids_To_Consignments_Action {
+	public Order_Adapter $adapter;
 
 	/**
 	 * Construct
 	 *
-	 * @param \Dropp\Order_Adapter $adapter Order adapter.
+	 * @param Order_Adapter $adapter Order adapter.
 	 */
 	public function __construct( Order_Adapter $adapter ) {
 		$this->adapter = $adapter;
@@ -52,14 +52,12 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action
 					}
 
 					$location = Dropp_Location::remote_find( $consignment->location_id );
-					if ($location) {
+					if ( $location ) {
 						$shipping_item->add_meta_data( 'dropp_location', $location->to_array(), true );
 						$shipping_item->save();
 					}
 
-					if ( $consignment ) {
-						$consignment->save();
-					}
+					$consignment->save();
 				} catch ( \Exception $e ) {
 					// Silent fail.
 				}

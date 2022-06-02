@@ -9,6 +9,8 @@ namespace Dropp\Models;
 
 use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
+use WC_Order;
+use WC_Order_Item;
 
 /**
  * Shipping method
@@ -17,27 +19,25 @@ class Dropp_Location extends Model {
 	/**
 	 * WC_Order_Item $order_item
 	 */
-	protected $order_item;
-	public $order_item_id;
+	protected WC_Order_Item $order_item;
+	public int $order_item_id;
 
-	public $id;
-	public $name;
-	public $barcode;
-	public $type;
+	public ?int $id;
+	public string $name;
+	public string $barcode;
+	public string $type;
 
 	/**
 	 * Weight Limit in KG
-	 *
-	 * @var int
 	 */
-	public $weight_limit = 10;
+	public int $weight_limit = 10;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param int $instance_id Shipping method instance.
+	 * @param string $type
 	 */
-	public function __construct( $type = 'dropp_is' ) {
+	public function __construct( string $type = 'dropp_is' ) {
 		$this->type = $type;
 
 		// Special location handling for home deliveries.
@@ -91,7 +91,7 @@ class Dropp_Location extends Model {
 			}
 		}
 
-		if (is_null($day_delivery)) {
+		if ( is_null( $day_delivery ) ) {
 			return $location;
 		}
 
@@ -109,11 +109,11 @@ class Dropp_Location extends Model {
 	 *
 	 * @return array             Array of Dropp_Location.
 	 */
-	public static function from_order( $order_id = false ) {
+	public static function from_order( $order_id = false ): array {
 		if ( false === $order_id ) {
 			$order_id = get_the_ID();
 		}
-		$order      = new \WC_Order( $order_id );
+		$order      = new WC_Order( $order_id );
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {

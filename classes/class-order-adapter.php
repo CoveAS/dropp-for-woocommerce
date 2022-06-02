@@ -38,7 +38,7 @@ class Order_Adapter {
 	 *
 	 * @return boolean True if the dropp shipping method is present on the order.
 	 */
-	public function is_dropp() {
+	public function is_dropp(): bool {
 		$dropp_methods  = array_keys(
 			Dropp::get_shipping_methods( true )
 		);
@@ -54,10 +54,11 @@ class Order_Adapter {
 	/**
 	 * Count consignments
 	 *
-	 * @param  boolean $only_booked (optional) Default is false. Only counts booked items when true.
+	 * @param boolean $only_booked (optional) Default is false. Only counts booked items when true.
+	 *
 	 * @return integer              Count.
 	 */
-	public function count_consignments( $only_booked = false ) {
+	public function count_consignments( bool $only_booked ): int {
 		global $wpdb;
 		$shipping_items    = $this->get_shipping_items();
 		$shipping_item_ids = [];
@@ -81,7 +82,7 @@ class Order_Adapter {
 	 *
 	 * @return Collection Collection of consignments.
 	 */
-	public function consignments() {
+	public function consignments(): Collection {
 		$line_items = $this->get_shipping_items();
 		$container  = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
@@ -96,11 +97,12 @@ class Order_Adapter {
 	/**
 	 * Make consignment
 	 *
-	 * @param  WC_Order_Item_Shipping $shipping_item Shipping item.
-	 * @param  array            $product_lines Product lines.
+	 * @param WC_Order_Item_Shipping $shipping_item Shipping item.
+	 * @param array $product_lines Product lines.
+	 *
 	 * @return Dropp_Consignment         Consignment.
 	 */
-	public function make_consignment( $shipping_item, $product_lines = [] ) {
+	public function make_consignment( WC_Order_Item_Shipping $shipping_item, array $product_lines = [] ): ?Dropp_Consignment {
 		$dropp_methods = array_keys(
 			Dropp::get_shipping_methods( true )
 		);
@@ -150,12 +152,14 @@ class Order_Adapter {
 		);
 		return $consignment;
 	}
+
 	/**
 	 * Book order
 	 *
 	 * @return boolean True if any order was booked.
+	 * @throws Exception
 	 */
-	public function book() {
+	public function book(): bool {
 		$shipping_items = $this->get_shipping_items();
 
 		$any_booked = false;
@@ -196,7 +200,7 @@ class Order_Adapter {
 	 *
 	 * @return boolean True if any order was booked.
 	 */
-	public function add_new() {
+	public function add_new(): bool {
 		$shipping_items = $this->get_shipping_items();
 
 		$any_added = false;
@@ -227,7 +231,7 @@ class Order_Adapter {
 	 *
 	 * @return array Shipping items.
 	 */
-	public function get_shipping_items() {
+	public function get_shipping_items(): array {
 		return $this->order->get_items( 'shipping' );
 	}
 }

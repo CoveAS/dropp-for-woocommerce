@@ -19,14 +19,14 @@ class Home_Delivery_Outside_Capital_Area extends Home_Delivery {
 	 *
 	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
-	protected static $capital_area = 'outside';
+	protected static string $capital_area = 'outside';
 
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = false;
+	protected static bool $no_address_available = false;
 
 	/**
 	 * Constructor.

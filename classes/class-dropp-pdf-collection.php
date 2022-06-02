@@ -26,7 +26,7 @@ class Dropp_PDF_Collection extends Collection {
 	 * @return Dropp_PDF_Collection                                         PDF collection.
 	 * @throws Exception
 	 */
-	public static function from_consignment( $consignment ) {
+	public static function from_consignment( $consignment ): Dropp_PDF_Collection {
 		if ( is_int( $consignment ) || ctype_digit( $consignment ) ) {
 			$consignment = Dropp_Consignment::find( $consignment );
 		}
@@ -58,7 +58,7 @@ class Dropp_PDF_Collection extends Collection {
 		return $collection;
 	}
 
-	public function get_content() {
+	public function get_content(): string {
 		if ( 1 === count( $this->container ) ) {
 			$item = reset( $this->container );
 			return $item->get_content();

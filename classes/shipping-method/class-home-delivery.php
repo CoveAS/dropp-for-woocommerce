@@ -19,21 +19,21 @@ class Home_Delivery extends Shipping_Method {
 	 *
 	 * @var int
 	 */
-	public $weight_limit = 60;
+	public int $weight_limit = 60;
 
 	/**
 	 * Capital Area
 	 *
 	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
-	protected static $capital_area = 'inside';
+	protected static string $capital_area = 'inside';
 
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = true;
+	protected static bool $no_address_available = true;
 
 
 	/**

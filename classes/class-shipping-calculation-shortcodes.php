@@ -12,35 +12,36 @@ use WC_Log_Levels;
 use WC_Logger;
 use WC_Shipping;
 use Dropp\Models\Model;
+use WC_Shipping_Method;
 
 /**
  * API
  */
 class Shipping_Calculation_Shortcodes {
-	protected $package;
-	protected $shipping_method;
-	public function __construct( $package, $shipping_method ) {
+	protected array $package;
+	protected WC_Shipping_Method $shipping_method;
+	public function __construct( array $package, WC_Shipping_Method $shipping_method ) {
 		$this->package         = $package;
 		$this->shipping_method = $shipping_method;
 	}
 
-	public static function setup() {
+	public static function setup(): void {
 		add_action( 'dropp_before_calculate_shipping', __CLASS__ . '::register', 10, 2 );
 		add_action( 'dropp_after_calculate_shipping', __CLASS__ . '::unregister' );
 	}
 
-	public static function register( $package, $shipping_method ) {
+	public static function register( array $package, WC_Shipping_Method $shipping_method ): void {
 		$instance = new static( $package, $shipping_method );
 		add_shortcode( 'kg', [ $instance, 'kg' ] );
 		add_shortcode( 'pricetype', [ $instance, 'pricetype' ] );
 	}
 
-	public static function unregister() {
+	public static function unregister(): void {
 		remove_shortcode( 'kg' );
 		remove_shortcode( 'pricetype' );
 	}
 
-	public function kg( $atts, $content ) {
+	public function kg( array $atts, $content ): float {
 		$total_weight = 0;
 		if ( ! empty( $this->package ) ) {
 			foreach ( $this->package['contents'] as $item ) {
@@ -52,13 +53,13 @@ class Shipping_Calculation_Shortcodes {
 		}
 
 		if ( ! $this->test( $total_weight, $atts, 'kg' ) ) {
-			return '';
+			return 0;
 		}
 
 		return floatval( $content );
 	}
 
-	public function pricetype( $atts, $content ) {
+	public function pricetype( array $atts, $content ): float {
 		$pricetype = $this->shipping_method->get_pricetype();
 		if ( ! $this->test( $pricetype, $atts, 'pricetype' ) ) {
 			return '';
@@ -66,7 +67,7 @@ class Shipping_Calculation_Shortcodes {
 		return floatval( $content );
 	}
 
-	public function test( $value, $atts, $shortcode ) {
+	public function test( $value, array $atts, string $shortcode ): bool {
 		$atts = shortcode_atts(
 			array(
 				'lt'  => '',

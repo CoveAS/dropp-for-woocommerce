@@ -18,21 +18,21 @@ class Daytime_Delivery extends Home_Delivery {
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = false;
+	protected static bool $no_address_available = false;
 
 	/**
 	 * Daytime delivery true or false
 	 *
 	 * @var boolean
 	 */
-	public $day_delivery = true;
+	public bool $day_delivery = true;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.
 	 */
-	public function __construct( $instance_id = 0 ) {
+	public function __construct( int $instance_id = 0 ) {
 		$this->id                 = 'dropp_daytime';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp Daytime Delivery', 'dropp-for-woocommerce' );

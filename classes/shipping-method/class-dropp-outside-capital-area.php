@@ -19,14 +19,14 @@ class Dropp_Outside_Capital_Area extends Dropp {
 	 *
 	 * @var integer Either 1 or 2. One being inside capital area, and 2 outside.
 	 */
-	protected static $price_type = 2;
+	protected static int $price_type = 2;
 
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = false;
+	protected static bool $no_address_available = false;
 
 	/**
 	 * Constructor.

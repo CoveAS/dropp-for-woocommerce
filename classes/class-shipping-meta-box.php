@@ -12,6 +12,7 @@ use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\Models\Dropp_Consignment;
 use Dropp\Models\Dropp_Location;
 use Dropp\Models\Dropp_Product_Line;
+use WP_Post;
 
 /**
  * Shipping item meta
@@ -21,7 +22,7 @@ class Shipping_Meta_Box {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_booking_meta_box' ), 1, 2 );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 	}
@@ -29,10 +30,10 @@ class Shipping_Meta_Box {
 	/**
 	 * Add booking meta box
 	 *
-	 * @param string  $post_type Post type.
+	 * @param string $post_type Post type.
 	 * @param WP_Post $post      Post.
 	 */
-	public static function add_booking_meta_box( $post_type, $post ) {
+	public static function add_booking_meta_box( string $post_type, WP_Post $post ): void {
 		if ( 'shop_order' !== $post_type ) {
 			return;
 		}
@@ -52,7 +53,7 @@ class Shipping_Meta_Box {
 	 *
 	 * @param string $hook Hook.
 	 */
-	public static function admin_enqueue_scripts( $hook ) {
+	public static function admin_enqueue_scripts( string $hook ): void {
 		if ( 'post.php' !== $hook ) {
 			return;
 		}
@@ -186,10 +187,11 @@ class Shipping_Meta_Box {
 	/**
 	 * Non-breaking spaces
 	 *
-	 * @param  array $strings Strings.
+	 * @param array $strings Strings.
+	 *
 	 * @return array          Strings.
 	 */
-	public static function nbsp( $strings ) {
+	public static function nbsp( array $strings ): array {
 		foreach ( $strings as &$string ) {
 			$string = str_replace( ' ', '&nbsp;', $string );
 		}
@@ -201,7 +203,7 @@ class Shipping_Meta_Box {
 	 *
 	 * @param WP_Post $post Post.
 	 */
-	public static function render_booking_meta_box( $post ) {
+	public static function render_booking_meta_box( WP_Post $post ): void {
 		echo '<div id="dropp-booking"><span class="loading-message" v-if="0">Loading ...</span></div>';
 	}
 }

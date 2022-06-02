@@ -17,7 +17,7 @@ class Pending_Shipping {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void {
 		add_filter( 'manage_edit-shop_order_columns', __CLASS__ . '::dropp_status_column', 15 );
 		add_action( 'manage_shop_order_posts_custom_column', __CLASS__ . '::dropp_column_value' );
 
@@ -31,10 +31,11 @@ class Pending_Shipping {
 	/**
 	 * Dropp status column
 	 *
-	 * @param  array $columns Columns.
+	 * @param array $columns Columns.
+	 *
 	 * @return array          Columns.
 	 */
-	public static function dropp_status_column( $columns ) {
+	public static function dropp_status_column( array $columns ): array {
 		$columns['dropp_booking_count'] = __( 'Dropp', 'dropp-for-woocommerce' );
 		return $columns;
 	}
@@ -44,7 +45,7 @@ class Pending_Shipping {
 	 *
 	 * @param string $column Column.
 	 */
-	public static function dropp_column_value( $column ) {
+	public static function dropp_column_value( string $column ): void {
 		global $the_order;
 
 		if ( 'dropp_booking_count' === $column ) {
@@ -57,7 +58,7 @@ class Pending_Shipping {
 	/**
 	 * Register awaiting shipment order status.
 	 */
-	public static function register_pending_shipment_order_status() {
+	public static function register_pending_shipment_order_status(): void {
 		register_post_status(
 			'wc-dropp-pending',
 			array(
@@ -80,9 +81,10 @@ class Pending_Shipping {
 	 * Add awaiting shipment to order statuses.
 	 *
 	 * @param array $order_statuses Order statuses.
+	 *
 	 * @return array
 	 */
-	public static function add_pending_shipment_status( $order_statuses ) {
+	public static function add_pending_shipment_status( array $order_statuses ): array {
 		$new_order_statuses = [];
 
 		// Add the order status after processing.

@@ -53,7 +53,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return array List of status.
 	 */
-	public static function get_status_list() {
+	public static function get_status_list(): array {
 		return [
 			'ready'       => __( 'Ready', 'dropp-for-woocommerce' ),
 			'error'       => __( 'Error', 'dropp-for-woocommerce' ),
@@ -72,7 +72,7 @@ class Dropp_Consignment extends Model {
 	 * @return Shipping_Method
 	 * @throws Exception
 	 */
-	public function get_shipping_method() {
+	public function get_shipping_method(): ?Shipping_Method {
 		if ( ! $this->shipping_item_id ) {
 			return null;
 		}
@@ -85,9 +85,9 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @param array $content Content.
 	 *
-	 * @return Dropp_Consigment          This object.
+	 * @return Dropp_Consignment          This object.
 	 */
-	public function fill( $content ) {
+	public function fill( array $content ): Dropp_Consignment {
 		if ( ! empty( $content['id'] ) ) {
 			$this->id = (int) $content['id'];
 		}
@@ -172,7 +172,7 @@ class Dropp_Consignment extends Model {
 		}
 	}
 
-	public function set_customer( $customer ) {
+	public function set_customer( array $customer ) {
 		$this->customer = ( new Dropp_Customer() )->fill( $customer );
 	}
 
@@ -183,7 +183,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return array                Array representation.
 	 */
-	public function to_array( $for_request = true ) {
+	public function to_array( bool $for_request = true ): array {
 		$products = [];
 		foreach ( $this->products as $product ) {
 			$products[] = $product->to_array();
@@ -194,7 +194,7 @@ class Dropp_Consignment extends Model {
 			'barcode'     => $this->barcode,
 			'products'    => $products,
 			'customer'    => $this->get_customer_array(),
-			'daydelivery' => $this->day_delivery ? true : false,
+			'daydelivery' => $this->day_delivery,
 			'comment'     => $this->comment,
 			'returnorder' => $shipping_method ? $shipping_method->enable_return_labels : false,
 		];
@@ -227,8 +227,9 @@ class Dropp_Consignment extends Model {
 	 * @param int $id ID.
 	 *
 	 * @return Dropp_Consignment     This.
+	 * @throws Exception
 	 */
-	public static function find( $id ) {
+	public static function find( int $id ): Dropp_Consignment {
 		global $wpdb;
 		$sql         = $wpdb->prepare(
 			"SELECT * FROM {$wpdb->prefix}dropp_consignments WHERE id = %d",
@@ -252,7 +253,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return Dropp_Consignment This.
 	 */
-	public function save() {
+	public function save(): Dropp_Consignment {
 		if ( ! empty( $this->id ) ) {
 			$this->update();
 		} else {
@@ -267,7 +268,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return Dropp_Consignment This.
 	 */
-	protected function update() {
+	protected function update(): Dropp_Consignment {
 		global $wpdb;
 		$table_name       = $wpdb->prefix . 'dropp_consignments';
 		$this->updated_at = current_time( 'mysql' );
@@ -301,7 +302,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return Dropp_Consignment This.
 	 */
-	protected function insert() {
+	protected function insert(): Dropp_Consignment {
 		global $wpdb;
 		$this->created_at = current_time( 'mysql' );
 		$this->updated_at = current_time( 'mysql' );
@@ -334,12 +335,12 @@ class Dropp_Consignment extends Model {
 	/**
 	 * From Order
 	 *
-	 * @param integer $order_id (optional) Order ID.
+	 * @param int|null $order_id (optional) Order ID.
 	 *
 	 * @return array             Array of Dropp_Consignment.
 	 */
-	public static function from_order( $order_id = false ) {
-		if ( false === $order_id ) {
+	public static function from_order( ?int $order_id = null ): array {
+		if ( null === $order_id ) {
 			$order_id = get_the_ID();
 		}
 		$order      = wc_get_order( $order_id );
@@ -359,7 +360,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return array                                 Array of Dropp_Consignment.
 	 */
-	public static function from_shipping_item( $shipping_item ) {
+	public static function from_shipping_item( WC_Order_Item_Shipping $shipping_item ): array {
 		global $wpdb;
 
 		$sql = $wpdb->prepare(
@@ -386,7 +387,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return boolean True when updated.
 	 */
-	public function maybe_update() {
+	public function maybe_update(): bool {
 		if ( time() < strtotime( $this->updated_at ) + 600 ) {
 			return false;
 		}
@@ -414,7 +415,7 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return array Customer data.
 	 */
-	public function get_customer_array() {
+	public function get_customer_array(): array {
 		if ( empty( $this->customer ) ) {
 			return [];
 		}
@@ -426,8 +427,9 @@ class Dropp_Consignment extends Model {
 	 * Check weight
 	 *
 	 * @return boolean True if weight is within limits.
+	 * @throws Exception
 	 */
-	public function check_weight() {
+	public function check_weight(): bool {
 		$shipping_method = $this->get_shipping_method();
 		if ( 0 === $shipping_method->weight_limit ) {
 			return true;
@@ -443,7 +445,7 @@ class Dropp_Consignment extends Model {
 	/**
 	 * Maybe Update order status
 	 */
-	public function maybe_update_order_status() {
+	public function maybe_update_order_status(): Dropp_Consignment {
 		$shipping_method = Dropp::get_instance();
 		$shipping_item   = new WC_Order_Item_Shipping( $this->shipping_item_id );
 		if ( '' !== $shipping_method->new_order_status ) {
@@ -535,9 +537,9 @@ class Dropp_Consignment extends Model {
 	/**
 	 * Remote add
 	 *
-	 * @return array|string Decoded json, string body or raw response object.
+	 * @return Dropp_Consignment|null Decoded json, string body or raw response object.
 	 */
-	public static function remote_find( $shipping_item_id, $dropp_order_id ) {
+	public static function remote_find( $shipping_item_id, $dropp_order_id ): ?Dropp_Consignment {
 		// Instantiate a new consignment.
 		$consignment                   = new self();
 		$consignment->shipping_item_id = $shipping_item_id;

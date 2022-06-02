@@ -17,11 +17,11 @@ use Dropp\Models\Model;
  * API
  */
 class API {
-	public    $require_auth    = true;
-	public    $test            = false;
-	public    $debug           = false;
-	public    $errors          = [];
-	protected $shipping_method = null;
+	public bool $require_auth = true;
+	public bool $test = false;
+	public bool $debug = false;
+	public array $errors = [];
+	protected ?Shipping_Method\Dropp $shipping_method = null;
 
 	public function __construct() {
 		$this->shipping_method = Shipping_Method\Dropp::get_instance();
@@ -34,19 +34,20 @@ class API {
 	 *
 	 * @return API This object
 	 */
-	public function noauth() {
+	public function noauth(): API {
 		$this->require_auth = false;
+
 		return $this;
 	}
 
 	/**
 	 * Get API key
 	 *
-	 * @throws Exception When API key is not available.
 	 * @return string API key.
+	 * @throws Exception When API key is not available.
 	 */
-	public function get_api_key() {
-		$option_name     = 'api_key';
+	public function get_api_key(): string {
+		$option_name = 'api_key';
 		if ( $this->test ) {
 			$option_name = 'api_key_test';
 		}
@@ -54,6 +55,7 @@ class API {
 		if ( $this->require_auth && empty( $api_key ) ) {
 			throw new Exception( __( 'No API key could be found.', 'dropp-for-woocommerce' ), 1 );
 		}
+
 		return $api_key;
 	}
 
@@ -69,31 +71,38 @@ class API {
 		if ( $this->test ) {
 			$baseurl = 'https://stage.dropp.is/dropp/api/v1/';
 		}
+
 		return $baseurl . $endpoint;
 	}
 
 	/**
 	 * Remote get
 	 *
-	 * @param  string $endpoint  Endpoint.
-	 * @param  string $data_type (optional) 'json', 'body' or 'raw'.
+	 * @param string $endpoint Endpoint.
+	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
+	 *
 	 * @return array|string      Decoded json, string body or raw response object.
+	 * @throws Exception
 	 */
-	public function get( $endpoint, $data_type = 'json' ) {
+	public function get( string $endpoint, string $data_type = 'json' ) {
 		$response = $this->remote( 'get', self::endpoint_url( $endpoint ) );
+
 		return $this->process_response( 'get', $response, $data_type );
 	}
 
 	/**
 	 * Remote post
 	 *
-	 * @param  string      $endpoint  Endpoint.
-	 * @param  Dropp\Model $model     Model.
-	 * @param  string      $data_type (optional) 'json', 'body' or 'raw'.
+	 * @param string $endpoint Endpoint.
+	 * @param Model $model Model.
+	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
+	 *
 	 * @return array|string           Decoded json, string body or raw response object.
+	 * @throws Exception
 	 */
-	public function post( $endpoint, Model $model, $data_type = 'json' ) {
+	public function post( string $endpoint, Model $model, string $data_type = 'json' ) {
 		$response = $this->remote( 'post', self::endpoint_url( $endpoint ), $model );
+
 		return $this->process_response( 'post', $response, $data_type );
 	}
 
@@ -109,6 +118,7 @@ class API {
 	 */
 	public function patch( string $endpoint, Model $model, string $data_type = 'json' ) {
 		$response = $this->remote( 'patch', self::endpoint_url( $endpoint ), $model );
+
 		return $this->process_response( 'patch', $response, $data_type );
 	}
 
@@ -124,6 +134,7 @@ class API {
 	 */
 	public function delete( string $endpoint, Model $model, string $data_type = 'json' ) {
 		$response = $this->remote( 'delete', self::endpoint_url( $endpoint ), $model );
+
 		return $this->process_response( 'delete', $response, $data_type );
 	}
 
@@ -141,7 +152,7 @@ class API {
 		$log  = new WC_Logger();
 		$args = [
 			'headers' => [
-				'Content-Type'  => 'application/json;charset=UTF-8',
+				'Content-Type' => 'application/json;charset=UTF-8',
 			],
 		];
 		if ( $this->require_auth ) {
@@ -173,13 +184,14 @@ class API {
 	/**
 	 * Process response
 	 *
-	 * @throws Exception      $e         Response exception.
-	 * @param  string         $method    Remote method, either 'get' or 'post'.
-	 * @param  WP_Error|array $response  Array with response data on success.
-	 * @param  string         $data_type (optional) 'json', 'body' or 'raw'
+	 * @param string $method Remote method, either 'get' or 'post'.
+	 * @param WP_Error|array $response Array with response data on success.
+	 * @param string $data_type (optional) 'json', 'body' or 'raw'
+	 *
 	 * @return array|string              Decoded json, string body or raw response object.
+	 * @throws Exception      $e         Response exception.
 	 */
-	protected function process_response( $method, $response, $data_type = 'json' ) {
+	protected function process_response( string $method, $response, string $data_type = 'json' ) {
 		$log = new WC_Logger();
 		if ( is_wp_error( $response ) ) {
 			$log->add(

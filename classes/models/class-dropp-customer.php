@@ -12,11 +12,11 @@ namespace Dropp\Models;
  */
 class Dropp_Customer extends Model {
 
-	public $name;
-	public $email_address;
-	public $address;
-	public $social_security_number;
-	public $phone_number;
+	public string $name;
+	public string $email_address;
+	public string $address;
+	public string $social_security_number;
+	public string $phone_number;
 
 	/**
 	 * Constructor
@@ -27,10 +27,11 @@ class Dropp_Customer extends Model {
 	/**
 	 * Json decode
 	 *
-	 * @param  string              $json JSON string.
+	 * @param string $json JSON string.
+	 *
 	 * @return Dropp_Customer|null       Customer object.
 	 */
-	public static function json_decode( $json ) {
+	public static function json_decode( string $json ): ?Dropp_Customer {
 		$data = json_decode( $json, true );
 
 		if ( ! is_array( $data ) || empty( $data ) ) {
@@ -43,9 +44,9 @@ class Dropp_Customer extends Model {
 	/**
 	 * Fill
 	 *
-	 * @return array             Customer array.
+	 * @return Dropp_Customer             Customer array.
 	 */
-	public function fill( $data ) {
+	public function fill( $data ): Dropp_Customer {
 		$data = wp_parse_args(
 			$data,
 			[
@@ -69,7 +70,7 @@ class Dropp_Customer extends Model {
 	 *
 	 * @return array             Customer array.
 	 */
-	public function to_array() {
+	public function to_array(): array {
 		return [
 			'name'                 => $this->name,
 			'emailAddress'         => $this->email_address,
@@ -82,10 +83,11 @@ class Dropp_Customer extends Model {
 	/**
 	 * From shipping address
 	 *
-	 * @param  array $shipping_address Shipping address.
-	 * @return array                   Customer array.
+	 * @param array $shipping_address Shipping address.
+	 *
+	 * @return Dropp_Customer                   Customer array.
 	 */
-	public static function from_shipping_address( $shipping_address ) {
+	public static function from_shipping_address( array $shipping_address ): Dropp_Customer {
 		$customer = new self();
 		$address  = $shipping_address['address_1'];
 		if ( $shipping_address['address_2'] ) {

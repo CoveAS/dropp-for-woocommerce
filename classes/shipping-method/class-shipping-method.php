@@ -9,6 +9,7 @@ namespace Dropp\Shipping_Method;
 
 use Dropp\Shipping_Settings;
 use Dropp\API;
+use Exception;
 use WC_Tax;
 
 
@@ -23,35 +24,35 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @var int
 	 */
-	public $weight_limit = 10;
+	public int $weight_limit = 10;
 
 	/**
 	 * Daytime delivery true or false
 	 *
 	 * @var boolean
 	 */
-	public $day_delivery = false;
+	public bool $day_delivery = false;
 
 	/**
 	 * Capital Area
 	 *
 	 * @var string One of 'inside', 'outside', '!inside' or 'both'
 	 */
-	protected static $capital_area = 'both';
+	protected static string $capital_area = 'both';
 
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = false;
+	protected static bool $no_address_available = false;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param int $instance_id Shipping method instance.
 	 */
-	public function __construct( $instance_id = 0 ) {
+	public function __construct( int $instance_id = 0 ) {
 		$this->id                 = 'dropp_is';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp', 'dropp-for-woocommerce' );
@@ -68,7 +69,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	/**
 	 * Initialize free shipping.
 	 */
-	public function init() {
+	public function init(): void {
 		parent::init();
 
 		// Load the settings.
@@ -87,7 +88,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return bool
 	 */
-	public function is_available( $package ) {
+	public function is_available( $package ): bool {
 		if ( static::$no_address_available && empty( $package['destination']['postcode'] ) ) {
 			return true;
 		}
@@ -120,7 +121,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return boolean Valid post code.
 	 */
-	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
+	public function validate_postcode( string $postcode, string $capital_area = 'inside' ): bool {
 		if ( 'both' === static::$capital_area ) {
 			return true;
 		}
@@ -156,7 +157,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return array
 	 */
-	public function get_instance_form_fields() {
+	public function get_instance_form_fields(): array {
 		$form_fields                     = parent::get_instance_form_fields();
 		$form_fields['title']['default'] = $this->method_title;
 		if ( empty( $form_fields['cost'] ) ) {
@@ -186,7 +187,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return array              Additional form fields.
 	 */
-	public function get_additional_form_fields( $form_fields ) {
+	public function get_additional_form_fields( array $form_fields ): array {
 		return [
 			'free_shipping'           => [
 				'title'       => __( 'Free shipping', 'dropp-for-woocommerce' ),
@@ -262,7 +263,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return int
 	 */
-	public function get_pricetype() {
+	public function get_pricetype(): int {
 		$location_data = WC()->session->get( 'dropp_session_location' );
 
 		return intval( $location_data['pricetype'] ?? 1 );
@@ -288,7 +289,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @throws Exception Last error triggered.
 	 * @since 3.4.0
 	 */
-	public function sanitize_cost( $value ) {
+	public function sanitize_cost( $value ): string {
 		do_action( 'dropp_before_calculate_shipping', [], $this );
 		$value = parent::sanitize_cost( $value );
 		do_action( 'dropp_after_calculate_shipping', [], $this );

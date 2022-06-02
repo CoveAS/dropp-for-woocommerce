@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use WC_Order;
+
 /**
  * Checkout
  */
@@ -23,14 +25,12 @@ class Checkout {
 	/**
 	 * Tag order for processing
 	 *
-	 * @param integer  $order_id    Order ID.
-	 * @param array    $posted_data POST data.
+	 * @param integer $order_id Order ID.
+	 * @param array $posted_data POST data.
 	 * @param WC_Order $order Order Order.
 	 */
-	public static function tag_order( $order_id, $posted_data, $order ) {
-		$adapter = new Order_Adapter(
-			$order
-		);
+	public static function tag_order( int $order_id, array $posted_data, WC_Order $order ) {
+		$adapter = new Order_Adapter( $order );
 		if ( ! $adapter->is_dropp() ) {
 			return;
 		}
@@ -48,7 +48,7 @@ class Checkout {
 	/**
 	 * Add new
 	 */
-	public static function add_new() {
+	public static function add_new(): void {
 		global $wpdb;
 
 		// API request to add new.
@@ -74,7 +74,7 @@ class Checkout {
 	/**
 	 * Load checkout javascript
 	 */
-	public static function checkout_javascript() {
+	public static function checkout_javascript(): void {
 		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 			// Add styles.
 			wp_register_style(

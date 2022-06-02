@@ -17,30 +17,31 @@ class Dropp extends Shipping_Method {
 	 *
 	 * @var string
 	 */
-	protected $original_title = '';
+	protected string $original_title = '';
 
 	/**
 	 * Price Type
 	 *
 	 * @var integer Either 1 or 2. One being inside capital area, and 2 outside.
 	 */
-	protected static $price_type = 1;
+	protected static int $price_type = 1;
 
 	/**
 	 * No address available
 	 *
 	 * @var boolean Available when no address is provided
 	 */
-	protected static $no_address_available = true;
+	protected static bool $no_address_available = true;
 
 	/**
 	 * Validate postcode
 	 *
 	 * @param string $postcode     Postcode.
 	 * @param string $capital_area (optional) One of 'inside', 'outside', '!inside' or 'both'.
+	 *
 	 * @return boolean Valid post code.
 	 */
-	public function validate_postcode( $postcode, $capital_area = 'inside' ) {
+	public function validate_postcode( string $postcode, string $capital_area = 'inside' ): bool {
 		if ( is_admin() || ! WC()->session ) {
 			return true;
 		}
@@ -52,7 +53,7 @@ class Dropp extends Shipping_Method {
 	 *
 	 * @param array $package Package of items from cart.
 	 */
-	public function calculate_shipping( $package = array() ) {
+	public function calculate_shipping( $package = array() ): void {
 		$location_data = WC()->session->get( 'dropp_session_location' );
 		if ( self::get_instance()->location_name_in_label && ! empty( $location_data['name'] ) ) {
 			if ( ! $this->original_title ) {
@@ -69,7 +70,7 @@ class Dropp extends Shipping_Method {
 	 *
 	 * @return Dropp
 	 */
-	public static function get_instance() {
+	public static function get_instance(): Dropp {
 		static $instance = false;
 		if (! $instance) {
 			if (class_exists('WC_Shipping')) {

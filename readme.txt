@@ -8,7 +8,7 @@ Tested up to: 5.9.3
 Requires PHP: 7.4
 WC requires at least: 3.8.1
 WC tested up to: 6.4.1
-Stable tag: 1.4.11
+Stable tag: 1.5.0
 
 Deliver parcels at delivery locations in Iceland
 
@@ -59,6 +59,7 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 * Added setting to allow booking with included return labels
 * Fixed a bug where the location would revert to the one selected at checkout when updating a booking with a different location
+* Improved code by using typed variables and parameters
 
 = 1.4.11 =
 

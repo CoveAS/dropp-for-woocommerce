@@ -98,13 +98,14 @@ class Ajax {
 
 	/**
 	 * Dropp booking
+	 * @throws Exception
 	 */
 	public static function dropp_booking(): void {
 		self::nonce_verification();
 		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
 		$order_item      = new WC_Order_Item_Shipping( $order_item_id );
 		$instance_id     = $order_item->get_instance_id();
-		$shipping_method = new Shipping_Method\Dropp( $instance_id );
+		$shipping_method = new Shipping_Method\Dropp( $instance_id ?: 0 );
 		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
 
 		$params = [

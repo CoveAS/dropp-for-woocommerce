@@ -49,7 +49,7 @@ class Dropp_Product_Line extends Model {
 			$args,
 			[
 				'id'       => null,
-				'name'     => null,
+				'name'     => '',
 				'weight'   => null,
 				'quantity' => 1,
 				'barcode'  => '',

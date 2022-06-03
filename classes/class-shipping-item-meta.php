@@ -59,6 +59,9 @@ class Shipping_Item_Meta {
 	 */
 	public static function validate_location( array $data, WP_Error $errors ): void {
 		$shipping_methods    = $data['shipping_method'];
+		if (! $shipping_methods) {
+			return;
+		}
 		$validation_required = false;
 		$instance_id         = 0;
 		foreach ( $shipping_methods as $method_id ) {

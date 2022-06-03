@@ -182,6 +182,7 @@ class Dropp_Consignment extends Model {
 	 * @param boolean $for_request True limits the fields to only those used to send to Dropp.is.
 	 *
 	 * @return array                Array representation.
+	 * @throws Exception
 	 */
 	public function to_array( bool $for_request = true ): array {
 		$products = [];
@@ -214,8 +215,13 @@ class Dropp_Consignment extends Model {
 			$consignment_array['updated_at']       = $this->updated_at;
 
 			// Add location.
-			$shipping_item                 = new WC_Order_Item_Shipping( $this->shipping_item_id );
-			$consignment_array['location'] = Dropp_Location::from_shipping_item( $shipping_item, $this->day_delivery );
+			$shipping_item          = new WC_Order_Item_Shipping( $this->shipping_item_id );
+			$shipping_item_location = Dropp_Location::from_shipping_item( $shipping_item, $this->day_delivery );
+			if ( $shipping_item_location->id === $this->location_id ) {
+				$consignment_array['location'] = $shipping_item_location;
+			} else {
+				$consignment_array['location'] = Dropp_Location::remote_find( $this->location_id );
+			}
 		}
 
 		return $consignment_array;

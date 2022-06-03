@@ -58,7 +58,7 @@ class Order_Adapter {
 	 *
 	 * @return integer              Count.
 	 */
-	public function count_consignments( bool $only_booked ): int {
+	public function count_consignments( bool $only_booked = false ): int {
 		global $wpdb;
 		$shipping_items    = $this->get_shipping_items();
 		$shipping_item_ids = [];

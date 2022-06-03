@@ -11,18 +11,19 @@ use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
 use WC_Order;
 use WC_Order_Item;
+use WC_Order_Item_Shipping;
 
 /**
  * Shipping method
  */
 class Dropp_Location extends Model {
 	/**
-	 * WC_Order_Item $order_item
+	 * WC_Order_Item_Shipping $order_item
 	 */
-	protected WC_Order_Item $order_item;
+	protected WC_Order_Item_Shipping $order_item;
 	public int $order_item_id;
 
-	public ?int $id;
+	public string $id;
 	public string $name;
 	public string $barcode;
 	public string $type;
@@ -73,11 +74,12 @@ class Dropp_Location extends Model {
 	/**
 	 * From Shipping Item
 	 *
-	 * @param integer $order_id (optional) Order ID.
+	 * @param WC_Order_Item_Shipping $shipping_item
+	 * @param null $day_delivery
 	 *
 	 * @return Dropp_Location Array of Dropp_Location.
 	 */
-	public static function from_shipping_item( $shipping_item, $day_delivery = null ) {
+	public static function from_shipping_item( WC_Order_Item_Shipping $shipping_item, $day_delivery = null ): Dropp_Location {
 		$location                = new self( $shipping_item->get_method_id() );
 		$location->order_item    = $shipping_item;
 		$location->order_item_id = $shipping_item->get_id();
@@ -117,6 +119,7 @@ class Dropp_Location extends Model {
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
+			/** @var WC_Order_Item_Shipping $order_item */
 			$location = self::from_shipping_item( $order_item );
 			if ( ! $location->id ) {
 				continue;
@@ -127,7 +130,7 @@ class Dropp_Location extends Model {
 		return $collection;
 	}
 
-	public static function remote_find( $location_id ) {
+	public static function remote_find( string $location_id ) {
 		$type = false;
 		// Special logic for hard-coded locations.
 		if ( '9ec1f30c-2564-4b73-8954-25b7b3186ed3' === $location_id ) {
@@ -182,7 +185,7 @@ class Dropp_Location extends Model {
 	 *
 	 * @return array Array representation.
 	 */
-	public function to_array() {
+	public function to_array(): array {
 		return [
 			'order_item_id' => $this->order_item_id,
 			'id'            => $this->id,

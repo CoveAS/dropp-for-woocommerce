@@ -55,6 +55,11 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.5.0 =
+
+* Added setting to allow booking with included return labels
+* Fixed a bug where the location would revert to the one selected at checkout when updating a booking with a different location
+
 = 1.4.11 =
 
 * Added option to book orders with return labels
@@ -62,7 +67,7 @@ If the order does not have a dropp shipping method attached to one of the order 
 = 1.4.10 =
 
 * Fixed tax calculation for free shipping
-* Fixed booking of home delivery with day time shipping (day delivery).
+* Fixed booking of home delivery with day time shipping (day delivery)
 
 = 1.4.8 =
 

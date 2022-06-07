@@ -8,7 +8,7 @@ Tested up to: 5.9.3
 Requires PHP: 7.4
 WC requires at least: 3.8.1
 WC tested up to: 6.4.1
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 
 Deliver parcels at delivery locations in Iceland
 
@@ -54,6 +54,10 @@ When an order has the status **Initial** it can be updated or cancelled.
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
 == Changelog ==
+
+= 1.5.1 =
+
+* Fixed a type error on orders without a dropp shipping item
 
 = 1.5.0 =
 

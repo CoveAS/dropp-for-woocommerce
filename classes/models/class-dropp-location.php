@@ -23,7 +23,7 @@ class Dropp_Location extends Model {
 	protected WC_Order_Item_Shipping $order_item;
 	public int $order_item_id;
 
-	public string $id;
+	public ?string $id = null;
 	public string $name;
 	public string $barcode;
 	public string $type;

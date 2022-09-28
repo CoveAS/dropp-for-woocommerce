@@ -276,7 +276,7 @@ class Dropp {
 		$pickup_enabled = get_transient( 'dropp_pickup_enabled' );
 		if ( empty( $pickup_enabled ) ) {
 			try {
-				$api            = new API( $shipping_method );
+				$api            = new API();
 				$result         = $api->get( 'orders/havepickup/' );
 				$pickup_enabled = ( ! empty( $result['pickup'] ) && $result['pickup'] ? 'yes' : 'no' );
 				set_transient( 'dropp_pickup_enabled', $pickup_enabled, ( 'yes' === $pickup_enabled ? DAY_IN_SECONDS : 300 ) );

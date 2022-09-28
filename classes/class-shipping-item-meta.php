@@ -116,9 +116,10 @@ class Shipping_Item_Meta {
 	 * Choose location button
 	 *
 	 * @param WC_Shipping_Rate $shipping_rate Shipping rate.
-	 * @param integer $index  Index.
+	 * @param mixed $index  Index.
 	 */
-	public static function choose_location_button( WC_Shipping_Rate $shipping_rate, int $index ) {
+	public static function choose_location_button( WC_Shipping_Rate $shipping_rate, $index ) {
+
 		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
 			return;
 		}

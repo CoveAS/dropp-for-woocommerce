@@ -12,6 +12,7 @@ use WC_Log_Levels;
 use WC_Logger;
 use WC_Shipping;
 use Dropp\Models\Model;
+use WP_Error;
 
 /**
  * API
@@ -145,10 +146,10 @@ class API {
 	 * @param string $url Url.
 	 * @param ?Model $model Model.
 	 *
-	 * @return array               Remote arguments.
+	 * @return array|WP_Error               Remote arguments.
 	 * @throws Exception Unknown method.
 	 */
-	public function remote( string $method, string $url, ?Model $model = null ): array {
+	public function remote( string $method, string $url, ?Model $model = null ) {
 		$log  = new WC_Logger();
 		$args = [
 			'headers' => [

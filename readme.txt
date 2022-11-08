@@ -55,6 +55,10 @@ If the order does not have a dropp shipping method attached to one of the order 
 
 == Changelog ==
 
+= 1.5.2 =
+
+* Fixed more type errors
+
 = 1.5.1 =
 
 * Fixed a type error on orders without a dropp shipping item

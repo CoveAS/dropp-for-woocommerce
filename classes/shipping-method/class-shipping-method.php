@@ -276,7 +276,17 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 */
 	public function calculate_shipping( $package = array() ) {
 		do_action( 'dropp_before_calculate_shipping', $package, $this );
-		parent::calculate_shipping( $package );
+		if ($this->get_pricetype() === 0) {
+			$location_data = WC()->session->get( 'dropp_session_location' );
+			$this->add_rate([
+				'id'      => $this->get_rate_id(),
+				'label'   => $this->title,
+				'cost'    => floatval( $location_data['price'] ?? 0 ),
+				'package' => $package,
+			]);
+		} else {
+			parent::calculate_shipping( $package );
+		}
 		do_action( 'dropp_after_calculate_shipping', $package, $this );
 	}
 

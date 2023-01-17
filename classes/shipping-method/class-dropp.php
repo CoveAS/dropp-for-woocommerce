@@ -45,6 +45,9 @@ class Dropp extends Shipping_Method {
 		if ( is_admin() || ! WC()->session ) {
 			return true;
 		}
+		if (0 === $this->get_pricetype()) {
+			return true;
+		}
 		return static::$price_type === $this->get_pricetype();
 	}
 

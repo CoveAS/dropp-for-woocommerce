@@ -34,6 +34,7 @@ class Dropp {
 		Tracking_Code::setup();
 		Checkout::setup();
 		Dropp_Oca_Admin_Warning::setup();
+		Sort_Shipping_Methods::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );

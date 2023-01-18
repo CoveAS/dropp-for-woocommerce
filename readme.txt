@@ -4,11 +4,11 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 6.1.0
+Tested up to: 6.1.1
 Requires PHP: 7.4
 WC requires at least: 3.8.1
-WC tested up to: 7.0.1
-Stable tag: 1.5.2
+WC tested up to: 7.3.0
+Stable tag: 1.5.3
 
 Deliver parcels at delivery locations in Iceland
 
@@ -54,6 +54,11 @@ When an order has the status **Initial** it can be updated or cancelled.
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
 == Changelog ==
+
+= 1.5.3 =
+
+* Added support for pickup at location (price type 0)
+* Added setting to insert dropp shipping options at the top in the cart and checkout
 
 = 1.5.2 =
 

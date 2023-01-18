@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Dropp\Actions\Create_Dropp_Location_Script_Url_Action;
 use WC_Order;
 
 /**
@@ -103,7 +104,7 @@ class Checkout {
 				[
 					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 					'storeid'           => $shipping_method->store_id,
-					'dropplocationsurl' => 'https://app.dropp.is/dropp-locations.min.js',
+					'dropplocationsurl' => (new Create_Dropp_Location_Script_Url_Action)(),
 					'i18n'              => [
 						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
 					],

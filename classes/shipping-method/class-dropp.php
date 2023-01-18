@@ -45,7 +45,8 @@ class Dropp extends Shipping_Method {
 		if ( is_admin() || ! WC()->session ) {
 			return true;
 		}
-		if (0 === $this->get_pricetype()) {
+		if (static::$price_type === 1 && 0 === $this->get_pricetype()) {
+			// Dropp::$price_type is 1 (Dropp inside capital area) and price type from location is 0
 			return true;
 		}
 		return static::$price_type === $this->get_pricetype();
@@ -66,7 +67,6 @@ class Dropp extends Shipping_Method {
 		}
 		parent::calculate_shipping( $package );
 	}
-
 
 	/**
 	 * Get instance of \Dropp\Shipping_Method\Dropp

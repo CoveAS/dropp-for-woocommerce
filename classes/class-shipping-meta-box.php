@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Dropp\Actions\Convert_Dropp_Order_Ids_To_Consignments_Action;
+use Dropp\Actions\Create_Dropp_Location_Script_Url_Action;
 use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\Models\Dropp_Consignment;
 use Dropp\Models\Dropp_Location;
@@ -116,7 +117,7 @@ class Shipping_Meta_Box {
 			'time_now'               => current_time( 'mysql' ),
 			'order_id'               => $order_id,
 			'ajaxurl'                => admin_url( 'admin-ajax.php' ),
-			'dropplocationsurl'      => '//app.dropp.is/dropp-locations.min.js',
+			'dropplocationsurl'      => (new Create_Dropp_Location_Script_Url_Action())(),
 			'customer_note'          => $customer_note,
 			'delivery_instructions'  => $delivery_instructions,
 			'storeid'                => $shipping_method->store_id,

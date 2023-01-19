@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2023-01-18 10:34+0800\n"
-"PO-Revision-Date: 2023-01-18 10:35+0800\n"
+"PO-Revision-Date: 2023-01-19 10:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -147,11 +147,11 @@ msgstr "Bæta við Flytjandi"
 
 #: classes/class-shipping-meta-box.php:141
 msgid "Add Pickup at warehouse"
-msgstr "Bæta við tiltekt í vöruhúsi"
+msgstr "Bæta við afehent í vöruhúsi"
 
 #: classes/class-shipping-meta-box.php:147
 msgid "Test"
-msgstr "Próf"
+msgstr "Prófa"
 
 #: classes/class-shipping-meta-box.php:148
 msgid "Actions"
@@ -266,7 +266,7 @@ msgstr "Símanúmer"
 
 #: classes/class-shipping-meta-box.php:175
 msgid "day delivery"
-msgstr "dagsafhending"
+msgstr "dagdreifing"
 
 #: classes/class-social-security-number.php:60
 msgid "Social security number must be 10 digits."
@@ -366,7 +366,7 @@ msgstr "Gat ekki búið til svæði"
 
 #: classes/shipping-method/class-daytime-delivery.php:38
 msgid "Dropp Daytime Delivery"
-msgstr "Dropp heimili afhending"
+msgstr "Dropp Heimsending(Dagdreifing)"
 
 #: classes/shipping-method/class-daytime-delivery.php:39
 msgid "Home delivery in Iceland between 10:00-17:00"
@@ -393,7 +393,7 @@ msgstr "Heimsending á Íslandi milli kl. 19:00-22:00"
 
 #: classes/shipping-method/class-home-delivery.php:47
 msgid "Dropp Home Delivery"
-msgstr "Dropp heimili afhending"
+msgstr "Dropp Heimsending"
 
 #: classes/shipping-method/class-pickup.php:25
 msgid "Pick-up at warehouse (Vatnagarðar 22)"
@@ -476,11 +476,11 @@ msgstr "Smelltu hér %s til að sækja (test) API lykilinn þinn."
 
 #: traits/trait-shipping-settings.php:128
 msgid "Store ID"
-msgstr "Verslun ID"
+msgstr "Store ID"
 
 #: traits/trait-shipping-settings.php:130
 msgid "Store ID from dropp.is"
-msgstr "Verslun ID frá Dropp"
+msgstr "Store ID frá Dropp"
 
 #: traits/trait-shipping-settings.php:136
 msgid "New order status"
@@ -496,19 +496,19 @@ msgstr "- Ekki breyta -"
 
 #: traits/trait-shipping-settings.php:146
 msgid "Dropp first"
-msgstr "Dropp fyrst"
+msgstr "Dropp efst"
 
 #: traits/trait-shipping-settings.php:147
 msgid "Put dropp shipping rates first in cart and checkout"
-msgstr "Settu sendingargjöld fyrst í körfu og afgreiðslu"
+msgstr "Settu Dropp fremst sem afhendingarmáta"
 
 #: traits/trait-shipping-settings.php:152
 msgid "Return labels"
-msgstr "Skilamerkingar"
+msgstr "Endursendingarmiðar"
 
 #: traits/trait-shipping-settings.php:153
 msgid "Generate return labels when booking"
-msgstr "Búa til skilamerki við bókun"
+msgstr "Búa til endursendingarmiða við bókun"
 
 #: traits/trait-shipping-settings.php:160
 msgid "Copy customer notes "
@@ -520,7 +520,7 @@ msgid ""
 "booking"
 msgstr ""
 "Afrita athugasemdir viðskiptavina úr pöntuninni í afhendingarleiðbeiningar í "
-"fellibókuninni"
+"bókuninni"
 
 #: traits/trait-shipping-settings.php:170
 msgid "Enable social security number"
@@ -544,11 +544,11 @@ msgstr "Gera kennitölu að svæði sem verður að fylla út."
 
 #: traits/trait-shipping-settings.php:186
 msgid "Location in label"
-msgstr "Staðsetning í merki"
+msgstr "Staðsetning í límmiða"
 
 #: traits/trait-shipping-settings.php:187
 msgid "Enable location name in the shipping item label"
-msgstr "Virkja staðsetningarheiti í merki sendingarvöru"
+msgstr "Virkja staðsetningarheiti í límmiða sendingarvöru"
 
 #: traits/trait-shipping-settings.php:193
 msgid "Test mode"

@@ -216,17 +216,4 @@ trait Shipping_Settings
 			],
 		];
 	}
-
-	/**
-	 * Get setting form fields for instances of this shipping method within zones.
-	 *
-	 * @return array
-	 */
-	public function get_instance_form_fields()
-	{
-		$form_fields                     = parent::get_instance_form_fields();
-		$form_fields['title']['default'] = $this->method_title;
-
-		return $form_fields;
-	}
 }

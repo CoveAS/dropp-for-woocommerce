@@ -19,7 +19,7 @@ class Home_Delivery extends Shipping_Method {
 	 *
 	 * @var int
 	 */
-	public int $weight_limit = 60;
+	public int $weight_limit = 350;
 
 	/**
 	 * Capital Area

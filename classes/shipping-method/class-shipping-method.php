@@ -7,6 +7,7 @@
 
 namespace Dropp\Shipping_Method;
 
+use Dropp\Cost_Tier;
 use Dropp\Shipping_Settings;
 use Dropp\API;
 use Exception;
@@ -19,12 +20,18 @@ use WC_Tax;
 abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	use Shipping_Settings;
 
+
+	/**
+	 * Cost tiers
+	 */
+	protected array $costTiers = [];
+
 	/**
 	 * Weight Limit in KG
 	 *
 	 * @var int
 	 */
-	public int $weight_limit = 10;
+	public int $weight_limit = 30;
 
 	/**
 	 * Daytime delivery true or false
@@ -62,6 +69,31 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			'settings',
 			'instance-settings',
 			'instance-settings-modal',
+		);
+		$this->costTiers[] = new Cost_Tier(
+			10,
+			'0 kg < 10 kg',
+			'0'
+		);
+		$this->costTiers[] = new Cost_Tier(
+			10,
+			'10 kg < 30 kg',
+			'0'
+		);
+		$this->costTiers[] = new Cost_Tier(
+			10,
+			'30 kg < 50 kg',
+			'0'
+		);
+		$this->costTiers[] = new Cost_Tier(
+			10,
+			'50 kg < 75 kg',
+			'0'
+		);
+		$this->costTiers[] = new Cost_Tier(
+			10,
+			'75 kg < 150 kg',
+			'0'
 		);
 		$this->init();
 	}
@@ -167,8 +199,21 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		if ( empty( $additional ) ) {
 			return $form_fields;
 		}
-		$pos = array_search( 'cost', array_keys( $form_fields ) ) + 1;
-		$len = count( $form_fields );
+
+		/** @var Cost_Tier $costTier */
+		$title = $form_fields['cost']['title'];
+		foreach ($this->costTiers as $i => $costTier) {
+			$key = $costTier->getKey($i);
+			if (! isset($form_fields[$key])) {
+				$form_fields[$key] = $form_fields['cost'];
+			}
+			$form_fields[$key]['title'] = $title . ' ' . $costTier->suffix;
+		}
+		$keys = array_keys( $form_fields );
+		$filtered = preg_grep( '/^cost(_\d+)?$/', $keys );
+		$key = end($filtered);
+		$pos = array_search($key, $keys, true) + 1;
+		ray($key, $keys, $pos);
 
 		// Insert additional fields after costs.
 		$form_fields = array_merge(
@@ -214,7 +259,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * Evaluate a cost from a sum/string.
 	 *
 	 * @param string $sum Sum of shipping.
-	 * @param array $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat reasons.
+	 * @param array $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat
+	 *                    reasons.
 	 *
 	 * @return string
 	 */

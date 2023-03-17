@@ -8,6 +8,7 @@
 namespace Dropp\Shipping_Method;
 
 use Dropp\Cost_Tier;
+use Dropp\Models\Price_Info;
 use Dropp\Shipping_Settings;
 use Dropp\API;
 use Exception;
@@ -70,6 +71,7 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			'instance-settings',
 			'instance-settings-modal',
 		);
+
 		$this->costTiers[] = new Cost_Tier(
 			10,
 			'0 kg < 10 kg',
@@ -213,16 +215,13 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$filtered = preg_grep( '/^cost(_\d+)?$/', $keys );
 		$key = end($filtered);
 		$pos = array_search($key, $keys, true) + 1;
-		ray($key, $keys, $pos);
 
 		// Insert additional fields after costs.
-		$form_fields = array_merge(
+		return array_merge(
 			array_slice( $form_fields, 0, $pos ),
 			$additional,
 			array_slice( $form_fields, $pos, null )
 		);
-
-		return $form_fields;
 	}
 
 	/**

@@ -192,7 +192,7 @@ class API {
 	 * @return array|string              Decoded json, string body or raw response object.
 	 * @throws Exception      $e         Response exception.
 	 */
-	protected function process_response( string $method, $response, string $data_type = 'json' ) {
+	protected function process_response( string $method, WP_Error|array $response, string $data_type = 'json' ): array|string {
 		$log = new WC_Logger();
 		if ( is_wp_error( $response ) ) {
 			$log->add(

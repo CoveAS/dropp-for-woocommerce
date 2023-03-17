@@ -15,19 +15,9 @@ use Countable;
  */
 class Collection implements ArrayAccess, Countable  {
 	/**
-	 * $container
-	 *
-	 * @var array
-	 */
-	protected $container = [];
-
-	/**
 	 * Construct
-	 *
-	 * @param array $container Data to store.
 	 */
-	public function __construct( $container = [] ) {
-		$this->container = $container;
+	public function __construct( protected array $items = [] ) {
 	}
 
 	/**
@@ -35,8 +25,9 @@ class Collection implements ArrayAccess, Countable  {
 	 *
 	 * @return integer Item count.
 	 */
-	public function count() {
-		return count( $this->container );
+	public function count(): int
+	{
+		return count( $this->items );
 	}
 	/**
 	 * Add
@@ -44,30 +35,35 @@ class Collection implements ArrayAccess, Countable  {
 	 * @param  mixed      $item Item to add to the collection.
 	 * @return Collection       This object.
 	 */
-	public function add( $item ) {
-		$this->container[] = $item;
+	public function add( mixed $item ): static
+	{
+		$this->items[] = $item;
 		return $this;
 	}
 
 	/**
 	 * Merge
 	 *
-	 * @param  Collection $item Collection to merge with.
+	 * @param $collection
+	 *
 	 * @return Collection       This object.
 	 */
-	public function merge( $collection ) {
-		$this->container = array_merge( $this->container, $collection->to_array() );
+	public function merge( $collection ): static
+	{
+		$this->items = array_merge( $this->items, $collection->to_array() );
 		return $this;
 	}
 
 	/**
 	 * Filter
 	 *
-	 * @param  Collection $item Collection to merge with.
+	 * @param $callback
+	 *
 	 * @return Collection       This object.
 	 */
-	public function filter( $callback ) {
-		$this->container = array_filter( $this->container, $callback );
+	public function filter( $callback ): static
+	{
+		$this->items = array_filter( $this->items, $callback );
 		return $this;
 	}
 
@@ -76,19 +72,21 @@ class Collection implements ArrayAccess, Countable  {
 	 *
 	 * @return array Collection as array.
 	 */
-	public function to_array() {
-		return $this->container;
+	public function to_array(): array
+	{
+		return $this->items;
 	}
 
 	/**
 	 * Map
 	 */
-	public function map( $callback, ...$params ) {
+	public function map( $callback, ...$params ): array
+	{
 		return array_map(
 			function( $item ) use ( $callback, $params ) {
 				return call_user_func_array( [ $item, $callback ], $params );
 			},
-			$this->container
+			$this->items
 		);
 	}
 
@@ -98,11 +96,11 @@ class Collection implements ArrayAccess, Countable  {
 	 * @param int|string $offset Offset.
 	 * @param mixed      $value  Value.
 	 */
-	public function offsetSet( $offset, $value ) {
+	public function offsetSet( $offset, mixed $value ): void {
 		if ( is_null( $offset ) ) {
-			$this->container[] = $value;
+			$this->items[] = $value;
 		} else {
-			$this->container[ $offset ] = $value;
+			$this->items[$offset ] = $value;
 		}
 	}
 
@@ -112,8 +110,9 @@ class Collection implements ArrayAccess, Countable  {
 	 * @param  int|string $offset Offset.
 	 * @return boolean            True when offset exists.
 	 */
-	public function offsetExists( $offset ) {
-		return isset( $this->container[ $offset ] );
+	public function offsetExists( $offset ): bool
+	{
+		return isset($this->items[$offset ] );
 	}
 
 	/**
@@ -121,8 +120,8 @@ class Collection implements ArrayAccess, Countable  {
 	 *
 	 * @param  int|string $offset Offset.
 	 */
-	public function offsetUnset( $offset ) {
-		unset( $this->container[ $offset ] );
+	public function offsetUnset( $offset ): void {
+		unset($this->items[$offset ] );
 	}
 
 	/**
@@ -131,17 +130,16 @@ class Collection implements ArrayAccess, Countable  {
 	 * @param  int|string $offset Offset.
 	 * @return mixed              Value.
 	 */
-	public function offsetGet( $offset ) {
-		return isset( $this->container[ $offset ] ) ? $this->container[ $offset ] : null;
+	public function offsetGet( $offset ): mixed
+	{
+		return $this->items[$offset] ?? null;
 	}
 
 	/**
 	 * Is empty
-	 *
-	 * @param  int|string $offset Offset.
-	 * @return mixed              Value.
 	 */
-	public function isEmpty() {
-		return empty( $this->container );
+	public function isEmpty(): bool
+	{
+		return empty( $this->items );
 	}
 }

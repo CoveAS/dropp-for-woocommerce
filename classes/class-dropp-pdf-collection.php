@@ -59,13 +59,13 @@ class Dropp_PDF_Collection extends Collection {
 	}
 
 	public function get_content(): string {
-		if ( 1 === count( $this->container ) ) {
-			$item = reset( $this->container );
+		if ( 1 === count( $this->items ) ) {
+			$item = reset( $this->items );
 			return $item->get_content();
 		}
 		require_once dirname( __DIR__ ) . '/includes/loader.php';
 		$merger = new \iio\libmergepdf\Merger;
-		foreach ( $this->container as $item ) {
+		foreach ($this->items as $item ) {
 			$file = $item->download()->get_filename();
 			$merger->addFile( $file );
 		}

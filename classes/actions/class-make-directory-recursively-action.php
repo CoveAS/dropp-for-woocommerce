@@ -23,6 +23,9 @@ class Make_Directory_Recursively_Action {
 		$dir = implode('/', $root);
 		foreach ($local as $basename) {
 			$dir .= "/$basename";
+			if ($wp_filesystem->is_dir($dir)) {
+				continue;
+			}
 			if (! $wp_filesystem->mkdir($dir)) {
 				return false;
 			}

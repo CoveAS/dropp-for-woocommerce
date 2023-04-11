@@ -11,6 +11,7 @@ use Dropp\Models\Dropp_Return_PDF;
 use Exception;
 use Dropp\Models\Dropp_PDF;
 use Dropp\Models\Dropp_Consignment;
+use iio\libmergepdf\Merger;
 
 /**
  * Dropp PDF
@@ -60,14 +61,15 @@ class Dropp_PDF_Collection extends Collection {
 
 	public function get_content(): string {
 		if ( 1 === count( $this->items ) ) {
+			/** @var Dropp_PDF $item */
 			$item = reset( $this->items );
 			return $item->get_content();
 		}
 		require_once dirname( __DIR__ ) . '/includes/loader.php';
-		$merger = new \iio\libmergepdf\Merger;
+		$merger = new Merger;
 		foreach ($this->items as $item ) {
-			$file = $item->download()->get_filename();
-			$merger->addFile( $file );
+			/** @var Dropp_PDF $item */
+			$merger->addRaw( $item->get_content() );
 		}
 		return $merger->merge();
 	}

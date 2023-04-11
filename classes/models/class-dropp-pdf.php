@@ -1,16 +1,16 @@
 <?php
 /**
- * Booking
+ * Dropp PDF
  *
  * @package dropp-for-woocommerce
  */
 
 namespace Dropp\Models;
 
+use Dropp\Actions\Make_Directory_Recursively_Action;
 use Dropp\API;
 use Exception;
-use WC_Log_Levels;
-use WC_Logger;
+use WP_Filesystem_Base;
 
 /**
  * Dropp PDF
@@ -92,26 +92,6 @@ class Dropp_PDF extends Model {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return Dropp_PDF             This object.
-	 * @throws Exception $e        Sending exception.
-	 */
-	public function download(): Dropp_PDF {
-		global $wp_filesystem;
-
-		require_once ABSPATH . '/wp-admin/includes/file.php';
-		WP_Filesystem();
-		$filename = $this->get_filename();
-		if ( ! $wp_filesystem->exists( $filename ) ) {
-			$pdf = $this->remote_get();
-			$wp_filesystem->put_contents( $filename, $pdf );
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Get content.
 	 *
 	 * First attempts to get a downloaded PDF, then tries to get from remote.
@@ -120,21 +100,27 @@ class Dropp_PDF extends Model {
 	 * @throws Exception $e        Sending exception.
 	 */
 	public function get_content(): string {
+		/** @var WP_Filesystem_Base $wp_filesystem */
 		global $wp_filesystem;
 
 		require_once ABSPATH . '/wp-admin/includes/file.php';
 		WP_Filesystem();
 
-		$uploads_dir = self::get_dir();
 		$filename    = $this->get_filename();
-		if ( ! $wp_filesystem->exists( $filename ) ) {
-			$this->download();
-		}
-		if ( ! $wp_filesystem->exists( $filename ) ) {
-			return $this->remote_get();
+		$wp_filesystem->connect();
+		if ( $wp_filesystem->exists( $filename ) ) {
+			return $wp_filesystem->get_contents( $filename );
 		}
 
-		return $wp_filesystem->get_contents( $filename );
+		$pdf = $this->remote_get();
+		if (! (new Make_Directory_Recursively_Action)(dirname($filename), 3)) {
+			return $pdf;
+		}
+		if (! $wp_filesystem->touch($filename) ) {
+			return $pdf;
+		}
+		$wp_filesystem->put_contents( $filename, $pdf );
+		return $pdf;
 	}
 
 	/**
@@ -150,37 +136,20 @@ class Dropp_PDF extends Model {
 
 		$uploads_dir['baseurl'] .= '/dropp-labels';
 		$uploads_dir['basedir'] .= '/dropp-labels';
+
 		$uploads_dir['subdir']  = $uploads_dir['basedir'];
 		$uploads_dir['path']    = $uploads_dir['basedir'];
 		$uploads_dir['url']     = $uploads_dir['baseurl'];
 
-		$dir = $uploads_dir['basedir'];
-		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
-
-			return $uploads_dir;
-		}
 		$year                  = gmdate( 'Y' );
 		$uploads_dir['subdir'] .= "/$year";
 		$uploads_dir['url']    .= "/$year";
 		$uploads_dir['path']   .= "/$year";
-		$dir                   = $uploads_dir['subdir'];
-		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
-
-			return $uploads_dir;
-		}
 
 		$month                 = gmdate( 'm' );
 		$uploads_dir['subdir'] .= "/$month";
 		$uploads_dir['url']    .= "/$month";
 		$uploads_dir['path']   .= "/$month";
-		$dir                   = $uploads_dir['subdir'];
-		if ( ! is_dir( $dir ) && ! mkdir( $dir ) ) {
-			$uploads_dir['error'] = __( 'Could not create directory', 'dropp-for-woocommerce' ) . ", \"$dir\"";
-
-			return $uploads_dir;
-		}
 
 		return $uploads_dir;
 	}

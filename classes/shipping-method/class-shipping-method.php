@@ -7,8 +7,9 @@
 
 namespace Dropp\Shipping_Method;
 
+use Dropp\Actions\Get_Remote_Price_Info_Action;
 use Dropp\Cost_Tier;
-use Dropp\Models\Price_Info;
+use Dropp\Data\Price_Info_Data;
 use Dropp\Shipping_Settings;
 use Dropp\API;
 use Exception;
@@ -267,6 +268,10 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$cost          = parent::evaluate_cost( $sum, $args );
 		$free_shipping = $this->get_instance_option( 'free_shipping' );
 		$threshold     = $this->get_instance_option( 'free_shipping_threshold' );
+
+		$prices = Price_Info_Data::get_instance();
+		ray($prices);
+
 		if ( apply_filters( 'dropp_free_shipping_enabled', 'yes' !== $free_shipping, $this, $sum, $args ) ) {
 			return $cost;
 		}

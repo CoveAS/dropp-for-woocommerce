@@ -179,6 +179,8 @@ class API {
 			);
 		}
 
+		ray($url, $args)->green();
+
 		return wp_remote_request( $url, $args );
 	}
 

@@ -19,6 +19,8 @@ class Dropp {
 	 */
 	public static function loaded() {
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
+		require_once dirname( __DIR__ ) . '/traits/trait-calculates-package-weight.php';
+
 		spl_autoload_register( __CLASS__ . '::class_loader' );
 
 		Shipping_Calculation_Shortcodes::setup();
@@ -35,6 +37,7 @@ class Dropp {
 		Checkout::setup();
 		Dropp_Oca_Admin_Warning::setup();
 		Sort_Shipping_Methods::setup();
+		Modify_Rate_Cost_By_Weight::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_init', __CLASS__ . '::upgrade' );

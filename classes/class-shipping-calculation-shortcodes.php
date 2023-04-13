@@ -7,17 +7,13 @@
 
 namespace Dropp;
 
-use Exception;
-use WC_Log_Levels;
-use WC_Logger;
-use WC_Shipping;
-use Dropp\Models\Model;
 use WC_Shipping_Method;
 
 /**
  * API
  */
 class Shipping_Calculation_Shortcodes {
+	use Calculates_Package_Weight;
 	protected array $package;
 	protected WC_Shipping_Method $shipping_method;
 	public function __construct( array $package, WC_Shipping_Method $shipping_method ) {
@@ -42,15 +38,7 @@ class Shipping_Calculation_Shortcodes {
 	}
 
 	public function kg( array $atts, $content ): float {
-		$total_weight = 0;
-		if ( ! empty( $this->package ) ) {
-			foreach ( $this->package['contents'] as $item ) {
-				if ( empty( $item['data'] ) ) {
-					continue;
-				}
-				$total_weight += $item['quantity'] * wc_get_weight( $item['data']->get_weight(), 'kg' );
-			}
-		}
+		$total_weight = $this->calculate_package_weight();
 
 		if ( ! $this->test( $total_weight, $atts, 'kg' ) ) {
 			return 0;

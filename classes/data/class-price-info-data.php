@@ -20,6 +20,7 @@ class Price_Info_Data {
 	protected static self $instance;
 
 	private function __construct(
+		protected int $updated_at,
 		protected int $expire_at,
 		protected array $items = [],
 	) {
@@ -35,10 +36,12 @@ class Price_Info_Data {
 		$price_info = $dropp->get_option('price_info', []);
 		$items = $price_info['items'] ?? [];
 		$expire_at = $price_info['expire_at'] ?? 0;
+		$updated_at = $price_info['updated_at'] ?? time();
 
 		// Get from remote when option is empty or expired
 		if (empty($items) || $expire_at < time() ) {
 			$items = (new Get_Remote_Price_Info_Action)();
+			$updated_at = time();
 			$expire_at = time() + self::TTL;
 
 			// Save to options
@@ -47,6 +50,7 @@ class Price_Info_Data {
 				[
 					'items' => $items,
 					'expire_at' => $expire_at,
+					'updated_at' => $updated_at,
 				]
 			);
 		}
@@ -63,15 +67,21 @@ class Price_Info_Data {
 			);
 			usort(
 				$mapped_prices,
-				fn(Price_Data $a, Price_Data $b) => $a->max_weight < $b->max_weight ? 1 : -1
+				fn(Price_Data $a, Price_Data $b) => $a->max_weight > $b->max_weight ? 1 : -1
 			);
 			$mapped_items[$key] = $mapped_prices;
 		}
 
 		self::$instance = new self(
+			$updated_at,
 			$expire_at,
 			$mapped_items
 		);
 		return self::$instance;
+	}
+
+	public function get(?string $code): array
+	{
+		return $this->items[$code] ?? [];
 	}
 }

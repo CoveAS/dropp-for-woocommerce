@@ -15,6 +15,13 @@ use Dropp\API;
 class Home_Delivery_Outside_Capital_Area extends Home_Delivery {
 
 	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = 'homeoutside';
+
+	/**
 	 * Capital Area
 	 *
 	 * @var string One of 'inside', 'outside', '!inside' or 'both'

@@ -15,6 +15,13 @@ use Dropp\API;
 class Dropp_Outside_Capital_Area extends Dropp {
 
 	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = 'droppoutside';
+
+	/**
 	 * Price Type
 	 *
 	 * @var integer Either 1 or 2. One being inside capital area, and 2 outside.

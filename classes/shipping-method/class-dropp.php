@@ -13,6 +13,13 @@ namespace Dropp\Shipping_Method;
 class Dropp extends Shipping_Method {
 
 	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = 'droppcapital';
+
+	/**
 	 * Original title
 	 *
 	 * @var string

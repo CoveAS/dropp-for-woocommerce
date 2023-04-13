@@ -15,6 +15,13 @@ use Dropp\API;
 class Home_Delivery extends Shipping_Method {
 
 	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = 'homecapital';
+
+	/**
 	 * Weight Limit in KG
 	 *
 	 * @var int

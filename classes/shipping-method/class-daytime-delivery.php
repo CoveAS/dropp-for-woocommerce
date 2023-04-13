@@ -13,6 +13,14 @@ use Dropp\API;
  * Daytime Delivery
  */
 class Daytime_Delivery extends Home_Delivery {
+
+	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = 'dayhomecapital';
+
 	/**
 	 * No address available
 	 *

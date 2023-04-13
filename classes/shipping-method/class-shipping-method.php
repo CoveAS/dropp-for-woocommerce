@@ -9,6 +9,7 @@ namespace Dropp\Shipping_Method;
 
 use Dropp\Actions\Get_Remote_Price_Info_Action;
 use Dropp\Cost_Tier;
+use Dropp\Data\Price_Data;
 use Dropp\Data\Price_Info_Data;
 use Dropp\Shipping_Settings;
 use Dropp\API;
@@ -19,9 +20,16 @@ use WC_Tax;
 /**
  * Shipping method
  */
-abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
+abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
+{
 	use Shipping_Settings;
 
+	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code;
 
 	/**
 	 * Cost tiers
@@ -61,11 +69,12 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @param int $instance_id Shipping method instance.
 	 */
-	public function __construct( int $instance_id = 0 ) {
+	public function __construct(int $instance_id = 0)
+	{
 		$this->id                 = 'dropp_is';
-		$this->instance_id        = absint( $instance_id );
-		$this->method_title       = __( 'Dropp', 'dropp-for-woocommerce' );
-		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
+		$this->instance_id        = absint($instance_id);
+		$this->method_title       = __('Dropp', 'dropp-for-woocommerce');
+		$this->method_description = __('Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce');
 		$this->supports           = array(
 			'shipping-zones',
 			'settings',
@@ -73,47 +82,25 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 			'instance-settings-modal',
 		);
 
-		$this->costTiers[] = new Cost_Tier(
-			10,
-			'0 kg < 10 kg',
-			'0'
-		);
-		$this->costTiers[] = new Cost_Tier(
-			10,
-			'10 kg < 30 kg',
-			'0'
-		);
-		$this->costTiers[] = new Cost_Tier(
-			10,
-			'30 kg < 50 kg',
-			'0'
-		);
-		$this->costTiers[] = new Cost_Tier(
-			10,
-			'50 kg < 75 kg',
-			'0'
-		);
-		$this->costTiers[] = new Cost_Tier(
-			10,
-			'75 kg < 150 kg',
-			'0'
-		);
+
 		$this->init();
 	}
 
 	/**
 	 * Initialize free shipping.
 	 */
-	public function init(): void {
+	public function init(): void
+	{
 		parent::init();
 
 		// Load the settings.
+		$this->init_cost_tiers();
 		$this->init_form_fields();
 		$this->init_settings();
 		$this->init_properties();
 
 		// Actions.
-		add_action( 'woocommerce_update_options_shipping_' . $this->id, [ $this, 'process_admin_options' ] );
+		add_action('woocommerce_update_options_shipping_'.$this->id, [$this, 'process_admin_options']);
 	}
 
 	/**
@@ -123,64 +110,66 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return bool
 	 */
-	public function is_available( $package ): bool {
-		if ( static::$no_address_available && empty( $package['destination']['postcode'] ) ) {
+	public function is_available($package): bool
+	{
+		if (static::$no_address_available && empty($package['destination']['postcode'])) {
 			return true;
 		}
 		$is_available = true;
 		$total_weight = 0;
-		foreach ( $package['contents'] as $item ) {
-			if ( empty( $item['data'] ) ) {
+		foreach ($package['contents'] as $item) {
+			if (empty($item['data'])) {
 				continue;
 			}
-			$total_weight += $item['quantity'] * wc_get_weight( $item['data']->get_weight(), 'kg' );
+			$total_weight += $item['quantity'] * wc_get_weight($item['data']->get_weight(), 'kg');
 		}
-		if ( $total_weight > $this->weight_limit && 0 !== $this->weight_limit ) {
+		if ($total_weight > $this->weight_limit && 0 !== $this->weight_limit) {
 			$is_available = false;
-		} elseif ( empty( $package['destination']['country'] ) || empty( $package['destination']['postcode'] ) ) {
+		} elseif (empty($package['destination']['country']) || empty($package['destination']['postcode'])) {
 			$is_available = false;
-		} elseif ( 'IS' !== $package['destination']['country'] ) {
+		} elseif ('IS' !== $package['destination']['country']) {
 			$is_available = false;
-		} elseif ( ! $this->validate_postcode( $package['destination']['postcode'], static::$capital_area ) ) {
+		} elseif (!$this->validate_postcode($package['destination']['postcode'], static::$capital_area)) {
 			$is_available = false;
 		}
 
-		return apply_filters( 'woocommerce_shipping_' . $this->id . '_is_available', $is_available, $package, $this );
+		return apply_filters('woocommerce_shipping_'.$this->id.'_is_available', $is_available, $package, $this);
 	}
 
 	/**
 	 * Validate postcode
 	 *
-	 * @param string $postcode Postcode.
+	 * @param string $postcode     Postcode.
 	 * @param string $capital_area (optional) One of 'inside', 'outside', '!inside' or 'both'.
 	 *
 	 * @return boolean Valid post code.
 	 */
-	public function validate_postcode( string $postcode, string $capital_area = 'inside' ): bool {
-		if ( 'both' === static::$capital_area ) {
+	public function validate_postcode(string $postcode, string $capital_area = 'inside'): bool
+	{
+		if ('both' === static::$capital_area) {
 			return true;
 		}
-		$api       = new API( $this );
-		$postcodes = get_transient( 'dropp_delivery_postcodes' );
-		if ( empty( $postcodes ) || ! is_array( $postcodes[0] ) ) {
-			$response  = $api->noauth()->get( 'dropp/location/deliveryzips' );
+		$api       = new API($this);
+		$postcodes = get_transient('dropp_delivery_postcodes');
+		if (empty($postcodes) || !is_array($postcodes[0])) {
+			$response  = $api->noauth()->get('dropp/location/deliveryzips');
 			$postcodes = $response['codes'];
-			set_transient( 'dropp_delivery_postcodes', $postcodes, 600 );
+			set_transient('dropp_delivery_postcodes', $postcodes, 600);
 		}
 
-		foreach ( $postcodes as $area ) {
-			if ( "{$area['code']}" !== "{$postcode}" ) {
+		foreach ($postcodes as $area) {
+			if ("{$area['code']}" !== "{$postcode}") {
 				continue;
 			}
-			if ( 'both' === $capital_area ) {
+			if ('both' === $capital_area) {
 				return true;
 			}
 
 			// Check if area matches inside or outside capital area.
-			return ( 'inside' === $capital_area ) === $area['capital'];
+			return ('inside' === $capital_area) === $area['capital'];
 		}
 
-		if ( '!inside' === $capital_area ) {
+		if ('!inside' === $capital_area) {
 			return true;
 		}
 
@@ -192,14 +181,15 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return array
 	 */
-	public function get_instance_form_fields(): array {
+	public function get_instance_form_fields(): array
+	{
 		$form_fields                     = parent::get_instance_form_fields();
 		$form_fields['title']['default'] = $this->method_title;
-		if ( empty( $form_fields['cost'] ) ) {
+		if (empty($form_fields['cost'])) {
 			return $form_fields;
 		}
-		$additional = $this->get_additional_form_fields( $form_fields );
-		if ( empty( $additional ) ) {
+		$additional = $this->get_additional_form_fields($form_fields);
+		if (empty($additional)) {
 			return $form_fields;
 		}
 
@@ -207,21 +197,22 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 		$title = $form_fields['cost']['title'];
 		foreach ($this->costTiers as $i => $costTier) {
 			$key = $costTier->getKey($i);
-			if (! isset($form_fields[$key])) {
+			if (!isset($form_fields[$key])) {
 				$form_fields[$key] = $form_fields['cost'];
 			}
-			$form_fields[$key]['title'] = $title . ' ' . $costTier->suffix;
+			$form_fields[$key]['title'] = $title.' '.$costTier->suffix;
+			$form_fields[$key]['placeholder'] = $costTier->placeholder;
 		}
-		$keys = array_keys( $form_fields );
-		$filtered = preg_grep( '/^cost(_\d+)?$/', $keys );
-		$key = end($filtered);
-		$pos = array_search($key, $keys, true) + 1;
+		$keys     = array_keys($form_fields);
+		$filtered = preg_grep('/^cost(_\d+)?$/', $keys);
+		$key      = end($filtered);
+		$pos      = array_search($key, $keys, true) + 1;
 
 		// Insert additional fields after costs.
 		return array_merge(
-			array_slice( $form_fields, 0, $pos ),
+			array_slice($form_fields, 0, $pos),
 			$additional,
-			array_slice( $form_fields, $pos, null )
+			array_slice($form_fields, $pos, null)
 		);
 	}
 
@@ -232,11 +223,12 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return array              Additional form fields.
 	 */
-	public function get_additional_form_fields( array $form_fields ): array {
+	public function get_additional_form_fields(array $form_fields): array
+	{
 		return [
 			'free_shipping'           => [
-				'title'       => __( 'Free shipping', 'dropp-for-woocommerce' ),
-				'label'       => __( 'Enable', 'dropp-for-woocommerce' ),
+				'title'       => __('Free shipping', 'dropp-for-woocommerce'),
+				'label'       => __('Enable', 'dropp-for-woocommerce'),
 				'type'        => 'checkbox',
 				'placeholder' => '',
 				'description' => '',
@@ -244,10 +236,11 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 				'desc_tip'    => false,
 			],
 			'free_shipping_threshold' => [
-				'title'             => __( 'Free shipping for orders above', 'dropp-for-woocommerce' ),
+				'title'             => __('Free shipping for orders above', 'dropp-for-woocommerce'),
 				'type'              => 'text',
 				'placeholder'       => '0',
-				'description'       => __( 'Only enable free shipping if the cart total exceeds this value.', 'dropp-for-woocommerce' ),
+				'description'       => __('Only enable free shipping if the cart total exceeds this value.',
+					'dropp-for-woocommerce'),
 				'default'           => '0',
 				'desc_tip'          => true,
 				'sanitize_callback' => 'floatval',
@@ -258,48 +251,49 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	/**
 	 * Evaluate a cost from a sum/string.
 	 *
-	 * @param string $sum Sum of shipping.
-	 * @param array $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat
-	 *                    reasons.
+	 * @param string $sum  Sum of shipping.
+	 * @param array  $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat
+	 *                     reasons.
 	 *
 	 * @return string
 	 */
-	protected function evaluate_cost( $sum, $args = array() ) {
-		$cost          = parent::evaluate_cost( $sum, $args );
-		$free_shipping = $this->get_instance_option( 'free_shipping' );
-		$threshold     = $this->get_instance_option( 'free_shipping_threshold' );
+	protected function evaluate_cost($sum, $args = array())
+	{
+		$cost          = parent::evaluate_cost($sum, $args);
+		$free_shipping = $this->get_instance_option('free_shipping');
+		$threshold     = $this->get_instance_option('free_shipping_threshold');
 
 		$prices = Price_Info_Data::get_instance();
-		ray($prices);
+//		ray($prices);
 
-		if ( apply_filters( 'dropp_free_shipping_enabled', 'yes' !== $free_shipping, $this, $sum, $args ) ) {
+		if (apply_filters('dropp_free_shipping_enabled', 'yes' !== $free_shipping, $this, $sum, $args)) {
 			return $cost;
 		}
-		if ( empty( $threshold ) || empty( $cost ) ) {
+		if (empty($threshold) || empty($cost)) {
 			// No threshold or no cost specified. Shipping is free.
 			return 0;
 		}
 		$total      = WC()->cart->get_cart_contents_total();
 		$calc_taxes = filter_var(
-			get_option( 'woocommerce_calc_taxes' ),
+			get_option('woocommerce_calc_taxes'),
 			FILTER_VALIDATE_BOOLEAN
 		);
-		if ( $calc_taxes ) {
+		if ($calc_taxes) {
 			$prices_including_tax  = filter_var(
-				get_option( 'woocommerce_prices_include_tax' ),
+				get_option('woocommerce_prices_include_tax'),
 				FILTER_VALIDATE_BOOLEAN
 			);
-			$display_including_tax = 'incl' === get_option( 'woocommerce_tax_display_cart' );
-			if ( $prices_including_tax && $display_including_tax ) {
+			$display_including_tax = 'incl' === get_option('woocommerce_tax_display_cart');
+			if ($prices_including_tax && $display_including_tax) {
 				$total += WC()->cart->get_cart_contents_tax();
 			}
-			if ( $prices_including_tax && ! $display_including_tax ) {
-				$taxes     = WC_Tax::calc_inclusive_tax( $threshold, WC_Tax::get_shipping_tax_rates() );
-				$threshold -= array_sum( $taxes );
+			if ($prices_including_tax && !$display_including_tax) {
+				$taxes     = WC_Tax::calc_inclusive_tax($threshold, WC_Tax::get_shipping_tax_rates());
+				$threshold -= array_sum($taxes);
 			}
 		}
 
-		if ( $total < $threshold ) {
+		if ($total < $threshold) {
 			// Cart is less than threshold. Shipping is not free.
 			return $cost;
 		}
@@ -313,10 +307,11 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @return int
 	 */
-	public function get_pricetype(): int {
-		$location_data = WC()->session->get( 'dropp_session_location' );
+	public function get_pricetype(): int
+	{
+		$location_data = WC()->session->get('dropp_session_location');
 
-		return intval( $location_data['pricetype'] ?? 1 );
+		return intval($location_data['pricetype'] ?? 1);
 	}
 
 	/**
@@ -324,20 +319,22 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 *
 	 * @param array $package Package of items from cart.
 	 */
-	public function calculate_shipping( $package = array() ) {
-		do_action( 'dropp_before_calculate_shipping', $package, $this );
+	public function calculate_shipping($package = array())
+	{
+		do_action('dropp_before_calculate_shipping', $package, $this);
+//		ray($package, $this->get_pricetype());
 		if ($this->get_pricetype() === 0) {
-			$location_data = WC()->session->get( 'dropp_session_location' );
+			$location_data = WC()->session->get('dropp_session_location');
 			$this->add_rate([
 				'id'      => $this->get_rate_id(),
 				'label'   => $this->title,
-				'cost'    => floatval( $location_data['price'] ?? 0 ),
+				'cost'    => floatval($location_data['price'] ?? 0),
 				'package' => $package,
 			]);
 		} else {
-			parent::calculate_shipping( $package );
+			parent::calculate_shipping($package);
 		}
-		do_action( 'dropp_after_calculate_shipping', $package, $this );
+		do_action('dropp_after_calculate_shipping', $package, $this);
 	}
 
 	/**
@@ -349,11 +346,42 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate {
 	 * @throws Exception Last error triggered.
 	 * @since 3.4.0
 	 */
-	public function sanitize_cost( $value ): string {
-		do_action( 'dropp_before_calculate_shipping', [], $this );
-		$value = parent::sanitize_cost( $value );
-		do_action( 'dropp_after_calculate_shipping', [], $this );
+	public function sanitize_cost($value): string
+	{
+		do_action('dropp_before_calculate_shipping', [], $this);
+		$value = parent::sanitize_cost($value);
+		do_action('dropp_after_calculate_shipping', [], $this);
 
 		return $value;
+	}
+
+	public function init_cost_tiers()
+	{
+		static $recursion = 0;
+		if ($recursion++ <= 0 && $this->code) {
+			// Recursion protection because Shipping_Method\Dropp, which extends this class, is used for getting and
+			// saving options.
+			$prices          = Price_Info_Data::get_instance()->get($this->code);
+			$previous_weight = 0;
+			/** @var Price_Data $price */
+			foreach ($prices as $price) {
+				$this->costTiers[] = new Cost_Tier(
+					$price->max_weight,
+					sprintf(
+						'%d kg < %d kg',
+						$previous_weight,
+						$price->max_weight
+					),
+					$price->price
+				);
+				$previous_weight   = $price->max_weight;
+			}
+		}
+		$recursion--;
+	}
+
+	public function get_cost_tiers(): array
+	{
+		return $this->costTiers;
 	}
 }

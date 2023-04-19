@@ -62,7 +62,8 @@ class Dropp {
 	 *
 	 * @param string $class_name Path to class file.
 	 */
-	public static function class_loader( $class_name ) {
+	public static function class_loader( $class_name ): void
+	{
 		if ( ! preg_match( '/^Dropp(\\\.*)$/', $class_name, $matches ) ) {
 			return;
 		}

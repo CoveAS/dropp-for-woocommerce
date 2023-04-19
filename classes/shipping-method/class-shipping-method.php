@@ -263,9 +263,6 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
 		$free_shipping = $this->get_instance_option('free_shipping');
 		$threshold     = $this->get_instance_option('free_shipping_threshold');
 
-		$prices = Price_Info_Data::get_instance();
-//		ray($prices);
-
 		if (apply_filters('dropp_free_shipping_enabled', 'yes' !== $free_shipping, $this, $sum, $args)) {
 			return $cost;
 		}
@@ -322,7 +319,6 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
 	public function calculate_shipping($package = array())
 	{
 		do_action('dropp_before_calculate_shipping', $package, $this);
-//		ray($package, $this->get_pricetype());
 		if ($this->get_pricetype() === 0) {
 			$location_data = WC()->session->get('dropp_session_location');
 			$this->add_rate([
@@ -359,8 +355,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
 	{
 		static $recursion = 0;
 		if ($recursion++ <= 0 && $this->code) {
-			// Recursion protection because Shipping_Method\Dropp, which extends this class, is used for getting and
-			// saving options.
+			// Recursion protection because during the get request we use Shipping_Method\Dropp, which extends this
+			// class, to update a setting that caches the response data.
 			$prices          = Price_Info_Data::get_instance()->get($this->code);
 			$previous_weight = 0;
 			/** @var Price_Data $price */

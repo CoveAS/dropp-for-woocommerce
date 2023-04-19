@@ -4,30 +4,30 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 6.1.1
+Tested up to: 6.2.0
 Requires PHP: 8.0
 WC requires at least: 3.8.1
-WC tested up to: 7.3.0
+WC tested up to: 7.5.0
 Stable tag: 1.5.3
 
-Deliver parcels at delivery locations in Iceland
+Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
+Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
 
 == Installation ==
 
-1. Download the plugin [here](https://github.com/CoveAS/woocommerce-dropp-shipping/archive/1.0.0.zip)
-2. Unzip the archive into your `wp-content/plugins` directory.
-3. Rename the plugin directory from **woocommerce-dropp-shipping-1.x** to **woocommerce-dropp-shipping**
-4. Activate the plugin under WP-Admin → Plugins
+1. Download the plugin
+2. Extract the files from the downloaded archive to your `wp-content/plugins` directory.
+3. Activate the plugin under WP-Admin → Plugins
 
 == Configuration ==
 
 ### Adding the shipping method to a shipping zone
 
 1. Navigate to WooCommerce → Settings → Shipping
-2. Click on a zone you want to activate Dropp for. For more information about WooCommerce zones click [here](https://docs.woocommerce.com/document/setting-up-shipping-zones/)
+2. Choose a zone where you want to enable Dropp. If you need help with WooCommerce zones, check out this guide [here](https://docs.woocommerce.com/document/setting-up-shipping-zones/).
 3. Click on **Add shipping method**
-4. Select **Dropp** in the dropdown menu and click **Add shipping method** in the modal.
-5. Click on the shipping method that was added to configure the name and price.
+4. In the dropdown menu, select **Dropp**, then click **Add shipping method** in the modal.
+5. Click on the added shipping method to set the name and price.
 
 ### Connect to the Dropp.is API for booking
 

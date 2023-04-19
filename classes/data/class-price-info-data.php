@@ -8,6 +8,8 @@
 namespace Dropp\Data;
 
 use Dropp\Actions\Get_Remote_Price_Info_Action;
+use Dropp\Exceptions\Request_Exception;
+use Dropp\Exceptions\Response_Exception;
 use Dropp\Shipping_Method\Dropp;
 
 /**
@@ -28,9 +30,15 @@ class Price_Info_Data {
 
 	public static function get_instance()
 	{
+		$instance = wp_cache_get('dropp_for_woocommerce_price_info', 'dropp_for_woocommerce');
+		if ($instance && $instance->expire_at > time()) {
+			return $instance;
+		}
+
 		if (isset(self::$instance) && self::$instance->expire_at > time()) {
 			return self::$instance;
 		}
+
 		// Attempt to get from options
 		$dropp = Dropp::get_instance();
 		$price_info = $dropp->get_option('price_info', []);
@@ -40,19 +48,25 @@ class Price_Info_Data {
 
 		// Get from remote when option is empty or expired
 		if (empty($items) || $expire_at < time() ) {
-			$items = (new Get_Remote_Price_Info_Action)();
+			try {
+				$items = (new Get_Remote_Price_Info_Action)();
+			} catch (Response_Exception $exception) {
+				$items = $price_info['items'] ?? [];
+			}
 			$updated_at = time();
 			$expire_at = time() + self::TTL;
 
-			// Save to options
-			$dropp->update_option(
-				'price_info',
-				[
-					'items' => $items,
-					'expire_at' => $expire_at,
-					'updated_at' => $updated_at,
-				]
-			);
+			if (! empty($items)) {
+				// Save to options
+				$dropp->update_option(
+					'price_info',
+					[
+						'items'      => $items,
+						'expire_at'  => $expire_at,
+						'updated_at' => $updated_at,
+					]
+				);
+			}
 		}
 
 		// Map to Price Data
@@ -77,6 +91,7 @@ class Price_Info_Data {
 			$expire_at,
 			$mapped_items
 		);
+		wp_cache_set('dropp_for_woocommerce_price_info', self::$instance, 'dropp_for_woocommerce', self::TTL);
 		return self::$instance;
 	}
 

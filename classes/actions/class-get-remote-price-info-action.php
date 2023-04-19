@@ -3,11 +3,15 @@
 namespace Dropp\Actions;
 
 use Dropp\API;
-use Dropp\Collection;
-use Exception;
+use Dropp\Exceptions\Request_Exception;
+use Dropp\Exceptions\Response_Exception;
 
 class Get_Remote_Price_Info_Action
 {
+	/**
+	 * @throws Response_Exception
+	 * @throws Request_Exception
+	 */
 	public function __invoke(): array
 	{
 		$api = new API();

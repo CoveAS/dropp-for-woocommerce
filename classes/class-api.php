@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use Dropp\Exceptions\Request_Exception;
+use Dropp\Exceptions\Response_Exception;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
@@ -79,11 +81,12 @@ class API {
 	/**
 	 * Remote get
 	 *
-	 * @param string $endpoint Endpoint.
+	 * @param string $endpoint  Endpoint.
 	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
 	 *
 	 * @return array|string      Decoded json, string body or raw response object.
-	 * @throws Exception
+	 * @throws Response_Exception
+	 * @throws Request_Exception
 	 */
 	public function get( string $endpoint, string $data_type = 'json' ) {
 		$response = $this->remote( 'get', self::endpoint_url( $endpoint ) );
@@ -94,12 +97,13 @@ class API {
 	/**
 	 * Remote post
 	 *
-	 * @param string $endpoint Endpoint.
-	 * @param Model $model Model.
+	 * @param string $endpoint  Endpoint.
+	 * @param Model  $model     Model.
 	 * @param string $data_type (optional) 'json', 'body' or 'raw'.
 	 *
 	 * @return array|string           Decoded json, string body or raw response object.
-	 * @throws Exception
+	 * @throws Request_Exception
+	 * @throws Response_Exception
 	 */
 	public function post( string $endpoint, Model $model, string $data_type = 'json' ) {
 		$response = $this->remote( 'post', self::endpoint_url( $endpoint ), $model );
@@ -147,7 +151,7 @@ class API {
 	 * @param ?Model $model Model.
 	 *
 	 * @return array|WP_Error               Remote arguments.
-	 * @throws Exception Unknown method.
+	 * @throws Request_Exception Unknown method.
 	 */
 	public function remote( string $method, string $url, ?Model $model = null ) {
 		$log  = new WC_Logger();
@@ -162,7 +166,7 @@ class API {
 
 		$allowed_methods = [ 'get', 'post', 'delete', 'patch' ];
 		if ( ! in_array( $method, $allowed_methods, true ) ) {
-			throw new Exception( "Unknown method, \"$method\"" );
+			throw new Request_Exception( "Unknown method, \"$method\"" );
 		}
 		$args['method'] = strtoupper( $method );
 		if ( 'delete' === $method ) {
@@ -190,7 +194,7 @@ class API {
 	 * @param string $data_type (optional) 'json', 'body' or 'raw'
 	 *
 	 * @return array|string              Decoded json, string body or raw response object.
-	 * @throws Exception      $e         Response exception.
+	 * @throws Response_Exception $e      Response exception.
 	 */
 	protected function process_response( string $method, WP_Error|array $response, string $data_type = 'json' ): array|string {
 		$log = new WC_Logger();
@@ -223,7 +227,10 @@ class API {
 		// Validate response.
 		if ( is_wp_error( $response ) ) {
 			$this->errors = $response->get_error_messages();
-			throw new Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
+			throw new Response_Exception( __( 'Response error', 'dropp-for-woocommerce' ) );
+		}
+		if (! str_starts_with($response['response']['code'], '2')){
+			throw new Response_Exception( __( 'Response error with code ' .$response['response']['code'], 'dropp-for-woocommerce' ) );
 		}
 
 		if ( 'raw' === $data_type ) {
@@ -237,7 +244,7 @@ class API {
 		$data = json_decode( $response['body'], true );
 		if ( ! is_array( $data ) ) {
 			$this->errors['invalid_json'] = $response['body'];
-			throw new Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
+			throw new Response_Exception( __( 'Invalid json', 'dropp-for-woocommerce' ) );
 		}
 
 		return $data;

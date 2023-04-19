@@ -137,8 +137,8 @@ class Dropp {
 				}
 			}
 		}
-		if ( version_compare( $saved_version, '0.0.5' ) === - 1 && self::schema() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.5' );
+		if ( version_compare( $saved_version, '0.0.6' ) === - 1 && self::schema() ) {
+			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.6' );
 		}
 	}
 
@@ -195,6 +195,7 @@ class Dropp {
 			`comment` text NOT NULL,
 			shipping_item_id varchar(63) NOT NULL,
 			location_id varchar(63) NOT NULL,
+			`value` float NULL,
 			products text NOT NULL,
 			customer text NOT NULL,
 			test tinyint(1) DEFAULT 0 NOT NULL,

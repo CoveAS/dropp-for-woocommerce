@@ -33,6 +33,7 @@ class Dropp_Consignment extends Model {
 	public int $shipping_item_id;
 	public bool $day_delivery = false;
 	public string $location_id;
+	public ?float $value = null;
 	public array $products;
 	public ?Dropp_Customer $customer;
 	public bool $test = false;
@@ -102,6 +103,7 @@ class Dropp_Consignment extends Model {
 				'status'           => 'ready',
 				'comment'          => '',
 				'location_id'      => '',
+				'value'            => null,
 				'test'             => false,
 				'debug'            => false,
 				'mynto_id'         => null,
@@ -127,6 +129,7 @@ class Dropp_Consignment extends Model {
 		if ( $content['debug'] ) {
 			$this->debug = true;
 		}
+		$this->value          = $content['value'];
 		$this->return_barcode = $content['return_barcode'];
 		$this->comment        = $content['comment'];
 		$this->status         = $content['status'];
@@ -192,6 +195,7 @@ class Dropp_Consignment extends Model {
 		$shipping_method   = Dropp::get_instance();
 		$consignment_array = [
 			'locationId'  => $this->location_id,
+			'value'       => $this->value,
 			'barcode'     => $this->barcode,
 			'products'    => $products,
 			'customer'    => $this->get_customer_array(),
@@ -287,6 +291,7 @@ class Dropp_Consignment extends Model {
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
+				'value'            => $this->value,
 				'products'         => wp_json_encode( $this->products ),
 				'comment'          => $this->comment,
 				'status'           => $this->status,
@@ -322,6 +327,7 @@ class Dropp_Consignment extends Model {
 				'dropp_order_id'   => $this->dropp_order_id,
 				'shipping_item_id' => $this->shipping_item_id,
 				'location_id'      => $this->location_id,
+				'value'            => $this->value,
 				'products'         => wp_json_encode( $this->products ),
 				'comment'          => $this->comment,
 				'status'           => $this->status,

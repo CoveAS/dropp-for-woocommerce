@@ -192,7 +192,7 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 			return $form_fields;
 		}
 
-		$form_fields['cost']['default'] = 0;
+		$form_fields['cost']['default'] = '';
 
 		/** @var Cost_Tier $costTier */
 		$title = $form_fields['cost']['title'];

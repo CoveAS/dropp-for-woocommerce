@@ -184,36 +184,46 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 	{
 		$form_fields                     = parent::get_instance_form_fields();
 		$form_fields['title']['default'] = $this->method_title;
-		if (empty($form_fields['cost'])) {
-			return $form_fields;
-		}
 		$additional = $this->get_additional_form_fields($form_fields);
-		if (empty($additional)) {
-			return $form_fields;
+		if (empty($form_fields['cost'])) {
+			// If there is no cost field then return early
+			return array_merge(
+				$form_fields,
+				$additional
+			);
 		}
 
-		$form_fields['cost']['default'] = '';
+		// Place cost fields in a separate array in order to sort settings correctly
+		$cost_fields = [
+			'cost' => $form_fields['cost']
+		];
+		if (! empty($this->costTiers)) {
+			// Add cost tier settings
+			// Modify default cost for shipping methods with cost tiers
+			$cost_fields['cost']['default'] = '';
 
-		/** @var Cost_Tier $costTier */
-		$title = $form_fields['cost']['title'];
-		foreach ($this->costTiers as $i => $costTier) {
-			$key = $costTier->getKey($i);
-			if (!isset($form_fields[$key])) {
-				$form_fields[$key] = $form_fields['cost'];
+			/** @var Cost_Tier $costTier */
+			$title = $cost_fields['cost']['title'];
+			foreach ($this->costTiers as $i => $costTier) {
+				$key = $costTier->getKey($i);
+				if (!isset($cost_fields[$key])) {
+					$cost_fields[$key] = $cost_fields['cost'];
+				}
+				$cost_fields[$key]['title']       = $title.' '.$costTier->suffix;
+				$cost_fields[$key]['placeholder'] = $costTier->placeholder;
 			}
-			$form_fields[$key]['title'] = $title.' '.$costTier->suffix;
-			$form_fields[$key]['placeholder'] = $costTier->placeholder;
 		}
 		$keys     = array_keys($form_fields);
 		$filtered = preg_grep('/^cost(_\d+)?$/', $keys);
 		$key      = end($filtered);
-		$pos      = array_search($key, $keys, true) + 1;
+		$pos      = array_search($key, $keys, true);
 
 		// Insert additional fields after costs.
 		return array_merge(
 			array_slice($form_fields, 0, $pos),
+			$cost_fields,
 			$additional,
-			array_slice($form_fields, $pos, null)
+			array_slice($form_fields, $pos + 1, null)
 		);
 	}
 
@@ -365,7 +375,7 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 				$this->costTiers[] = new Cost_Tier(
 					$price->max_weight,
 					sprintf(
-						'%d kg < %d kg',
+						'%d kg &#8211; %d kg',
 						$previous_weight,
 						$price->max_weight
 					),

@@ -13,6 +13,14 @@ use Dropp\API;
  * Flytjandi
  */
 class Flytjandi extends Home_Delivery {
+
+	/**
+	 * Code (used for price information)
+	 *
+	 * @var ?string
+	 */
+	protected ?string $code = '';
+
 	/**
 	 * Weight Limit in KG
 	 * Flytjandi supports unlimited weight

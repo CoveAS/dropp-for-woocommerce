@@ -7,20 +7,20 @@
 
 namespace Dropp\Shipping_Method;
 
-use Dropp\Actions\Get_Remote_Price_Info_Action;
 use Dropp\Cost_Tier;
 use Dropp\Data\Price_Data;
 use Dropp\Data\Price_Info_Data;
 use Dropp\Shipping_Settings;
 use Dropp\API;
 use Exception;
+use WC_Shipping_Flat_Rate;
 use WC_Tax;
 
 
 /**
  * Shipping method
  */
-abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
+abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 {
 	use Shipping_Settings;
 
@@ -81,7 +81,6 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
 			'instance-settings',
 			'instance-settings-modal',
 		);
-
 
 		$this->init();
 	}
@@ -192,6 +191,8 @@ abstract class Shipping_Method extends \WC_Shipping_Flat_Rate
 		if (empty($additional)) {
 			return $form_fields;
 		}
+
+		$form_fields['cost']['default'] = 0;
 
 		/** @var Cost_Tier $costTier */
 		$title = $form_fields['cost']['title'];

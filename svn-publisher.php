@@ -66,12 +66,6 @@ if ( ! preg_match( '/Stable tag:\s+' . $esc_version . '/', $content, $matches ) 
 	die( "Stable tag doesn't match $version in readme.txt" );
 }
 
-echo "Checking dropp-for-woocommerce.php version number\n";
-$content = `head -n 20 $dir/dropp-for-woocommerce.php`;
-if ( ! preg_match( '/\* Version:\s+' . $esc_version . '/', $content, $matches ) ) {
-	die( "Version doesn't match $version in dropp-for-woocommerce.php" );
-}
-
 if ( 'svn-dropp-for-woocommerce' !== basename( $cwd ) ) {
 	// Create a new dir
 	if ( ! is_dir( 'svn-dropp-for-woocommerce' ) ) {
@@ -123,6 +117,29 @@ if ( ! file_exists( 'trunk/svn-publisher.php' ) ) {
 
 // Go into the trunk
 chdir( 'trunk' );
+// Replace version number placeholder
+echo "Replacing dropp-for-woocommerce.php version number\n";
+$content = file_get_contents('dropp-for-woocommerce.php');
+$content = str_replace('###DROPP_VERSION###', $version, $content);
+file_put_contents('dropp-for-woocommerce.php', $content);
+
+echo "Replacing classes/class-dropp.php version number\n";
+$content = file_get_contents('classes/class-dropp.php');
+$content = str_replace('###DROPP_VERSION###', $version, $content);
+file_put_contents('classes/class-dropp.php', $content);
+
+echo "Checking dropp-for-woocommerce.php version number\n";
+$content = `head -n 20 dropp-for-woocommerce.php`;
+if ( ! preg_match( '/\* Version:\s+' . $esc_version . '/', $content, $matches ) ) {
+	die( "Version doesn't match $version in dropp-for-woocommerce.php" );
+}
+
+echo "Checking classes/class-dropp.php version number\n";
+$content = `head -n 20 classes/class-dropp.php`;
+if ( ! preg_match( '/\* Version:\s+' . $esc_version . '/', $content, $matches ) ) {
+	die( "Version doesn't match $version in classes/class-dropp.php" );
+}
+
 // Cleanup
 `find . -name ".DS_Store" -type d -delete`;
 `rm -rf .git .gitignore composer.json svn-publisher.php README.md CONTRIBUTING.md`;

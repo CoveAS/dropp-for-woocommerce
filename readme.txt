@@ -7,8 +7,8 @@ Requires at least: 5.2
 Tested up to: 6.2.0
 Requires PHP: 8.0
 WC requires at least: 3.8.1
-WC tested up to: 7.5.0
-Stable tag: 1.5.3
+WC tested up to: 7.6.0
+Stable tag: 2.0.0
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
@@ -54,6 +54,11 @@ When an order has the status **Initial** it can be updated or cancelled.
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Added new settings for cost of shipping rates based on weight of the items in cart
+* Made PDF's downloadable from source if the websites filesystem is restricted
 
 = 1.5.3 =
 

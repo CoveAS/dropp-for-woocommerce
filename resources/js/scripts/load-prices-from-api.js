@@ -28,8 +28,6 @@ jQuery( ( $ ) => {
 			() => {
 				loading = true;
 				// @TODO: Add blocker
-				console.log(table, price_inputs);
-				console.log('Getting prices for instance ' + instance_id);
 				jQuery.ajax( {
 					url: _dropp.ajaxurl,
 					method: 'get',

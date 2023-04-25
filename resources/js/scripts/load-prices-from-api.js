@@ -16,6 +16,7 @@ jQuery( ( $ ) => {
 		if ( ! elem.length ) {
 			return;
 		}
+		elem.val(elem.prop('placeholder'));
 		let table = elem.closest('table');
 		let price_inputs = table.find('[name*="_cost"]');
 		let instance_id = $('[name="instance_id"]').val();

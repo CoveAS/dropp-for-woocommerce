@@ -212,18 +212,17 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 				$cost_fields[$key]['title']       = $title.' '.$costTier->suffix;
 				$cost_fields[$key]['placeholder'] = $costTier->placeholder;
 			}
+			$cost_fields['load_prices_from_api'] = [
+				'title'       => __('Load prices from API', 'dropp-for-woocommerce'),
+				'type'        => 'button',
+				'placeholder' => __('Use suggested prices', 'dropp-for-woocommerce'),
+				'default'     => __('Use suggested prices', 'dropp-for-woocommerce'),
+			];
 		}
 		$keys     = array_keys($form_fields);
 		$filtered = preg_grep('/^cost(_\d+)?$/', $keys);
 		$key      = end($filtered);
 		$pos      = array_search($key, $keys, true);
-
-		$cost_fields['load_prices_from_api'] = [
-			'title'             => __( 'Load prices from API', 'dropp-for-woocommerce' ),
-			'type'              => 'button',
-			'default'           => __('Use suggested prices', 'dropp-for-woocommerce'),
-			'desc_tip'          => true,
-		];
 
 		// Insert additional fields after costs.
 		return array_merge(

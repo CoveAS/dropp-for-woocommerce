@@ -26,3 +26,4 @@ if ( window._dropp ) {
 }
 
 require( './scripts/free-shipping-threshold.js' );
+require( './scripts/load-prices-from-api.js' );

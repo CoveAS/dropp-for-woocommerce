@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use Dropp\Actions\Get_Shipping_Instance_Data_Action;
+use Dropp\Data\Price_Info_Data;
 use WC_Order_Item_Shipping;
 use WC_Cache_Helper;
 use Exception;
@@ -33,6 +35,7 @@ class Ajax {
 		add_action( 'wp_ajax_dropp_get_pdf_list', __CLASS__ . '::dropp_get_pdf_list' );
 		add_action( 'wp_ajax_dropp_add_extra_pdf', __CLASS__ . '::dropp_add_extra_pdf' );
 		add_action( 'wp_ajax_dropp_delete_extra_pdf', __CLASS__ . '::dropp_delete_extra_pdf' );
+		add_action( 'wp_ajax_dropp_get_instance_prices', __CLASS__ . '::dropp_get_instance_prices' );
 	}
 
 	/**
@@ -413,6 +416,16 @@ class Ajax {
 		$consignment_id = filter_input( INPUT_GET, 'consignment_id', FILTER_DEFAULT );
 		$barcode        = filter_input( INPUT_GET, 'barcode', FILTER_DEFAULT );
 		self::json_pdf_list( $consignment_id, 'delete_extra', $barcode );
+	}
+
+	public static function dropp_get_instance_prices(): void
+	{
+		$instance_id = filter_input( INPUT_GET, 'instance_id', FILTER_DEFAULT );
+		$shipping_instance = (new Get_Shipping_Instance_Data_Action)($instance_id);
+
+		Price_Info_Data::flush_cache();
+		$prices          = Price_Info_Data::get_instance()->get($shipping_instance->shipping_method->get_code());
+		wp_send_json_success($prices);
 	}
 
 	/**

@@ -19,7 +19,7 @@ use Dropp\Shipping_Method\Dropp;
  */
 class Price_Info_Data {
 	const TTL = 3600;
-	protected static self $instance;
+	protected static ?self $instance;
 
 	private function __construct(
 		protected int $updated_at,
@@ -28,6 +28,17 @@ class Price_Info_Data {
 	) {
 	}
 
+	public static function flush_cache(): void
+	{
+		wp_cache_delete('dropp_for_woocommerce_price_info', 'dropp_for_woocommerce');
+		$dropp = Dropp::get_instance();
+		$price_info = $dropp->get_option('price_info', []);
+		if (! empty($price_info)) {
+			$price_info['expire_at'] = 0;
+			$dropp->update_option('price_info', $price_info);
+		}
+		self::$instance = null;
+	}
 	public static function get_instance()
 	{
 		$instance = wp_cache_get('dropp_for_woocommerce_price_info', 'dropp_for_woocommerce');

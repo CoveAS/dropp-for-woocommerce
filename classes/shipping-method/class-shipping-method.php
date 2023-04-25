@@ -277,6 +277,11 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		return update_option( $this->get_instance_option_key(), apply_filters( 'woocommerce_shipping_' . $this->id . '_instance_settings_values', $this->instance_settings, $this ), 'yes' );
 	}
 
+	public function get_code(): ?string
+	{
+		return $this->code;
+	}
+
 	/**
 	 * Evaluate a cost from a sum/string.
 	 *

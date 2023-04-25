@@ -11,6 +11,7 @@ use Dropp\Shipping_Method\Shipping_Method;
 use WC_Abstract_Order;
 use WC_Order;
 use WC_Shipping;
+use WC_Shipping_Zones;
 
 /**
  * Dropp
@@ -96,6 +97,7 @@ class Dropp {
 			return;
 		}
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
+		wp_localize_script( 'dropp-admin-js', '_dropp', ['ajaxurl' => admin_url( 'admin-ajax.php' ),] );
 	}
 
 
@@ -107,14 +109,14 @@ class Dropp {
 			return;
 		}
 
-		$zones = \WC_Shipping_Zones::get_zones();
+		$zones = WC_Shipping_Zones::get_zones();
 		$zone  = false;
 		foreach ( $zones as $zone_data ) {
 			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
 				if ( $instance_id !== $shipping_method->instance_id ) {
 					continue;
 				}
-				$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
+				$zone = WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
 				break;
 			}
 		}

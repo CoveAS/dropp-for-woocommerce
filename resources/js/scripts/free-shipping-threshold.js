@@ -1,6 +1,5 @@
-
 jQuery( ( $ ) => {
-	$( document.body ).on( 'wc_backbone_modal_loaded', function( evt, target ) {
+	const init_free_shipping_checkbox = function() {
 		let cb = $('[name$="_free_shipping"]');
 		let elem = $('[name$="_free_shipping_threshold"]');
 
@@ -20,5 +19,6 @@ jQuery( ( $ ) => {
 					content.fadeOut();
 			}
 		)
-	} );
+	}
+	$( document.body ).on( 'wc_backbone_modal_loaded', init_free_shipping_checkbox );
 } );

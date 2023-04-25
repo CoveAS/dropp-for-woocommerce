@@ -24,7 +24,7 @@ class Upgrade
 		if ( version_compare( $saved_version, '0.0.3' ) === - 1 ) {
 			self::upgrade_0_0_4();
 		}
-		if ( version_compare( $saved_version, '1.0.0' ) === - 1 ) {
+		if ( version_compare( $saved_version, '1.0.0' ) === - 1 && $saved_version) {
 			// Added new price settings
 			self::upgrade_1_0_0();
 		}
@@ -135,5 +135,8 @@ class Upgrade
 				$shipping_method->save_instance_settings();
 			}
 		}
+
+		// Because this update adds new setting fields we also want to inform users about this change.
+		// @TODO: Add admin notice flag with upgrade notice
 	}
 }

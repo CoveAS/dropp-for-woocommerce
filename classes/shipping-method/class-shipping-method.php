@@ -218,6 +218,13 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		$key      = end($filtered);
 		$pos      = array_search($key, $keys, true);
 
+		$cost_fields['load_prices_from_api'] = [
+			'title'             => __( 'Load prices from API', 'dropp-for-woocommerce' ),
+			'type'              => 'button',
+			'default'           => __('Use suggested prices', 'dropp-for-woocommerce'),
+			'desc_tip'          => true,
+		];
+
 		// Insert additional fields after costs.
 		return array_merge(
 			array_slice($form_fields, 0, $pos),
@@ -257,6 +264,17 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 				'sanitize_callback' => 'floatval',
 			],
 		];
+	}
+
+	public function set_instance_option(string $key, mixed $value)
+	{
+		$this->instance_settings[$key] = $value;
+	}
+
+	public function save_instance_settings(): bool
+	{
+		// Update method copied from WC_Shipping_Method::process_admin_options
+		return update_option( $this->get_instance_option_key(), apply_filters( 'woocommerce_shipping_' . $this->id . '_instance_settings_values', $this->instance_settings, $this ), 'yes' );
 	}
 
 	/**

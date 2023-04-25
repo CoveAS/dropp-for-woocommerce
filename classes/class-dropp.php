@@ -7,6 +7,11 @@
 
 namespace Dropp;
 
+use Dropp\Shipping_Method\Shipping_Method;
+use WC_Abstract_Order;
+use WC_Order;
+use WC_Shipping;
+
 /**
  * Dropp
  */
@@ -17,7 +22,8 @@ class Dropp {
 	/**
 	 * Setup
 	 */
-	public static function loaded() {
+	public static function loaded(): void
+	{
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
 		require_once dirname( __DIR__ ) . '/traits/trait-calculates-package-weight.php';
 
@@ -38,9 +44,9 @@ class Dropp {
 		Dropp_Oca_Admin_Warning::setup();
 		Sort_Shipping_Methods::setup();
 		Modify_Rate_Cost_By_Weight::setup();
+		Upgrade::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
-		add_action( 'admin_init', __CLASS__ . '::upgrade' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 		add_action( 'woocommerce_before_order_object_save', __CLASS__ . '::maybe_convert_dropp_order_ids' );
 		add_action( 'woocommerce_shipping_zone_method_added', __CLASS__ . '::maybe_add_oca', 10, 3 );
@@ -54,7 +60,6 @@ class Dropp {
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname( __DIR__ ) ) . '/languages/' );
-
 	}
 
 	/**
@@ -93,55 +98,6 @@ class Dropp {
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
 	}
 
-	/**
-	 * Upgrade
-	 */
-	public static function upgrade() {
-		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
-		if ( version_compare( $saved_version, '0.0.3' ) === - 1 ) {
-			/**
-			 * In version 1.4.0 (database 0.0.3) we removed cost_2 field from the dropp_is shipping method.
-			 * This field is now refactored as a separate shipping method (Dropp Outside Capital Area).
-			 *
-			 * Note: cost_2 was used based on location pricetype being '2'.
-			 * Pricetype is now refactored to be a parameter/shortcode as part of the cost setting.
-			 */
-			$zones = \WC_Shipping_Zones::get_zones();
-			foreach ( $zones as $zone_data ) {
-				$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
-				foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
-					if ( 'Dropp\Shipping_Method\Dropp' !== get_class( $shipping_method ) ) {
-						continue;
-					}
-					$instance_id = $zone->add_shipping_method( 'dropp_is_oca' );
-					if ( ! $instance_id ) {
-						continue;
-					}
-					$shipping_methods    = $zone->get_shipping_methods();
-					$new_shipping_method = $shipping_methods[ $instance_id ];
-					$instance_settings   = $shipping_method->instance_settings;
-
-					// Configure shipping method.
-					if ( $instance_settings['cost_2'] ) {
-						$instance_settings['cost'] = $instance_settings['cost_2'];
-					}
-					unset( $instance_settings['cost_2'] );
-					update_option(
-						$new_shipping_method->get_instance_option_key(),
-						apply_filters(
-							'woocommerce_shipping_' . $new_shipping_method->id . '_instance_settings_values',
-							$instance_settings,
-							$new_shipping_method
-						),
-						'yes'
-					);
-				}
-			}
-		}
-		if ( version_compare( $saved_version, '0.0.6' ) === - 1 && self::schema() ) {
-			update_site_option( 'woocommerce_dropp_shipping_db_version', '0.0.6' );
-		}
-	}
 
 	/**
 	 * Maybe add OCA
@@ -176,48 +132,12 @@ class Dropp {
 		$zone->add_shipping_method( 'dropp_is_oca' );
 	}
 
-	/**
-	 * Install Consignment table
-	 */
-	public static function schema() {
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . 'dropp_consignments';
-
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $table_name (
-			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			barcode varchar(63) NULL,
-			return_barcode varchar(63) NULL,
-			day_delivery tinyint(1) DEFAULT 0 NOT NULL,
-			dropp_order_id varchar(63) NULL,
-			status varchar(15) NOT NULL,
-			`comment` text NOT NULL,
-			shipping_item_id varchar(63) NOT NULL,
-			location_id varchar(63) NOT NULL,
-			`value` float NULL,
-			products text NOT NULL,
-			customer text NOT NULL,
-			test tinyint(1) DEFAULT 0 NOT NULL,
-			mynto_id varchar(63) NULL,
-			created_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			updated_at datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			PRIMARY KEY  (id)
-		) $charset_collate;";
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-		dbDelta( $sql );
-
-		return true;
-	}
-
 
 	/**
-	 * @param WC_Abstract_Order $order Order.
+	 * @param WC_Order $order Order.
 	 */
-	public static function maybe_convert_dropp_order_ids( $order ) {
+	public static function maybe_convert_dropp_order_ids( $order ): void
+	{
 		$adapter = new Order_Adapter( $order );
 		$action  = new Actions\Convert_Dropp_Order_Ids_To_Consignments_Action( $adapter );
 		$action->handle();
@@ -230,16 +150,18 @@ class Dropp {
 	 *
 	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
 	 */
-	public static function add_shipping_method( $shipping_methods ) {
+	public static function add_shipping_method( $shipping_methods ): array
+	{
 		return $shipping_methods + self::get_shipping_methods( self::is_pickup_enabled() );
 	}
 
 	/**
 	 * Get shipping methods
 	 *
-	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping mehtods.
+	 * @return WC_Shipping[] $shipping_methods Array of WC_Shipping methods.
 	 */
-	public static function get_shipping_methods( $with_pickup = false ) {
+	public static function get_shipping_methods( $with_pickup = false ): array
+	{
 		$shipping_methods = [
 			'dropp_is'        => 'Dropp\Shipping_Method\Dropp',
 			'dropp_is_oca'    => 'Dropp\Shipping_Method\Dropp_Outside_Capital_Area',
@@ -262,7 +184,8 @@ class Dropp {
 	 *
 	 * @return array
 	 */
-	public static function plugin_action_links( $links ) {
+	public static function plugin_action_links( array $links ): array
+	{
 		$url          = admin_url( 'admin.php?page=wc-settings&tab=shipping&section=dropp_is' );
 		$action_links = [
 			'settings' => '<a href="' . $url . '" title="' . esc_attr__( 'View Dropp Settings', 'dropp-for-woocommerce' ) . '">' . esc_html__( 'Settings', 'dropp-for-woocommerce' ) . '</a>',
@@ -274,11 +197,12 @@ class Dropp {
 	/**
 	 * Is pickup enabled
 	 *
-	 * @param Shipping_Method $shipping_method (optional) Shipping method.
+	 * @param Shipping_Method|null $shipping_method (optional) Shipping method.
 	 *
 	 * @return boolean                          True if pickup is enabled.
 	 */
-	public static function is_pickup_enabled( $shipping_method = null ) {
+	public static function is_pickup_enabled( ?Shipping_Method $shipping_method = null ): bool
+	{
 		$pickup_enabled = get_transient( 'dropp_pickup_enabled' );
 		if ( empty( $pickup_enabled ) ) {
 			try {
@@ -303,8 +227,9 @@ class Dropp {
 	 *
 	 * @return string Chosen method id.
 	 */
-	public static function oca_toggle( $default, $rates, $chosen_method ) {
-		if (! preg_match( '/^dropp_is/', $chosen_method)) {
+	public static function oca_toggle( $default, $rates, $chosen_method ): string
+	{
+		if (!str_starts_with($chosen_method, 'dropp_is')) {
 			return $default;
 		}
 
@@ -312,7 +237,7 @@ class Dropp {
 			return $default;
 		}
 		foreach ( $rates as $method_id => $rate ) {
-			if ( ! preg_match( '/^dropp_is/', $method_id)) {
+			if ( !str_starts_with($method_id, 'dropp_is')) {
 				continue;
 			}
 			return $method_id;

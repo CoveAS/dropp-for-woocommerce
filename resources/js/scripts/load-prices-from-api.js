@@ -1,7 +1,6 @@
 jQuery( ( $ ) => {
 	const loaded_prices = function( price_inputs ) {
 		return function( response ) {
-			console.log(response);
 			for (let i = 0; i < response.data.length; i++) {
 				let price = response.data[i].price;
 				$(price_inputs[i]).val(price);

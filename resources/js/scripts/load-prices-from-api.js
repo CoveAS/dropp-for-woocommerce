@@ -14,7 +14,6 @@ jQuery( ( $ ) => {
 	}
 	const init_load_prices_from_api_button = function() {
 		let elem = $('[name$="_load_prices_from_api"]');
-		console.log(elem);
 		if ( ! elem.length ) {
 			return;
 		}

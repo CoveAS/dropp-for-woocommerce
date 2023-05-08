@@ -46,7 +46,6 @@ class Dropp {
 		Modify_Rate_Cost_By_Weight::setup();
 		Upgrade::setup();
 
-		Admin_Notices::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
@@ -62,6 +61,8 @@ class Dropp {
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
 
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname( __DIR__ ) ) . '/languages/' );
+
+		Admin_Notices::setup();
 	}
 
 	/**

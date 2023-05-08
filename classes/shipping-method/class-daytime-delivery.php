@@ -44,7 +44,8 @@ class Daytime_Delivery extends Home_Delivery {
 		$this->id                 = 'dropp_daytime';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp Daytime Delivery', 'dropp-for-woocommerce' );
-		$this->method_description = __( 'Home delivery in Iceland between 10:00-17:00', 'dropp-for-woocommerce' );
+		$this->default_title      = __( 'Dropp - Home Delivery (10:00 - 16:00)', 'dropp-for-woocommerce' );
+		$this->method_description = __( 'Home delivery in Iceland between 10:00-16:00', 'dropp-for-woocommerce' );
 		$this->supports           = array(
 			'shipping-zones',
 			'instance-settings',

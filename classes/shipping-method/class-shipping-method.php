@@ -32,6 +32,13 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 	protected ?string $code;
 
 	/**
+	 * Rate title (default name for the shipping method)
+	 *
+	 * @var string
+	 */
+	protected string $default_title;
+
+	/**
 	 * Cost tiers
 	 */
 	protected array $costTiers = [];
@@ -74,6 +81,7 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		$this->id                 = 'dropp_is';
 		$this->instance_id        = absint($instance_id);
 		$this->method_title       = __('Dropp', 'dropp-for-woocommerce');
+		$this->default_title      = __( 'Dropp - Pick-up at location', 'dropp-for-woocommerce' );
 		$this->method_description = __('Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce');
 		$this->supports           = array(
 			'shipping-zones',
@@ -183,7 +191,7 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 	public function get_instance_form_fields(): array
 	{
 		$form_fields                     = parent::get_instance_form_fields();
-		$form_fields['title']['default'] = $this->method_title;
+		$form_fields['title']['default'] = $this->default_title;
 		$additional = $this->get_additional_form_fields($form_fields);
 		if (empty($form_fields['cost'])) {
 			// If there is no cost field then return early
@@ -215,6 +223,7 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 			$cost_fields['load_prices_from_api'] = [
 				'title'       => __('Load prices from API', 'dropp-for-woocommerce'),
 				'type'        => 'button',
+				'description' => __('Automatically fill in the cost fields above with suggested prices from Dropp. Note: Suggested prices are in ISK and clicking this button will overwrite existing settings.', 'dropp-for-woocommerce'),
 				'placeholder' => __('Use suggested prices', 'dropp-for-woocommerce'),
 				'default'     => __('Use suggested prices', 'dropp-for-woocommerce'),
 			];

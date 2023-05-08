@@ -44,6 +44,7 @@ class Dropp_Outside_Capital_Area extends Dropp {
 		$this->id                 = 'dropp_is_oca';
 		$this->instance_id        = absint( $instance_id );
 		$this->method_title       = __( 'Dropp Outside Capital Area', 'dropp-for-woocommerce' );
+		$this->default_title      = __( 'Dropp - Pick-up at location', 'dropp-for-woocommerce' );
 		$this->method_description = __( 'Deliver parcels at delivery locations in Iceland', 'dropp-for-woocommerce' );
 		$this->supports           = array(
 			'shipping-zones',

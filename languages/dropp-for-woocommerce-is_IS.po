@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-01-18 10:34+0800\n"
-"PO-Revision-Date: 2023-01-19 10:43+0800\n"
+"POT-Creation-Date: 2023-05-09 00:02+0200\n"
+"PO-Revision-Date: 2023-05-09 00:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -22,41 +22,89 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 
-#: classes/class-ajax.php:48
+#: classes/class-admin-notices.php:15
+msgid "Attention: Update on Dropp shipping methods - Action required"
+msgstr "Athugið: Uppfærsla á sendingarleiðum Dropp - Viðgerð krafist"
+
+#: classes/class-admin-notices.php:19
+#, php-format
+msgid ""
+"Starting from June 1st, Dropp's service will be extended and we will add a "
+"service for heavier shipments. Dropp customers will receive a notification "
+"about the service changes in an email in the coming days. The new Dropp "
+"price list is already available at %s.\n"
+"\n"
+"In parallel with these changes, we have updated the settings in WooCommerce "
+"and it is now possible to enter different prices based on the weight of "
+"packages. We recommend that you review all prices before June 1st when the "
+"changes take effect. %s. Updated instructions will be available shortly at "
+"%s.\n"
+"\n"
+"If you have any questions, do not hesitate to contact us at dropp@dropp.is "
+"or by phone at 546-6100.\n"
+"\n"
+"Best regards,\n"
+"Dropp"
+msgstr ""
+"Frá og með 1. júní mun þjónusta Dropp aukast og við bætum við þjónustu fyrir "
+"þyngri sendingar. Viðskiptavinir Dropp fá tilkynningu um þjónustu "
+"breytingarnar í tölvupósti á næstu dögum. Ný verðskrá Dropp er nú þegar "
+"aðgengileg á %s.\n"
+"\n"
+"Samhliða þessum breytingum höfum við uppfært stillingar í WooCommerce og nú "
+"er hægt að setja inn mismunandi verð eftir þyngd pakka. Við mælum með því að "
+"þið yfirfarið öll verð fyrir 1. júní þegar breytingarnar taka gildi %s. "
+"Innan skamms munu uppfærðar leiðbeiningar verða aðgengilegar á %s.\n"
+"\n"
+"Ef þú ert með spurningar ekki hika við að hafa samband við okkur á "
+"dropp@dropp.is eða í síma 546-6100.\n"
+"\n"
+"Kveðja,\n"
+"Dropp"
+
+#: classes/class-admin-notices.php:35
+msgid "Click here to go to the settings"
+msgstr "Smelltu hér til að fara í stillingarnar"
+
+#: classes/class-ajax.php:53
 msgid "Required field, location ID, instance ID or index was empty"
 msgstr ""
 "Nauðsynlegur reitur, KENNI staðsetningar, KENNI tilviks eða vísir var autt"
 
-#: classes/class-ajax.php:73
+#: classes/class-ajax.php:78
 msgid "Saved location ID"
 msgstr "Vistað staðsetningarkenni"
 
-#: classes/class-ajax.php:92
+#: classes/class-ajax.php:97
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr "Ekki tókst að sannreyna. Reyndu aftur með að endurhlaða síðunni."
 
-#: classes/class-ajax.php:152 classes/class-order-adapter.php:175
+#: classes/class-ajax.php:158 classes/class-order-adapter.php:175
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr "Get ekki bókað sendinguna þar sem hún er meira en %d kg"
 
-#: classes/class-ajax.php:196
+#: classes/class-ajax.php:202
 msgid "Booked! Re-loading page..."
 msgstr "Bókað! Er að endurhlaða síðunni..."
 
-#: classes/class-ajax.php:369
+#: classes/class-ajax.php:375
 msgid "Could not find consignment:"
 msgstr "Fann ekki afhendingarstað:"
 
-#: classes/class-api.php:57
+#: classes/class-api.php:59
 msgid "No API key could be found."
 msgstr "Enginn API lykill fannst."
 
-#: classes/class-api.php:226
+#: classes/class-api.php:230
 msgid "Response error"
 msgstr "Villa"
 
-#: classes/class-api.php:240 classes/models/class-dropp-consignment.php:591
+#: classes/class-api.php:233
+msgid "Response error with code "
+msgstr "Villa með kóða "
+
+#: classes/class-api.php:247 classes/models/class-dropp-consignment.php:597
 msgid "Invalid json"
 msgstr "Ekki löglegt json"
 
@@ -93,11 +141,11 @@ msgstr ""
 msgid "Click here to go to the zone settings."
 msgstr "Smelltu hér til að fara í svæðisstillingarnar."
 
-#: classes/class-dropp.php:263
+#: classes/class-dropp.php:194
 msgid "View Dropp Settings"
 msgstr "Skoða Dropp Stillingar"
 
-#: classes/class-dropp.php:263
+#: classes/class-dropp.php:194
 msgid "Settings"
 msgstr "Stillingar"
 
@@ -110,7 +158,7 @@ msgid "Dropp - Print labels"
 msgstr "Dropp - Prenta miða"
 
 #: classes/class-pending-shipping.php:39
-#: classes/shipping-method/class-shipping-method.php:58
+#: classes/shipping-method/class-shipping-method.php:83
 msgid "Dropp"
 msgstr "Dropp"
 
@@ -286,50 +334,50 @@ msgid_plural "Tracking codes"
 msgstr[0] "Rakningarkóði"
 msgstr[1] "Rakningarkóði"
 
-#: classes/models/class-dropp-consignment.php:58
+#: classes/models/class-dropp-consignment.php:59
 msgid "Ready"
 msgstr "Tilbúið"
 
-#: classes/models/class-dropp-consignment.php:59
+#: classes/models/class-dropp-consignment.php:60
 msgid "Error"
 msgstr "Villa"
 
-#: classes/models/class-dropp-consignment.php:60
+#: classes/models/class-dropp-consignment.php:61
 msgid "Initial"
 msgstr "Beðið eftir akstri"
 
-#: classes/models/class-dropp-consignment.php:61
+#: classes/models/class-dropp-consignment.php:62
 msgid "Overweight"
 msgstr "Yfirvigt"
 
-#: classes/models/class-dropp-consignment.php:62
+#: classes/models/class-dropp-consignment.php:63
 msgid "Transit"
 msgstr "Í akstri"
 
-#: classes/models/class-dropp-consignment.php:63
+#: classes/models/class-dropp-consignment.php:64
 msgid "Consignment"
 msgstr "Á afhendingarstað"
 
-#: classes/models/class-dropp-consignment.php:64
+#: classes/models/class-dropp-consignment.php:65
 msgid "Delivered"
 msgstr "Sótt"
 
-#: classes/models/class-dropp-consignment.php:65
+#: classes/models/class-dropp-consignment.php:66
 msgid "Cancelled"
 msgstr "Hætt við"
 
-#: classes/models/class-dropp-consignment.php:461
+#: classes/models/class-dropp-consignment.php:467
 msgid "Dropp booking complete."
 msgstr "Dropp bókun tókst."
 
 #. translators: Consignment ID.
-#: classes/models/class-dropp-consignment.php:494
-#: classes/models/class-dropp-consignment.php:518
+#: classes/models/class-dropp-consignment.php:500
+#: classes/models/class-dropp-consignment.php:524
 #, php-format
 msgid "Consignment, %d, does not have a dropp order id."
 msgstr "Afhendingarstaður, %d, er ekki með neina pöntun."
 
-#: classes/models/class-dropp-consignment.php:602
+#: classes/models/class-dropp-consignment.php:608
 msgid "Empty ID in the response"
 msgstr "Vantar ID í svar"
 
@@ -338,7 +386,8 @@ msgid "Home delivery"
 msgstr "Heimsending"
 
 #: classes/models/class-dropp-location.php:61
-#: classes/shipping-method/class-flytjandi.php:46
+#: classes/shipping-method/class-flytjandi.php:54
+#: classes/shipping-method/class-flytjandi.php:55
 msgid "Dropp - Other pickup locations"
 msgstr "Dropp - Landsbyggð"
 
@@ -358,64 +407,98 @@ msgstr "API Villa"
 msgid "Invalid PDF"
 msgstr "Ógilt PDF"
 
-#: classes/models/class-dropp-pdf.php:159
-#: classes/models/class-dropp-pdf.php:169
-#: classes/models/class-dropp-pdf.php:180
-msgid "Could not create directory"
-msgstr "Gat ekki búið til svæði"
-
-#: classes/shipping-method/class-daytime-delivery.php:38
+#: classes/shipping-method/class-daytime-delivery.php:46
 msgid "Dropp Daytime Delivery"
 msgstr "Dropp Heimsending(Dagdreifing)"
 
-#: classes/shipping-method/class-daytime-delivery.php:39
-msgid "Home delivery in Iceland between 10:00-17:00"
-msgstr "Heimsending á Íslandi milli kl. 10:00-17:00"
+#: classes/shipping-method/class-daytime-delivery.php:47
+msgid "Dropp - Home Delivery (10:00 - 16:00)"
+msgstr "Dropp - Heimsending (kl. 10-16)"
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:39
+#: classes/shipping-method/class-daytime-delivery.php:48
+msgid "Home delivery in Iceland between 10:00-16:00"
+msgstr "Heimsending á Íslandi milli kl. 10:00-16:00"
+
+#: classes/shipping-method/class-dropp-outside-capital-area.php:46
 msgid "Dropp Outside Capital Area"
 msgstr "Dropp utan höfuðborgarsvæðis"
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:40
-#: classes/shipping-method/class-flytjandi.php:47
-#: classes/shipping-method/class-shipping-method.php:59
+#: classes/shipping-method/class-dropp-outside-capital-area.php:47
+#: classes/shipping-method/class-shipping-method.php:84
+msgid "Dropp - Pick-up at location"
+msgstr "Dropp - Ásamtaka á staðsetningu"
+
+#: classes/shipping-method/class-dropp-outside-capital-area.php:48
+#: classes/shipping-method/class-flytjandi.php:56
+#: classes/shipping-method/class-shipping-method.php:85
 msgid "Deliver parcels at delivery locations in Iceland"
 msgstr "Afhenda sendingar á Íslandi"
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:39
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:46
 msgid "Dropp Home Delivery Outside Capital Area"
 msgstr "Dropp Heimsending utan höfuðborgarsvæðis"
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:40
-#: classes/shipping-method/class-home-delivery.php:48
-msgid "Home delivery in Iceland between 19:00-22:00"
-msgstr "Heimsending á Íslandi milli kl. 19:00-22:00"
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:47
+msgid "Dropp - Home Delivery (18:00 - 22:00)"
+msgstr "Dropp - Heimsending (kl. 18-22)"
 
-#: classes/shipping-method/class-home-delivery.php:47
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:48
+msgid "Home delivery in Iceland between 18:00-22:00"
+msgstr "Heimsending á Íslandi milli kl. 18:00-22:00"
+
+#: classes/shipping-method/class-home-delivery.php:54
 msgid "Dropp Home Delivery"
 msgstr "Dropp Heimsending"
 
+#: classes/shipping-method/class-home-delivery.php:55
+msgid "Dropp - Home Delivery (17:00 - 22:00)"
+msgstr "Dropp - Heimsending (kl. 17-22)"
+
+#: classes/shipping-method/class-home-delivery.php:56
+msgid "Home delivery in Iceland between 17:00-22:00"
+msgstr "Heimsending á Íslandi milli kl. 17:00-22:00"
+
 #: classes/shipping-method/class-pickup.php:25
+#: classes/shipping-method/class-pickup.php:26
 msgid "Pick-up at warehouse (Vatnagarðar 22)"
 msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 
-#: classes/shipping-method/class-pickup.php:26
+#: classes/shipping-method/class-pickup.php:27
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
-#: classes/shipping-method/class-shipping-method.php:193
+#: classes/shipping-method/class-shipping-method.php:224
+msgid "Load prices from API"
+msgstr "Les inn verð úr API"
+
+#: classes/shipping-method/class-shipping-method.php:226
+msgid ""
+"Automatically fill in the cost fields above with suggested prices from "
+"Dropp. Note: Suggested prices are in ISK and clicking this button will "
+"overwrite existing settings."
+msgstr ""
+"Áframsendaðu sjálfvirkt verð í kostnaðarröðunum hér fyrir ofan með tillögum "
+"um verð frá Dropp. Ath.: Tillögur um verð frá API eru í íslenskum krónum og "
+"ýtt á þennan takka yfirskrifar núverandi stillingar."
+
+#: classes/shipping-method/class-shipping-method.php:227
+#: classes/shipping-method/class-shipping-method.php:228
+msgid "Use suggested prices"
+msgstr "Notaðu tillögur um verð"
+
+#: classes/shipping-method/class-shipping-method.php:256
 msgid "Free shipping"
 msgstr "Ókeypis sendingar"
 
-#: classes/shipping-method/class-shipping-method.php:194
+#: classes/shipping-method/class-shipping-method.php:257
 msgid "Enable"
 msgstr "Virkja"
 
-#: classes/shipping-method/class-shipping-method.php:202
+#: classes/shipping-method/class-shipping-method.php:265
 msgid "Free shipping for orders above"
 msgstr "Frír sendingarkostnaður fyrir pantanir að ofan"
 
-#: classes/shipping-method/class-shipping-method.php:205
+#: classes/shipping-method/class-shipping-method.php:268
 msgid "Only enable free shipping if the cart total exceeds this value."
 msgstr "Aðeins gera ókeypis sendingar ef körfu Samtals fer yfir þetta gildi."
 
@@ -580,8 +663,8 @@ msgid "Dropp for WooCommerce"
 msgstr "Dropp fyrir WooCommerce"
 
 #. Plugin URI of the plugin/theme
-msgid "https://dropp.is/woocommerce"
-msgstr "https://dropp.is/woocommerce"
+msgid "https://hjalp.dropp.is/article/29-hvernig-tengi-eg-woocommerce"
+msgstr "https://hjalp.dropp.is/article/29-hvernig-tengi-eg-woocommerce"
 
 #. Description of the plugin/theme
 msgid "Shipping method"
@@ -595,6 +678,9 @@ msgstr "Cove AS"
 msgid "https://cove.no/dropp"
 msgstr "https://cove.no/dropp"
 
+#~ msgid "Could not create directory"
+#~ msgstr "Gat ekki búið til svæði"
+
 #~ msgid "Flytjandi"
 #~ msgstr "Flytjandi"
 
@@ -606,3 +692,8 @@ msgstr "https://cove.no/dropp"
 
 #~ msgid "WooCommerce Dropp.is Shipping"
 #~ msgstr "WooCommerce Dropp afhendingar"
+
+#, fuzzy
+#~| msgid "Click here to go to the zone settings."
+#~ msgid "Click here to go to the shipping settings."
+#~ msgstr "Smelltu hér til að fara í svæðisstillingarnar."

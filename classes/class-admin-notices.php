@@ -12,25 +12,34 @@ class Admin_Notices {
 			'dropp_cost_tier_upgrade_notice',
 			new Admin_Notice(
 				__(
-					'Attention: Important Pricing Update for Dropp Shipping Methods ',
+					'Attention: Update on Dropp shipping methods - Action required',
 					'dropp-for-woocommerce'
 				),
 				__(
-					"We've updated the pricing structure for Dropp shipping methods to a weight-based tier system. To ensure accurate pricing, you need to review the price settings for all of the enabled Dropp shipping methods in any shipping zone that has a Dropp shipping method.
+					"Starting from June 1st, Dropp's service will be extended and we will add a service for heavier shipments. Dropp customers will receive a notification about the service changes in an email in the coming days. The new Dropp price list is already available at %s.
 
-To review your pricing settings, please go to the Dropp shipping settings and check the price settings for each Dropp shipping method.
+In parallel with these changes, we have updated the settings in WooCommerce and it is now possible to enter different prices based on the weight of packages. We recommend that you review all prices before June 1st when the changes take effect. %s. Updated instructions will be available shortly at %s.
 
-%s
+If you have any questions, do not hesitate to contact us at dropp@dropp.is or by phone at 546-6100.
 
-For your convenience, we've added a \"Use suggested prices\" button that will load suggested prices from Dropp's API. If the price is removed and saved as an empty field, it will by default use the suggested price.
-Thank you for your attention to this matter.",
+Best regards,
+Dropp",
 					'dropp-for-woocommerce'
 				),
 				[
 					new Admin_Notice_Link(
-						__('Click here to go to the shipping settings.', 'dropp-for-woocommerce'),
+						'https://dropp.is/verdskra',
+						'https://dropp.is/verdskra'
+					),
+					new Admin_Notice_Link(
+						__('Click here to go to the settings', 'dropp-for-woocommerce'),
 						admin_url('admin.php?page=wc-settings&tab=shipping')
-					)
+					),
+					new Admin_Notice_Link(
+						'https://hjalp.dropp.is',
+						'https://hjalp.dropp.is'
+					),
+
 				],
 			)
 		);

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-05-08 16:58+0200\n"
+"POT-Creation-Date: 2023-05-08 23:52+0200\n"
 "PO-Revision-Date: 2020-03-13 12:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -46,31 +46,31 @@ msgid ""
 msgstr ""
 
 #: classes/class-admin-notices.php:31
-msgid "Click here to go to the Dropp shipping settings."
+msgid "Click here to go to the shipping settings."
 msgstr ""
 
-#: classes/class-ajax.php:51
+#: classes/class-ajax.php:53
 msgid "Required field, location ID, instance ID or index was empty"
 msgstr ""
 
-#: classes/class-ajax.php:76
+#: classes/class-ajax.php:78
 msgid "Saved location ID"
 msgstr ""
 
-#: classes/class-ajax.php:95
+#: classes/class-ajax.php:97
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr ""
 
-#: classes/class-ajax.php:156 classes/class-order-adapter.php:175
+#: classes/class-ajax.php:158 classes/class-order-adapter.php:175
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr ""
 
-#: classes/class-ajax.php:200
+#: classes/class-ajax.php:202
 msgid "Booked! Re-loading page..."
 msgstr ""
 
-#: classes/class-ajax.php:373
+#: classes/class-ajax.php:375
 msgid "Could not find consignment:"
 msgstr ""
 
@@ -115,11 +115,11 @@ msgstr ""
 msgid "Click here to go to the zone settings."
 msgstr ""
 
-#: classes/class-dropp.php:196
+#: classes/class-dropp.php:194
 msgid "View Dropp Settings"
 msgstr ""
 
-#: classes/class-dropp.php:196
+#: classes/class-dropp.php:194
 msgid "Settings"
 msgstr ""
 
@@ -394,13 +394,12 @@ msgid "Home delivery in Iceland between 10:00-16:00"
 msgstr ""
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:46
-msgid "Dropp Outside Capital Area 2"
+msgid "Dropp Outside Capital Area"
 msgstr ""
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:47
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:47
 #: classes/shipping-method/class-shipping-method.php:84
-msgid "Dropp - Home Delivery (18:00 - 22:00)"
+msgid "Dropp - Pick-up at location"
 msgstr ""
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:48
@@ -411,6 +410,10 @@ msgstr ""
 
 #: classes/shipping-method/class-home-delivery-outside-capital-area.php:46
 msgid "Dropp Home Delivery Outside Capital Area"
+msgstr ""
+
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:47
+msgid "Dropp - Home Delivery (18:00 - 22:00)"
 msgstr ""
 
 #: classes/shipping-method/class-home-delivery-outside-capital-area.php:48

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2023-05-09 00:02+0200\n"
-"PO-Revision-Date: 2023-05-09 00:21+0200\n"
+"PO-Revision-Date: 2023-05-09 00:29+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: classes/class-admin-notices.php:15
 msgid "Attention: Update on Dropp shipping methods - Action required"
-msgstr "Athugið: Uppfærsla á sendingarleiðum Dropp - Viðgerð krafist"
+msgstr "Athugið: Uppfærsla á sendingarleiðum Dropp - Aðgerða krafist"
 
 #: classes/class-admin-notices.php:19
 #, php-format

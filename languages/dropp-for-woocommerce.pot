@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-01-18 10:34+0800\n"
+"POT-Creation-Date: 2023-05-08 16:58+0200\n"
 "PO-Revision-Date: 2020-03-13 12:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,40 +22,71 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 
-#: classes/class-ajax.php:48
+#: classes/class-admin-notices.php:15
+msgid "Attention: Important Pricing Update for Dropp Shipping Methods "
+msgstr ""
+
+#: classes/class-admin-notices.php:19
+#, php-format
+msgid ""
+"We've updated the pricing structure for Dropp shipping methods to a weight-"
+"based tier system. To ensure accurate pricing, you need to review the price "
+"settings for all of the enabled Dropp shipping methods in any shipping zone "
+"that has a Dropp shipping method.\n"
+"\n"
+"To review your pricing settings, please go to the Dropp shipping settings "
+"and check the price settings for each Dropp shipping method.\n"
+"\n"
+"%s\n"
+"\n"
+"For your convenience, we've added a \"Use suggested prices\" button that "
+"will load suggested prices from Dropp's API. If the price is removed and "
+"saved as an empty field, it will by default use the suggested price.\n"
+"Thank you for your attention to this matter."
+msgstr ""
+
+#: classes/class-admin-notices.php:31
+msgid "Click here to go to the Dropp shipping settings."
+msgstr ""
+
+#: classes/class-ajax.php:51
 msgid "Required field, location ID, instance ID or index was empty"
 msgstr ""
 
-#: classes/class-ajax.php:73
+#: classes/class-ajax.php:76
 msgid "Saved location ID"
 msgstr ""
 
-#: classes/class-ajax.php:92
+#: classes/class-ajax.php:95
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr ""
 
-#: classes/class-ajax.php:152 classes/class-order-adapter.php:175
+#: classes/class-ajax.php:156 classes/class-order-adapter.php:175
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr ""
 
-#: classes/class-ajax.php:196
+#: classes/class-ajax.php:200
 msgid "Booked! Re-loading page..."
 msgstr ""
 
-#: classes/class-ajax.php:369
+#: classes/class-ajax.php:373
 msgid "Could not find consignment:"
 msgstr ""
 
-#: classes/class-api.php:57
+#: classes/class-api.php:59
 msgid "No API key could be found."
 msgstr ""
 
-#: classes/class-api.php:226
+#: classes/class-api.php:230
 msgid "Response error"
 msgstr ""
 
-#: classes/class-api.php:240 classes/models/class-dropp-consignment.php:591
+#: classes/class-api.php:233
+msgid "Response error with code "
+msgstr ""
+
+#: classes/class-api.php:247 classes/models/class-dropp-consignment.php:597
 msgid "Invalid json"
 msgstr ""
 
@@ -84,11 +115,11 @@ msgstr ""
 msgid "Click here to go to the zone settings."
 msgstr ""
 
-#: classes/class-dropp.php:263
+#: classes/class-dropp.php:196
 msgid "View Dropp Settings"
 msgstr ""
 
-#: classes/class-dropp.php:263
+#: classes/class-dropp.php:196
 msgid "Settings"
 msgstr ""
 
@@ -101,7 +132,7 @@ msgid "Dropp - Print labels"
 msgstr ""
 
 #: classes/class-pending-shipping.php:39
-#: classes/shipping-method/class-shipping-method.php:58
+#: classes/shipping-method/class-shipping-method.php:83
 msgid "Dropp"
 msgstr ""
 
@@ -277,50 +308,50 @@ msgid_plural "Tracking codes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: classes/models/class-dropp-consignment.php:58
+#: classes/models/class-dropp-consignment.php:59
 msgid "Ready"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:59
+#: classes/models/class-dropp-consignment.php:60
 msgid "Error"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:60
+#: classes/models/class-dropp-consignment.php:61
 msgid "Initial"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:61
+#: classes/models/class-dropp-consignment.php:62
 msgid "Overweight"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:62
+#: classes/models/class-dropp-consignment.php:63
 msgid "Transit"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:63
+#: classes/models/class-dropp-consignment.php:64
 msgid "Consignment"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:64
+#: classes/models/class-dropp-consignment.php:65
 msgid "Delivered"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:65
+#: classes/models/class-dropp-consignment.php:66
 msgid "Cancelled"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:461
+#: classes/models/class-dropp-consignment.php:467
 msgid "Dropp booking complete."
 msgstr ""
 
 #. translators: Consignment ID.
-#: classes/models/class-dropp-consignment.php:494
-#: classes/models/class-dropp-consignment.php:518
+#: classes/models/class-dropp-consignment.php:500
+#: classes/models/class-dropp-consignment.php:524
 #, php-format
 msgid "Consignment, %d, does not have a dropp order id."
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:602
+#: classes/models/class-dropp-consignment.php:608
 msgid "Empty ID in the response"
 msgstr ""
 
@@ -329,7 +360,8 @@ msgid "Home delivery"
 msgstr ""
 
 #: classes/models/class-dropp-location.php:61
-#: classes/shipping-method/class-flytjandi.php:46
+#: classes/shipping-method/class-flytjandi.php:54
+#: classes/shipping-method/class-flytjandi.php:55
 msgid "Dropp - Other pickup locations"
 msgstr ""
 
@@ -349,64 +381,92 @@ msgstr ""
 msgid "Invalid PDF"
 msgstr ""
 
-#: classes/models/class-dropp-pdf.php:159
-#: classes/models/class-dropp-pdf.php:169
-#: classes/models/class-dropp-pdf.php:180
-msgid "Could not create directory"
-msgstr ""
-
-#: classes/shipping-method/class-daytime-delivery.php:38
+#: classes/shipping-method/class-daytime-delivery.php:46
 msgid "Dropp Daytime Delivery"
 msgstr ""
 
-#: classes/shipping-method/class-daytime-delivery.php:39
-msgid "Home delivery in Iceland between 10:00-17:00"
+#: classes/shipping-method/class-daytime-delivery.php:47
+msgid "Dropp - Home Delivery (10:00 - 16:00)"
 msgstr ""
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:39
-msgid "Dropp Outside Capital Area"
+#: classes/shipping-method/class-daytime-delivery.php:48
+msgid "Home delivery in Iceland between 10:00-16:00"
 msgstr ""
 
-#: classes/shipping-method/class-dropp-outside-capital-area.php:40
-#: classes/shipping-method/class-flytjandi.php:47
-#: classes/shipping-method/class-shipping-method.php:59
+#: classes/shipping-method/class-dropp-outside-capital-area.php:46
+msgid "Dropp Outside Capital Area 2"
+msgstr ""
+
+#: classes/shipping-method/class-dropp-outside-capital-area.php:47
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:47
+#: classes/shipping-method/class-shipping-method.php:84
+msgid "Dropp - Home Delivery (18:00 - 22:00)"
+msgstr ""
+
+#: classes/shipping-method/class-dropp-outside-capital-area.php:48
+#: classes/shipping-method/class-flytjandi.php:56
+#: classes/shipping-method/class-shipping-method.php:85
 msgid "Deliver parcels at delivery locations in Iceland"
 msgstr ""
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:39
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:46
 msgid "Dropp Home Delivery Outside Capital Area"
 msgstr ""
 
-#: classes/shipping-method/class-home-delivery-outside-capital-area.php:40
-#: classes/shipping-method/class-home-delivery.php:48
-msgid "Home delivery in Iceland between 19:00-22:00"
+#: classes/shipping-method/class-home-delivery-outside-capital-area.php:48
+msgid "Home delivery in Iceland between 18:00-22:00"
 msgstr ""
 
-#: classes/shipping-method/class-home-delivery.php:47
+#: classes/shipping-method/class-home-delivery.php:54
 msgid "Dropp Home Delivery"
 msgstr ""
 
+#: classes/shipping-method/class-home-delivery.php:55
+msgid "Dropp - Home Delivery (17:00 - 22:00)"
+msgstr ""
+
+#: classes/shipping-method/class-home-delivery.php:56
+msgid "Home delivery in Iceland between 17:00-22:00"
+msgstr ""
+
 #: classes/shipping-method/class-pickup.php:25
+#: classes/shipping-method/class-pickup.php:26
 msgid "Pick-up at warehouse (Vatnagarðar 22)"
 msgstr ""
 
-#: classes/shipping-method/class-pickup.php:26
+#: classes/shipping-method/class-pickup.php:27
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:193
+#: classes/shipping-method/class-shipping-method.php:224
+msgid "Load prices from API"
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:226
+msgid ""
+"Automatically fill in the cost fields above with suggested prices from "
+"Dropp. Note: Suggested prices are in ISK and clicking this button will "
+"overwrite existing settings."
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:227
+#: classes/shipping-method/class-shipping-method.php:228
+msgid "Use suggested prices"
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:256
 msgid "Free shipping"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:194
+#: classes/shipping-method/class-shipping-method.php:257
 msgid "Enable"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:202
+#: classes/shipping-method/class-shipping-method.php:265
 msgid "Free shipping for orders above"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:205
+#: classes/shipping-method/class-shipping-method.php:268
 msgid "Only enable free shipping if the cart total exceeds this value."
 msgstr ""
 
@@ -569,7 +629,7 @@ msgid "Dropp for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://dropp.is/woocommerce"
+msgid "https://hjalp.dropp.is/article/29-hvernig-tengi-eg-woocommerce"
 msgstr ""
 
 #. Description of the plugin/theme

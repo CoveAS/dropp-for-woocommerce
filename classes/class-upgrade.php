@@ -2,9 +2,8 @@
 
 namespace Dropp;
 
-use Dropp\Actions\Get_Remote_Price_Info_Action;
-use Dropp\Data\Price_Info_Data;
 use Dropp\Shipping_Method\Shipping_Method;
+use Dropp\Utility\Admin_Notice_Utility;
 use WC_Shipping_Zones;
 
 class Upgrade
@@ -137,6 +136,7 @@ class Upgrade
 		}
 
 		// Because this update adds new setting fields we also want to inform users about this change.
-		// @TODO: Add admin notice flag with upgrade notice
+		Admin_Notice_Utility::get('dropp_cost_tier_upgrade_notice')->enable();
+		Admin_Notice_Utility::update();
 	}
 }

@@ -8,7 +8,6 @@
 namespace Dropp;
 
 use Dropp\Shipping_Method\Shipping_Method;
-use WC_Abstract_Order;
 use WC_Order;
 use WC_Shipping;
 use WC_Shipping_Zones;
@@ -46,6 +45,8 @@ class Dropp {
 		Sort_Shipping_Methods::setup();
 		Modify_Rate_Cost_By_Weight::setup();
 		Upgrade::setup();
+
+		Admin_Notices::setup();
 
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );

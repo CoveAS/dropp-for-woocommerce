@@ -9,6 +9,7 @@ namespace Dropp;
 
 use Dropp\Actions\Get_Shipping_Instance_Data_Action;
 use Dropp\Data\Price_Info_Data;
+use Dropp\Utility\Admin_Notice_Utility;
 use WC_Order_Item_Shipping;
 use WC_Cache_Helper;
 use Exception;
@@ -36,6 +37,7 @@ class Ajax {
 		add_action( 'wp_ajax_dropp_add_extra_pdf', __CLASS__ . '::dropp_add_extra_pdf' );
 		add_action( 'wp_ajax_dropp_delete_extra_pdf', __CLASS__ . '::dropp_delete_extra_pdf' );
 		add_action( 'wp_ajax_dropp_get_instance_prices', __CLASS__ . '::dropp_get_instance_prices' );
+		add_action( 'wp_ajax_dropp_dismiss_admin_notice', __CLASS__ . '::dropp_dismiss_admin_notice' );
 	}
 
 	/**
@@ -426,6 +428,20 @@ class Ajax {
 		Price_Info_Data::flush_cache();
 		$prices          = Price_Info_Data::get_instance()->get($shipping_instance->shipping_method->get_code());
 		wp_send_json_success($prices);
+	}
+
+	public static function dropp_dismiss_admin_notice(): void
+	{
+		$notice_code = filter_input( INPUT_POST, 'notice_code', FILTER_DEFAULT );
+		if (is_null($notice_code)) {
+			wp_die(
+				'Notice code is required',
+				'Notice code is required',
+				['response' => 400]
+			);
+		}
+		Admin_Notice_Utility::get($notice_code)->dismiss();
+		Admin_Notice_Utility::update();
 	}
 
 	/**

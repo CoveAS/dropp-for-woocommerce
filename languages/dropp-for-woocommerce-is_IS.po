@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2023-05-09 00:02+0200\n"
-"PO-Revision-Date: 2023-05-09 00:10+0200\n"
+"PO-Revision-Date: 2023-05-09 00:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -409,7 +409,7 @@ msgstr "Ógilt PDF"
 
 #: classes/shipping-method/class-daytime-delivery.php:46
 msgid "Dropp Daytime Delivery"
-msgstr "Dropp Heimsending(Dagdreifing)"
+msgstr "Dropp Heimsending (Dagdreifing)"
 
 #: classes/shipping-method/class-daytime-delivery.php:47
 msgid "Dropp - Home Delivery (10:00 - 16:00)"

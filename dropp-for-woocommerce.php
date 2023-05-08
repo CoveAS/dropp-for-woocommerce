@@ -38,10 +38,21 @@
 
 namespace Dropp;
 
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 require_once __DIR__ . '/classes/class-dropp.php';
+
+add_action(
+	'before_woocommerce_init',
+	fn() => class_exists(FeaturesUtil::class) ?
+	FeaturesUtil::declare_compatibility(
+		'custom_order_tables',
+		__FILE__
+	) : null
+);
 
 add_action( 'plugins_loaded', 'Dropp\Dropp::loaded' );

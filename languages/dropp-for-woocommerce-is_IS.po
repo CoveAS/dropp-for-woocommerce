@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2023-05-09 00:02+0200\n"
-"PO-Revision-Date: 2023-05-09 00:29+0200\n"
+"PO-Revision-Date: 2023-05-09 10:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -426,7 +426,7 @@ msgstr "Dropp utan höfuðborgarsvæðis"
 #: classes/shipping-method/class-dropp-outside-capital-area.php:47
 #: classes/shipping-method/class-shipping-method.php:84
 msgid "Dropp - Pick-up at location"
-msgstr "Dropp - Ásamtaka á staðsetningu"
+msgstr "Dropp - Afhendingarstaðir"
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:48
 #: classes/shipping-method/class-flytjandi.php:56
@@ -469,17 +469,14 @@ msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
 #: classes/shipping-method/class-shipping-method.php:224
 msgid "Load prices from API"
-msgstr "Les inn verð úr API"
+msgstr "Lesa verð frá Dropp"
 
 #: classes/shipping-method/class-shipping-method.php:226
 msgid ""
 "Automatically fill in the cost fields above with suggested prices from "
 "Dropp. Note: Suggested prices are in ISK and clicking this button will "
 "overwrite existing settings."
-msgstr ""
-"Áframsendaðu sjálfvirkt verð í kostnaðarröðunum hér fyrir ofan með tillögum "
-"um verð frá Dropp. Ath.: Tillögur um verð frá API eru í íslenskum krónum og "
-"ýtt á þennan takka yfirskrifar núverandi stillingar."
+msgstr "Lesa inn verðskrá verð frá Dropp. Ath: Verðin erum í íslenskum krónum."
 
 #: classes/shipping-method/class-shipping-method.php:227
 #: classes/shipping-method/class-shipping-method.php:228

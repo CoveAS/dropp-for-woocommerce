@@ -11,6 +11,7 @@ use Dropp\Actions\Get_Remote_Price_Info_Action;
 use Dropp\Exceptions\Request_Exception;
 use Dropp\Exceptions\Response_Exception;
 use Dropp\Shipping_Method\Dropp;
+use Exception;
 
 /**
  * Dropp PDF
@@ -61,7 +62,7 @@ class Price_Info_Data {
 		if (empty($items) || $expire_at < time() ) {
 			try {
 				$items = (new Get_Remote_Price_Info_Action)();
-			} catch (Response_Exception $exception) {
+			} catch (Response_Exception|Exception $exception) {
 				$items = $price_info['items'] ?? [];
 			}
 			$updated_at = time();

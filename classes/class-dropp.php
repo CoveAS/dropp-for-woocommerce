@@ -98,6 +98,7 @@ class Dropp {
 		if ( 'woocommerce_page_wc-settings' !== $hook ) {
 			return;
 		}
+		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], Dropp::VERSION);
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
 		wp_localize_script( 'dropp-admin-js', '_dropp', ['ajaxurl' => admin_url( 'admin-ajax.php' ),] );
 	}

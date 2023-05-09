@@ -3,7 +3,7 @@ import Booking from './components/booking/booking';
 
 import Vue from 'vue';
 
-if ( window._dropp ) {
+if ( window._dropp && window['dropp-booking']) {
 	var settings = new Vue( {
 		el: '#dropp-booking',
 		render:  function( createElement ) {
@@ -19,7 +19,7 @@ if ( window._dropp ) {
 	} );
 
 	jQuery( function( $ ) {
-		if ( ! _dropp.locations.length ) {
+		if ( _dropp.locations && ! _dropp.locations.length ) {
 			$( '#woocommerce-order-dropp-booking' ).addClass( 'closed' );
 		}
 	} );

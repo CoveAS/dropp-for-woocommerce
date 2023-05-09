@@ -11,7 +11,8 @@ jQuery( ( $ ) => {
 		let content = row.find('label,fieldset');
 		content.toggle(cb.is(':checked'));
 
-		cb.change(
+		cb.on(
+			'change',
 			() => {
 				if (cb.is(':checked'))
 					content.fadeIn();

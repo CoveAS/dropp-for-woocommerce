@@ -8,6 +8,7 @@
 namespace Dropp;
 
 use Dropp\Shipping_Method\Shipping_Method;
+use Dropp\Utility\Zone_Utility;
 use WC_Order;
 use WC_Shipping;
 use WC_Shipping_Zones;
@@ -112,7 +113,7 @@ class Dropp {
 			return;
 		}
 
-		$zones = WC_Shipping_Zones::get_zones();
+		$zones = Zone_Utility::get_zones();
 		$zone  = false;
 		foreach ( $zones as $zone_data ) {
 			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {

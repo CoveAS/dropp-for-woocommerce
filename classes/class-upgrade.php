@@ -4,6 +4,7 @@ namespace Dropp;
 
 use Dropp\Shipping_Method\Shipping_Method;
 use Dropp\Utility\Admin_Notice_Utility;
+use Dropp\Utility\Zone_Utility;
 use WC_Shipping_Zones;
 
 class Upgrade
@@ -78,7 +79,7 @@ class Upgrade
 		 * Note: cost_2 was used based on location pricetype being '2'.
 		 * Pricetype is now refactored to be a parameter/shortcode as part of the cost setting.
 		 */
-		$zones = WC_Shipping_Zones::get_zones();
+		$zones = Zone_Utility::get_zones();
 		foreach ( $zones as $zone_data ) {
 			$zone = WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
 			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
@@ -116,7 +117,7 @@ class Upgrade
 		// This update introduced new price options based on weight.
 		// To make the update intuitive we're going to copy the prices from the first tier to all tiers.
 		// The admin user will have to update the prices themselves if they want to use the provided prices.
-		$zones = WC_Shipping_Zones::get_zones();
+		$zones = Zone_Utility::get_zones();
 		foreach ( $zones as $zone_data ) {
 			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {
 				if (! $shipping_method instanceof Shipping_Method) {

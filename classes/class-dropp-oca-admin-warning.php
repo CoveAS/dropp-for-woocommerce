@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use Dropp\Utility\Zone_Utility;
+
 /**
  * Dropp
  */
@@ -79,7 +81,7 @@ class Dropp_Oca_Admin_Warning {
 	}
 
 	public static function check(): void {
-		$zones = \WC_Shipping_Zones::get_zones();
+		$zones = Zone_Utility::get_zones();
 		foreach ( $zones as $zone_data ) {
 			$zone = \WC_Shipping_Zones::get_zone( $zone_data['zone_id'] );
 			foreach ( $zone_data['shipping_methods'] as $shipping_method ) {

@@ -4,6 +4,7 @@ namespace Dropp\Actions;
 
 use Dropp\Data\Shipping_Instance_Data;
 use Dropp\Shipping_Method\Shipping_Method;
+use WC_Shipping_Zone;
 use WC_Shipping_Zones;
 
 class Get_Shipping_Instance_Data_Action
@@ -11,6 +12,13 @@ class Get_Shipping_Instance_Data_Action
 	public function __invoke( int $instance_id ): ?Shipping_Instance_Data
 	{
 		$zones = WC_Shipping_Zones::get_zones();
+
+		// Add root zone
+		$root_zone = new WC_Shipping_Zone(0);
+		$zones[$root_zone->get_id()] = [
+			'zone_id' => $root_zone->get_id(),
+			'shipping_methods' => $root_zone->get_shipping_methods( false, 'admin' ),
+		];
 		$zone  = false;
 		$shipping_method = null;
 		foreach ( $zones as $zone_data ) {

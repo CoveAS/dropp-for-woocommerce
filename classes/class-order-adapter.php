@@ -135,7 +135,7 @@ class Order_Adapter {
 		$consignment        = new Dropp_Consignment();
 		$consignment->debug = $shipping_method->debug_mode;
 		$comment            = '';
-		if ( 'yes' === $shipping_method->copy_order_notes ) {
+		if ( $shipping_method->copy_order_notes ) {
 			$comment = $this->order->get_customer_note();
 		}
 		$consignment->fill(

@@ -10,6 +10,7 @@ namespace Dropp\Shipping_Method;
 use Dropp\Cost_Tier;
 use Dropp\Data\Price_Data;
 use Dropp\Data\Price_Info_Data;
+use Dropp\Options;
 use Dropp\Shipping_Settings;
 use Dropp\API;
 use Exception;
@@ -98,13 +99,22 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 	 */
 	public function init(): void
 	{
-		parent::init();
+		Options::init($this);
+
+		$wc_dir = defined('WC_PLUGIN_FILE') ? plugin_dir_path(WC_PLUGIN_FILE) : null;
+		if (! $wc_dir) {
+			return;
+		}
+		$this->instance_form_fields = include $wc_dir . 'includes/shipping/flat-rate/includes/settings-flat-rate.php';
+		$this->instance_form_fields['title']['default'] = $this->default_title;
 
 		// Load the settings.
+		$this->init_properties();
 		$this->init_cost_tiers();
+		$this->init_instance_form_fields();
 		$this->init_form_fields();
 		$this->init_settings();
-		$this->init_properties();
+
 
 		// Actions.
 		add_action('woocommerce_update_options_shipping_'.$this->id, [$this, 'process_admin_options']);
@@ -183,63 +193,30 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		return false;
 	}
 
-	/**
-	 * Get setting form fields for instances of this shipping method within zones.
-	 *
-	 * @return array
-	 */
-	public function get_instance_form_fields(): array
-	{
-		$form_fields                     = parent::get_instance_form_fields();
-		$form_fields['title']['default'] = $this->default_title;
-		$additional = $this->get_additional_form_fields($form_fields);
-		if (empty($form_fields['cost'])) {
-			// If there is no cost field then return early
-			return array_merge(
-				$form_fields,
-				$additional
-			);
-		}
-
-		// Place cost fields in a separate array in order to sort settings correctly
-		$cost_fields = [
-			'cost' => $form_fields['cost']
-		];
-		if (! empty($this->costTiers)) {
-			// Add cost tier settings
-			// Modify default cost for shipping methods with cost tiers
-			$cost_fields['cost']['default'] = '';
-
-			/** @var Cost_Tier $costTier */
-			$title = $cost_fields['cost']['title'];
-			foreach ($this->costTiers as $i => $costTier) {
-				$key = $costTier->getKey($i);
-				if (!isset($cost_fields[$key])) {
-					$cost_fields[$key] = $cost_fields['cost'];
-				}
-				$cost_fields[$key]['title']       = $title.' '.$costTier->suffix;
-				$cost_fields[$key]['placeholder'] = $costTier->placeholder;
-			}
-			$cost_fields['load_prices_from_api'] = [
-				'title'       => __('Load prices from API', 'dropp-for-woocommerce'),
-				'type'        => 'button',
-				'description' => __('Automatically fill in the cost fields above with suggested prices from Dropp. Note: Suggested prices are in ISK and clicking this button will overwrite existing settings.', 'dropp-for-woocommerce'),
-				'placeholder' => __('Use suggested prices', 'dropp-for-woocommerce'),
-				'default'     => __('Use suggested prices', 'dropp-for-woocommerce'),
-			];
-		}
-		$keys     = array_keys($form_fields);
-		$filtered = preg_grep('/^cost(_\d+)?$/', $keys);
-		$key      = end($filtered);
-		$pos      = array_search($key, $keys, true);
-
-		// Insert additional fields after costs.
-		return array_merge(
-			array_slice($form_fields, 0, $pos),
-			$cost_fields,
-			$additional,
-			array_slice($form_fields, $pos + 1, null)
+	public function generate_dropp_warning_html($key, $data) {
+		$field_key = $this->get_field_key( $key );
+		$defaults  = array(
+			'title'             => '',
+			'disabled'          => false,
+			'class'             => '',
+			'css'               => '',
+			'placeholder'       => '',
+			'type'              => 'text',
+			'desc_tip'          => false,
+			'description'       => '',
+			'custom_attributes' => array(),
 		);
+		$data = wp_parse_args( $data, $defaults );
+		ob_start();
+		?>
+		<tr valign="top" class="dropp-warning">
+			<th scope="row" class="titledesc warning"><?php echo wp_kses_post($data['title']) ?></th>
+			<td class="forminp">
+				<?php echo $this->get_description_html( $data ); // WPCS: XSS ok. ?>
+			</td>
+		</tr>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -296,10 +273,8 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 	 * @param string $sum  Sum of shipping.
 	 * @param array  $args Args, must contain `cost` and `qty` keys. Having `array()` as default is for back compat
 	 *                     reasons.
-	 *
-	 * @return string
 	 */
-	protected function evaluate_cost($sum, $args = array())
+	protected function evaluate_cost($sum, $args = array()): int|string
 	{
 		$cost          = parent::evaluate_cost($sum, $args);
 		$free_shipping = $this->get_instance_option('free_shipping');
@@ -395,31 +370,95 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 
 	public function init_cost_tiers()
 	{
-		static $recursion = 0;
-		if ($recursion++ <= 0 && $this->code) {
-			// Recursion protection because during the get request we use Shipping_Method\Dropp, which extends this
-			// class, to update a setting that caches the response data.
-			$prices          = Price_Info_Data::get_instance()->get($this->code);
-			$previous_weight = 0;
-			/** @var Price_Data $price */
-			foreach ($prices as $price) {
-				$this->costTiers[] = new Cost_Tier(
-					$price->max_weight,
-					sprintf(
-						'%d kg &#8211; %d kg',
-						$previous_weight,
-						$price->max_weight
-					),
-					$price->price
-				);
-				$previous_weight   = $price->max_weight;
-			}
+		// Recursion protection because during the get request we use Shipping_Method\Dropp, which extends this
+		// class, to update a setting that caches the response data.
+		$prices          = Price_Info_Data::get_instance()->get($this->code);
+		$previous_weight = 0;
+		/** @var Price_Data $price */
+		foreach ($prices as $price) {
+			$this->costTiers[] = new Cost_Tier(
+				$price->max_weight,
+				sprintf(
+					'%d kg &#8211; %d kg',
+					$previous_weight,
+					$price->max_weight
+				),
+				$price->price
+			);
+			$previous_weight   = $price->max_weight;
 		}
-		$recursion--;
 	}
 
 	public function get_cost_tiers(): array
 	{
 		return $this->costTiers;
 	}
+
+	private function init_instance_form_fields(): void
+	{
+		$form_fields = $this->instance_form_fields;
+		$form_fields['title']['default'] = $this->default_title;
+		$additional = $this->get_additional_form_fields($form_fields);
+		if (empty($form_fields['cost'])) {
+			// If there is no cost field then return early
+			$this->instance_form_fields = array_merge($form_fields, $additional);
+			return;
+		}
+
+		// Place cost fields in a separate array in order to sort settings correctly
+		$cost_fields = [
+			'cost' => $form_fields['cost']
+		];
+		if (! empty($this->costTiers)) {
+			// Add cost tier settings
+			// Modify default cost for shipping methods with cost tiers
+			$cost_fields['cost']['default'] = '';
+
+			/** @var Cost_Tier $costTier */
+			$title = $cost_fields['cost']['title'];
+			foreach ($this->costTiers as $i => $costTier) {
+				$key = $costTier->getKey($i);
+				if (!isset($cost_fields[$key])) {
+					$cost_fields[$key] = $cost_fields['cost'];
+				}
+				$cost_fields[$key]['title']       = $title.' '.$costTier->suffix;
+				$cost_fields[$key]['placeholder'] = $costTier->placeholder;
+			}
+			$cost_fields['load_prices_from_api'] = [
+					'title'       => __('Load prices from API', 'dropp-for-woocommerce'),
+					'type'        => 'button',
+					'description' => __('Automatically fill in the cost fields above with suggested prices from Dropp. Note: Suggested prices are in ISK and clicking this button will overwrite existing settings.', 'dropp-for-woocommerce'),
+					'placeholder' => __('Use suggested prices', 'dropp-for-woocommerce'),
+					'default'     => __('Use suggested prices', 'dropp-for-woocommerce'),
+			];
+		}
+		$options = Options::get_instance();
+		if (! $options->test_mode ? $options->api_key_test : $options->api_key) {
+			$cost_fields['warning'] = [
+					'title'       => __('Missing API key', 'dropp-for-woocommerce'),
+					'type'        => 'dropp_warning',
+					'description' => __('No API key detected. Please ensure that you have entered a valid API key in order to display the correct cost settings',
+							'dropp-for-woocommerce'),
+					'default'     => '',
+			];
+		}
+		$keys     = array_keys($form_fields);
+		$filtered = preg_grep('/^cost(_\d+)?$/', $keys);
+		$key      = end($filtered);
+		$pos      = array_search($key, $keys, true);
+
+		// Insert additional fields after costs.
+		$this->instance_form_fields = array_merge(
+				array_slice($form_fields, 0, $pos),
+				$cost_fields,
+				$additional,
+				array_slice($form_fields, $pos + 1, null)
+		);
+	}
+//	public function get_instance_form_fields()
+//	{
+//		$form_fields = parent::get_instance_form_fields();
+//		$form_fields['title']['default'] = $this->default_title;
+//		return $form_fields;
+//	}
 }

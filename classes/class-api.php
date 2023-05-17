@@ -24,12 +24,11 @@ class API {
 	public bool $test = false;
 	public bool $debug = false;
 	public array $errors = [];
-	protected ?Shipping_Method\Dropp $shipping_method = null;
 
 	public function __construct() {
-		$this->shipping_method = Shipping_Method\Dropp::get_instance();
-		$this->test            = $this->shipping_method->test_mode;
-		$this->debug           = $this->shipping_method->debug_mode;
+		$options     = Options::get_instance();
+		$this->test  = $options->test_mode;
+		$this->debug = $options->debug_mode;
 	}
 
 	/**
@@ -50,11 +49,8 @@ class API {
 	 * @throws Exception When API key is not available.
 	 */
 	public function get_api_key(): string {
-		$option_name = 'api_key';
-		if ( $this->test ) {
-			$option_name = 'api_key_test';
-		}
-		$api_key = $this->shipping_method->get_option( $option_name );
+		$options     = Options::get_instance();
+		$api_key = $options->test_mode ? $options->api_key_test : $options->api_key;
 		if ( $this->require_auth && empty( $api_key ) ) {
 			throw new Exception( __( 'No API key could be found.', 'dropp-for-woocommerce' ), 1 );
 		}

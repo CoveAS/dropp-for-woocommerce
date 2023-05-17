@@ -8,9 +8,7 @@
 namespace Dropp\Data;
 
 use Dropp\Actions\Get_Remote_Price_Info_Action;
-use Dropp\Exceptions\Request_Exception;
 use Dropp\Exceptions\Response_Exception;
-use Dropp\Shipping_Method\Dropp;
 use Exception;
 
 /**
@@ -32,14 +30,13 @@ class Price_Info_Data {
 	public static function flush_cache(): void
 	{
 		wp_cache_delete('dropp_for_woocommerce_price_info', 'dropp_for_woocommerce');
-		$dropp = Dropp::get_instance();
-		$price_info = $dropp->get_option('price_info', []);
+		$price_info = get_transient('dropp_for_woocommerce_price_info') ?? [];
 		if (! empty($price_info)) {
-			$price_info['expire_at'] = 0;
-			$dropp->update_option('price_info', $price_info);
+			delete_transient('dropp_for_woocommerce_price_info');
 		}
 		self::$instance = null;
 	}
+
 	public static function get_instance()
 	{
 		$instance = wp_cache_get('dropp_for_woocommerce_price_info', 'dropp_for_woocommerce');
@@ -52,8 +49,7 @@ class Price_Info_Data {
 		}
 
 		// Attempt to get from options
-		$dropp = Dropp::get_instance();
-		$price_info = $dropp->get_option('price_info', []);
+		$price_info = get_transient('dropp_for_woocommerce_price_info') ?? [];
 		$items = $price_info['items'] ?? [];
 		$expire_at = $price_info['expire_at'] ?? 0;
 		$updated_at = $price_info['updated_at'] ?? time();
@@ -70,13 +66,14 @@ class Price_Info_Data {
 
 			if (! empty($items)) {
 				// Save to options
-				$dropp->update_option(
-					'price_info',
+				set_transient(
+					'dropp_for_woocommerce_price_info',
 					[
 						'items'      => $items,
 						'expire_at'  => $expire_at,
 						'updated_at' => $updated_at,
-					]
+					],
+					self::TTL
 				);
 			}
 		}

@@ -12,11 +12,7 @@ class Sort_Shipping_Methods
 
 	public static function sort_package_rates($rates, $package): array
 	{
-		$shipping_method = Shipping_Method\Dropp::get_instance();
-		if ( ! filter_var(
-				$shipping_method->get_option('dropp_rates_first', 'yes'),
-				FILTER_VALIDATE_BOOLEAN
-			) ) {
+		if ( ! Options::get_instance()->dropp_rates_first ) {
 			return $rates;
 		}
 		$dropp_rates = array_filter(

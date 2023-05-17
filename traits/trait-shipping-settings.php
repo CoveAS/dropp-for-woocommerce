@@ -75,21 +75,28 @@ trait Shipping_Settings
 	/**
 	 * Init properties.
 	 */
-	public function init_properties()
+	public function init_properties(): void
 	{
 		// Define user set variables.
-		$this->title                  = $this->get_option('title');
-		$this->api_key                = $this->get_option('api_key');
-		$this->api_key_test           = $this->get_option('api_key_test');
-		$this->store_id               = $this->get_option('store_id');
-		$this->new_order_status       = $this->get_option('new_order_status');
-		$this->enable_return_labels   = 'yes' === $this->get_option('enable_return_labels');
-		$this->copy_order_notes       = $this->get_option('copy_order_comment', 'yes');
-		$this->test_mode              = 'yes' === $this->get_option('test_mode');
-		$this->debug_mode             = 'yes' === $this->get_option('debug_mode');
-		$this->enable_ssn             = 'yes' === $this->get_option('enable_ssn');
-		$this->require_ssn            = 'yes' === $this->get_option('require_ssn', 'yes');
-		$this->location_name_in_label = 'yes' === $this->get_option('location_name_in_label');
+		$options = Options::get_instance();
+		// Legacy options access (should be removed in the future)
+		$this->api_key                = $options->api_key;
+		$this->api_key_test           = $options->api_key_test;
+		$this->store_id               = $options->store_id;
+		$this->new_order_status       = $options->new_order_status;
+		$this->enable_return_labels   = $options->enable_return_labels;
+		$this->copy_order_notes       = $options->copy_order_notes;
+		$this->test_mode              = $options->test_mode;
+		$this->debug_mode             = $options->debug_mode;
+		$this->enable_ssn             = $options->enable_ssn;
+		$this->require_ssn            = $options->require_ssn;
+		$this->location_name_in_label = $options->location_name_in_label;
+
+		// $this->get_option suuuuucks
+		$this->title                = $this->get_option( 'title' );
+		$this->tax_status           = $this->get_option( 'tax_status' );
+		$this->cost                 = $this->get_option( 'cost' );
+		$this->type                 = $this->get_option( 'type', 'class' );
 	}
 
 	/**

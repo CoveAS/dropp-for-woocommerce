@@ -108,7 +108,7 @@ class Shipping_Meta_Box {
 		$shipping_method         = Shipping_Method\Dropp::get_instance();
 		$customer_note           = $order->get_customer_note();
 		$delivery_instructions   = '';
-		if ( 'yes' === $shipping_method->copy_order_notes ) {
+		if ( $shipping_method->copy_order_notes ) {
 			$delivery_instructions = $customer_note;
 		}
 		$dropp_object = [

@@ -53,7 +53,24 @@ When an order has the status **Initial** it can be updated or cancelled.
 
 If the order does not have a dropp shipping method attached to one of the order lines then dropp booking will not be available. To enable it simply add a new shipping line to the order and edit it to use dropp shipping. If an order cannot be edited then try to change the order status to **pending** first.
 
+== Frequently Asked Questions ==
+
+= Does the plugin work with Elementor PRO checkout widget? =
+
+Yes, provided that the checkout widget is on the WooCommerce checkout page. If you have multiple pages using the checkout widget then it will not work.
+
+= Do you support plugin X? =
+
+In most cases yes, but we cannot guarantee compatability with every plugin.
+If you experience any problems using this plugin alongside another plugin then please create a support ticket.
+
 == Changelog ==
+
+= 2.0.1 =
+
+* Fixed bug where the cost settings did not work under "Locations not covered by your other zones"
+* Added a warning in the shipping settings for the cost fields if the API key has not been entered yet
+* Refactored getting global options for the dropp shipping method to increase performance for the settings screen
 
 = 2.0.0 =
 

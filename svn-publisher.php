@@ -135,7 +135,7 @@ if ( ! preg_match( '/\* Version:\s+' . $esc_version . '/', $content, $matches ) 
 }
 
 echo "Checking classes/class-dropp.php version number\n";
-$content = `head -n 20 classes/class-dropp.php`;
+$content = `head -n 100 classes/class-dropp.php`;
 if ( ! preg_match( '/\sVERSION\s+=\s+\'' . $esc_version . '\';/', $content, $matches ) ) {
 	die( "Version doesn't match $version in classes/class-dropp.php\n\n". $content );
 }

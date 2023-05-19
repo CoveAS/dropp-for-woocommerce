@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-05-09 00:02+0200\n"
+"POT-Creation-Date: 2023-05-19 11:44+0200\n"
 "PO-Revision-Date: 2020-03-13 12:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -76,19 +76,19 @@ msgstr ""
 msgid "Could not find consignment:"
 msgstr ""
 
-#: classes/class-api.php:59
+#: classes/class-api.php:55
 msgid "No API key could be found."
 msgstr ""
 
-#: classes/class-api.php:230
+#: classes/class-api.php:226
 msgid "Response error"
 msgstr ""
 
-#: classes/class-api.php:233
+#: classes/class-api.php:229
 msgid "Response error with code "
 msgstr ""
 
-#: classes/class-api.php:247 classes/models/class-dropp-consignment.php:597
+#: classes/class-api.php:243 classes/models/class-dropp-consignment.php:597
 msgid "Invalid json"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgid ""
 "you regarding the delivery location."
 msgstr ""
 
-#: classes/class-dropp-oca-admin-warning.php:45
+#: classes/class-dropp-oca-admin-warning.php:47
 #, php-format
 msgid ""
 "You have enabled Dropp for zone, %s, but you have not enabled Dropp Outside "
@@ -106,22 +106,22 @@ msgid ""
 "that is outside the capital area is selected."
 msgstr ""
 
-#: classes/class-dropp-oca-admin-warning.php:63
+#: classes/class-dropp-oca-admin-warning.php:65
 #, php-format
 msgid ""
 "You have enabled Dropp Outside Capital Area for zone, %s, but you have not "
 "enabled Dropp. It will not work without it."
 msgstr ""
 
-#: classes/class-dropp-oca-admin-warning.php:71
+#: classes/class-dropp-oca-admin-warning.php:73
 msgid "Click here to go to the zone settings."
 msgstr ""
 
-#: classes/class-dropp.php:194
+#: classes/class-dropp.php:197
 msgid "View Dropp Settings"
 msgstr ""
 
-#: classes/class-dropp.php:194
+#: classes/class-dropp.php:197
 msgid "Settings"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgid "Dropp - Print labels"
 msgstr ""
 
 #: classes/class-pending-shipping.php:39
-#: classes/shipping-method/class-shipping-method.php:83
+#: classes/shipping-method/class-shipping-method.php:84
 msgid "Dropp"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 #: classes/class-shipping-meta-box.php:172
 #: templates/ssn/admin-billing-details.php:2
 #: templates/ssn/customer-details.php:2 templates/ssn/email-order-details.php:3
-#: traits/trait-shipping-settings.php:169
+#: traits/trait-shipping-settings.php:176
 msgid "Social security number"
 msgstr ""
 
@@ -400,13 +400,13 @@ msgid "Dropp Outside Capital Area"
 msgstr ""
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:47
-#: classes/shipping-method/class-shipping-method.php:84
+#: classes/shipping-method/class-shipping-method.php:85
 msgid "Dropp - Pick-up at location"
 msgstr ""
 
 #: classes/shipping-method/class-dropp-outside-capital-area.php:48
 #: classes/shipping-method/class-flytjandi.php:56
-#: classes/shipping-method/class-shipping-method.php:85
+#: classes/shipping-method/class-shipping-method.php:86
 msgid "Deliver parcels at delivery locations in Iceland"
 msgstr ""
 
@@ -443,36 +443,46 @@ msgstr ""
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:224
+#: classes/shipping-method/class-shipping-method.php:233
+msgid "Free shipping"
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:234
+msgid "Enable"
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:242
+msgid "Free shipping for orders above"
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:245
+msgid "Only enable free shipping if the cart total exceeds this value."
+msgstr ""
+
+#: classes/shipping-method/class-shipping-method.php:428
 msgid "Load prices from API"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:226
+#: classes/shipping-method/class-shipping-method.php:430
 msgid ""
 "Automatically fill in the cost fields above with suggested prices from "
 "Dropp. Note: Suggested prices are in ISK and clicking this button will "
 "overwrite existing settings."
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:227
-#: classes/shipping-method/class-shipping-method.php:228
+#: classes/shipping-method/class-shipping-method.php:431
+#: classes/shipping-method/class-shipping-method.php:432
 msgid "Use suggested prices"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:256
-msgid "Free shipping"
+#: classes/shipping-method/class-shipping-method.php:438
+msgid "Missing API key"
 msgstr ""
 
-#: classes/shipping-method/class-shipping-method.php:257
-msgid "Enable"
-msgstr ""
-
-#: classes/shipping-method/class-shipping-method.php:265
-msgid "Free shipping for orders above"
-msgstr ""
-
-#: classes/shipping-method/class-shipping-method.php:268
-msgid "Only enable free shipping if the cart total exceeds this value."
+#: classes/shipping-method/class-shipping-method.php:440
+msgid ""
+"No API key detected. Please ensure that you have entered a valid API key in "
+"order to display the correct cost settings"
 msgstr ""
 
 #: templates/admin-notices/bulk-booking.php:16
@@ -500,131 +510,131 @@ msgstr ""
 msgid "Could not find any labels for the selected orders to print."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:102
+#: traits/trait-shipping-settings.php:109
 msgid "API key"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:104
-#: traits/trait-shipping-settings.php:117
+#: traits/trait-shipping-settings.php:111
+#: traits/trait-shipping-settings.php:124
 msgid "API key from dropp.is. Eg.: NTAyZDIzZGYtNzg0Yi00OWVjLW......"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:107
+#: traits/trait-shipping-settings.php:114
 #, php-format
 msgid "Click %s to find your API Key."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:108
-#: traits/trait-shipping-settings.php:121
-#: traits/trait-shipping-settings.php:199
-#: traits/trait-shipping-settings.php:211
+#: traits/trait-shipping-settings.php:115
+#: traits/trait-shipping-settings.php:128
+#: traits/trait-shipping-settings.php:206
+#: traits/trait-shipping-settings.php:218
 msgid "here"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:115
+#: traits/trait-shipping-settings.php:122
 msgid "API key (test)"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:120
+#: traits/trait-shipping-settings.php:127
 #, php-format
 msgid "Click %s to find your test API Key."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:128
+#: traits/trait-shipping-settings.php:135
 msgid "Store ID"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:130
+#: traits/trait-shipping-settings.php:137
 msgid "Store ID from dropp.is"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:136
+#: traits/trait-shipping-settings.php:143
 msgid "New order status"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:138
+#: traits/trait-shipping-settings.php:145
 msgid "Automatically change order status after booking."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:141
+#: traits/trait-shipping-settings.php:148
 msgid "- No change -"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:146
+#: traits/trait-shipping-settings.php:153
 msgid "Dropp first"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:147
+#: traits/trait-shipping-settings.php:154
 msgid "Put dropp shipping rates first in cart and checkout"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:152
+#: traits/trait-shipping-settings.php:159
 msgid "Return labels"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:153
+#: traits/trait-shipping-settings.php:160
 msgid "Generate return labels when booking"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:160
+#: traits/trait-shipping-settings.php:167
 msgid "Copy customer notes "
 msgstr ""
 
-#: traits/trait-shipping-settings.php:161
+#: traits/trait-shipping-settings.php:168
 msgid ""
 "Copy customer notes from the order to delivery instructions in the dropp "
 "booking"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:170
+#: traits/trait-shipping-settings.php:177
 msgid "Enable social security number"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:172
+#: traits/trait-shipping-settings.php:179
 msgid "Enables a new field on checkout for icelandic social security number."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:178
+#: traits/trait-shipping-settings.php:185
 msgid "Require SSN"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:179
+#: traits/trait-shipping-settings.php:186
 msgid "Required field"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:181
+#: traits/trait-shipping-settings.php:188
 msgid "Make social security a required field on checkout."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:186
+#: traits/trait-shipping-settings.php:193
 msgid "Location in label"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:187
+#: traits/trait-shipping-settings.php:194
 msgid "Enable location name in the shipping item label"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:193
+#: traits/trait-shipping-settings.php:200
 msgid "Test mode"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:194
+#: traits/trait-shipping-settings.php:201
 msgid "Enable test mode"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:197
+#: traits/trait-shipping-settings.php:204
 msgid "Makes the plugin do requests against staging instead of the live API."
 msgstr ""
 
-#: traits/trait-shipping-settings.php:205
+#: traits/trait-shipping-settings.php:212
 msgid "Debug mode"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:206
+#: traits/trait-shipping-settings.php:213
 msgid "Enable debug mode"
 msgstr ""
 
-#: traits/trait-shipping-settings.php:209
+#: traits/trait-shipping-settings.php:216
 #, php-format
 msgid "Logs requests and other data to a log file. Click %s to see the logs."
 msgstr ""

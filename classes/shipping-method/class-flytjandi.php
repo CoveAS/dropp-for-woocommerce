@@ -19,7 +19,7 @@ class Flytjandi extends Home_Delivery {
 	 *
 	 * @var ?string
 	 */
-	protected ?string $code = '';
+	protected ?string $code = 'otherlocations';
 
 	/**
 	 * Weight Limit in KG

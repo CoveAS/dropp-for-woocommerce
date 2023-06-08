@@ -8,7 +8,7 @@ Tested up to: 6.2.0
 Requires PHP: 8.0
 WC requires at least: 3.8.1
 WC tested up to: 7.6.0
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
@@ -65,6 +65,10 @@ In most cases yes, but we cannot guarantee compatability with every plugin.
 If you experience any problems using this plugin alongside another plugin then please create a support ticket.
 
 == Changelog ==
+
+= 2.0.2 =
+
+* Fixed a bug where a message falsly indicated the API key was not set in the settings
 
 = 2.0.1 =
 

@@ -433,7 +433,8 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 			];
 		}
 		$options = Options::get_instance();
-		if (! $options->test_mode ? $options->api_key_test : $options->api_key) {
+
+		if (! ($options->test_mode ? $options->api_key_test : $options->api_key)) {
 			$cost_fields['warning'] = [
 					'title'       => __('Missing API key', 'dropp-for-woocommerce'),
 					'type'        => 'dropp_warning',

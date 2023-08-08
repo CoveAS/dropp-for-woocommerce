@@ -42,13 +42,16 @@ class Shipping_Item_Meta {
 	 */
 	public static function attach_item_meta( WC_Order_Item_Shipping $item ): void {
 		$location_data = WC()->session->get( 'dropp_session_location' );
+		if (empty($location_data)) {
+			return;
+		}
 		$location      = [
 			'id'        => preg_replace( '/[^a-z\d\-]/', '', $location_data['id'] ),
 			'name'      => $location_data['name'],
 			'pricetype' => $location_data['pricetype'],
 			'address'   => $location_data['address'],
 		];
-		$item->add_meta_data( 'dropp_location', $location_data, true );
+		$item->add_meta_data( 'dropp_location', $location, true );
 	}
 
 	/**

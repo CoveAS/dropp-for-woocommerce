@@ -208,3 +208,4 @@ class Shipping_Meta_Box {
 		echo '<div id="dropp-booking"><span class="loading-message" v-if="0">Loading ...</span></div>';
 	}
 }
+

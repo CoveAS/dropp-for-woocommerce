@@ -16,11 +16,12 @@ use WC_Order;
 class Checkout {
 	/**
 	 * Setup
-	 */
+	*/
 	public static function setup() {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_action( 'woocommerce_checkout_order_processed', __CLASS__ . '::tag_order', 10, 3 );
 		add_action( 'dropp_schedule_add_new', 'Dropp\Checkout::add_new', 10, 0 );
+		add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', __CLASS__ . '::enqueue_stuff' );
 	}
 
 	/**
@@ -29,7 +30,7 @@ class Checkout {
 	 * @param integer $order_id Order ID.
 	 * @param array $posted_data POST data.
 	 * @param WC_Order $order Order Order.
-	 */
+	*/
 	public static function tag_order( int $order_id, array $posted_data, WC_Order $order ) {
 		$adapter = new Order_Adapter( $order );
 		if ( ! $adapter->is_dropp() ) {
@@ -48,7 +49,7 @@ class Checkout {
 
 	/**
 	 * Add new
-	 */
+	*/
 	public static function add_new(): void {
 		global $wpdb;
 
@@ -72,44 +73,49 @@ class Checkout {
 		}
 	}
 
+	public static function checkout_javascript(): void {
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+			return;
+		}
+		self::enqueue_stuff();
+	}
+
 	/**
 	 * Load checkout javascript
-	 */
-	public static function checkout_javascript(): void {
-		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
-			// Add styles.
-			wp_register_style(
-				'dropp-for-woocommerce',
-				plugins_url( 'assets/css/dropp.css', __DIR__ ),
-				[],
-				Dropp::VERSION
-			);
-			wp_enqueue_style( 'dropp-for-woocommerce' );
+	*/
+	public static function enqueue_stuff(): void {
+		// Add styles.
+		wp_register_style(
+			'dropp-for-woocommerce',
+			plugins_url( 'assets/css/dropp.css', __DIR__ ),
+			[],
+			Dropp::VERSION
+		);
+		wp_enqueue_style( 'dropp-for-woocommerce' );
 
-			// Add javascript.
-			wp_register_script(
-				'dropp-for-woocommerce',
-				plugins_url( 'assets/js/dropp.js', __DIR__ ),
-				array( 'jquery' ),
-				Dropp::VERSION,
-				true
-			);
-			wp_enqueue_script( 'dropp-for-woocommerce' );
+		// Add javascript.
+		wp_register_script(
+			'dropp-for-woocommerce',
+			plugins_url( 'assets/js/dropp.js', __DIR__ ),
+			array( 'jquery' ),
+			Dropp::VERSION,
+			true
+		);
+		wp_enqueue_script( 'dropp-for-woocommerce' );
 
-			$shipping_method = Shipping_Method\Dropp::get_instance();
-			// Add javascript variables.
-			wp_localize_script(
-				'dropp-for-woocommerce',
-				'_dropp',
-				[
-					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-					'storeid'           => $shipping_method->store_id,
-					'dropplocationsurl' => (new Create_Dropp_Location_Script_Url_Action)(),
-					'i18n'              => [
-						'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
-					],
-				]
-			);
-		}
+		$shipping_method = Shipping_Method\Dropp::get_instance();
+		// Add javascript variables.
+		wp_localize_script(
+			'dropp-for-woocommerce',
+			'_dropp',
+			[
+				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+				'storeid'           => $shipping_method->store_id,
+				'dropplocationsurl' => (new Create_Dropp_Location_Script_Url_Action)(),
+				'i18n'              => [
+					'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
+				],
+			]
+		);
 	}
 }

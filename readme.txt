@@ -4,11 +4,11 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 6.2.0
+Tested up to: 6.3.0
 Requires PHP: 8.0
 WC requires at least: 3.8.1
-WC tested up to: 7.6.0
-Stable tag: 2.0.2
+WC tested up to: 8.0.2
+Stable tag: 2.0.3
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).

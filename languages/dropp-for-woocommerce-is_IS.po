@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-05-19 11:44+0200\n"
-"PO-Revision-Date: 2023-05-19 11:45+0200\n"
+"POT-Creation-Date: 2023-08-23 12:22+0200\n"
+"PO-Revision-Date: 2023-08-23 12:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -108,7 +108,7 @@ msgstr "Villa með kóða "
 msgid "Invalid json"
 msgstr "Ekki löglegt json"
 
-#: classes/class-checkout.php:109
+#: classes/class-checkout.php:116
 msgid ""
 "Could not load the location selector. Someone from the store will contact "
 "you regarding the delivery location."
@@ -173,11 +173,11 @@ msgid_plural "Pending shipment (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[0] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[1] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 
-#: classes/class-shipping-item-meta.php:83
+#: classes/class-shipping-item-meta.php:86
 msgid "No location selected. Please select a location for Dropp"
 msgstr "Enginn afhendingarstaður valinn. Veldur afhendingarstað fyrir Dropp"
 
-#: classes/class-shipping-item-meta.php:157
+#: classes/class-shipping-item-meta.php:160
 msgid "Choose location"
 msgstr "Veldu afhendingarstað"
 
@@ -499,11 +499,11 @@ msgstr "Lesa inn verðskrá verð frá Dropp. Ath: Verðin erum í íslenskum kr
 msgid "Use suggested prices"
 msgstr "Notaðu tillögur um verð"
 
-#: classes/shipping-method/class-shipping-method.php:438
+#: classes/shipping-method/class-shipping-method.php:439
 msgid "Missing API key"
 msgstr "Vantar API lykil"
 
-#: classes/shipping-method/class-shipping-method.php:440
+#: classes/shipping-method/class-shipping-method.php:441
 msgid ""
 "No API key detected. Please ensure that you have entered a valid API key in "
 "order to display the correct cost settings"

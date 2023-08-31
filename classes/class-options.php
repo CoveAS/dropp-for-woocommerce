@@ -65,6 +65,7 @@ class Options
 				'copy_order_notes'       => 'yes',
 				'test_mode'              => '',
 				'debug_mode'             => '',
+				'enable_ssn'             => 'yes',
 				'require_ssn'            => 'yes',
 				'location_name_in_label' => '',
 				'dropp_rates_first'      => 'yes',

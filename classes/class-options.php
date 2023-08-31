@@ -3,6 +3,7 @@
 namespace Dropp;
 
 use Dropp\Shipping_Method\Shipping_Method;
+use Dropp\Shipping_Method\Dropp;
 
 class Options
 {
@@ -33,7 +34,7 @@ class Options
 
 	public static function init(Shipping_Method $shipping_method): void
 	{
-		if (isset(self::$instance)) {
+		if (isset(self::$instance) || $shipping_method::class !== Dropp::class) {
 			return;
 		}
 		self::$instance = new Options($shipping_method);
@@ -45,7 +46,7 @@ class Options
 		if (! isset(self::$instance) && ! $recursion) {
 			$recursion = true;
 			// The option instance is initialised during Shipping_Method::__construct
-			new \Dropp\Shipping_Method\Dropp();
+			new Dropp();
 			$recursion = false;
 		}
 		return self::$instance;

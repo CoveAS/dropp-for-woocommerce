@@ -108,6 +108,9 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		$this->instance_form_fields = include $wc_dir . 'includes/shipping/flat-rate/includes/settings-flat-rate.php';
 		$this->instance_form_fields['title']['default'] = $this->default_title;
 
+		// Modify default cost for shipping methods with cost tiers
+		$this->instance_form_fields['cost']['default'] = '';
+
 		// Load the settings.
 		$this->init_properties();
 		$this->init_cost_tiers();
@@ -411,8 +414,6 @@ abstract class Shipping_Method extends WC_Shipping_Flat_Rate
 		];
 		if (! empty($this->costTiers)) {
 			// Add cost tier settings
-			// Modify default cost for shipping methods with cost tiers
-			$cost_fields['cost']['default'] = '';
 
 			/** @var Cost_Tier $costTier */
 			$title = $cost_fields['cost']['title'];

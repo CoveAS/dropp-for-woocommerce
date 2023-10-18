@@ -82,7 +82,7 @@ HTML;
 
 	public static function load_options(): void
 	{
-		$options = get_option('dropp_for_woocommerce_admin_notices');
+		$options = get_option('dropp_for_woocommerce_admin_notices', []);
 		foreach ($options as $code => $notice_options) {
 			$notice = self::$items[$code] ?? null;
 			if (!$notice) {

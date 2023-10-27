@@ -7,6 +7,8 @@
 
 namespace Dropp;
 
+use Dropp\Components\Choose_Location_Button;
+use Dropp\Components\Location_Picker;
 use WC_Order_Item;
 use WC_Order_Item_Shipping;
 use WC_Shipping;
@@ -136,30 +138,6 @@ class Shipping_Item_Meta {
 			return;
 		}
 
-		printf(
-			'<div class="dropp-location" data-instance_id="%d" style="display:none"><div class="dropp-location__actions"></div>',
-			esc_attr( $shipping_rate->get_instance_id() )
-		);
-
-		$shipping_method = Shipping_Method\Dropp::get_instance();
-		if (! $shipping_method->location_name_in_label) {
-			$location_name = '';
-			$location_data = WC()->session->get( 'dropp_session_location' );
-			if ( ! empty( $location_data ) ) {
-				$location_name = $location_data['name'];
-			}
-			printf(
-				'<p class="dropp-location__name"%s>%s</p>',
-				(empty($location_name) ? ' style="display:none"' : ''),
-				esc_html($location_name)
-			);
-		}
-
-		printf(
-		'<span class="dropp-location__button button">%s</span>',
-			esc_html__( 'Choose location', 'dropp-for-woocommerce' )
-		);
-
-		echo '</div><div class="dropp-error" style="display:none"></div>';
+		echo (new Location_Picker($shipping_rate))->render();
 	}
 }

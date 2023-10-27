@@ -20,6 +20,7 @@ class Options
 	public bool   $require_ssn;
 	public bool   $location_name_in_label;
 	public bool   $dropp_rates_first;
+	public array  $price_info;
 
 	protected string $key;
 	protected array  $raw_options;

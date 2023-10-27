@@ -8,6 +8,8 @@
 namespace Dropp;
 
 use Dropp\Actions\Create_Dropp_Location_Script_Url_Action;
+use Dropp\Components\Choose_Location_Button;
+use Dropp\Components\Location_Picker;
 use WC_Order;
 
 /**
@@ -103,16 +105,19 @@ class Checkout {
 		);
 		wp_enqueue_script( 'dropp-for-woocommerce' );
 
-		$shipping_method = Shipping_Method\Dropp::get_instance();
+		$location_data = WC()->session->get( 'dropp_session_location' );
 		// Add javascript variables.
 		wp_localize_script(
 			'dropp-for-woocommerce',
 			'_dropp',
 			[
 				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-				'storeid'           => $shipping_method->store_id,
+				'storeid'           => Shipping_Method\Dropp::get_instance()->store_id,
 				'dropplocationsurl' => (new Create_Dropp_Location_Script_Url_Action)(),
+				'location_picker'   => (new Location_Picker(null))->render(),
+				'location_selected' => !empty($location_data),
 				'i18n'              => [
+					'choose_location_instructions' => esc_html__( 'Please select a dropp location before you continue', 'dropp-for-woocommerce' ),
 					'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
 				],
 			]

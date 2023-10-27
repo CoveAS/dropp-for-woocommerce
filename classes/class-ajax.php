@@ -72,10 +72,12 @@ class Ajax {
 				]
 			);
 		}
+
 		wp_send_json(
 			[
 				'status'      => 'success',
 				'message'     => __( 'Saved location ID', 'dropp-for-woocommerce' ),
+				'label'       => '',
 				'errors'      => '',
 			]
 		);

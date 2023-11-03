@@ -195,55 +195,7 @@ jQuery(function ($) {
 		renderLocationPicker();
 	}
 
-	var checkoutBlock = document.querySelector('.wp-block-woocommerce-checkout')
-	if (checkoutBlock) {
-		// Gutenberg block checkout
-
-		// WordPress object is required
-		if (! window.wp || ! wp.hooks) {
-			return;
-		}
-		// Add the external dropp location picker script
-		addExternalJs();
-
-		// Bind callback to the set-selected-shipping-rate action
-		wp.hooks.addAction(
-			'woocommerce_blocks-checkout-set-selected-shipping-rate',
-			'dropp-for-woocommerce',
-			selectShippingRateHandler
-		);
-		wp.hooks.addAction(
-			'experimental__woocommerce_blocks-checkout-set-selected-shipping-rate',
-			'dropp-for-woocommerce',
-			selectShippingRateHandler
-		);
-
-		// Create an observer for the checkout block
-		const observer = new MutationObserver(function(mutations) {
-			// Render location picker with a small delay to let the shipping options block initialise
-			setTimeout(renderLocationPicker, 250);
-			observer.disconnect();
-		});
-
-		// Observe the checkout block for changes
-		observer.observe(checkoutBlock, {subtree: true, childList: true});
-	} else {
-		// Classic checkout
-		let loaded = false;
-		block('#shipping_method');
-		addExternalJs().onload = () => {
-			showSelector();
-			loaded = true;
-		};
-		$(document).on(
-			'updated_checkout',
-			() => loaded
-				? showSelector()
-				: block('#shipping_method')
-		);
-	}
-
-	function locationClickHandler(e) {
+	function classicLocationButtonHandler(e) {
 		e.preventDefault();
 		var form = $('form.checkout');
 		let elem = $(this).closest('.dropp-location');
@@ -266,11 +218,69 @@ jQuery(function ($) {
 		);
 	}
 
-	function showSelector() {
+	function classicShowSelector() {
 		$('.dropp-location').show();
 		$('.dropp-error').hide();
-		$('.dropp-location__button').on('click', locationClickHandler);
+		$('.dropp-location__button').on('click', classicLocationButtonHandler);
 		$('#shipping_method').unblock();
 	}
+
+	var checkoutBlock = document.querySelector('.wp-block-woocommerce-checkout')
+	if (checkoutBlock) {
+		// Gutenberg block checkout
+
+		// WordPress object is required
+		if (! window.wp || ! wp.hooks) {
+			return;
+		}
+		// Add the external dropp location picker script
+		addExternalJs();
+
+		// Bind callback to the set-selected-shipping-rate action
+		// This is triggered when selecting a shipping option
+		wp.hooks.addAction(
+			'woocommerce_blocks-checkout-set-selected-shipping-rate',
+			'dropp-for-woocommerce',
+			selectShippingRateHandler
+		);
+		wp.hooks.addAction(
+			'experimental__woocommerce_blocks-checkout-set-selected-shipping-rate',
+			'dropp-for-woocommerce',
+			selectShippingRateHandler
+		);
+
+		// The checkout block is empty on load and it takes a few seconds to load before it's ready.
+		// Poll to check for the existance of the woocommerce shipping option or label element.
+		let pollInterval = setInterval(
+			function () {
+				const el = $('.wc-block-components-shipping-rates-control');
+				if (! el.length) {
+					return;
+				}
+				const result = el.find('.wc-block-components-radio-control__option, .wc-block-components-radio-control__label-group')
+				if (! result.length) {
+					return;
+				}
+				clearInterval(pollInterval);
+				renderLocationPicker();
+			},
+			50
+		);
+	} else {
+		// Classic checkout
+		let loaded = false;
+		block('#shipping_method');
+		addExternalJs().onload = () => {
+			classicShowSelector();
+			loaded = true;
+		};
+		$(document).on(
+			'updated_checkout',
+			() => loaded
+				? classicShowSelector()
+				: block('#shipping_method')
+		);
+	}
+
 
 });

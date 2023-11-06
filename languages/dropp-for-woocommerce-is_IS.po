@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-08-23 12:22+0200\n"
-"PO-Revision-Date: 2023-08-23 12:23+0200\n"
+"POT-Creation-Date: 2023-11-06 11:28+0100\n"
+"PO-Revision-Date: 2023-11-06 11:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -71,24 +71,24 @@ msgid "Required field, location ID, instance ID or index was empty"
 msgstr ""
 "Nauðsynlegur reitur, KENNI staðsetningar, KENNI tilviks eða vísir var autt"
 
-#: classes/class-ajax.php:78
+#: classes/class-ajax.php:79
 msgid "Saved location ID"
 msgstr "Vistað staðsetningarkenni"
 
-#: classes/class-ajax.php:97
+#: classes/class-ajax.php:99
 msgid "Nonce verification failed. Please reload the page and try again."
 msgstr "Ekki tókst að sannreyna. Reyndu aftur með að endurhlaða síðunni."
 
-#: classes/class-ajax.php:158 classes/class-order-adapter.php:175
+#: classes/class-ajax.php:160 classes/class-order-adapter.php:175
 #, php-format
 msgid "Cannot book the order because it's over the weight limit of %d Kg"
 msgstr "Get ekki bókað sendinguna þar sem hún er meira en %d kg"
 
-#: classes/class-ajax.php:202
+#: classes/class-ajax.php:204
 msgid "Booked! Re-loading page..."
 msgstr "Bókað! Er að endurhlaða síðunni..."
 
-#: classes/class-ajax.php:375
+#: classes/class-ajax.php:377
 msgid "Could not find consignment:"
 msgstr "Fann ekki afhendingarstað:"
 
@@ -108,7 +108,11 @@ msgstr "Villa með kóða "
 msgid "Invalid json"
 msgstr "Ekki löglegt json"
 
-#: classes/class-checkout.php:116
+#: classes/class-checkout.php:120
+msgid "Please select a dropp location before you continue"
+msgstr "Vinsamlegast veldu sleppingarstað áður en þú heldur áfram"
+
+#: classes/class-checkout.php:121
 msgid ""
 "Could not load the location selector. Someone from the store will contact "
 "you regarding the delivery location."
@@ -173,13 +177,9 @@ msgid_plural "Pending shipment (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[0] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 msgstr[1] "Bíður aksturs (Dropp)<span class=\"count\">(%s)</span>"
 
-#: classes/class-shipping-item-meta.php:86
+#: classes/class-shipping-item-meta.php:88
 msgid "No location selected. Please select a location for Dropp"
 msgstr "Enginn afhendingarstaður valinn. Veldur afhendingarstað fyrir Dropp"
-
-#: classes/class-shipping-item-meta.php:160
-msgid "Choose location"
-msgstr "Veldu afhendingarstað"
 
 #: classes/class-shipping-meta-box.php:43
 msgid "Dropp Booking"
@@ -334,6 +334,10 @@ msgid_plural "Tracking codes"
 msgstr[0] "Rakningarkóði"
 msgstr[1] "Rakningarkóði"
 
+#: classes/components/class-choose-location-button.php:10
+msgid "Choose location"
+msgstr "Veldu afhendingarstað"
+
 #: classes/models/class-dropp-consignment.php:59
 msgid "Ready"
 msgstr "Tilbúið"
@@ -467,43 +471,43 @@ msgstr "Afhent í vöruhúsi (Vatnagarðar 22)"
 msgid "Packages are delivered to the warehouse at Vatnagarðar 22 for pickup"
 msgstr "Pakkar eru afhentir í vöruhúsinu við Vatnagarða 22"
 
-#: classes/shipping-method/class-shipping-method.php:233
+#: classes/shipping-method/class-shipping-method.php:236
 msgid "Free shipping"
 msgstr "Ókeypis sendingar"
 
-#: classes/shipping-method/class-shipping-method.php:234
+#: classes/shipping-method/class-shipping-method.php:237
 msgid "Enable"
 msgstr "Virkja"
 
-#: classes/shipping-method/class-shipping-method.php:242
+#: classes/shipping-method/class-shipping-method.php:245
 msgid "Free shipping for orders above"
 msgstr "Frír sendingarkostnaður fyrir pantanir að ofan"
 
-#: classes/shipping-method/class-shipping-method.php:245
+#: classes/shipping-method/class-shipping-method.php:248
 msgid "Only enable free shipping if the cart total exceeds this value."
 msgstr "Aðeins gera ókeypis sendingar ef körfu Samtals fer yfir þetta gildi."
 
-#: classes/shipping-method/class-shipping-method.php:428
+#: classes/shipping-method/class-shipping-method.php:429
 msgid "Load prices from API"
 msgstr "Lesa verð frá Dropp"
 
-#: classes/shipping-method/class-shipping-method.php:430
+#: classes/shipping-method/class-shipping-method.php:431
 msgid ""
 "Automatically fill in the cost fields above with suggested prices from "
 "Dropp. Note: Suggested prices are in ISK and clicking this button will "
 "overwrite existing settings."
 msgstr "Lesa inn verðskrá verð frá Dropp. Ath: Verðin erum í íslenskum krónum."
 
-#: classes/shipping-method/class-shipping-method.php:431
 #: classes/shipping-method/class-shipping-method.php:432
+#: classes/shipping-method/class-shipping-method.php:433
 msgid "Use suggested prices"
 msgstr "Notaðu tillögur um verð"
 
-#: classes/shipping-method/class-shipping-method.php:439
+#: classes/shipping-method/class-shipping-method.php:440
 msgid "Missing API key"
 msgstr "Vantar API lykil"
 
-#: classes/shipping-method/class-shipping-method.php:441
+#: classes/shipping-method/class-shipping-method.php:442
 msgid ""
 "No API key detected. Please ensure that you have entered a valid API key in "
 "order to display the correct cost settings"

@@ -14,15 +14,13 @@ jQuery(function ($) {
 	let showingChooser = false;
 	function choose(
 		instance_id,
-		locationError,
-		immediate,
+		nameEl,
 		callback,
-		errorHandler
 	) {
 		// Check that the chooser function is defined
 		if (typeof chooseDroppLocation === 'undefined') {
-			// @TODO: Error handling for when the choose dropp location function does not exist
-			console.error('Dropp location picker has not loaded yet!');
+			$('.dropp-error').show().text(_dropp.i18n.error_loading);
+			$('.dropp-location__button').hide();
 			return;
 		}
 
@@ -32,22 +30,17 @@ jQuery(function ($) {
 		}
 		showingChooser = true;
 
-		if (! errorHandler) {
-			errorHandler = () => {
-				$('.dropp-error').show().text(_dropp.i18n.error_loading);
-			};
-		}
-
 		chooseDroppLocation()
 			.then(function (location) {
 				if (!location || !location.id) {
 					// Something went wrong.
-					locationError && locationError(location);
+					$('.dropp-error').show().text(_dropp.i18n.error_loading);
+					$('.dropp-location__button').hide();
 					return;
 				}
 
 				// Show the name.
-				immediate && immediate(location);
+				nameEl.text(location.name).show();
 
 				// A location was picked. Save it.
 				$.post(
@@ -63,7 +56,7 @@ jQuery(function ($) {
 					callback
 				);
 			})
-			.catch(errorHandler)
+			// .catch(errorHandler) // Happens when the user closes the selection modal. Can be ignored
 			.finally(() => showingChooser = false);
 	}
 
@@ -85,15 +78,11 @@ jQuery(function ($) {
 	function locationPickerClickHandler(instanceId) {
 		choose(
 			instanceId,
-			(location) => console.error(location),
-			(location) => {
-				$('.dropp-location__name').text(location.name).show()
-			},
+			$('.dropp-location__name'),
 			() => {
 				// Ajax completed. Reload page to refresh the checkout
 				window.location.reload();
 			},
-			(error) => console.error(error)
 		);
 	}
 
@@ -201,20 +190,10 @@ jQuery(function ($) {
 		let elem = $(this).closest('.dropp-location');
 		let instance_id = elem.data('instance_id');
 
-		// locationPickerClickHandler(instance_id)
 		choose(
 			instance_id,
-			(location) => {
-				// Closed location picker without selecting location
-				console.error(location)
-			},
-			(location) => elem.find('.dropp-location__name').text(location.name).show(),
+			elem.find('.dropp-location__name'),
 			() => form.trigger('update_checkout'),
-			(error) => {
-				$('.dropp-location .button').hide();
-				$('.dropp-error').show();
-				$('#shipping_method').unblock();
-			}
 		);
 	}
 

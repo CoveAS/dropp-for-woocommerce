@@ -24,7 +24,7 @@ class Shipping_Meta_Box {
 	 * Setup
 	 */
 	public static function setup(): void {
-		add_action( 'add_meta_boxes', array( __CLASS__, 'add_booking_meta_box' ), 1, 2 );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_booking_meta_box' ), 1 );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 	}
 
@@ -32,9 +32,8 @@ class Shipping_Meta_Box {
 	 * Add booking meta box
 	 *
 	 * @param string $post_type Post type.
-	 * @param WP_Post $post      Post.
 	 */
-	public static function add_booking_meta_box( string $post_type, WP_Post $post ): void {
+	public static function add_booking_meta_box( string $post_type ): void {
 		if ( 'shop_order' !== $post_type ) {
 			return;
 		}

@@ -142,7 +142,7 @@ if ( ! preg_match( '/\sVERSION\s+=\s+\'' . $esc_version . '\';/', $content, $mat
 
 // Cleanup
 `find . -name ".DS_Store" -type d -delete`;
-`rm -rf .git .gitignore composer.json svn-publisher.php README.md CONTRIBUTING.md`;
+`rm -rf .idea .git .gitignore composer.json svn-publisher.php README.md CONTRIBUTING.md`;
 `rm -rf node_modules package.json package.lock webpack.mix.js`;
 if ( file_exists( '.gitignore' ) ) {
 	die( "ERROR: Cleanup failed.\n" );

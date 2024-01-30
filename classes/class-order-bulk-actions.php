@@ -20,8 +20,10 @@ class Order_Bulk_Actions {
 	 */
 	public static function setup() {
 		add_filter( 'bulk_actions-edit-shop_order', __CLASS__ . '::define_bulk_actions' );
+		add_filter( 'bulk_actions-woocommerce_page_wc-orders', __CLASS__ . '::define_bulk_actions' );
 		add_filter( 'admin_notices', __CLASS__ . '::bulk_admin_notices' );
 		add_filter( 'handle_bulk_actions-edit-shop_order', __CLASS__ . '::handle_bulk_actions', 10, 3 );
+		add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', __CLASS__ . '::handle_bulk_actions', 10, 3 );
 	}
 
 
@@ -69,6 +71,7 @@ class Order_Bulk_Actions {
 	 * @throws Exception
 	 */
 	public static function handle_bulk_booking( string $redirect_to, array $ids ): string {
+		global $page_hook;
 		$result = [
 			'existing'  => [],
 			'success'   => [],
@@ -91,15 +94,19 @@ class Order_Bulk_Actions {
 			}
 		}
 
+		$args = [
+			'bulk_action' => 'bulk_booking',
+			'existing'    => join( ',', $result['existing'] ),
+			'success'     => join( ',', $result['success'] ),
+			'not_dropp'   => join( ',', $result['not_dropp'] ),
+			'failed'      => join( ',', $result['failed'] ),
+		];
+
+		if ( 'woocommerce_page_wc-orders' !== $page_hook ) {
+			$args['post_type']   = 'shop_order';
+		}
 		$redirect_to = add_query_arg(
-			array(
-				'post_type'   => 'shop_order',
-				'bulk_action' => 'bulk_booking',
-				'existing'    => join( ',', $result['existing'] ),
-				'success'     => join( ',', $result['success'] ),
-				'not_dropp'   => join( ',', $result['not_dropp'] ),
-				'failed'      => join( ',', $result['failed'] ),
-			),
+			$args,
 			$redirect_to
 		);
 		return esc_url_raw( $redirect_to );
@@ -129,9 +136,13 @@ class Order_Bulk_Actions {
 	 * Show confirmation message that order status changed for number of orders.
 	 */
 	public static function bulk_admin_notices(): void {
-		global $post_type, $pagenow;
+		global $post_type, $pagenow, $page_hook;
 		// Bail out if not on shop order list page.
-		if ( 'edit.php' !== $pagenow || 'shop_order' !== $post_type || ! isset( $_REQUEST['bulk_action'] ) ) { // WPCS: input var ok, CSRF ok.
+		if ( (
+				('edit.php' !== $pagenow || 'shop_order' !== $post_type) &&
+				('admin.php' !== $pagenow || 'woocommerce_page_wc-orders' !== $page_hook)
+			)
+			|| ! isset( $_REQUEST['bulk_action'] ) ) { // WPCS: input var ok, CSRF ok.
 			return;
 		}
 		$action = $_REQUEST['bulk_action']; // WPCS: input var ok, CSRF ok.

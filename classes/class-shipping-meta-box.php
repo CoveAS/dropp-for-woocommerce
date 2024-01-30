@@ -34,14 +34,14 @@ class Shipping_Meta_Box {
 	 * @param string $post_type Post type.
 	 */
 	public static function add_booking_meta_box( string $post_type ): void {
-		if ( 'shop_order' !== $post_type ) {
+		if ( 'shop_order' !== $post_type && 'woocommerce_page_wc-orders' !== $post_type ) {
 			return;
 		}
 		add_meta_box(
 			'woocommerce-order-dropp-booking',
 			__( 'Dropp Booking', 'dropp-for-woocommerce' ),
-			array( __CLASS__, 'render_booking_meta_box' ),
-			'shop_order',
+			 __CLASS__ .'::render_booking_meta_box',
+			$post_type,
 			'normal',
 			'high'
 		);
@@ -54,10 +54,14 @@ class Shipping_Meta_Box {
 	 * @param string $hook Hook.
 	 */
 	public static function admin_enqueue_scripts( string $hook ): void {
-		if ( 'post.php' !== $hook ) {
+		if ( 'post.php' !== $hook && 'woocommerce_page_wc-orders' !== $hook ) {
 			return;
 		}
-		if ( 'shop_order' !== get_post_type() ) {
+		$post_type = get_post_type();
+		if ( 'shop_order' !== $post_type && 'woocommerce_page_wc-orders' !== $hook ) {
+			return;
+		}
+		if ( 'edit' !== $_GET['action'] && 'woocommerce_page_wc-orders' === $hook ) {
 			return;
 		}
 
@@ -200,10 +204,8 @@ class Shipping_Meta_Box {
 
 	/**
 	 * Render booking meta box
-	 *
-	 * @param WP_Post $post Post.
 	 */
-	public static function render_booking_meta_box( WP_Post $post ): void {
+	public static function render_booking_meta_box(): void {
 		echo '<div id="dropp-booking"><span class="loading-message" v-if="0">Loading ...</span></div>';
 	}
 }

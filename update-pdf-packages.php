@@ -115,6 +115,9 @@ foreach ($packages as $package) {
 echo "\nCleaning up fonts in tcpdf\n";
 `rm tecnickcom/tcpdf/fonts/*.z`;
 echo "{$colors->red}⨉{$colors->reset} tecnickcom/tcpdf/fonts/*.z\n";
+`rm -r tecnickcom/tcpdf/examples/`;
+echo "{$colors->red}⨉{$colors->reset} tecnickcom/tcpdf/examples\n";
+
 $dir = 'tecnickcom/tcpdf/fonts';
 $files = scandir($dir);
 foreach ($files as $file) {

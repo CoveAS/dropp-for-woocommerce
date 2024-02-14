@@ -31,7 +31,7 @@ class Dropp_PDF_Collection extends Collection {
 		if ( is_int( $consignment ) || ctype_digit( $consignment ) ) {
 			$consignment = Dropp_Consignment::find( $consignment );
 		}
-		if ( empty( $consignment ) || null === $consignment->id ) {
+		if (empty( $consignment )) {
 			throw new Exception( 'Could not find consignment' );
 		}
 		// Create a new collection.

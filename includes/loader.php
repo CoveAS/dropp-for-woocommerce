@@ -33,7 +33,7 @@ $classes = array(
 );
 
 foreach ($classes as $class => $file) {
-	if (!class_exists($class)) {
+	if (!class_exists($class) && !interface_exists($class)) {
 		require_once $file;
 	}
 }

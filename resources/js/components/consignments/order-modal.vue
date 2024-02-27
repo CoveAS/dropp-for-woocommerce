@@ -33,7 +33,7 @@
 	}
 </style>
 <script>
-	import Location from './location.vue';
+	import Location from '../booking/location.vue';
 	export default {
 		props: ['consignment'],
 		data: function() {

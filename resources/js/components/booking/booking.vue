@@ -1,33 +1,6 @@
 <template>
 	<div class="dropp-booking">
-		<div class="dropp-consignments" v-show="display_consignments">
-			<h2 class="dropp-consignments__title" v-html="i18n.booked_consignments"></h2>
-			<table class="dropp-consignments__table">
-				<thead>
-					<th v-html="i18n.barcode"></th>
-					<th v-html="i18n.status"></th>
-					<th v-html="i18n.created"></th>
-					<th v-html="i18n.updated"></th>
-					<th v-html="i18n.actions" class="dropp-consignment__actions"></th>
-				</thead>
-				<tbody>
-					<consignmentrow
-						v-for="consignment in consignment_container.consignments"
-						:consignment="consignment"
-						:key="consignment.id"
-					></consignmentrow>
-				</tbody>
-				<tfoot>
-				</tfoot>
-			</table>
-		</div>
-		<div class="dropp-toggle-locations" v-show="display_consignments" :class="toggle_classes">
-			<a
-				class="dropp-toggle-locations__create"
-				@click.prevent="toggle_locations"
-			>Show/hide booking form</a>
-		</div>
-		<div class="dropp-locations" v-show="display_locations">
+		<div class="dropp-locations">
 			<location
 				v-for="location in locations"
 				:location="location"
@@ -65,7 +38,6 @@
 				</button>
 			</div>
 		</div>
-		<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
 	</div>
 </template>
 
@@ -107,40 +79,6 @@
 			}
 		}
 	}
-	.dropp-toggle-locations {
-		padding-left: 12px;
-		padding-right: 12px;
-		padding-bottom: 1rem;
-		margin-left: -12px;
-		margin-right: -12px;
-	}
-	.dropp-consignments {
-		margin-bottom: 1rem;
-		th {
-			text-align: left;
-		}
-		th, td {
-			padding: 2px 4px;
-			&:first-of-type {
-				padding-left: 12px;
-			}
-			&:last-of-type {
-				padding-right: 12px;
-			}
-		}
-		&__table {
-			width: 100%;
-			border-spacing: 0;
-			margin-left: -12px;
-			margin-right: -12px;
-			width: calc(100% + 24px);
-		}
-		#woocommerce-order-dropp-booking &__title {
-			font-size: 1.5rem;
-			font-weight: 700;
-			padding: 0;
-		}
-	}
 	.dropp-locations {
 		&__add-location {
 			margin-top: 1rem;
@@ -153,8 +91,6 @@
 
 <script>
 	import Location from './location.vue';
-	import OrderModal from './order-modal.vue';
-	import ConsignmentRow from './consignment-row.vue';
 	export default {
 		data: function() {
 			return {
@@ -166,15 +102,9 @@
 				consignment_container: {
 					consignments: _dropp.consignments
 				},
-				display_locations: true,
-				modal_consignment: null,
 			};
 		},
 		created: function() {
-			if ( this.consignment_container.consignments.length ) {
-				this.display_locations = false;
-			}
-
 			if ( this.shipping_items.length ) {
 				this.selected_shipping_item = this.shipping_items[0].id;
 			}
@@ -190,21 +120,12 @@
 			);
 		},
 		computed: {
-			display_consignments: function() {
-				return this.consignment_container.consignments.length;
-			},
 			toggle_classes: function() {
 				let classes = [];
-				if ( this.display_locations ) {
-					classes.push( 'dropp-toggle-locations--active' );
-				}
 				return classes.join(' ');
 			}
 		},
 		methods: {
-			toggle_locations: function() {
-				this.display_locations = ! this.display_locations;
-			},
 			add_location: function() {
 				//@TODO: Location selector.
 				let vm = this;
@@ -229,14 +150,9 @@
 				location.order_item_id = this.selected_shipping_item;
 				this.locations.push( location );
 			},
-			show_modal: function( consignment ) {
-				this.modal_consignment = consignment;
-			},
 		},
 		components: {
 			location: Location,
-			consignmentrow: ConsignmentRow,
-			ordermodal: OrderModal,
 		}
 	};
 </script>

@@ -24,7 +24,7 @@ class Shipping_Meta_Box {
 	 * Setup
 	 */
 	public static function setup(): void {
-		add_action( 'add_meta_boxes', array( __CLASS__, 'add_booking_meta_box' ), 1 );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_booking_meta_boxes' ), 1 );
 		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 	}
 
@@ -33,7 +33,7 @@ class Shipping_Meta_Box {
 	 *
 	 * @param string $post_type Post type.
 	 */
-	public static function add_booking_meta_box( string $post_type ): void {
+	public static function add_booking_meta_boxes( string $post_type ): void {
 		if ( 'shop_order' !== $post_type && 'woocommerce_page_wc-orders' !== $post_type ) {
 			return;
 		}
@@ -41,6 +41,15 @@ class Shipping_Meta_Box {
 			'woocommerce-order-dropp-booking',
 			__( 'Dropp Booking', 'dropp-for-woocommerce' ),
 			 __CLASS__ .'::render_booking_meta_box',
+			$post_type,
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'woocommerce-order-dropp-consignments',
+			__( 'Dropp Booked Consignments', 'dropp-for-woocommerce' ),
+			__CLASS__ .'::render_consignments_meta_box',
 			$post_type,
 			'normal',
 			'high'
@@ -97,7 +106,9 @@ class Shipping_Meta_Box {
 		$action = new Convert_Dropp_Order_Ids_To_Consignments_Action( $adapter );
 		$action->handle();
 
-		$consignments = $adapter->consignments();
+		$consignments = $adapter->consignments()->filter(
+			fn(Dropp_Consignment $consignment) => $consignment->status !== 'error'
+		);
 		// Maybe update the consignments.
 		$consignments->map( 'maybe_update' );
 
@@ -207,6 +218,10 @@ class Shipping_Meta_Box {
 	 */
 	public static function render_booking_meta_box(): void {
 		echo '<div id="dropp-booking"><span class="loading-message" v-if="0">Loading ...</span></div>';
+	}
+
+	public static function render_consignments_meta_box(): void {
+		echo '<div id="dropp-consignments"><span class="loading-message" v-if="0">Loading ...</span></div>';
 	}
 }
 

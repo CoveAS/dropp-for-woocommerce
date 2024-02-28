@@ -24,14 +24,14 @@
 					</option>
 				</select>
 				<button
-					class="dropp-locations__add-button"
+					class="dropp-locations__add-button dropp-button--secondary"
 					@click.prevent="add_location"
 					v-html="i18n.add_location"
 				>
 				</button><button
 					v-for="special, shipping_method in special_locations"
 					:key="shipping_method"
-					class="dropp-locations__add-button"
+					class="dropp-locations__add-button dropp-button--secondary"
 					@click.prevent="add_special_delivery( special.location )"
 					v-html="special.label"
 				>
@@ -45,31 +45,42 @@
 <style lang="scss">
 	.dropp-booking {
 
+		container-type: inline-size;
 		button,
 		[type="submit"] {
-			background: #0071a1;
+			background: #00007D;
 			border-radius: 3px;
 			outline: none;
-			padding: 0.5rem 1rem;
-			border: 1px solid #0071a1;
-			color: white;
+			padding: 8px 24px;
+			min-width: 160px;
+			border: 1px solid #00007D;
+			color: #FFFFFF;
 			transition: background-color 0.2s, border-color 0.2s, color 0.1s;
+			margin-bottom: 8px;
+			margin-right: 8px;
 
 			&:focus {
-				box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
+				box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1007FA;
 			}
+			&:hover,
 			&:active {
-				background-color: #fff;
-				color: #000;
-			}
-			&:hover {
-				background-color: #e6fdfe;
-				color: #000;
+				background-color: #1919a7;
+				border-color: #1919a7;
 			}
 			&:disabled {
 				opacity: 0.4;
 			}
 		}
+	.dropp-button--secondary {
+	  background: #E5E8FF;
+	  border-color: #1007FA;
+	  color: #1007FA;
+
+	  &:hover,
+	  &:active {
+		background-color: #f1f3ff;
+	  }
+	}
 
 		a {
 			cursor: pointer;
@@ -81,10 +92,12 @@
 	}
 	.dropp-locations {
 		&__add-location {
-			margin-top: 1rem;
+			margin: 16px 2px 0 2px;
+			@container (min-width: 600px) {
+				margin: 16px 10px 0 10px;
+			}
 		}
 		&__add-button {
-			margin-right: 0.5rem;
 		}
 	}
 </style>

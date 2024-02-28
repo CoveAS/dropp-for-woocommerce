@@ -33,30 +33,49 @@
 	</div>
 </template>
 <style lang="scss">
-	.dropp-customer{
-		.form-field {
-			display: flex;
-			flex-wrap: wrap;
-			margin-bottom: 0.25rem;
-		}
-		.input-label {
-			flex: 0 0 10rem;
-		}
-		.input-field,
-		.field-value {
-			flex: 0 1 20rem;
-			min-width: 15rem;
+.dropp-customer {
+	margin-bottom: 24px;
+	.form-field {
+		display: block;
+		margin-bottom: 16px;
+		&:last-child {
+			margin-bottom: 0;
 		}
 	}
+
+	.input-label {
+		display: block;
+		margin-bottom: 4px;
+
+		&:hover {
+			color: #1007FA;
+		}
+	}
+
+	.input-field,
+	.field-value {
+		min-width: 10rem;
+		max-width: 20rem;
+	}
+
+	.input-field {
+		border: 1px solid #999999;
+		padding: 4px 12px;
+		font-size: 14px;
+		&:focus {
+			border-color: #CCCCCC;
+		}
+	}
+}
 </style>
 <script>
-	export default {
-		props: ['customer', 'editable'],
-		data: function() {
-			return {
-				i18n: _dropp.i18n,
-				ssn_enabled: _dropp.ssn_enabled,
-			};
-		},
-	};
+export default {
+	props: ['customer', 'editable'],
+	data: function () {
+		return {
+			i18n: _dropp.i18n,
+			ssn_enabled: _dropp.ssn_enabled,
+		};
+	},
+};
 </script>

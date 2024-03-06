@@ -28,7 +28,7 @@
 					>&times;</span>
 				</a>
 			</li>
-			<li>
+			<li v-if="editable">
 				<span
 					tabindex="0"
 					class="
@@ -109,7 +109,8 @@ export default {
 		}
 	},
 	props: [
-		'consignment_id'
+		'consignment_id',
+		'editable'
 	],
 	mounted: function () {
 		this.get_pdfs();

@@ -43,8 +43,24 @@ export default {
 			window._dropp_closers = [];
 		}
 		window._dropp_closers.push(this.close_context);
+		document.addEventListener('click', this.handleClickOutside, true);
+		document.addEventListener('keydown', this.handleKeyDown, true);
+	},
+	beforeDestroy() {
+		document.removeEventListener('click', this.handleClickOutside, true);
+		document.addEventListener('keydown', this.handleKeyDown, true);
 	},
 	methods: {
+		handleKeyDown(event) {
+			if (event.key === 'Escape' || event.key === 'Esc') {
+				this.close_context();
+			}
+		},
+		handleClickOutside(event) {
+			if (!this.$el.contains(event.target)) {
+				this.close_context();
+			}
+		},
 		close_context: function () {
 			this.show_context = false;
 		},
@@ -149,6 +165,7 @@ export default {
 			</div>
 			<context-pdf
 				v-if="show_context"
+				:editable="consignment.status !== 'cancelled'"
 				:consignment_id="consignment.id"
 				class="dropp-context-menu__pdf"
 			/>

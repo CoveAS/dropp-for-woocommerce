@@ -1707,7 +1707,7 @@ __webpack_require__.r(__webpack_exports__);
       error: false
     };
   },
-  props: ['consignment_id'],
+  props: ['consignment_id', 'editable'],
   mounted: function mounted() {
     this.get_pdfs();
   },
@@ -1858,8 +1858,25 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     window._dropp_closers.push(this.close_context);
+
+    document.addEventListener('click', this.handleClickOutside, true);
+    document.addEventListener('keydown', this.handleKeyDown, true);
+  },
+  beforeDestroy: function beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside, true);
+    document.addEventListener('keydown', this.handleKeyDown, true);
   },
   methods: {
+    handleKeyDown: function handleKeyDown(event) {
+      if (event.key === 'Escape' || event.key === 'Esc') {
+        this.close_context();
+      }
+    },
+    handleClickOutside: function handleClickOutside(event) {
+      if (!this.$el.contains(event.target)) {
+        this.close_context();
+      }
+    },
     close_context: function close_context() {
       this.show_context = false;
     },
@@ -23611,34 +23628,42 @@ var render = function () {
             : _vm._e()
         }),
         _vm._v(" "),
-        _c("li", [
-          _c("span", {
-            staticClass:
-              "\n\t\t\t\t\tdropp-consignment__action\n\t\t\t\t\tpdf-action\n\t\t\t\t\tpdf-action--add\n\t\t\t\t",
-            attrs: { tabindex: "0", href: "#" },
-            domProps: { innerHTML: _vm._s(_vm.i18n.extra_pdf) },
-            on: {
-              click: function ($event) {
-                $event.preventDefault()
-                return _vm.add_pdf.apply(null, arguments)
-              },
-              keydown: function ($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter") &&
-                  _vm._k($event.keyCode, "space", 32, $event.key, [
-                    " ",
-                    "Spacebar",
-                  ])
-                ) {
-                  return null
-                }
-                $event.preventDefault()
-                return _vm.add_pdf.apply(null, arguments)
-              },
-            },
-          }),
-        ]),
+        _vm.editable
+          ? _c("li", [
+              _c("span", {
+                staticClass:
+                  "\n\t\t\t\t\tdropp-consignment__action\n\t\t\t\t\tpdf-action\n\t\t\t\t\tpdf-action--add\n\t\t\t\t",
+                attrs: { tabindex: "0", href: "#" },
+                domProps: { innerHTML: _vm._s(_vm.i18n.extra_pdf) },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.add_pdf.apply(null, arguments)
+                  },
+                  keydown: function ($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k(
+                        $event.keyCode,
+                        "enter",
+                        13,
+                        $event.key,
+                        "Enter"
+                      ) &&
+                      _vm._k($event.keyCode, "space", 32, $event.key, [
+                        " ",
+                        "Spacebar",
+                      ])
+                    ) {
+                      return null
+                    }
+                    $event.preventDefault()
+                    return _vm.add_pdf.apply(null, arguments)
+                  },
+                },
+              }),
+            ])
+          : _vm._e(),
       ],
       2
     ),
@@ -23713,7 +23738,10 @@ var render = function () {
               _vm.show_context
                 ? _c("context-pdf", {
                     staticClass: "dropp-context-menu__pdf",
-                    attrs: { consignment_id: _vm.consignment.id },
+                    attrs: {
+                      editable: _vm.consignment.status !== "cancelled",
+                      consignment_id: _vm.consignment.id,
+                    },
                   })
                 : _vm._e(),
               _vm._v(" "),

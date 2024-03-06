@@ -9,12 +9,14 @@ namespace Dropp\Models;
 
 use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
+use Dropp\Utility\Dropp_Special_Location_Map;
 use WC_Order;
 use WC_Order_Item;
 use WC_Order_Item_Shipping;
 
 /**
  * Shipping method
+ * @property $day_delivery
  */
 class Dropp_Location extends Model {
 	/**
@@ -131,17 +133,10 @@ class Dropp_Location extends Model {
 	}
 
 	public static function remote_find( string $location_id ) {
-		$type = false;
 		// Special logic for hard-coded locations.
-		if ( '9ec1f30c-2564-4b73-8954-25b7b3186ed3' === $location_id ) {
-			$type = 'dropp_home';
-		} else if ( 'a178c25e-bb35-4420-8792-d5295f0e7fcc' === $location_id ) {
-			$type = 'dropp_flytjandi';
-		} else if ( '30e06a53-2d65-46e7-adc1-18e60de28ecc' === $location_id ) {
-			$type = 'dropp_pickup';
-		}
-		if ( $type ) {
-			return new self( $type );
+		$special_location_map = Dropp_Special_Location_Map::get_instance();
+		if ( $special_location_map->has($location_id) ) {
+			return $special_location_map->get($location_id);
 		}
 
 		// Ask the API about the dropp order id.

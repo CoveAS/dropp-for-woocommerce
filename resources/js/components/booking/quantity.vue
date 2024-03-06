@@ -79,6 +79,10 @@ export default {
 	font-size: 14px;
   padding: 0 24px;
 }
+.dropp-quantity__input:read-only {
+	background-color: #EFEFEF;
+  border-color: #cfcfcf;
+}
 
 .dropp-quantity__input::-webkit-outer-spin-button,
 .dropp-quantity__input::-webkit-inner-spin-button {
@@ -98,6 +102,9 @@ export default {
   color: #999999;
   padding: 4px 8px;
 
+  .dropp-quantity--disabled & {
+		color: #d0d0d0;
+  }
   .dropp-quantity--active &:hover {
 		background-color: rgba(0,0,0,0.1);
 		color: #666666;

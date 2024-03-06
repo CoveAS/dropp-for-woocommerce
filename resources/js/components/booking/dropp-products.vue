@@ -110,6 +110,10 @@
 	&__product-name {
 		display: block;
 		margin-bottom: 8px;
+		&:hover input {
+			border-color: #00007D;
+			box-shadow: 0 0 0 1px #1007FA;
+		}
 	}
 
 	&__weight {

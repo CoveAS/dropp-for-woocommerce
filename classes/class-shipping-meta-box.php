@@ -117,11 +117,12 @@ class Shipping_Meta_Box
 			fn(Dropp_Consignment $consignment) => $consignment->status !== 'error'
 		);
 		// Maybe update the consignments.
-		$consignments->filter(
+		$activeConsignments = $consignments->filter(
 			fn ( $consignment ) =>
 				! empty( $consignment->dropp_order_id ) &&
 				! in_array( $consignment->status, [ 'cancelled', 'error', 'ready' ] )
-		)->map('maybe_update');
+		);
+		$activeConsignments->map('maybe_update');
 
 		if (empty($shipping_address['email'])) {
 			$shipping_address['email'] = $billing_address['email'];
@@ -135,6 +136,10 @@ class Shipping_Meta_Box
 		$delivery_instructions   = '';
 		if ($shipping_method->copy_order_notes) {
 			$delivery_instructions = $customer_note;
+		}
+		$locations = [];
+		if ($activeConsignments->isEmpty()) {
+			$locations = Dropp_Location::array_from_order();
 		}
 		$dropp_object = [
 			'testing'               => (new API())->test,
@@ -152,7 +157,7 @@ class Shipping_Meta_Box
 			'customer'              => $shipping_address,
 			'shipping_items'        => $shipping_items,
 			'status_list'           => Dropp_Consignment::get_status_list(),
-			'locations'             => Dropp_Location::array_from_order(),
+			'locations'             => $locations,
 			'special_locations'     => [
 				'dropp_home'      => [
 					'label'    => __('Add home delivery', 'dropp-for-woocommerce'),
@@ -192,6 +197,7 @@ class Shipping_Meta_Box
 					'remove'                 => __('Remove location', 'dropp-for-woocommerce'),
 					'add_location'           => __('Add shipment', 'dropp-for-woocommerce'),
 					'change_location'        => __('Change pick up point', 'dropp-for-woocommerce'),
+					'unknown_location'       => __('Unknown location', 'dropp-for-woocommerce'),
 					'name'                   => __('Name', 'dropp-for-woocommerce'),
 					'email_address'          => __('Email address', 'dropp-for-woocommerce'),
 					'social_security_number' => __('Social security number', 'dropp-for-woocommerce'),

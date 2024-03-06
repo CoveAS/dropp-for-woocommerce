@@ -11,6 +11,7 @@ use Dropp\Actions\Get_Shipping_Method_From_Shipping_Item_Action;
 use Dropp\API;
 use Dropp\Shipping_Method\Dropp;
 use Dropp\Shipping_Method\Shipping_Method;
+use Dropp\Utility\Dropp_Special_Location_Map;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
@@ -221,8 +222,11 @@ class Dropp_Consignment extends Model {
 			// Add location.
 			$shipping_item          = new WC_Order_Item_Shipping( $this->shipping_item_id );
 			$shipping_item_location = Dropp_Location::from_shipping_item( $shipping_item, $this->day_delivery );
+			$special_location_map = Dropp_Special_Location_Map::get_instance();
 			if ( $shipping_item_location->id === $this->location_id ) {
 				$consignment_array['location'] = $shipping_item_location;
+			} else if ( $special_location_map->has($this->location_id) ) {
+				$consignment_array['location'] =  $special_location_map->get($this->location_id) ;
 			} else {
 				$consignment_array['location'] = Dropp_Location::remote_find( $this->location_id );
 			}

@@ -403,6 +403,9 @@ export default {
 			return this.i18n.day_delivery.charAt(0).toUpperCase() + this.i18n.day_delivery.slice(1);
 		},
 		location_name() {
+		  if (! this.location) {
+				return this.i18n.unknown_location;
+			}
 			return this.location.name + (this.location.type === 'dropp_daytime' ? ' (' + this.i18n.day_delivery + ')' : '');
 		},
 		disabled: function () {

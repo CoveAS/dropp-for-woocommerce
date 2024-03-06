@@ -136,10 +136,10 @@
 	}
 	50% {
 		opacity: 1;
-		background-color: #cdffcd;
+		background-color: #e2f8e2;
 	}
 	85% {
-		background-color: #cdffcd;
+		background-color: #e2f8e2;
 	}
 	100% {
 	}
@@ -157,11 +157,11 @@
 		color: transparent;
   }
   50% {
-		background-color: #cdffcd;
+		background-color: #e2f8e2;
 		color: inherit;
   }
   85% {
-		background-color: #cdffcd;
+		background-color: #e2f8e2;
   }
   100% {
   }

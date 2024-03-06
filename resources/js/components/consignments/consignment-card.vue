@@ -49,6 +49,12 @@
 .dropp-consignment {
 	max-width: 300px;
 	margin: 0 auto;
+	&--cancelled,
+	&--error {
+		.dropp-consignment__status > span {
+			color: #AC0000;
+		}
+	}
 }
 
 .dropp-consignment__inner  {

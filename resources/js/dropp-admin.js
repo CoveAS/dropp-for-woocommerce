@@ -19,14 +19,8 @@ if ( window._dropp ) {
 	}
 
 	jQuery( function( $ ) {
-		if ( _dropp.locations && ! _dropp.locations.length ) {
-			$( '#woocommerce-order-dropp-booking' ).addClass( 'closed' );
-		}
 		if ( _dropp.consignments && ! _dropp.consignments.length ) {
 			$( '#woocommerce-order-dropp-consignments' ).addClass( 'closed' );
-		}
-		if ( _dropp.consignments && _dropp.consignments.length > 0 ) {
-			$('#woocommerce-order-dropp-booking').addClass('closed');
 		}
 	} );
 }

@@ -1,13 +1,11 @@
 <template>
 	<div class="context-pdf">
-		<div class="context-pdf__overlay" v-show="loading">
+		<div class="dropp-context__overlay" v-show="loading">
 			<loader></loader>
 		</div>
-
 		<ul class="context-pdf__list">
-			<li v-if="error">
-				Error
-			</li>
+			<li class="context-pdf__error" v-if="error"> Error </li>
+			<li class="context-pdf__skeleton" v-show="loading">&nbsp;</li>
 			<li
 				class="pdf-actions"
 				v-if="! error"
@@ -48,6 +46,18 @@
 	</div>
 </template>
 <style lang="scss">
+.context-pdf__error,
+.context-pdf__skeleton {
+	background-color: #EEEEEE;
+	cursor: default;
+	display: block;
+	text-decoration: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+}
+.context-pdf__error {
+  background-color: #FFF0F2;
+}
 .context-pdf {
 	position: relative;
 
@@ -56,18 +66,6 @@
 		display: flex;
 	}
 
-	&__overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		background-color: rgba(255, 255, 255, 0.5);
-	}
 
 	&__list {
 		margin-top: 0;

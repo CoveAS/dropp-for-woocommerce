@@ -601,8 +601,11 @@ class Dropp_Consignment extends Model {
 		if ( ! empty( $response['error'] ) ) {
 			throw new Exception( $response['error'] );
 		}
-		if ( 'patch' === $method ) {
-			// Patch calls should return an empty response.
+		if ( 'delete' === $method ) {
+			$this->status = 'cancelled';
+		}
+		if ( 'patch' === $method || 'delete' === $method ) {
+			// Patch and delete calls should return an empty response.
 			// No need for further processing.
 			return $this;
 		}

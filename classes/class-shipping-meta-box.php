@@ -117,7 +117,11 @@ class Shipping_Meta_Box
 			fn(Dropp_Consignment $consignment) => $consignment->status !== 'error'
 		);
 		// Maybe update the consignments.
-		$consignments->map('maybe_update');
+		$consignments->filter(
+			fn ( $consignment ) =>
+				! empty( $consignment->dropp_order_id ) &&
+				! in_array( $consignment->status, [ 'cancelled', 'error', 'ready' ] )
+		)->map('maybe_update');
 
 		if (empty($shipping_address['email'])) {
 			$shipping_address['email'] = $billing_address['email'];

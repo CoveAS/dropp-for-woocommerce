@@ -2,10 +2,11 @@
 import ContextPdf from "./context-pdf.vue";
 import ContextButton from "../icons/context-button.vue";
 import time_ago from "../../time-ago";
+import Loader from "../loader.vue";
 
 export default {
 	name: "context",
-	components: {ContextButton, ContextPdf},
+	components: {Loader, ContextButton, ContextPdf},
 	data: function () {
 		return {
 			i18n: _dropp.i18n,
@@ -16,7 +17,14 @@ export default {
 	props: ['consignment'],
 	computed: {
 		context_class: function () {
-			return this.show_context ? 'dropp-context-menu--show' : '';
+			const classes = [];
+			if (this.show_context) {
+				classes.push('dropp-context-menu--show');
+			}
+			if (this.show_context) {
+				classes.push('dropp-context-menu--loading');
+			}
+			return classes.join(' ');
 		},
 		is_initial: function () {
 			return this.consignment.dropp_order_id && this.consignment.status === 'initial';
@@ -69,7 +77,6 @@ export default {
 		},
 		view_order: function () {
 			this.show_context = false;
-			console.log(this.consignment);
 			this.$parent.$parent.show_modal(this.consignment);
 		},
 		cancel_order: function () {
@@ -85,7 +92,16 @@ export default {
 					consignment_id: this.consignment.id,
 					dropp_nonce: _dropp.nonce,
 				},
-				success: this.success,
+				success: (data) => {
+					if (data.status && 'success' === data.status) {
+							this.consignment.status = 'cancelled';
+							this.consignment.updated_at = data.consignment.updated_at;
+					} else {
+						alert('An error occured when attempting to cancel the order');
+					}
+					setTimeout( ()=>{ this.loading = false; }, 500);
+					this.close_context();
+				},
 				error: this.error,
 			});
 		},
@@ -99,12 +115,9 @@ export default {
 					alert(data.message);
 				}
 			} else {
-				console.error('Invalid ajax response');
+				alert('Invalid ajax response');
 			}
-			let vm = this;
-			setTimeout(function () {
-				vm.loading = false;
-			}, 500);
+			setTimeout( ()=>{ this.loading = false; }, 500);
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			let vm = this;
@@ -131,6 +144,9 @@ export default {
 					</span>
 		</div>
 		<div class="dropp-context-menu__dropdown">
+			<div class="dropp-context__overlay" v-show="loading">
+				<loader/>
+			</div>
 			<context-pdf
 				v-if="show_context"
 				:consignment_id="consignment.id"
@@ -172,6 +188,18 @@ export default {
 
 <style lang="scss">
 
+.dropp-context__overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.5);
+	z-index: 2;
+}
 .dropp-context-menu {
 	.dropp-consignment__action,
 	a {

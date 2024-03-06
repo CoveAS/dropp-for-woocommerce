@@ -11,7 +11,6 @@ if ( window._dropp ) {
 			render: createElement => createElement( Booking ),
 		} );
 	}
-	console.log(window['dropp-consignments'])
 	if (window['dropp-consignments']) {
 		new Vue( {
 			el: '#dropp-consignments',
@@ -25,6 +24,9 @@ if ( window._dropp ) {
 		}
 		if ( _dropp.consignments && ! _dropp.consignments.length ) {
 			$( '#woocommerce-order-dropp-consignments' ).addClass( 'closed' );
+		}
+		if ( _dropp.consignments && _dropp.consignments.length > 0 ) {
+			$('#woocommerce-order-dropp-booking').addClass('closed');
 		}
 	} );
 }

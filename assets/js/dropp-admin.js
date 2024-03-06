@@ -1697,8 +1697,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -1808,12 +1806,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./context-pdf.vue */ "./resources/js/components/consignments/context-pdf.vue");
 /* harmony import */ var _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../icons/context-button.vue */ "./resources/js/components/icons/context-button.vue");
 /* harmony import */ var _time_ago__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../time-ago */ "./resources/js/time-ago.js");
+/* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../loader.vue */ "./resources/js/components/loader.vue");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "context",
   components: {
+    Loader: _loader_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     ContextButton: _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     ContextPdf: _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -1827,7 +1828,17 @@ __webpack_require__.r(__webpack_exports__);
   props: ['consignment'],
   computed: {
     context_class: function context_class() {
-      return this.show_context ? 'dropp-context-menu--show' : '';
+      var classes = [];
+
+      if (this.show_context) {
+        classes.push('dropp-context-menu--show');
+      }
+
+      if (this.show_context) {
+        classes.push('dropp-context-menu--loading');
+      }
+
+      return classes.join(' ');
     },
     is_initial: function is_initial() {
       return this.consignment.dropp_order_id && this.consignment.status === 'initial';
@@ -1883,10 +1894,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     view_order: function view_order() {
       this.show_context = false;
-      console.log(this.consignment);
       this.$parent.$parent.show_modal(this.consignment);
     },
     cancel_order: function cancel_order() {
+      var _this = this;
+
       if (this.loading) {
         return;
       }
@@ -1900,11 +1912,26 @@ __webpack_require__.r(__webpack_exports__);
           consignment_id: this.consignment.id,
           dropp_nonce: _dropp.nonce
         },
-        success: this.success,
+        success: function success(data) {
+          if (data.status && 'success' === data.status) {
+            _this.consignment.status = 'cancelled';
+            _this.consignment.updated_at = data.consignment.updated_at;
+          } else {
+            alert('An error occured when attempting to cancel the order');
+          }
+
+          setTimeout(function () {
+            _this.loading = false;
+          }, 500);
+
+          _this.close_context();
+        },
         error: this.error
       });
     },
     success: function success(data, textStatus, jqXHR) {
+      var _this2 = this;
+
       if (data.status) {
         this.response = data;
 
@@ -1915,12 +1942,11 @@ __webpack_require__.r(__webpack_exports__);
           alert(data.message);
         }
       } else {
-        console.error('Invalid ajax response');
+        alert('Invalid ajax response');
       }
 
-      var vm = this;
       setTimeout(function () {
-        vm.loading = false;
+        _this2.loading = false;
       }, 500);
     },
     error: function error(jqXHR, textStatus, errorThrown) {
@@ -2176,8 +2202,6 @@ if (window._dropp) {
     });
   }
 
-  console.log(window['dropp-consignments']);
-
   if (window['dropp-consignments']) {
     new vue__WEBPACK_IMPORTED_MODULE_2__["default"]({
       el: '#dropp-consignments',
@@ -2194,6 +2218,10 @@ if (window._dropp) {
 
     if (_dropp.consignments && !_dropp.consignments.length) {
       $('#woocommerce-order-dropp-consignments').addClass('closed');
+    }
+
+    if (_dropp.consignments && _dropp.consignments.length > 0) {
+      $('#woocommerce-order-dropp-booking').addClass('closed');
     }
   });
 }
@@ -2560,7 +2588,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".context-pdf {\n  position: relative;\n}\n.context-pdf a.pdf-action {\n  width: 100%;\n  display: flex;\n}\n.context-pdf__overlay {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: rgba(255, 255, 255, 0.5);\n}\n.context-pdf__list {\n  margin-top: 0;\n}\n.pdf-actions {\n  display: flex;\n}\n.dropp-context-menu .context-pdf .pdf-action--add {\n  color: #2F9C26;\n}\n.dropp-context-menu .context-pdf .pdf-action--add:focus,\n.dropp-context-menu .context-pdf .pdf-action--add:hover {\n  color: #228b18;\n  background-color: #dbf2d9;\n}\n.context-pdf .pdf-action--delete {\n  margin-left: auto;\n  color: #900;\n  padding: 4px 8px;\n  margin-top: -4px;\n  margin-bottom: -4px;\n  margin-right: -8px;\n  line-height: 1.25;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".context-pdf__error,\n.context-pdf__skeleton {\n  background-color: #EEEEEE;\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n}\n.context-pdf__error {\n  background-color: #FFF0F2;\n}\n.context-pdf {\n  position: relative;\n}\n.context-pdf a.pdf-action {\n  width: 100%;\n  display: flex;\n}\n.context-pdf__list {\n  margin-top: 0;\n}\n.pdf-actions {\n  display: flex;\n}\n.dropp-context-menu .context-pdf .pdf-action--add {\n  color: #2F9C26;\n}\n.dropp-context-menu .context-pdf .pdf-action--add:focus,\n.dropp-context-menu .context-pdf .pdf-action--add:hover {\n  color: #228b18;\n  background-color: #dbf2d9;\n}\n.context-pdf .pdf-action--delete {\n  margin-left: auto;\n  color: #900;\n  padding: 4px 8px;\n  margin-top: -4px;\n  margin-bottom: -4px;\n  margin-right: -8px;\n  line-height: 1.25;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2584,7 +2612,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-context-menu {\n  position: relative;\n}\n.dropp-context-menu .dropp-consignment__action,\n.dropp-context-menu a {\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  color: #000000;\n}\n.dropp-context-menu .dropp-consignment__action:focus, .dropp-context-menu .dropp-consignment__action:hover,\n.dropp-context-menu a:focus,\n.dropp-context-menu a:hover {\n  background-color: #E5E8FF;\n  color: #1007FA;\n}\n.dropp-context-menu ul {\n  margin: 0;\n}\n.dropp-context-menu li {\n  margin-bottom: 3px;\n}\n.dropp-context-menu li:last-child {\n  margin-bottom: 0;\n}\n.dropp-context-menu__button {\n  display: block;\n  color: #000000;\n  padding: 8px 14px;\n  line-height: 1;\n  border-radius: 4px;\n  margin: 0 -14px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  outline: 1px solid transparent;\n  transition: outline-color 0.2s, color 0.2s;\n}\n.dropp-context-menu__button:hover {\n  outline-color: #ceccff;\n  color: #1007FA;\n}\n.dropp-context-menu__dropdown {\n  display: none;\n  position: absolute;\n  top: 110%;\n  margin: 0;\n  right: -14px;\n  width: 220px;\n  background: #fff;\n  padding: 8px;\n  border-radius: 4px;\n  z-index: 999;\n  border: 1px solid #E1E1E1;\n}\n.dropp-context-menu--show {\n  z-index: 3;\n}\n.dropp-context-menu--show .dropp-context-menu__dropdown {\n  display: block;\n}\n.dropp-context-menu--show .dropp-context-menu__main {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.dropp-context-menu .dropp-consignment__action--cancel {\n  color: #AC0000;\n}\n.dropp-context-menu .dropp-consignment__action--cancel:focus,\n.dropp-context-menu .dropp-consignment__action--cancel:hover {\n  color: #BD0000;\n  background-color: #f6d5d5;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-context__overlay {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: rgba(255, 255, 255, 0.5);\n  z-index: 2;\n}\n.dropp-context-menu {\n  position: relative;\n}\n.dropp-context-menu .dropp-consignment__action,\n.dropp-context-menu a {\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  color: #000000;\n}\n.dropp-context-menu .dropp-consignment__action:focus, .dropp-context-menu .dropp-consignment__action:hover,\n.dropp-context-menu a:focus,\n.dropp-context-menu a:hover {\n  background-color: #E5E8FF;\n  color: #1007FA;\n}\n.dropp-context-menu ul {\n  margin: 0;\n}\n.dropp-context-menu li {\n  margin-bottom: 3px;\n}\n.dropp-context-menu li:last-child {\n  margin-bottom: 0;\n}\n.dropp-context-menu__button {\n  display: block;\n  color: #000000;\n  padding: 8px 14px;\n  line-height: 1;\n  border-radius: 4px;\n  margin: 0 -14px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  outline: 1px solid transparent;\n  transition: outline-color 0.2s, color 0.2s;\n}\n.dropp-context-menu__button:hover {\n  outline-color: #ceccff;\n  color: #1007FA;\n}\n.dropp-context-menu__dropdown {\n  display: none;\n  position: absolute;\n  top: 110%;\n  margin: 0;\n  right: -14px;\n  width: 220px;\n  background: #fff;\n  padding: 8px;\n  border-radius: 4px;\n  z-index: 999;\n  border: 1px solid #E1E1E1;\n}\n.dropp-context-menu--show {\n  z-index: 3;\n}\n.dropp-context-menu--show .dropp-context-menu__dropdown {\n  display: block;\n}\n.dropp-context-menu--show .dropp-context-menu__main {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.dropp-context-menu .dropp-consignment__action--cancel {\n  color: #AC0000;\n}\n.dropp-context-menu .dropp-consignment__action--cancel:focus,\n.dropp-context-menu .dropp-consignment__action--cancel:hover {\n  color: #BD0000;\n  background-color: #f6d5d5;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23491,7 +23519,7 @@ var render = function () {
             expression: "loading",
           },
         ],
-        staticClass: "context-pdf__overlay",
+        staticClass: "dropp-context__overlay",
       },
       [_c("loader")],
       1
@@ -23501,7 +23529,25 @@ var render = function () {
       "ul",
       { staticClass: "context-pdf__list" },
       [
-        _vm.error ? _c("li", [_vm._v("\n\t\t\tError\n\t\t")]) : _vm._e(),
+        _vm.error
+          ? _c("li", { staticClass: "context-pdf__error" }, [_vm._v(" Error ")])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.loading,
+                expression: "loading",
+              },
+            ],
+            staticClass: "context-pdf__skeleton",
+          },
+          [_vm._v(" ")]
+        ),
         _vm._v(" "),
         _vm._l(_vm.pdfs, function (pdf, index) {
           return !_vm.error
@@ -23647,6 +23693,23 @@ var render = function () {
             "div",
             { staticClass: "dropp-context-menu__dropdown" },
             [
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.loading,
+                      expression: "loading",
+                    },
+                  ],
+                  staticClass: "dropp-context__overlay",
+                },
+                [_c("loader")],
+                1
+              ),
+              _vm._v(" "),
               _vm.show_context
                 ? _c("context-pdf", {
                     staticClass: "dropp-context-menu__pdf",

@@ -4,6 +4,7 @@
 		class="dropp-consignment"
 		:class="classes"
 	>
+	<div class="dropp-consignment__inner">
 		<div
 			class="dropp-consignment__barcode-wrapper"
 			:title="consignment.dropp_order_id"
@@ -38,24 +39,29 @@
 			</div>
 		</div>
 		<download :consignment="consignment"/>
+  </div>
+	<div class="dropp-consignment__seperator"></div>
 	</div>
 </template>
 
 
 <style scoped lang="scss">
 .dropp-consignment {
-	border-bottom: 1px solid #999999;
-	padding: 24px 4px;
 	max-width: 300px;
 	margin: 0 auto;
 }
 
-.dropp-consignment:first-child {
-	padding-top: 0;
+.dropp-consignment__inner  {
+  padding: 20px 16px;
+  border-radius: 4px;
 }
-.dropp-consignment:last-child {
-	border-bottom: none;
-	padding-bottom: 0;
+.dropp-consignment__seperator  {
+	margin: 4px 16px;
+  border-bottom: 1px solid #999999;
+}
+
+.dropp-consignment:last-child  .dropp-consignment__seperator{
+  display: none;
 }
 
 .dropp-consignment__card-label {
@@ -100,6 +106,11 @@ export default {
 			loading: false,
 			show_context: false,
 		};
+	},
+	mounted() {
+		if (this.consignment && this.consignment.new) {
+			this.$el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+		}
 	},
 	props: ['consignment', 'classes', 'status'],
 	components: {

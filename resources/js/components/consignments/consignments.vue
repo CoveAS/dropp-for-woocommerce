@@ -1,4 +1,5 @@
 <template>
+	<div>
 	<div class="dropp-consignments">
 		<div class="dropp-consignments--large" v-show="display_consignments">
 			<table class="dropp-consignments__table">
@@ -33,16 +34,21 @@
 				:status="status(consignment)"
 			/>
 		</div>
-		<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
+		<p v-show="! display_consignments" v-html="i18n.no_consignments">
+		</p>
 	</div>
+	<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
+  </div>
 </template>
 
 <style lang="scss">
 #woocommerce-order-dropp-consignments .inside {
 	z-index: 2;
 }
+.dropp-consignments > p {
+	margin: 0;
+}
 .dropp-consignments {
-	margin: 24px 12px 12px 12px;
 	container-type: inline-size;
 	container-name: sidebar;
 
@@ -105,26 +111,68 @@
 #woocommerce-order-dropp-consignments h2 {
 }
 
+.dropp-consignments--large {
+  margin: 24px 12px 12px 12px;
+}
+
 @container (max-width: 599px) {
 	.dropp-consignments--large {
 		display: none;
 	}
-
-	.dropp-consignments--small {
-		display: block;
-	}
 }
 
 @container (min-width: 600px) {
-	.dropp-consignments--large {
-		display: block;
-	}
-
 	.dropp-consignments--small {
 		display: none;
 	}
 }
 
+@keyframes fadeInAndHighlight {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		background-color: #cdffcd;
+	}
+	85% {
+		background-color: #cdffcd;
+	}
+	100% {
+	}
+}
+
+.dropp-consignments--small .dropp-consignment--new {
+	animation: fadeInAndHighlight 5s ease;
+}
+
+@keyframes fadeInAndHighlightLarge {
+  0% {
+		color: transparent;
+  }
+  10% {
+		color: transparent;
+  }
+  50% {
+		background-color: #cdffcd;
+		color: inherit;
+  }
+  85% {
+		background-color: #cdffcd;
+  }
+  100% {
+  }
+}
+
+.dropp-consignments--large .dropp-consignment--new {
+  animation: fadeInAndHighlightLarge 4s ease;
+}
+.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {
+  animation: fadeInAndHighlight 4s ease;
+}
 </style>
 <script>
 
@@ -133,7 +181,7 @@ import OrderModal from "./order-modal.vue";
 import ConsignmentCard from "./consignment-card.vue";
 
 export default {
-	data: function () {
+	data() {
 		return {
 			i18n: _dropp.i18n,
 			consignment_container: {
@@ -142,7 +190,7 @@ export default {
 			modal_consignment: null,
 		};
 	},
-	created: function () {
+	mounted() {
 	},
 	computed: {
 		display_consignments: function () {
@@ -159,6 +207,9 @@ export default {
 				'dropp-consignment-' + consignment.id,
 				'dropp-consignment--' + consignment.status,
 			];
+			if (consignment.new) {
+			  classes.push('dropp-consignment--new')
+			}
 			if (this.loading) {
 				classes.push('dropp-consignment--loading');
 			}

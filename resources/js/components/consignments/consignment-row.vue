@@ -99,9 +99,14 @@ export default {
 			show_context: false,
 		};
 	},
-	props: ['consignment', 'classes', 'status'],
+	mounted() {
+		if (this.consignment && this.consignment.new) {
+			this.$el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+		}
+  },
+  props: ['consignment', 'classes', 'status'],
 	components: {
-	TimeAgo,
+		TimeAgo,
 		Download,
 		Context,
 		ContextButton,

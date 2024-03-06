@@ -50,21 +50,6 @@ export default {
 				this.show_context = true;
 			}
 		},
-		add_location: function () {
-			//@TODO: Location selector.
-			let vm = this;
-			chooseDroppLocation()
-				.then(function (location) {
-					location.order_item_id = vm.selected_shipping_item;
-					// A location was picked. Save it.
-					vm.locations.push(location);
-				})
-				.catch(function (error) {
-					// Something went wrong.
-					// @TODO.
-					console.log(error);
-				});
-		},
 		check_status: function () {
 			if (this.loading) {
 				return;
@@ -84,7 +69,8 @@ export default {
 		},
 		view_order: function () {
 			this.show_context = false;
-			this.$parent.show_modal(this.consignment);
+			console.log(this.consignment);
+			this.$parent.$parent.show_modal(this.consignment);
 		},
 		cancel_order: function () {
 			if (this.loading) {

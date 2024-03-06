@@ -6,28 +6,29 @@
 		@submit.prevent=book
 	>
 		<header class="dropp-location__header">
-			<div class="dropp-location__pre-title">
+			<div
+				v-if="location.address"
+				class="dropp-location__pre-title"
+			>
 				<span class="dropp-location__pick-up-point" v-html="i18n.pick_up_point"></span>
-				<span class="dropp-location__change dropp-location__change--large" v-html="i18n.change_location"></span>
+				<span
+					@click.prevent="changeLocation"
+					@keydown.enter.space.prevent="changeLocation"
+					tabindex="0"
+					class="dropp-location__change dropp-location__change--large" v-html="i18n.change_location"
+				></span>
 			</div>
 			<h2 class="dropp-location__name" v-html="location_name" :title="'[' + location.id + ']'"></h2>
-			<span class="dropp-location__address" v-html="location.address"></span>
-			<div class="dropp-location__change dropp-location__change--small" v-html="i18n.change_location"></div>
+			<span v-if="location.address" class="dropp-location__address" v-html="location.address"></span>
+			<div
+				v-if="location.address"
+				@click.prevent="changeLocation"
+				@keydown.enter.space.prevent="changeLocation"
+				class="dropp-location__change dropp-location__change--small" v-html="i18n.change_location"
+			></div>
 		</header>
-		<div class="dropp-location__messages" v-if="response" :class="response_status">
-			<h2 class="dropp-location__message" v-html="response.message"></h2>
-			<ul class="dropp-location__errors" v-show="response.errors.length">
-				<li v-for="error in response.errors" v-html="error"></li>
-			</ul>
-		</div>
 		<div class="dropp-location__booking">
-			<div class="dropp-location__booking-errors" v-show="product_errors.length">
-				<ul class="dropp-location__errors">
-					<li v-for="error in product_errors" v-html="error"></li>
-				</ul>
-			</div>
-
-			<droppproducts :products="products" :editable="editable"></droppproducts>
+			<droppproducts :key="location.id" :location="location" v-model="products" :editable="editable"/>
 			<div class="dropp-grid">
 				<droppcustomer :customer="customer" :editable="editable"></droppcustomer>
 				<div class="dropp-delivery-instructions">
@@ -69,18 +70,24 @@
 				<button
 					v-if="editable"
 					type="button"
-					class="dropp-location__action dropp-location__action--book"
+					class="dropp-location__action dropp-location__action--book dropp-button"
 					:disabled="disabled"
 					v-html="book_button_text"
 					@click.prevent="book"
 				></button>
 				<button
 					type="button"
-					class="dropp-location__action dropp-location__action--remove"
+					class="dropp-location__action dropp-location__action--remove dropp-button"
 					v-html="i18n.remove"
 					v-if="show_remove_button"
 					@click.prevent="remove_location"
 				></button>
+			</div>
+			<div class="dropp-location__booking-error" v-if="errorMessage">
+				<dropp-error
+					level="error"
+					:title="i18n.error + ' ' + errorStatusCode"
+				>{{errorMessage}}</dropp-error>
 			</div>
 		</div>
 	</form>
@@ -95,7 +102,7 @@
 @container (min-width: 600px) {
 	.dropp-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(calc(50% - 12px), 600px) minmax(calc(50% - 12px), 600px);
 		gap: 24px;
 		padding: 0 24px;
 	}
@@ -149,27 +156,27 @@
 	}
 
 	&__actions,
-	&__booking-errors,
+	&__booking-error,
 	&__header {
 		padding: 0 16px;
-		@container (min-width: 600px) {
-			padding: 0 24px;
-		}
+	@container (min-width:600px) {
+		padding: 0 24px;
+	}
 	}
 
 	&__header {
 		position: relative;
 		margin: 12px 0 32px;
-		@container (min-width: 600px) {
-			margin: 24px 0 32px;
-		}
+	@container (min-width:600px) {
+		margin: 24px 0 32px;
+	}
 	}
 
 	&__pre-title {
 		display: flex;
 		align-items: baseline;
-		@container (min-width: 900px) {
-			max-width: calc(50% - 12px);
+		@container (min-width:900px) {
+			max-width: 588px;
 		}
 	}
 
@@ -177,9 +184,9 @@
 	&__pick-up-point {
 		font-weight: 700;
 		font-size: 14px;
-		@container (min-width: 600px) {
-			font-size: 16px;
-		}
+	@container (min-width:600px) {
+		font-size: 16px;
+	}
 	}
 
 	&__change {
@@ -194,20 +201,24 @@
 		&:hover {
 			text-decoration: none;
 		}
+
 		&--small {
 			margin-top: 16px;
 		}
+
 		&--large {
 			display: none;
 		}
-		@container (min-width: 500px) {
-			&--small {
-				display: none;
-			}
-			&--large {
-				display: block;
-			}
+
+	@container (min-width:500px) {
+		&--small {
+			display: none;
 		}
+
+		&--large {
+			display: block;
+		}
+	}
 	}
 
 	&__address {
@@ -249,6 +260,7 @@
 <script>
 import DroppCustomer from './dropp-customer.vue';
 import DroppProducts from './dropp-products.vue';
+import DroppError from "../dropp-error.vue";
 
 const new_customer = function () {
 	let address = _dropp.customer.address_1;
@@ -281,7 +293,8 @@ export default {
 			booked: false,
 			response: false,
 			day_delivery: false,
-			errors: [],
+			errorStatusCode: 0,
+			errorMessage: '',
 		};
 		if (this.consignment && this.consignment.customer)
 			data.customer = this.consignment.customer;
@@ -312,20 +325,28 @@ export default {
 			}
 			return products;
 		},
-		remove_location: function () {
-			let locations = this.$parent._data.locations;
-			for (let i = 0; i < locations.length; i++) {
-				let location = locations[i];
-				if (location.id == this.location.id) {
-					locations.splice(i, 1);
-					break;
-				}
-			}
+		remove_location() {
+		  this.$emit('remove', this.location)
+		},
+		changeLocation() {
+			chooseDroppLocation()
+				.then(
+					location => {
+						//this.order_item_id = location.order_item_id;
+						this.location = location
+					}
+				)
+				.catch( function( error ) {
+					// Something went wrong.
+					// @TODO.
+					console.log( error );
+				});
 		},
 		book: function () {
 			if (this.loading || this.booked || !this.editable) {
 				return;
 			}
+			this.errorMessage = '';
 			this.loading = true;
 			this.response = false;
 			let params = {
@@ -341,10 +362,12 @@ export default {
 			if (this.consignment) {
 				params.consignment_id = this.consignment.id;
 			}
+
 			jQuery.ajax({
 				url: _dropp.ajaxurl,
 				method: 'post',
 				data: params,
+				timeout: 10000,
 				success: this.success,
 				error: this.error,
 			});
@@ -352,28 +375,20 @@ export default {
 		success: function (data, textStatus, jqXHR) {
 			if (data.status) {
 				this.response = data;
-				if (this.$parent._data.consignment_container && data.consignment) {
-					this.$parent._data.consignment_container.consignments.push(data.consignment);
-				}
 				if ('success' === data.status) {
 					this.booked = true;
-					jQuery(this.$el).find('.dropp-location__booking').slideUp();
-					window.location.reload();
+					this.$emit('booked', data.consignment)
+				} else {
+					this.errorStatusCode = 500;
+					this.errorMessage = data.message;
 				}
 			}
-			let vm = this;
-			setTimeout(function () {
-				vm.loading = false;
-			});
+			setTimeout(() => { this.loading = false}, 10);
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
-			let vm = this;
-			this.errors = [
-				'Error: Unknown error. Please check your internet connection or contact technical support about this.'
-			];
-			setTimeout(function () {
-				vm.loading = false;
-			});
+			this.errorStatusCode = jqXHR.status;
+			this.errorMessage = this.i18n.booking_error_general;
+			setTimeout(() => { this.loading = false}, 10);
 		},
 		copy_customer_note: function () {
 			this.delivery_instructions = this.customer_note;
@@ -389,27 +404,8 @@ export default {
 		location_name() {
 			return this.location.name + (this.location.type === 'dropp_daytime' ? ' (' + this.i18n.day_delivery + ')' : '');
 		},
-		product_errors: function () {
-			let errors = this.errors;
-
-			let total_weight = 0;
-			for (let i = 0; i < this.products.length; i++) {
-				let product = this.products[i];
-				if (product.checked) {
-					total_weight += product.weight * product._quantity;
-				}
-			}
-			if (total_weight > this.location.weight_limit && 0 !== this.location.weight_limit) {
-				errors.push('Error: Each consignment must be ' + this.location.weight_limit + ' Kg or less. Please reduce number of items or remove products from booking.');
-			}
-
-			return errors;
-		},
 		disabled: function () {
-			if (this.product_errors.length - this.errors.length) {
-				return true;
-			}
-			return false;
+			return this.booked || ! this.editable;
 		},
 		response_status: function () {
 			if (!this.response) {
@@ -442,10 +438,24 @@ export default {
 		if (this.location.type === 'dropp_daytime') {
 			this.day_delivery = true;
 		}
-		for (let i = 0; i < _dropp.products.length; i++) {
-			let product = _dropp.products[i];
-			product.checked = true;
+		let products = _dropp.products;
+		if (this.consignment && this.consignment.products) {
+			products = this.consignment.products;
+		}
+		for (let i = 0; i < products.length; i++) {
+			let product = products[i];
+			product.checked = product.quantity > 0;
 			product._quantity = product.quantity;
+			if (this.consignment) {
+				const orderProduct = _.find(
+					_dropp.products,
+			(orderProduct) => orderProduct.id === product.id
+				);
+				if (orderProduct) {
+					product.quantity = orderProduct.quantity;
+				}
+			}
+
 			this.products.push(product);
 		}
 
@@ -459,6 +469,7 @@ export default {
 		'consignment_container',
 	],
 	components: {
+	DroppError,
 		droppcustomer: DroppCustomer,
 		droppproducts: DroppProducts,
 	}

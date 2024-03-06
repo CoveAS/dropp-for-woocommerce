@@ -47,9 +47,6 @@
 		display: block;
 		margin-bottom: 4px;
 
-		&:hover {
-			color: #1007FA;
-		}
 	}
 
 	.input-field,
@@ -62,9 +59,6 @@
 		border: 1px solid #999999;
 		padding: 4px 12px;
 		font-size: 14px;
-		&:focus {
-			border-color: #CCCCCC;
-		}
 	}
 }
 </style>

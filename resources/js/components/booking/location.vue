@@ -102,7 +102,7 @@
 @container (min-width: 600px) {
 	.dropp-grid {
 		display: grid;
-		grid-template-columns: minmax(calc(50% - 12px), 600px) minmax(calc(50% - 12px), 600px);
+		grid-template-columns: min(calc(50% - 12px), 600px) min(calc(50% - 12px), 600px);
 		gap: 24px;
 		padding: 0 24px;
 	}
@@ -329,10 +329,11 @@ export default {
 		  this.$emit('remove', this.location)
 		},
 		changeLocation() {
+			const order_item_id = this.location.order_item_id;
 			chooseDroppLocation()
 				.then(
 					location => {
-						//this.order_item_id = location.order_item_id;
+						location.order_item_id = order_item_id;
 						this.location = location
 					}
 				)

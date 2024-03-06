@@ -173,6 +173,10 @@
 				this.locations.push( location );
 			},
 			processBooked(consignment, location) {
+				if (this.locations.length === 1) {
+					jQuery( '#woocommerce-order-dropp-booking .handlediv' ).click();
+				}
+				jQuery( '#woocommerce-order-dropp-consignments.closed .handlediv' ).click();
 				consignment.new = true;
 				_dropp.consignments.push(consignment);
 				this.removeLocation(location);
@@ -180,7 +184,7 @@
 			},
 			removeLocation(location) {
 				if (this.locations.indexOf(location) !== -1) {
-					this.locations.splice(this.locations.indexOf(location));
+					this.locations.splice(this.locations.indexOf(location), 1);
 				}
 			}
 

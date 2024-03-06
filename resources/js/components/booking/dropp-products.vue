@@ -11,7 +11,7 @@
 					<span v-html="product.name"></span>
 				</label>
 				<div class="dropp-products__weight">
-					<span v-html="i18n.weight + ': '"></span><span v-html="product.weight + ' Kg'"></span>
+					<span v-html="i18n.weight + ': '"></span><span v-html="product.weight.toFixed(2) + ' Kg'"></span>
 				</div>
 				<div
 				class="dropp-products__quantity"
@@ -70,7 +70,7 @@
 	}
 	@container (min-width: 900px) {
 		display: grid;
-		grid-template-columns: minmax(calc(50% - 12px), 600px) minmax(calc(50% - 12px), 600px);
+		grid-template-columns: min(calc(50% - 12px), 600px) min(calc(50% - 12px), 600px);
 		gap: 24px;
 	}
 
@@ -168,8 +168,8 @@ export default {
 			return _.reduce(
 				this.products,
 				(carry, product) => carry + (product.checked ? product._quantity * product.weight : 0),
-				0
-			);
+				0.0
+			).toFixed(2);
 		}
 	},
 	watch: {

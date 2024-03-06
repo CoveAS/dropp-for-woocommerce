@@ -104,6 +104,7 @@ export default {
 		},
 		processBooked(consignment, location) {
 			jQuery('.dropp-consignment-' + consignment.id).removeClass('dropp-consignment--new');
+			jQuery( '#woocommerce-order-dropp-consignments.closed .handlediv' ).click();
 			consignment.new = true;
 			const index = _.findIndex(_dropp.consignments, {id: consignment.id});
 			_dropp.consignments.splice(index, 1, consignment);

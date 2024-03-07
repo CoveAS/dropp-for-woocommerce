@@ -1074,14 +1074,14 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.quantity = Math.min(999999, this.quantity + 1);
+      this.quantity = Math.min(999999, parseInt(this.quantity, 10) + 1);
     },
     decrease: function decrease() {
       if (this.disabled) {
         return;
       }
 
-      this.quantity = Math.max(0, this.quantity - 1);
+      this.quantity = Math.max(0, parseInt(this.quantity, 10) - 1);
     }
   },
   watch: {

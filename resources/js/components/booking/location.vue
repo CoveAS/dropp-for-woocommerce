@@ -36,11 +36,12 @@
 						<h3 class="dropp-delivery-instructions__title" v-html="i18n.customer_note"></h3>
 						<blockquote class="dropp-delivery-instructions__text" v-html="customer_note"></blockquote>
 						<button
+							class="dropp-delivery-instructions__button"
 							v-if="editable"
 							type="button"
-							v-html="i18n.copy_to_delivery"
+							v-html=""
 							@click.prevent="copy_customer_note"
-						></button>
+						><span v-html="i18n.copy_to_delivery"></span><arrow-down/></button>
 					</div>
 					<div class="dropp-delivery-instructions__field">
 						<h3 class="dropp-delivery-instructions__title" v-html="i18n.delivery_instructions"></h3>
@@ -128,7 +129,6 @@
 
 	.dropp-delivery-instructions {
 		&__field {
-			flex: 0 1 20rem;
 			min-width: 15rem;
 		}
 
@@ -140,17 +140,20 @@
 		}
 
 		&__notes {
+			margin-bottom: 24px;
 		}
 
 		blockquote {
-			margin: 0 0 0.5rem 0;
-			background-color: #eee;
-			min-height: 3rem;
+			margin: 0 0 12px 0;
+			background-color: #FCFCFC;
+			min-height: 100px;
+			color: #7c7b7b;
 		}
 
 		&__text {
-			border: 1px solid #999999;
-			padding: 0.5rem;
+			border-radius: 4px;
+			border: 1px solid #CCCCCC;
+			padding: 8px 12px;
 			margin-bottom: 1rem;
 		}
 	}
@@ -159,17 +162,17 @@
 	&__booking-error,
 	&__header {
 		padding: 0 16px;
-	@container (min-width:600px) {
-		padding: 0 24px;
-	}
+		@container (min-width:600px) {
+			padding: 0 24px;
+		}
 	}
 
 	&__header {
 		position: relative;
 		margin: 12px 0 32px;
-	@container (min-width:600px) {
-		margin: 24px 0 32px;
-	}
+		@container (min-width:600px) {
+			margin: 24px 0 32px;
+		}
 	}
 
 	&__pre-title {
@@ -184,9 +187,9 @@
 	&__pick-up-point {
 		font-weight: 700;
 		font-size: 14px;
-	@container (min-width:600px) {
-		font-size: 16px;
-	}
+		@container (min-width:600px) {
+			font-size: 16px;
+		}
 	}
 
 	&__change {
@@ -256,11 +259,30 @@
 		background: #AAFFAA;
 	}
 }
+.dropp-delivery-instructions__button {
+	padding: 10px 16px;
+	color: #2F9C26;
+	border: 1px solid #2F9C26;
+	border-radius: 4px;
+	background: white;
+	line-height: 1.2;
+	font-size: 12px;
+	font-weight: 600;
+	display: flex;
+	gap: 8px;
+
+	&:focus,
+	&:hover {
+		color:#41be37;
+		border-color:#41be37;
+	}
+}
 </style>
 <script>
 import DroppCustomer from './dropp-customer.vue';
 import DroppProducts from './dropp-products.vue';
 import DroppError from "../dropp-error.vue";
+import ArrowDown from "../icons/arrow-down.vue";
 
 const new_customer = function () {
 	let address = _dropp.customer.address_1;
@@ -473,6 +495,7 @@ export default {
 		'consignment_container',
 	],
 	components: {
+	ArrowDown,
 	DroppError,
 		droppcustomer: DroppCustomer,
 		droppproducts: DroppProducts,

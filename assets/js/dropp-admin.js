@@ -516,6 +516,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dropp-customer.vue */ "./resources/js/components/booking/dropp-customer.vue");
 /* harmony import */ var _dropp_products_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dropp-products.vue */ "./resources/js/components/booking/dropp-products.vue");
 /* harmony import */ var _dropp_error_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dropp-error.vue */ "./resources/js/components/dropp-error.vue");
+/* harmony import */ var _icons_arrow_down_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../icons/arrow-down.vue */ "./resources/js/components/icons/arrow-down.vue");
 //
 //
 //
@@ -775,6 +776,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -1011,6 +1034,7 @@ var new_customer = function new_customer() {
   },
   props: ['consignment', 'location', 'consignment_container'],
   components: {
+    ArrowDown: _icons_arrow_down_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     DroppError: _dropp_error_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     droppcustomer: _dropp_customer_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     droppproducts: _dropp_products_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2489,7 +2513,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-grid {\n  padding: 0 16px;\n}\n@container (min-width: 600px) {\n.dropp-grid {\n    display: grid;\n    grid-template-columns: min(50% - 12px, 600px) min(50% - 12px, 600px);\n    gap: 24px;\n    padding: 0 24px;\n}\n}\n.dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  padding-bottom: 1rem;\n  opacity: 1;\n  transition: opacity 0.5s;\n  color: #1C1B1B;\n  font-size: 14px;\n  border-bottom: 1px solid #e5e5e5;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-day-delivery {\n  margin-top: 0.5rem;\n}\n.dropp-location .dropp-delivery-instructions__field {\n  flex: 0 1 20rem;\n  min-width: 15rem;\n}\n.dropp-location .dropp-delivery-instructions__input {\n  resize-x: none;\n  min-height: 100px;\n  width: 100%;\n  border: 1px solid #999999;\n}\n.dropp-location .dropp-delivery-instructions blockquote {\n  margin: 0 0 0.5rem 0;\n  background-color: #eee;\n  min-height: 3rem;\n}\n.dropp-location .dropp-delivery-instructions__text {\n  border: 1px solid #999999;\n  padding: 0.5rem;\n  margin-bottom: 1rem;\n}\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n  padding: 0 16px;\n}\n@container (min-width:600px) {\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n    padding: 0 24px;\n}\n}\n.dropp-location__header {\n  position: relative;\n  margin: 12px 0 32px;\n}\n@container (min-width:600px) {\n.dropp-location__header {\n    margin: 24px 0 32px;\n}\n}\n.dropp-location__pre-title {\n  display: flex;\n  align-items: baseline;\n}\n@container (min-width:900px) {\n.dropp-location__pre-title {\n    max-width: 588px;\n}\n}\n.dropp-location h3, .dropp-location__pick-up-point {\n  font-weight: 700;\n  font-size: 14px;\n}\n@container (min-width:600px) {\n.dropp-location h3, .dropp-location__pick-up-point {\n    font-size: 16px;\n}\n}\n.dropp-location__change {\n  font-weight: 600;\n  margin-left: auto;\n  text-decoration: underline;\n  cursor: pointer;\n  color: #1007FA;\n  font-size: 13px;\n}\n.dropp-location__change:focus, .dropp-location__change:hover {\n  text-decoration: none;\n}\n.dropp-location__change--small {\n  margin-top: 16px;\n}\n.dropp-location__change--large {\n  display: none;\n}\n@container (min-width:500px) {\n.dropp-location__change--small {\n    display: none;\n}\n.dropp-location__change--large {\n    display: block;\n}\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  font-size: 24px;\n  font-weight: 500;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-grid {\n  padding: 0 16px;\n}\n@container (min-width: 600px) {\n.dropp-grid {\n    display: grid;\n    grid-template-columns: min(50% - 12px, 600px) min(50% - 12px, 600px);\n    gap: 24px;\n    padding: 0 24px;\n}\n}\n.dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  padding-bottom: 1rem;\n  opacity: 1;\n  transition: opacity 0.5s;\n  color: #1C1B1B;\n  font-size: 14px;\n  border-bottom: 1px solid #e5e5e5;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-day-delivery {\n  margin-top: 0.5rem;\n}\n.dropp-location .dropp-delivery-instructions__field {\n  min-width: 15rem;\n}\n.dropp-location .dropp-delivery-instructions__input {\n  resize-x: none;\n  min-height: 100px;\n  width: 100%;\n  border: 1px solid #999999;\n}\n.dropp-location .dropp-delivery-instructions__notes {\n  margin-bottom: 24px;\n}\n.dropp-location .dropp-delivery-instructions blockquote {\n  margin: 0 0 12px 0;\n  background-color: #FCFCFC;\n  min-height: 100px;\n  color: #7c7b7b;\n}\n.dropp-location .dropp-delivery-instructions__text {\n  border-radius: 4px;\n  border: 1px solid #CCCCCC;\n  padding: 8px 12px;\n  margin-bottom: 1rem;\n}\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n  padding: 0 16px;\n}\n@container (min-width:600px) {\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n    padding: 0 24px;\n}\n}\n.dropp-location__header {\n  position: relative;\n  margin: 12px 0 32px;\n}\n@container (min-width:600px) {\n.dropp-location__header {\n    margin: 24px 0 32px;\n}\n}\n.dropp-location__pre-title {\n  display: flex;\n  align-items: baseline;\n}\n@container (min-width:900px) {\n.dropp-location__pre-title {\n    max-width: 588px;\n}\n}\n.dropp-location h3, .dropp-location__pick-up-point {\n  font-weight: 700;\n  font-size: 14px;\n}\n@container (min-width:600px) {\n.dropp-location h3, .dropp-location__pick-up-point {\n    font-size: 16px;\n}\n}\n.dropp-location__change {\n  font-weight: 600;\n  margin-left: auto;\n  text-decoration: underline;\n  cursor: pointer;\n  color: #1007FA;\n  font-size: 13px;\n}\n.dropp-location__change:focus, .dropp-location__change:hover {\n  text-decoration: none;\n}\n.dropp-location__change--small {\n  margin-top: 16px;\n}\n.dropp-location__change--large {\n  display: none;\n}\n@container (min-width:500px) {\n.dropp-location__change--small {\n    display: none;\n}\n.dropp-location__change--large {\n    display: block;\n}\n}\n.dropp-location__address {\n  margin: 0;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  font-size: 24px;\n  font-weight: 500;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}\n.dropp-delivery-instructions__button {\n  padding: 10px 16px;\n  color: #2F9C26;\n  border: 1px solid #2F9C26;\n  border-radius: 4px;\n  background: white;\n  line-height: 1.2;\n  font-size: 12px;\n  font-weight: 600;\n  display: flex;\n  gap: 8px;\n}\n.dropp-delivery-instructions__button:focus, .dropp-delivery-instructions__button:hover {\n  color: #41be37;\n  border-color: #41be37;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21282,6 +21306,43 @@ component.options.__file = "resources/js/components/dropp-error.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/icons/arrow-down.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/icons/arrow-down.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrow-down.vue?vue&type=template&id=328442c6& */ "./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__.render,
+  _arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/icons/arrow-down.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/icons/context-button.vue":
 /*!**********************************************************!*\
   !*** ./resources/js/components/icons/context-button.vue ***!
@@ -22061,6 +22122,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6& ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_arrow_down_vue_vue_type_template_id_328442c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./arrow-down.vue?vue&type=template&id=328442c6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/icons/context-button.vue?vue&type=template&id=42f19a20&":
 /*!*****************************************************************************************!*\
   !*** ./resources/js/components/icons/context-button.vue?vue&type=template&id=42f19a20& ***!
@@ -22813,21 +22891,34 @@ var render = function () {
                         }),
                         _vm._v(" "),
                         _vm.editable
-                          ? _c("button", {
-                              attrs: { type: "button" },
-                              domProps: {
-                                innerHTML: _vm._s(_vm.i18n.copy_to_delivery),
-                              },
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.copy_customer_note.apply(
-                                    null,
-                                    arguments
-                                  )
+                          ? _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "dropp-delivery-instructions__button",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.copy_customer_note.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
                                 },
                               },
-                            })
+                              [
+                                _c("span", {
+                                  domProps: {
+                                    innerHTML: _vm._s(
+                                      _vm.i18n.copy_to_delivery
+                                    ),
+                                  },
+                                }),
+                                _c("arrow-down"),
+                              ],
+                              1
+                            )
                           : _vm._e(),
                       ]
                     )
@@ -24045,6 +24136,63 @@ var render = function () {
         ],
         2
       ),
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/icons/arrow-down.vue?vue&type=template&id=328442c6& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "svg",
+    {
+      attrs: {
+        width: "14",
+        height: "14",
+        viewBox: "0 0 14 14",
+        fill: "none",
+        xmlns: "http://www.w3.org/2000/svg",
+      },
+    },
+    [
+      _c("path", {
+        attrs: {
+          d: "M7 2.9165V11.0832",
+          stroke: "currentColor",
+          "stroke-width": "1.5",
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+        },
+      }),
+      _vm._v(" "),
+      _c("path", {
+        attrs: {
+          d: "M11.0832 7L6.99984 11.0833L2.9165 7",
+          stroke: "currentColor",
+          "stroke-width": "1.5",
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+        },
+      }),
     ]
   )
 }

@@ -36,6 +36,9 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action {
 				continue;
 			}
 			$dropp_order_ids = $shipping_item->get_meta( 'dropp_consignments' );
+			if (is_string($dropp_order_ids)) {
+				$dropp_order_ids = array_map('trim', explode(', ', $dropp_order_ids));
+			}
 
 			if ( empty( $dropp_order_ids ) ) {
 				continue;
@@ -52,6 +55,7 @@ class Convert_Dropp_Order_Ids_To_Consignments_Action {
 					}
 
 					$location = Dropp_Location::remote_find( $consignment->location_id );
+					$location->order_item_id = $shipping_item->get_id();
 					if ( $location ) {
 						$shipping_item->add_meta_data( 'dropp_location', $location->to_array(), true );
 						$shipping_item->save();

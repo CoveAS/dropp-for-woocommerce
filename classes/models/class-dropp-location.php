@@ -27,7 +27,7 @@ class Dropp_Location extends Model {
 
 	public ?string $id = null;
 	public string $name;
-	public string $barcode;
+	public ?string $barcode = null;
 	public string $type;
 
 	/**

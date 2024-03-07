@@ -154,6 +154,7 @@
 				chooseDroppLocation()
 					.then( function( location ) {
 						location.order_item_id = vm.selected_shipping_item;
+						location.weight_limit = 10;
 						// A location was picked. Save it.
 						vm.locations.push( location );
 					} )
@@ -168,8 +169,9 @@
 					id: raw_location.id,
 					name: raw_location.name,
 					barcode: raw_location.barcode,
+					weight_limit: raw_location.weight_limit,
+					order_item_id: this.selected_shipping_item,
 				};
-				location.order_item_id = this.selected_shipping_item;
 				this.locations.push( location );
 			},
 			processBooked(consignment, location) {

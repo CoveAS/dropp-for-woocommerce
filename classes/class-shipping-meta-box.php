@@ -43,19 +43,20 @@ class Shipping_Meta_Box
 		if ('shop_order' !== $post_type && 'woocommerce_page_wc-orders' !== $post_type) {
 			return;
 		}
+
 		add_meta_box(
-			'woocommerce-order-dropp-booking',
-			__('Dropp Booking', 'dropp-for-woocommerce'),
-			__CLASS__ . '::render_booking_meta_box',
+			'woocommerce-order-dropp-consignments',
+			__('Dropp Booked Consignments', 'dropp-for-woocommerce'),
+			__CLASS__ . '::render_consignments_meta_box',
 			$post_type,
 			'normal',
 			'high'
 		);
 
 		add_meta_box(
-			'woocommerce-order-dropp-consignments',
-			__('Dropp Booked Consignments', 'dropp-for-woocommerce'),
-			__CLASS__ . '::render_consignments_meta_box',
+			'woocommerce-order-dropp-booking',
+			__('Dropp Booking', 'dropp-for-woocommerce'),
+			__CLASS__ . '::render_booking_meta_box',
 			$post_type,
 			'normal',
 			'high'

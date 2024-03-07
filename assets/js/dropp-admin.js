@@ -167,7 +167,8 @@ __webpack_require__.r(__webpack_exports__);
       //@TODO: Location selector.
       var vm = this;
       chooseDroppLocation().then(function (location) {
-        location.order_item_id = vm.selected_shipping_item; // A location was picked. Save it.
+        location.order_item_id = vm.selected_shipping_item;
+        location.weight_limit = 10; // A location was picked. Save it.
 
         vm.locations.push(location);
       })["catch"](function (error) {
@@ -180,9 +181,10 @@ __webpack_require__.r(__webpack_exports__);
       var location = {
         id: raw_location.id,
         name: raw_location.name,
-        barcode: raw_location.barcode
+        barcode: raw_location.barcode,
+        weight_limit: raw_location.weight_limit,
+        order_item_id: this.selected_shipping_item
       };
-      location.order_item_id = this.selected_shipping_item;
       this.locations.push(location);
     },
     processBooked: function processBooked(consignment, location) {

@@ -137,6 +137,7 @@
 			min-height: 100px;
 			width: 100%;
 			border: 1px solid #999999;
+			padding: 8px 12px;
 		}
 
 		&__notes {

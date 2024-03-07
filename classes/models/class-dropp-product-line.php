@@ -21,7 +21,7 @@ class Dropp_Product_Line extends Model {
 
 	public ?int $id;
 	public string $name;
-	public ?int $weight;
+	public ?float $weight;
 	public int $quantity;
 	public string $barcode;
 	public bool $needs_shipping = true;
@@ -128,7 +128,7 @@ class Dropp_Product_Line extends Model {
 		$this->id             = $order_item->get_id();
 		$this->name           = $order_item->get_name();
 		$this->quantity       = $order_item->get_quantity();
-		$this->weight         = wc_get_weight( ( $product ? $product->get_weight() : '' ), 'kg' );
+		$this->weight         = wc_get_weight( ( $product ? $product->get_weight() : '' ), 'g' ) / 1000.0;
 		$this->barcode        = ( $product ? $product->get_sku() : '' );
 		$this->needs_shipping = ( $product ? $product->needs_shipping() : true );
 

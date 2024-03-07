@@ -63,8 +63,9 @@ class Collection implements ArrayAccess, Countable  {
 	 */
 	public function filter( $callback ): static
 	{
-		$this->items = array_filter( $this->items, $callback );
-		return $this;
+		$clone = clone $this;
+		$clone->items = array_values(array_filter( $this->items, $callback ));
+		return $clone;
 	}
 
 	/**

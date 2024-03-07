@@ -2,6 +2,12 @@
 	<div class="dropp-products">
 		<div class="dropp-products__inner">
 			<h3 v-html="i18n.products"></h3>
+			<div class="dropp-products__description" v-html="i18n.products_description"> </div>
+			<div class="dropp-products__headers">
+				<span class="dropp-products__label" v-html="i18n.item"></span>
+				<span class="dropp-products__label" v-html="i18n.quantity"></span>
+				<span class="dropp-products__label" v-html="i18n.weight"></span>
+			</div>
 			<div class="dropp-products__product"
 					 v-for="product in products"
 					 :key="product.sku"
@@ -15,7 +21,7 @@
 				</div>
 				<div
 				class="dropp-products__quantity"
-				:class="product._quantity > product.quantity ? 'dropp-products__quantity--error' : ''"
+				:class="product._quantity > product.quantity && product.checked ? 'dropp-products__quantity--error' : ''"
 				>
 					<span class="dropp-products__label" v-html="i18n.quantity + ': '"></span>
 					<quantity v-if="editable" v-model="product._quantity" :disabled="! product.checked"/>
@@ -84,7 +90,7 @@
 	}
 
 	&__product {
-		margin-bottom: 24px;
+		margin-bottom: 20px;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -93,7 +99,7 @@
 
 	h3 {
 		margin-top: 0;
-		margin-bottom: 0.5rem;
+		margin-bottom: 4px;
 	}
 
 	&__weight,
@@ -127,6 +133,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.dropp-products__description {
+	margin-bottom: 8px;
+}
+
+.dropp-products__headers {
+	color: #999999;
+	display: none;
+	margin-bottom: 24px;
+}
+@container (min-width: 600px) {
+  .dropp-products__headers,
+	.dropp-products__product {
+		display: grid;
+		grid-template-columns: 1fr minmax(100px, auto) 110px;
+		align-items: center;
+		gap: 8px;
+  }
+	.dropp-quantity {
+		margin: 0 auto;
+	}
+  .dropp-products__product .dropp-products__label {
+		display: none;
+  }
+	.dropp-products__weight {
+		text-align: right;
+		order: 3;
+	}
+  .dropp-products__headers span:nth-child(1) {
+		padding-left: 23px;
+  }
+  .dropp-products__headers span:nth-child(2) {
+		text-align: center;
+  }
+  .dropp-products__headers span:nth-child(3) {
+		text-align: right;
+  }
 }
 </style>
 

@@ -210,6 +210,8 @@ class Shipping_Meta_Box
 					'total_weight'           => __('Total weight', 'dropp-for-woocommerce'),
 					'quantity'               => __('Quantity', 'dropp-for-woocommerce'),
 					'close_modal'            => __('Close', 'dropp-for-woocommerce'),
+					'item'            => __('Item', 'dropp-for-woocommerce'),
+					'products_description'            => __('Select items to book for shipping', 'dropp-for-woocommerce'),
 				],
 				[
 					'error'  => __('Error', 'dropp-for-woocommerce'),

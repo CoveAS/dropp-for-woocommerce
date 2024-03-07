@@ -445,6 +445,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2488,7 +2531,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-text--error {\n  color: #CC0000;\n}\n.dropp-products__errors {\n  width: 100%;\n  min-height: 1px;\n  max-width: 600px;\n}\n@container (min-width: 900px) {\n.dropp-products__errors {\n    margin-top: 14px;\n}\n}\n.dropp-products {\n  border-bottom: 1px solid #CCCCCC;\n  margin: 0 16px;\n  padding-bottom: 16px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    display: grid;\n    grid-template-columns: min(50% - 12px, 600px) min(50% - 12px, 600px);\n    gap: 24px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1rem;\n  height: 1rem;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__product {\n  margin-bottom: 24px;\n}\n.dropp-products__product:last-child {\n  margin-bottom: 0;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 0.5rem;\n}\n.dropp-products__weight, .dropp-products__quantity {\n  color: #999999;\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #FFF0F2;\n  border-color: #CE0147 !important;\n}\n.dropp-products__product-name {\n  display: block;\n  margin-bottom: 8px;\n}\n.dropp-products__product-name:hover input {\n  border-color: #00007D;\n  box-shadow: 0 0 0 1px #1007FA;\n}\n.dropp-products__weight {\n  margin-bottom: 4px;\n}\n.dropp-products__total-weight {\n  text-align: right;\n  font-weight: 600;\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-text--error {\n  color: #CC0000;\n}\n.dropp-products__errors {\n  width: 100%;\n  min-height: 1px;\n  max-width: 600px;\n}\n@container (min-width: 900px) {\n.dropp-products__errors {\n    margin-top: 14px;\n}\n}\n.dropp-products {\n  border-bottom: 1px solid #CCCCCC;\n  margin: 0 16px;\n  padding-bottom: 16px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    display: grid;\n    grid-template-columns: min(50% - 12px, 600px) min(50% - 12px, 600px);\n    gap: 24px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1rem;\n  height: 1rem;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__product {\n  margin-bottom: 20px;\n}\n.dropp-products__product:last-child {\n  margin-bottom: 0;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n}\n.dropp-products__weight, .dropp-products__quantity {\n  color: #999999;\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #FFF0F2;\n  border-color: #CE0147 !important;\n}\n.dropp-products__product-name {\n  display: block;\n  margin-bottom: 8px;\n}\n.dropp-products__product-name:hover input {\n  border-color: #00007D;\n  box-shadow: 0 0 0 1px #1007FA;\n}\n.dropp-products__weight {\n  margin-bottom: 4px;\n}\n.dropp-products__total-weight {\n  text-align: right;\n  font-weight: 600;\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.dropp-products__description {\n  margin-bottom: 8px;\n}\n.dropp-products__headers {\n  color: #999999;\n  display: none;\n  margin-bottom: 24px;\n}\n@container (min-width: 600px) {\n.dropp-products__headers,\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr minmax(100px, auto) 110px;\n    align-items: center;\n    gap: 8px;\n}\n.dropp-quantity {\n    margin: 0 auto;\n}\n.dropp-products__product .dropp-products__label {\n    display: none;\n}\n.dropp-products__weight {\n    text-align: right;\n    order: 3;\n}\n.dropp-products__headers span:nth-child(1) {\n    padding-left: 23px;\n}\n.dropp-products__headers span:nth-child(2) {\n    text-align: center;\n}\n.dropp-products__headers span:nth-child(3) {\n    text-align: right;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22570,6 +22613,28 @@ var render = function () {
       [
         _c("h3", { domProps: { innerHTML: _vm._s(_vm.i18n.products) } }),
         _vm._v(" "),
+        _c("div", {
+          staticClass: "dropp-products__description",
+          domProps: { innerHTML: _vm._s(_vm.i18n.products_description) },
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "dropp-products__headers" }, [
+          _c("span", {
+            staticClass: "dropp-products__label",
+            domProps: { innerHTML: _vm._s(_vm.i18n.item) },
+          }),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "dropp-products__label",
+            domProps: { innerHTML: _vm._s(_vm.i18n.quantity) },
+          }),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "dropp-products__label",
+            domProps: { innerHTML: _vm._s(_vm.i18n.weight) },
+          }),
+        ]),
+        _vm._v(" "),
         _vm._l(_vm.products, function (product) {
           return _c(
             "div",
@@ -22637,7 +22702,7 @@ var render = function () {
                 {
                   staticClass: "dropp-products__quantity",
                   class:
-                    product._quantity > product.quantity
+                    product._quantity > product.quantity && product.checked
                       ? "dropp-products__quantity--error"
                       : "",
                 },

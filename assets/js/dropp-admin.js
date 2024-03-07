@@ -445,8 +445,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -22624,6 +22622,7 @@ var render = function () {
               _vm._v(" "),
               _c("div", { staticClass: "dropp-products__weight" }, [
                 _c("span", {
+                  staticClass: "dropp-products__label",
                   domProps: { innerHTML: _vm._s(_vm.i18n.weight + ": ") },
                 }),
                 _c("span", {
@@ -22644,6 +22643,7 @@ var render = function () {
                 },
                 [
                   _c("span", {
+                    staticClass: "dropp-products__label",
                     domProps: { innerHTML: _vm._s(_vm.i18n.quantity + ": ") },
                   }),
                   _vm._v(" "),
@@ -22659,11 +22659,7 @@ var render = function () {
                         },
                       })
                     : _c("span", [
-                        _vm._v(
-                          "\n\t\t\t\t\t" +
-                            _vm._s(product._quantity) +
-                            "\n\t\t\t\t"
-                        ),
+                        _vm._v(" " + _vm._s(product._quantity) + " "),
                       ]),
                 ],
                 1

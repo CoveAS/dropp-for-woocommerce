@@ -11,17 +11,15 @@
 					<span v-html="product.name"></span>
 				</label>
 				<div class="dropp-products__weight">
-					<span v-html="i18n.weight + ': '"></span><span v-html="product.weight.toFixed(2) + ' Kg'"></span>
+					<span class="dropp-products__label" v-html="i18n.weight + ': '"></span><span v-html="product.weight.toFixed(2) + ' Kg'"></span>
 				</div>
 				<div
 				class="dropp-products__quantity"
 				:class="product._quantity > product.quantity ? 'dropp-products__quantity--error' : ''"
 				>
-					<span v-html="i18n.quantity + ': '"></span>
+					<span class="dropp-products__label" v-html="i18n.quantity + ': '"></span>
 					<quantity v-if="editable" v-model="product._quantity" :disabled="! product.checked"/>
-			<span v-else>
-						{{ product._quantity }}
-					</span>
+					<span v-else> {{ product._quantity }} </span>
 				</div>
 			</div>
 		<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">

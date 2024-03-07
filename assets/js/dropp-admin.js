@@ -22178,7 +22178,7 @@ var render = function () {
             staticClass: "dropp-locations__add-location",
           },
           [
-            _vm.selected_shipping_item.length > 1
+            _vm.shipping_items.length > 1
               ? _c(
                   "select",
                   {

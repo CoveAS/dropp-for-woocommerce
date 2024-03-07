@@ -15,7 +15,7 @@
 				<select
 					class="dropp-locations__add-dropdown"
 					v-model="selected_shipping_item"
-					v-if="selected_shipping_item.length > 1"
+					v-if="shipping_items.length > 1"
 				>
 					<option
 						v-for="shipping_item in shipping_items"

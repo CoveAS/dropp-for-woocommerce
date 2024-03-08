@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2023-11-06 11:28+0100\n"
+"POT-Creation-Date: 2024-03-08 11:03+0100\n"
 "PO-Revision-Date: 2020-03-13 12:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Response error with code "
 msgstr ""
 
-#: classes/class-api.php:243 classes/models/class-dropp-consignment.php:597
+#: classes/class-api.php:243 classes/models/class-dropp-consignment.php:603
 msgid "Invalid json"
 msgstr ""
 
@@ -129,11 +129,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: classes/class-order-bulk-actions.php:36
+#: classes/class-order-bulk-actions.php:38
 msgid "Dropp - Book orders"
 msgstr ""
 
-#: classes/class-order-bulk-actions.php:37
+#: classes/class-order-bulk-actions.php:39
 msgid "Dropp - Print labels"
 msgstr ""
 
@@ -157,139 +157,219 @@ msgstr[1] ""
 msgid "No location selected. Please select a location for Dropp"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:43
+#: classes/class-shipping-meta-box.php:49
+msgid "Dropp Booked Consignments"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:58
 msgid "Dropp Booking"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:133
+#: classes/class-shipping-meta-box.php:164
 msgid "Add home delivery"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:137
+#: classes/class-shipping-meta-box.php:168
 msgid "Add Flytjandi delivery"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:141
+#: classes/class-shipping-meta-box.php:172
 msgid "Add Pickup at warehouse"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:147
+#: classes/class-shipping-meta-box.php:178
 msgid "Test"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:148
+#: classes/class-shipping-meta-box.php:179
 msgid "Actions"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:149
+#: classes/class-shipping-meta-box.php:180
 msgid "Check status"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:150
+#: classes/class-shipping-meta-box.php:181
 msgid "Download"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:151
+#: classes/class-shipping-meta-box.php:182
 msgid "Customer note"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:152
-msgid "Copy to delivery instructions"
+#: classes/class-shipping-meta-box.php:183
+msgid "Copy note to delivery instructions"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:153
+#: classes/class-shipping-meta-box.php:184
 msgid "Delivery instructions"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:154
+#: classes/class-shipping-meta-box.php:185
 msgid "Update order"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:155
+#: classes/class-shipping-meta-box.php:186
 msgid "Add extra pdf"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:156
+#: classes/class-shipping-meta-box.php:187
 msgid "View order"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:157
+#: classes/class-shipping-meta-box.php:188
 msgid "Cancel order"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:158
+#: classes/class-shipping-meta-box.php:189
 msgid "Barcode"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:159
-msgid "Customer"
+#: classes/class-shipping-meta-box.php:190
+msgid "Customer details"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:160
+#: classes/class-shipping-meta-box.php:191
 msgid "Status"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:161
+#: classes/class-shipping-meta-box.php:192
 msgid "Created"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:162
+#: classes/class-shipping-meta-box.php:193
 msgid "Updated"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:163
+#: classes/class-shipping-meta-box.php:194
 msgid "Product"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:164
+#: classes/class-shipping-meta-box.php:195
 msgid "Products"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:165
+#: classes/class-shipping-meta-box.php:196
 msgid "Booked consignments"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:166
+#: classes/class-shipping-meta-box.php:197
 msgid "Book now"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:167
+#: classes/class-shipping-meta-box.php:198
 msgid "Remove location"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:168
+#: classes/class-shipping-meta-box.php:199
 msgid "Add shipment"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:169
-msgid "Change location"
+#: classes/class-shipping-meta-box.php:200
+msgid "Change pick up point"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:170
+#: classes/class-shipping-meta-box.php:201
+msgid "Unknown location"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:202
 msgid "Name"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:171
+#: classes/class-shipping-meta-box.php:203
 msgid "Email address"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:172
+#: classes/class-shipping-meta-box.php:204
 #: templates/ssn/admin-billing-details.php:2
 #: templates/ssn/customer-details.php:2 templates/ssn/email-order-details.php:3
 #: traits/trait-shipping-settings.php:176
 msgid "Social security number"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:173
+#: classes/class-shipping-meta-box.php:205
 msgid "Address"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:174
+#: classes/class-shipping-meta-box.php:206
 msgid "Phone number"
 msgstr ""
 
-#: classes/class-shipping-meta-box.php:175
+#: classes/class-shipping-meta-box.php:207
 msgid "day delivery"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:208
+msgid "Pick up point"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:209
+msgid "Weight"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:210
+msgid "Total weight"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:211
+msgid "Quantity"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:212
+msgid "Close"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:213
+msgid "Item"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:214
+msgid "Select items to book for shipping"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:217
+#: classes/models/class-dropp-consignment.php:61
+msgid "Error"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:218
+msgid ""
+"An error occured while booking the consignment. Please try again or contact "
+"us at dropp@dropp.is if you continue to experience problems."
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:219
+msgid ""
+"We lost connection with your website while booking the consignment. Please "
+"check your internet connection, refresh the page and/or try again later. If "
+"you continue to experience problems please contact us at dropp@dropp.is"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:220
+msgid ""
+"No booked consignments yet. Please use the booking form to create new "
+"consignments."
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:221
+msgid "Weight limit exceeded"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:222
+msgid ""
+"The weight limit for the chosen location has been exceeded. Please reduce "
+"the number of products in the consignment to continue."
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:223
+msgid "Quantity exceeded"
+msgstr ""
+
+#: classes/class-shipping-meta-box.php:224
+msgid ""
+"Uh-oh! It seems like the quantity of selected items exceeds more than what’s "
+"allowed in the order. If this is intentional you can ignore this warning."
 msgstr ""
 
 #: classes/class-social-security-number.php:60
@@ -304,7 +384,7 @@ msgstr ""
 msgid "Social Security Number"
 msgstr ""
 
-#: classes/class-tracking-code.php:86
+#: classes/class-tracking-code.php:91
 msgid "Tracking code"
 msgid_plural "Tracking codes"
 msgstr[0] ""
@@ -314,64 +394,60 @@ msgstr[1] ""
 msgid "Choose location"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:59
+#: classes/models/class-dropp-consignment.php:60
 msgid "Ready"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:60
-msgid "Error"
-msgstr ""
-
-#: classes/models/class-dropp-consignment.php:61
+#: classes/models/class-dropp-consignment.php:62
 msgid "Initial"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:62
+#: classes/models/class-dropp-consignment.php:63
 msgid "Overweight"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:63
+#: classes/models/class-dropp-consignment.php:64
 msgid "Transit"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:64
+#: classes/models/class-dropp-consignment.php:65
 msgid "Consignment"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:65
+#: classes/models/class-dropp-consignment.php:66
 msgid "Delivered"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:66
+#: classes/models/class-dropp-consignment.php:67
 msgid "Cancelled"
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:467
+#: classes/models/class-dropp-consignment.php:470
 msgid "Dropp booking complete."
 msgstr ""
 
 #. translators: Consignment ID.
-#: classes/models/class-dropp-consignment.php:500
-#: classes/models/class-dropp-consignment.php:524
+#: classes/models/class-dropp-consignment.php:503
+#: classes/models/class-dropp-consignment.php:527
 #, php-format
 msgid "Consignment, %d, does not have a dropp order id."
 msgstr ""
 
-#: classes/models/class-dropp-consignment.php:608
+#: classes/models/class-dropp-consignment.php:617
 msgid "Empty ID in the response"
 msgstr ""
 
-#: classes/models/class-dropp-location.php:53
+#: classes/models/class-dropp-location.php:55
 msgid "Home delivery"
 msgstr ""
 
-#: classes/models/class-dropp-location.php:61
+#: classes/models/class-dropp-location.php:63
 #: classes/shipping-method/class-flytjandi.php:54
 #: classes/shipping-method/class-flytjandi.php:55
 msgid "Dropp - Other pickup locations"
 msgstr ""
 
-#: classes/models/class-dropp-location.php:69
+#: classes/models/class-dropp-location.php:71
 msgid "Pick-up at warehouse"
 msgstr ""
 

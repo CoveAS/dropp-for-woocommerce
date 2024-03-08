@@ -27,15 +27,28 @@ body.dropp-modal-open {
 
 .dropp-order-modal {
 	position: fixed;
-	top: 0;
-	bottom: 0;
+	top: 106px;
 	left: 0;
+	bottom: 0;
 	right: 0;
 	display: flex;
 	align-items: center;
 	z-index: 1000000;
 	overflow: visible;
 	background-color: #cccccc;
+}
+
+@media (min-width: 783px) {
+	.dropp-order-modal {
+	top: 92px;
+		left: 36px;
+	}
+}
+
+@media (min-width: 961px) {
+	.dropp-order-modal {
+		left: 160px;
+	}
 }
 
 .dropp-close-modal {

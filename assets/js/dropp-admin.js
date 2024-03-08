@@ -2180,6 +2180,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['consignment'],
@@ -2747,7 +2760,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body.dropp-modal-open {\n  height: 100vh;\n  overflow-y: hidden;\n}\n.dropp-order-modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  z-index: 1000000;\n  overflow: visible;\n  background-color: #cccccc;\n}\n.dropp-close-modal {\n  margin-left: auto;\n  padding: 8px 16px;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  transition: color 0.2s;\n}\n.dropp-close-modal:hover {\n  color: #990000;\n}\n.dropp-order-modal__bar {\n  display: flex;\n  border-bottom: 1px solid #CCCCCC;\n  background-color: white;\n  margin: 0 -16px;\n}\n.dropp-order-modal__inner {\n  container-type: inline-size;\n  background: white;\n  padding: 0 16px;\n  min-width: 16rem;\n  max-width: 1080px;\n  width: 100%;\n  height: auto;\n  max-height: 100%;\n  overflow: auto;\n  margin: 0 auto;\n}\n@media (min-width: 800px) {\n.dropp-order-modal {\n    padding: 40px 32px;\n    background: rgba(0, 0, 0, 0.6);\n}\n.dropp-order-modal__inner {\n    border-radius: 4px;\n}\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body.dropp-modal-open {\n  height: 100vh;\n  overflow-y: hidden;\n}\n.dropp-order-modal {\n  position: fixed;\n  top: 106px;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  z-index: 1000000;\n  overflow: visible;\n  background-color: #cccccc;\n}\n@media (min-width: 783px) {\n.dropp-order-modal {\n    top: 92px;\n    left: 36px;\n}\n}\n@media (min-width: 961px) {\n.dropp-order-modal {\n    left: 160px;\n}\n}\n.dropp-close-modal {\n  margin-left: auto;\n  padding: 8px 16px;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  transition: color 0.2s;\n}\n.dropp-close-modal:hover {\n  color: #990000;\n}\n.dropp-order-modal__bar {\n  display: flex;\n  border-bottom: 1px solid #CCCCCC;\n  background-color: white;\n  margin: 0 -16px;\n}\n.dropp-order-modal__inner {\n  container-type: inline-size;\n  background: white;\n  padding: 0 16px;\n  min-width: 16rem;\n  max-width: 1080px;\n  width: 100%;\n  height: auto;\n  max-height: 100%;\n  overflow: auto;\n  margin: 0 auto;\n}\n@media (min-width: 800px) {\n.dropp-order-modal {\n    padding: 40px 32px;\n    background: rgba(0, 0, 0, 0.6);\n}\n.dropp-order-modal__inner {\n    border-radius: 4px;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

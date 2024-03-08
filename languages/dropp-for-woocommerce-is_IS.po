@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
 "POT-Creation-Date: 2024-03-08 11:03+0100\n"
-"PO-Revision-Date: 2024-03-08 11:14+0100\n"
+"PO-Revision-Date: 2024-03-08 11:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -251,7 +251,7 @@ msgstr "Strikamerki"
 
 #: classes/class-shipping-meta-box.php:190
 msgid "Customer details"
-msgstr " Upplýsingar um viðskiptavin"
+msgstr "Upplýsingar um viðskiptavin"
 
 #: classes/class-shipping-meta-box.php:191
 msgid "Status"

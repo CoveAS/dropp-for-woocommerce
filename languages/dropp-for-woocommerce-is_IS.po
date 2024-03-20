@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2024-03-08 11:03+0100\n"
-"PO-Revision-Date: 2024-03-08 11:30+0100\n"
+"POT-Creation-Date: 2024-03-20 11:55+0100\n"
+"PO-Revision-Date: 2024-03-20 11:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -110,7 +110,7 @@ msgstr "Ekki löglegt json"
 
 #: classes/class-checkout.php:120
 msgid "Please select a dropp location before you continue"
-msgstr "Vinsamlegast veldu sleppingarstað áður en þú heldur áfram"
+msgstr "Vinsamlegast veldu Dropp stað áður en þú heldur áfram"
 
 #: classes/class-checkout.php:121
 msgid ""
@@ -194,8 +194,8 @@ msgid "Add home delivery"
 msgstr "Bæta við heimsendingu"
 
 #: classes/class-shipping-meta-box.php:168
-msgid "Add Flytjandi delivery"
-msgstr "Bæta við Flytjandi"
+msgid "Add Samskip delivery"
+msgstr "Bæta við Samskip"
 
 #: classes/class-shipping-meta-box.php:172
 msgid "Add Pickup at warehouse"
@@ -291,7 +291,7 @@ msgstr "Bæta við afhendingarmáta"
 
 #: classes/class-shipping-meta-box.php:200
 msgid "Change pick up point"
-msgstr "Breyta sóknarpunkti"
+msgstr "Breyta Dropp stað"
 
 #: classes/class-shipping-meta-box.php:201
 msgid "Unknown location"
@@ -326,7 +326,7 @@ msgstr "dagdreifing"
 
 #: classes/class-shipping-meta-box.php:208
 msgid "Pick up point"
-msgstr "Sóknarpunktur"
+msgstr "Dropp staður"
 
 #: classes/class-shipping-meta-box.php:209
 msgid "Weight"
@@ -386,15 +386,15 @@ msgstr ""
 
 #: classes/class-shipping-meta-box.php:221
 msgid "Weight limit exceeded"
-msgstr "Þyngdartakmarkið er farið yfir"
+msgstr "Farið yfir þyngdartakmörk"
 
 #: classes/class-shipping-meta-box.php:222
 msgid ""
 "The weight limit for the chosen location has been exceeded. Please reduce "
 "the number of products in the consignment to continue."
 msgstr ""
-"Þyngdartakmarki fyrir valda staðsetningu hefur verið farið yfir. "
-"Vinsamlegast dragðu úr fjölda vöru í sendingunni til að halda áfram."
+"Farið hefur verið yfir þyngdartakmörk fyrir valda staðsetningu. Vinsamlegast "
+"dragðu úr fjölda vöru í sendingunni til að halda áfram."
 
 #: classes/class-shipping-meta-box.php:223
 msgid "Quantity exceeded"
@@ -600,7 +600,7 @@ msgid ""
 "No API key detected. Please ensure that you have entered a valid API key in "
 "order to display the correct cost settings"
 msgstr ""
-"Enginn API lykil fannst. Gakktu úr skugga um að þú hafir slegið inn gildan "
+"Enginn API lykill fannst. Gakktu úr skugga um að þú hafir slegið inn gildan "
 "API lykil til að birta réttar kostnaðarstillingar"
 
 #: templates/admin-notices/bulk-booking.php:16
@@ -779,6 +779,9 @@ msgstr "Cove AS"
 msgid "https://cove.no/dropp"
 msgstr "https://cove.no/dropp"
 
+#~ msgid "Add Flytjandi delivery"
+#~ msgstr "Bæta við Samskip"
+
 #~ msgid "Customer"
 #~ msgstr "Viðskiptavinur"
 
@@ -789,7 +792,7 @@ msgstr "https://cove.no/dropp"
 #~ msgstr "Gat ekki búið til svæði"
 
 #~ msgid "Flytjandi"
-#~ msgstr "Flytjandi"
+#~ msgstr "Samskip"
 
 #~ msgid "Capital area"
 #~ msgstr "Höfuðborgarsvæðið"

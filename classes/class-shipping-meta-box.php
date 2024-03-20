@@ -165,7 +165,7 @@ class Shipping_Meta_Box
 					'location' => new Dropp_Location('dropp_home'),
 				],
 				'dropp_flytjandi' => [
-					'label'    => __('Add Flytjandi delivery', 'dropp-for-woocommerce'),
+					'label'    => __('Add Samskip delivery', 'dropp-for-woocommerce'),
 					'location' => new Dropp_Location('dropp_flytjandi'),
 				],
 				'dropp_pickup'    => [

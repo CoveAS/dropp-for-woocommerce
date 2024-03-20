@@ -8,10 +8,10 @@
  *
  * Version:              ###DROPP_VERSION###
  * Requires at least:    5.2
- * Tested up to:         6.4.2
+ * Tested up to:         6.4.3
  *
  * WC requires at least: 3.8.1
- * WC tested up to:      8.5.2
+ * WC tested up to:      8.7.0
  *
  * Text Domain:          dropp-for-woocommerce
  * Domain Path:          /languages

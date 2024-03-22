@@ -90,7 +90,6 @@ HTML;
 				continue;
 			}
 			$notice->set_options($notice_options);
-
 		}
 	}
 

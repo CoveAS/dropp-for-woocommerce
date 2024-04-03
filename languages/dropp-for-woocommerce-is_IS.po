@@ -796,9 +796,9 @@ msgid ""
 "merge pdfs using a subprocess to avoid conflict. Please note that the full "
 "path to the PHP binary is required for this to work."
 msgstr ""
-"Ef einhver önnur viðbót notar TCPDF bókasafnið þá mun drop viðbótin reyna að "
-"sameina pdf skjöl með því að nota undirferli til að forðast átök. "
-"Vinsamlegast athugaðu að fullur slóð að PHP tvöfaldur er nauðsynlegur til að "
+"Ef einhver önnur viðbót notar TCPDF safnið þá mun Dropp viðbótin reyna að "
+"sameina pdf skjöl með því að nota undir þjónustu til að forðast villu. "
+"Vinsamlegast athugaðu að full slóð að PHP binary er nauðsynlegt til að "
 "þetta virki."
 
 #. Plugin Name of the plugin/theme

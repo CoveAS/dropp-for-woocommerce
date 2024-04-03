@@ -10,13 +10,11 @@ class Get_Plugin_Data_From_File {
 		$parts      = array_filter(explode('/', $dirName));
 		$dirName    = reset($parts);
 		$plugins = get_plugins();
-		ray($dirName, $parts);
 		foreach ($plugins as $path => $plugin) {
 			$parts = explode('/', $path);
 			if ($parts[0] !== $dirName) {
 				continue;
 			}
-			ray($plugin);
 			return $plugin;
 		}
 

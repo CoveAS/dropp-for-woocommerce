@@ -21,8 +21,9 @@ class Options
 	public bool   $location_name_in_label;
 	public bool   $dropp_rates_first;
 	public array  $price_info;
+    public string $php_path;
 
-	protected string $key;
+    protected string $key;
 	protected array  $raw_options;
 
 	protected static Options $instance;
@@ -72,6 +73,7 @@ class Options
 				'location_name_in_label' => '',
 				'dropp_rates_first'      => 'yes',
 				'price_info'             => [],
+				'php_path'               => '/usr/bin/php',
 			]
 		);
 
@@ -89,6 +91,7 @@ class Options
 		$this->location_name_in_label = 'yes' === $raw_options['location_name_in_label'];
 		$this->dropp_rates_first      = 'yes' === $raw_options['dropp_rates_first'];
 		$this->price_info             = $raw_options['price_info'];
+		$this->php_path               = $raw_options['php_path'];
 
 		$this->raw_options = $raw_options;
 	}

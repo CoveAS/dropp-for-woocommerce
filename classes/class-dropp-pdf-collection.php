@@ -7,11 +7,13 @@
 
 namespace Dropp;
 
+use Dropp\Actions\Get_Plugin_Data_From_File;
 use Dropp\Models\Dropp_Return_PDF;
 use Exception;
 use Dropp\Models\Dropp_PDF;
 use Dropp\Models\Dropp_Consignment;
 use iio\libmergepdf\Merger;
+use WP_Error;
 
 /**
  * Dropp PDF
@@ -65,6 +67,51 @@ class Dropp_PDF_Collection extends Collection {
 			$item = reset( $this->items );
 			return $item->get_content();
 		}
+		// Check if other plugins use TCPDF first
+		if (class_exists('TCPDF')) {
+			// Attempt to call php merger script via shell
+			/** @var Dropp_PDF $item */
+			$buffer = [];
+			foreach ($this->items as $item) {
+				$item->get_content(); // download file
+				$buffer[] = $item->get_filename();
+			}
+			// Script file
+			$filename = escapeshellarg(dirname(__DIR__) . '/bin/merger.php');
+			$names = escapeshellarg(implode(' ', $buffer));
+			$phpPath = Options::get_instance()->php_path;
+			if (! file_exists($phpPath)) {
+
+				$reflector = new \ReflectionClass('TCPDF');
+
+				$tcpdfFile = $reflector->getFileName();
+				$pluginDir = realpath(WP_PLUGIN_DIR);
+				if (str_starts_with($tcpdfFile, $pluginDir)) {
+					$pluginData = (new Get_Plugin_Data_From_File)($tcpdfFile);
+					wp_die(
+						sprintf(
+							esc_html__(
+								'Another plugin, %s, is using the TCPDF library and a subprocess could not be started because the php path is invalid. Please go to the dropp settings and enter the path to the php binary, or disable the other plugin that is using TCPDF. File path for the current active TCPDF: %s',
+								'dropp-for-woocommerce'
+							),
+							$pluginData['Name'] ?? '???',
+							$tcpdfFile
+						),
+					);
+				} else {
+					wp_die(
+						esc_html__(
+							'The TCPDF library has already been included and a subprocess could not be started because the php path is invalid. Please go to the dropp settings and enter the path to the php binary.',
+							'dropp-for-woocommerce'
+						),
+					);
+				}
+			}
+			$phpPath = escapeshellarg($phpPath);
+			$command = "$phpPath $filename $names";
+			return shell_exec($command);
+		}
+
 		require_once dirname( __DIR__ ) . '/includes/loader.php';
 		$merger = new Merger;
 		foreach ($this->items as $item ) {

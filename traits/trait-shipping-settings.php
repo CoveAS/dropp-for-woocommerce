@@ -221,6 +221,17 @@ trait Shipping_Settings
 				'default'     => '',
 				'desc_tip'    => false,
 			],
+			'php_path'             => [
+				'title'       => __('PHP path', 'dropp-for-woocommerce'),
+				'label'       => __('Path to the PHP binary', 'dropp-for-woocommerce'),
+				'type'        => 'text',
+				'description' => __(
+					'If any other plugin uses the TCPDF library then the dropp plugin will try to merge pdfs using a subprocess to avoid conflict. Please note that the full path to the PHP binary is required for this to work.',
+					'dropp-for-woocommerce'
+				),
+				'default'     => '/usr/bin/php',
+				'desc_tip'    => false,
+			],
 		];
 	}
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dropp for WooCommerce\n"
-"POT-Creation-Date: 2024-03-20 11:55+0100\n"
-"PO-Revision-Date: 2024-03-20 11:55+0100\n"
+"POT-Creation-Date: 2024-04-03 12:25+0200\n"
+"PO-Revision-Date: 2024-04-03 12:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: is\n"
@@ -144,6 +144,29 @@ msgstr ""
 #: classes/class-dropp-oca-admin-warning.php:73
 msgid "Click here to go to the zone settings."
 msgstr "Smelltu hér til að fara í svæðisstillingarnar."
+
+#: classes/class-dropp-pdf-collection.php:94
+#, php-format
+msgid ""
+"Another plugin, %s, is using the TCPDF library and a subprocess could not be "
+"started because the php path is invalid. Please go to the dropp settings and "
+"enter the path to the php binary, or disable the other plugin that is using "
+"TCPDF. File path for the current active TCPDF: %s"
+msgstr ""
+"Önnur viðbót, %s, notar TCPDF bókasafnið og ekki var hægt að ræsa undirferli "
+"vegna þess að php slóðin er ógild. Vinsamlegast farðu í sleppa stillingarnar "
+"og sláðu inn slóðina að php tvöfaldanum, eða slökktu á öðru viðbótinni sem "
+"notar TCPDF. Skráarslóð fyrir núverandi virka TCPDF: %s"
+
+#: classes/class-dropp-pdf-collection.php:104
+msgid ""
+"The TCPDF library has already been included and a subprocess could not be "
+"started because the php path is invalid. Please go to the dropp settings and "
+"enter the path to the php binary."
+msgstr ""
+"TCPDF bókasafnið hefur þegar verið tekið með og ekki var hægt að ræsa "
+"undirferli vegna þess að php slóðin er ógild. Vinsamlegast farðu í "
+"fallstillingarnar og sláðu inn slóðina að php tvöfaldanum."
 
 #: classes/class-dropp.php:197
 msgid "View Dropp Settings"
@@ -758,6 +781,25 @@ msgstr "Enable debug mode"
 #, php-format
 msgid "Logs requests and other data to a log file. Click %s to see the logs."
 msgstr "Logs requests and other data to a log file. Click %s to see the logs."
+
+#: traits/trait-shipping-settings.php:225
+msgid "PHP path"
+msgstr "PHP slóð"
+
+#: traits/trait-shipping-settings.php:226
+msgid "Path to the PHP binary"
+msgstr "Slóð að PHP tvöfaldur"
+
+#: traits/trait-shipping-settings.php:229
+msgid ""
+"If any other plugin uses the TCPDF library then the dropp plugin will try to "
+"merge pdfs using a subprocess to avoid conflict. Please note that the full "
+"path to the PHP binary is required for this to work."
+msgstr ""
+"Ef einhver önnur viðbót notar TCPDF bókasafnið þá mun drop viðbótin reyna að "
+"sameina pdf skjöl með því að nota undirferli til að forðast átök. "
+"Vinsamlegast athugaðu að fullur slóð að PHP tvöfaldur er nauðsynlegur til að "
+"þetta virki."
 
 #. Plugin Name of the plugin/theme
 msgid "Dropp for WooCommerce"

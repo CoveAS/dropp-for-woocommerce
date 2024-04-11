@@ -78,7 +78,7 @@ class Shipping_Meta_Box
 		if ('shop_order' !== $post_type && 'woocommerce_page_wc-orders' !== $hook) {
 			return;
 		}
-		if ('edit' !== $_GET['action'] && 'woocommerce_page_wc-orders' === $hook) {
+		if ('edit' !== ($_GET['action'] ?? '') && 'woocommerce_page_wc-orders' === $hook) {
 			return;
 		}
 

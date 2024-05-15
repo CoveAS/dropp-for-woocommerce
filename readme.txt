@@ -66,6 +66,10 @@ If you experience any problems using this plugin alongside another plugin then p
 
 == Changelog ==
 
+= 2.1.6 =
+
+ * Fixed a bug where autoloading setasign/fpdi could conflict with other plugins
+
 = 2.1.5 =
 
 * Fixed php warning

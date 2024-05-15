@@ -29,6 +29,7 @@ $classes = array(
 	'\iio\libmergepdf\Source\SourceInterface' => __DIR__ . '/iio/libmergepdf/src/Source/SourceInterface.php',
 	'\iio\libmergepdf\Source\FileSource'      => __DIR__ . '/iio/libmergepdf/src/Source/FileSource.php',
 	'\iio\libmergepdf\Source\RawSource'       => __DIR__ . '/iio/libmergepdf/src/Source/RawSource.php',
+	'\setasign\Fpdi\FpdiTplTrait'             => __DIR__ . '/setasign/fpdi/src/FpdfTplTrait.php',
 	'\setasign\Fpdi\Fpdi'                     => __DIR__ . '/setasign/fpdi/src/autoload.php',
 );
 

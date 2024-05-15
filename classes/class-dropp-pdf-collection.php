@@ -111,7 +111,6 @@ class Dropp_PDF_Collection extends Collection {
 			$command = "$phpPath $filename $names";
 			return shell_exec($command);
 		}
-
 		require_once dirname( __DIR__ ) . '/includes/loader.php';
 		$merger = new Merger;
 		foreach ($this->items as $item ) {

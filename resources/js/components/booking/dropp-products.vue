@@ -174,9 +174,12 @@
 </style>
 
 <script>
-import _ from "lodash";
 import DroppError from "../dropp-error.vue";
 import Quantity from "./quantity.vue";
+
+let conserve = window._;
+const _ = require("lodash");
+window._ = conserve;
 
 export default {
   components: {Quantity, DroppError},

@@ -4,11 +4,11 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 6.5.3
+Tested up to: 6.5.5
 Requires PHP: 8.1
 WC requires at least: 3.8.1
-WC tested up to: 8.8.3
-Stable tag: 2.1.6
+WC tested up to: 9.0.2
+Stable tag: 2.1.7
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
@@ -65,6 +65,10 @@ In most cases yes, but we cannot guarantee compatability with every plugin.
 If you experience any problems using this plugin alongside another plugin then please create a support ticket.
 
 == Changelog ==
+
+= 2.1.7 =
+
+* Fixed a bug where lodash would in some cases overwrite underscore.js causing problem listing shipping zones and shipping methods for zones.
 
 = 2.1.6 =
 

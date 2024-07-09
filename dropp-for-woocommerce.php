@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name:          Dropp for WooCommerce
+ * Requires Plugins:     woocommerce
  * Plugin URI:           https://hjalp.dropp.is/article/29-hvernig-tengi-eg-woocommerce
  * Description:          Shipping method
  * Author:               Cove AS
@@ -42,6 +43,20 @@ use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
+}
+
+
+if (version_compare(PHP_VERSION, '8.1', '<')) {
+	add_action(
+		'admin_notices',
+		function () {
+			printf(
+				'<div class="notice notice-error"><p>%s</p></div>',
+				esc_html__('Dropp for WooCommerce requires PHP version 8.1 or higher. The websites PHP version is ', 'dropp-for-woocommerce') . PHP_VERSION
+			);
+		}
+	);
+	return;
 }
 
 require_once __DIR__ . '/classes/class-dropp.php';

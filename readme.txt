@@ -6,6 +6,7 @@ Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
 Tested up to: 6.5.5
 Requires PHP: 8.1
+Requires Plugins: woocommerce
 WC requires at least: 3.8.1
 WC tested up to: 9.0.2
 Stable tag: 2.1.8

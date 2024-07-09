@@ -25,6 +25,18 @@ class Dropp {
 	 */
 	public static function loaded(): void
 	{
+		if (! function_exists('WC')) {
+			add_action(
+				'admin_notices',
+				function () {
+					printf(
+						'<div class="notice notice-error"><p>%s</p></div>',
+						esc_html__('Please activate WooCommerce to use Dropp for WooCommerce.', 'dropp-for-woocommerce') . PHP_VERSION
+					);
+				}
+			);
+			return;
+		}
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
 		require_once dirname( __DIR__ ) . '/traits/trait-calculates-package-weight.php';
 

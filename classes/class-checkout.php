@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Automattic\WooCommerce\Utilities\OrderUtil;
 use Dropp\Actions\Create_Dropp_Location_Script_Url_Action;
 use Dropp\Components\Choose_Location_Button;
 use Dropp\Components\Location_Picker;
@@ -22,6 +23,7 @@ class Checkout {
 	public static function setup() {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
 		add_action( 'woocommerce_checkout_order_processed', __CLASS__ . '::tag_order', 10, 3 );
+		add_action( 'woocommerce_store_api_checkout_order_processed', __CLASS__ . '::tag_api_order', 10, 3 );
 		add_action( 'dropp_schedule_add_new', 'Dropp\Checkout::add_new', 10, 0 );
 		add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', __CLASS__ . '::enqueue_stuff' );
 	}
@@ -32,8 +34,17 @@ class Checkout {
 	 * @param integer $order_id Order ID.
 	 * @param array $posted_data POST data.
 	 * @param WC_Order $order Order Order.
-	*/
-	public static function tag_order( int $order_id, array $posted_data, WC_Order $order ) {
+	 */
+	public static function tag_order( int $order_id, mixed $posted_data, mixed $order ): void
+	{
+		self::tag_api_order($order);
+	}
+
+	/**
+	 * @param WC_Order $order Order Order.
+	 */
+	public static function tag_api_order( mixed $order ): void
+	{
 		$adapter = new Order_Adapter( $order );
 		if ( ! $adapter->is_dropp() ) {
 			return;
@@ -55,13 +66,22 @@ class Checkout {
 	public static function add_new(): void {
 		global $wpdb;
 
-		// API request to add new.
-		$post_ids = $wpdb->get_col(
-			"SELECT ID FROM {$wpdb->posts} p
-			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_ID
-			AND pm.meta_key = \"_dropp_added\"
-			AND pm.meta_value = \"0\""
-		);
+		if (class_exists(OrderUtil::class) && OrderUtil::custom_orders_table_usage_is_enabled()) {
+			$post_ids = $wpdb->get_col(
+				"SELECT p.id FROM {$wpdb->prefix}wc_orders p
+				INNER JOIN {$wpdb->prefix}wc_orders_meta pm ON p.id = pm.order_id
+				AND pm.meta_key = \"_dropp_added\"
+				AND pm.meta_value = \"0\""
+			);
+		} else {
+			// API request to add new.
+			$post_ids = $wpdb->get_col(
+				"SELECT ID FROM {$wpdb->posts} p
+				INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_ID
+				AND pm.meta_key = \"_dropp_added\"
+				AND pm.meta_value = \"0\""
+			);
+		}
 
 		foreach ( $post_ids as $post_ID ) {
 			$order   = wc_get_order( $post_ID );

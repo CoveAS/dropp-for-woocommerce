@@ -114,10 +114,7 @@ class Dropp_Location extends Model {
 	 * @return array             Array of Dropp_Location.
 	 */
 	public static function from_order( $order_id = false ): array {
-		if ( false === $order_id ) {
-			$order_id = get_the_ID();
-		}
-		$order      = new WC_Order( $order_id );
+		$order      = wc_get_order( $order_id );
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {
@@ -132,7 +129,8 @@ class Dropp_Location extends Model {
 		return $collection;
 	}
 
-	public static function remote_find( string $location_id ) {
+	public static function remote_find( string $location_id ): ?Dropp_Location
+	{
 		// Special logic for hard-coded locations.
 		$special_location_map = Dropp_Special_Location_Map::get_instance();
 		if ( $special_location_map->has($location_id) ) {
@@ -148,7 +146,7 @@ class Dropp_Location extends Model {
 		}
 		$locations = $response['locations'];
 
-		$location = false;
+		$location = null;
 		foreach ( $locations as $location_data ) {
 			if ( $location_id != $location_data['id'] ) {
 				continue;

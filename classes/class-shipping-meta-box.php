@@ -82,8 +82,8 @@ class Shipping_Meta_Box
 			return;
 		}
 
-		$order_id         = get_the_ID();
-		$order            = wc_get_order($order_id);
+		$order            = wc_get_order();
+		$order_id         = $order->get_id();
 		$adapter          = new Order_Adapter($order);
 		$billing_address  = $order->get_address();
 		$shipping_address = $order->get_address('shipping');

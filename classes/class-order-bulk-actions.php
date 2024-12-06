@@ -123,8 +123,7 @@ class Order_Bulk_Actions {
 	 */
 	public static function handle_bulk_printing( string $redirect_to, array $ids ): string {
 
-		global $post_type, $pagenow, $page_hook;
-		ray($redirect_to, $page_hook);
+		global $page_hook;
 		$args = [
 			'bulk_action' => 'bulk_printing',
 			'ids'   => join( ',', $ids ),

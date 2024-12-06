@@ -11,15 +11,8 @@ class Upgrade
 {
 	const VERSION = '1.0.0';
 
-	public static function setup()
+	public static function setup(): void
 	{
-		add_action( 'admin_init', __CLASS__ . '::upgrade' );
-	}
-
-	/**
-	 * Upgrade
-	 */
-	public static function upgrade() {
 		$saved_version = get_site_option( 'woocommerce_dropp_shipping_db_version' );
 		if ( version_compare( $saved_version, '0.0.3' ) === - 1 ) {
 			self::upgrade_0_0_4();
@@ -36,7 +29,8 @@ class Upgrade
 	/**
 	 * Install Consignment table
 	 */
-	public static function schema() {
+	public static function schema(): bool
+	{
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'dropp_consignments';

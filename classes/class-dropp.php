@@ -25,57 +25,70 @@ class Dropp {
 	 */
 	public static function loaded(): void
 	{
-		if (! function_exists('WC')) {
-			add_action(
-				'admin_notices',
-				function () {
-					printf(
-						'<div class="notice notice-error"><p>%s</p></div>',
-						esc_html__('Please activate WooCommerce to use Dropp for WooCommerce.', 'dropp-for-woocommerce') . PHP_VERSION
-					);
-				}
-			);
-			return;
-		}
+		spl_autoload_register( __CLASS__ . '::class_loader' );
 		require_once dirname( __DIR__ ) . '/traits/trait-shipping-settings.php';
 		require_once dirname( __DIR__ ) . '/traits/trait-calculates-package-weight.php';
 
-		spl_autoload_register( __CLASS__ . '::class_loader' );
+		add_action( 'init', __CLASS__ . '::init' );
 
-		Shipping_Calculation_Shortcodes::setup();
+		if (! function_exists('WC')) {
+			return;
+		}
+
 		Shipping_Item_Meta::setup();
 		// Initialise pending shipping status for orders.
 		Pending_Shipping::setup();
 		// Display a meta box on orders for booking with dropp.
-		Shipping_Meta_Box::setup();
 		Ajax::setup();
-		Order_Bulk_Actions::setup();
 		Social_Security_Number::setup();
 		Postcode_Validation::setup();
 		Tracking_Code::setup();
 		Checkout::setup();
-		Dropp_Oca_Admin_Warning::setup();
 		Sort_Shipping_Methods::setup();
 		Modify_Rate_Cost_By_Weight::setup();
-		Upgrade::setup();
 
-
+		add_action( 'admin_init', __CLASS__ . '::admin_init' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
-		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 		add_action( 'woocommerce_before_order_object_save', __CLASS__ . '::maybe_convert_dropp_order_ids' );
-		add_action( 'woocommerce_shipping_zone_method_added', __CLASS__ . '::maybe_add_oca', 10, 3 );
-
 		// Toggle between dropp outside and inside capital area.
 		add_filter( 'woocommerce_shipping_chosen_method', __CLASS__ . '::oca_toggle', 10, 3 );
-
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
 		$hook        = "plugin_action_links_{$plugin_path}/dropp-for-woocommerce.php";
 		add_filter( $hook, __CLASS__ . '::plugin_action_links' );
+	}
 
+
+	public static function init(): void
+	{
 		load_plugin_textdomain( 'dropp-for-woocommerce', false, basename( dirname( __DIR__ ) ) . '/languages/' );
+		if (function_exists('WC')) {
+			return;
+		}
+		add_action(
+			'admin_notices',
+			function () {
+				printf(
+					'<div class="notice notice-error"><p>%s</p></div>',
+					esc_html__('Please activate WooCommerce to use Dropp for WooCommerce.', 'dropp-for-woocommerce') . PHP_VERSION
+				);
+			}
+		);
+	}
 
+	public static function admin_init(): void
+	{
+		// Setup
+		Shipping_Calculation_Shortcodes::setup();
 		Admin_Notices::setup();
+		Shipping_Meta_Box::setup();
+		Order_Bulk_Actions::setup();
+		Dropp_Oca_Admin_Warning::setup();
+
+		Upgrade::setup();
+
+		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
+		add_action( 'woocommerce_shipping_zone_method_added', __CLASS__ . '::maybe_add_oca', 10, 3 );
 	}
 
 	/**

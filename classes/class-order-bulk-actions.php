@@ -18,7 +18,8 @@ class Order_Bulk_Actions {
 	/**
 	 * Setup
 	 */
-	public static function setup() {
+	public static function setup(): void
+	{
 		add_filter( 'bulk_actions-edit-shop_order', __CLASS__ . '::define_bulk_actions' );
 		add_filter( 'bulk_actions-woocommerce_page_wc-orders', __CLASS__ . '::define_bulk_actions' );
 		add_filter( 'admin_notices', __CLASS__ . '::bulk_admin_notices' );
@@ -121,14 +122,17 @@ class Order_Bulk_Actions {
 	 * @return string
 	 */
 	public static function handle_bulk_printing( string $redirect_to, array $ids ): string {
-		$redirect_to = add_query_arg(
-			array(
-				'post_type'   => 'shop_order',
-				'bulk_action' => 'bulk_printing',
-				'ids'   => join( ',', $ids ),
-			),
-			$redirect_to
-		);
+
+		global $post_type, $pagenow, $page_hook;
+		ray($redirect_to, $page_hook);
+		$args = [
+			'bulk_action' => 'bulk_printing',
+			'ids'   => join( ',', $ids ),
+		];
+		if ($page_hook !== 'woocommerce_page_wc-orders') {
+			$args['post_type'] = 'shop_order';
+		}
+		$redirect_to = add_query_arg($args, $redirect_to);
 		return esc_url_raw( $redirect_to );
 	}
 

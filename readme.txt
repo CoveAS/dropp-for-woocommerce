@@ -9,7 +9,7 @@ Requires PHP: 8.1
 Requires Plugins: woocommerce
 WC requires at least: 3.8.1
 WC tested up to: 9.4.3
-Stable tag: 2.1.10
+Stable tag: 2.1.11
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
@@ -67,7 +67,7 @@ If you experience any problems using this plugin alongside another plugin then p
 
 == Changelog ==
 
-= 2.1.10 =
+= 2.1.11 =
 
 * Fixed bug with chosen location not being automatically shown in the booking when HPOS is activated
 * Fixed a bug with bulk printing with HPOS enabled

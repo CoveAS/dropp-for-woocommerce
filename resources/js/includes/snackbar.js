@@ -21,19 +21,33 @@ class Snackbar extends HTMLElement {
 			   z-index: 10000000;
             }
 
-            .snackbar {
-                min-width: 320px;
-                max-width: 600px;
-                display:none;
-                padding: 16px;
-                background-color: #323232;
-                color: #ffffff;
-                text-align: center;
-                border-radius: 4px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-                animation: fadein 0.5s;
-				pointer-events: auto;
-            }
+.snackbar {
+    min-width: 320px;
+    max-width: 600px;
+    display: none;
+    padding: 16px;
+    background-color: #323232;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition for smooth fade */
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.snackbar.fade-in {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.snackbar.fade-out {
+    opacity: 0;
+    transform: translateY(30px); /* Move slightly downwards while fading out */
+    pointer-events: none;
+}
 
             .snackbar.error {
                 background-color: #9d0000;
@@ -80,39 +94,68 @@ export default function () {
 	// Utility to manage timeouts and visibility
 	const SnackbarManager = {
 		currentTimeout: null,
+		fadeTimeout: null,
 		visibilityHandlerAdded: false,
-		showSnackbar: (message) => {
-			// Clear any existing timeout
-			SnackbarManager.clearTimeout();
 
-			// Set message and show the snackbar
+		showSnackbar: (message) => {
+			// Clear any existing timeout or fade-out states
+			SnackbarManager.clearTimeout();
+			SnackbarManager.cancelFadeOut();
+
+			// Set message and show the snackbar with fade-in
 			snackbar.textContent = message;
-			snackbar.classList.remove('error');
+			snackbar.classList.remove('error', 'fade-out');
+			snackbar.classList.add('fade-in');
 			snackbar.style.display = 'block';
 
 			// Start the timeout only if the page is visible
-			if (! document.hidden) {
+			if (!document.hidden) {
 				SnackbarManager.startTimeout();
 			}
-			if (! SnackbarManager.visibilityHandlerAdded) {
+			if (!SnackbarManager.visibilityHandlerAdded) {
 				document.addEventListener('visibilitychange', SnackbarManager.visibilityHandler);
 				SnackbarManager.visibilityHandlerAdded = true;
 			}
 		},
 
 		startTimeout: () => {
+			// After the snackbar is shown, schedule it for hiding
 			SnackbarManager.currentTimeout = setTimeout(() => {
-				SnackbarManager.hideSnackbar();
-			}, 5000);
+				SnackbarManager.fadeOutSnackbar();
+			}, 5000); // 5 seconds timeout
+		},
+
+		fadeOutSnackbar: () => {
+			// Add CSS fade-out class
+			snackbar.classList.remove('fade-in');
+			snackbar.classList.add('fade-out');
+
+			// Use a timeout corresponding to the fade-out duration (in ms) to hide the snackbar
+			SnackbarManager.fadeTimeout = setTimeout(() => {
+				snackbar.style.display = 'none';
+				SnackbarManager.clearListeners();
+			}, 500); // Match this to the CSS animation duration for the fade-out
+		},
+
+		cancelFadeOut: () => {
+			// Stop any ongoing fade-out process
+			if (SnackbarManager.fadeTimeout) {
+				clearTimeout(SnackbarManager.fadeTimeout);
+				SnackbarManager.fadeTimeout = null;
+			}
+			// Reset fade-out class (so new snack behaves correctly)
+			snackbar.classList.remove('fade-out');
 		},
 
 		hideSnackbar: () => {
+			// Remove snackbar immediately (used for full reset)
 			snackbar.style.display = 'none';
 			SnackbarManager.clearListeners();
 			SnackbarManager.clearTimeout();
 		},
 
 		visibilityHandler: () => {
+			// Pause timeout if the page is hidden
 			if (document.hidden) {
 				SnackbarManager.clearTimeout();
 			} else {
@@ -128,17 +171,16 @@ export default function () {
 		},
 
 		clearListeners: () => {
-			if (! SnackbarManager.visibilityHandlerAdded) {
-				return;
+			if (SnackbarManager.visibilityHandlerAdded) {
+				document.removeEventListener('visibilitychange', SnackbarManager.visibilityHandler);
+				SnackbarManager.visibilityHandlerAdded = false;
 			}
-			document.removeEventListener('visibilitychange', SnackbarManager.visibilityHandler);
-			SnackbarManager.visibilityHandlerAdded = false;
 		}
 	};
 
 	return {
 		close: () => {
-			SnackbarManager.clearListeners();
+			SnackbarManager.hideSnackbar();
 			overlay.remove();
 		},
 		snack: (message) => {

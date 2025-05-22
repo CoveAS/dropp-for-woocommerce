@@ -8,7 +8,7 @@
 namespace Dropp;
 
 /**
- * Pending shipping
+ * Pending shipping (Legacy/deprecated - before HPOS)
  *
  * Creates a new order status for pending shipping.
  * Also adds a status column to the order view.

@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Automattic\WooCommerce\Internal\Admin\Orders\ListTable;
 use Dropp\Actions\Get_Shipping_Instance_Data_Action;
 use Dropp\Data\Price_Info_Data;
 use Dropp\Utility\Admin_Notice_Utility;
@@ -27,6 +28,7 @@ class Ajax {
 		add_action( 'wp_ajax_dropp_set_location', __CLASS__ . '::set_location' );
 		add_action( 'wp_ajax_nopriv_dropp_set_location', __CLASS__ . '::set_location' );
 		add_action( 'wp_ajax_dropp_booking', __CLASS__ . '::dropp_booking' );
+		add_action( 'wp_ajax_dropp_book_order', __CLASS__ . '::dropp_book_order' );
 		add_action( 'wp_ajax_dropp_status_update', __CLASS__ . '::dropp_status_update' );
 		add_action( 'wp_ajax_dropp_cancel', __CLASS__ . '::dropp_cancel' );
 		add_action( 'wp_ajax_dropp_update', __CLASS__ . '::dropp_update' );
@@ -97,14 +99,15 @@ class Ajax {
 				[
 					'status'      => 'error',
 					'message'     => __( 'Nonce verification failed. Please reload the page and try again.', 'dropp-for-woocommerce' ),
-					'errors'      => '',
-				]
+				],
+				400
 			);
 		}
 	}
 
 	/**
-	 * Dropp booking
+	 * Dropp booking - book a single consignment
+	 * This method is used on the order page using the booking form
 	 * @throws Exception
 	 */
 	public static function dropp_booking(): void {
@@ -205,6 +208,80 @@ class Ajax {
 				'errors'      => [],
 			]
 		);
+	}
+	/**
+	 * Dropp book order - book all consignments on an order
+	 * This method is used on the orders page using the book now button
+	 * @throws Exception
+	 */
+	public static function dropp_book_order(): void {
+		self::nonce_verification();
+		$order_id   = filter_input( INPUT_POST, 'order_id', FILTER_DEFAULT );
+		if (! ctype_digit($order_id)) {
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'message'     => __( 'Order ID must be an integer', 'dropp-for-woocommerce' ),
+				],
+				400
+			);
+		}
+
+		$order = wc_get_order( $order_id );
+		$adapter = new Order_Adapter($order);
+		if ( $adapter->count_consignments( true ) ) {
+			wp_send_json(
+				[
+					'status'      => 'success',
+					'message'     => __( 'The order is already booked', 'dropp-for-woocommerce' ),
+					'html' => self::orders_column_html($adapter),
+				]
+			);
+		}
+		if ( $adapter->count_consignments(  ) ) {
+			wp_send_json(
+				[
+					'status'      => 'success',
+					'message'     => __( 'The booking has already been started or requires manual review', 'dropp-for-woocommerce' ),
+					'html' => self::orders_column_html($adapter),
+				]
+			);
+		}
+		$booking_data = $adapter->book();
+		if (! $booking_data->any_booked) {
+			$message = __( 'An unknown error occurred while booking. Please try again later or contact support if the issue persists.', 'dropp-for-woocommerce' );
+			if (! empty($booking_data->messages)) {
+				$message = array_shift($booking_data->messages);
+			}
+			wp_send_json(
+				[
+					'status'      => 'error',
+					'message'     => $message,
+					'html' => self::orders_column_html($adapter),
+				],
+			);
+		}
+
+		wp_send_json(
+			[
+				'status'      => 'success',
+				'message'     => __("Order {$order_id} has been booked"),
+				'url' => $adapter->get_download_url(),
+				'html' => self::orders_column_html($adapter),
+			]
+		);
+	}
+	private static function orders_column_html($adapter): array {
+		$list = new ListTable();
+		ob_start();
+		$list->render_order_status_column(wc_get_order($adapter->order->get_id()));
+		$order_status = ob_get_clean();
+
+		return [
+			'shipment_column' => Order_Column::render('shipment_column', $adapter),
+			'pdf_column'      => Order_Column::render('pdf_column', $adapter),
+			'order_status'    => $order_status,
+		];
 	}
 
 	/**

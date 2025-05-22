@@ -26,14 +26,14 @@
 					</option>
 				</select>
 				<button
-					class="dropp-locations__add-button dropp-button dropp-button--secondary"
+					class="dropp-locations__add-button dropp-button dropp-button--secondary mw160"
 					@click.prevent="add_location"
 					v-html="i18n.add_location"
 				>
 				</button><button
 					v-for="special, shipping_method in special_locations"
 					:key="shipping_method"
-					class="dropp-locations__add-button dropp-button dropp-button--secondary"
+					class="dropp-locations__add-button dropp-button dropp-button--secondary mw160"
 					@click.prevent="add_special_delivery( special.location )"
 					v-html="special.label"
 				>
@@ -48,16 +48,6 @@
 	.dropp-booking {
 
 		container-type: inline-size;
-	.dropp-button--secondary {
-		background: #E5E8FF;
-		border-color: #1007FA;
-		color: #1007FA;
-
-		&:hover,
-		&:active {
-			background-color: #f1f3ff;
-		}
-	}
 
 		a {
 			cursor: pointer;
@@ -89,30 +79,9 @@
 			box-shadow: none;
 		}
   }
-	.dropp-button {
-	background: #00007D;
-	border-radius: 3px;
-	outline: none;
-	padding: 8px 24px;
-	min-width: 160px;
-	border: 1px solid #00007D;
-	color: #FFFFFF;
-	transition: background-color 0.2s, border-color 0.2s, color 0.1s;
-	margin-bottom: 8px;
-	margin-right: 8px;
-
-	&:focus {
-	  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1007FA;
+	.mw160 {
+		min-width: 160px;
 	}
-	&:hover,
-	&:active {
-	  background-color: #1919a7;
-	  border-color: #1919a7;
-	}
-	&:disabled {
-	  opacity: 0.4;
-	}
-  }
 </style>
 
 <script>

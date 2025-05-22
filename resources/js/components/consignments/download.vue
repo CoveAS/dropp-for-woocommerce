@@ -31,24 +31,4 @@ export default {
 
 <style scoped lang="scss">
 
-.dropp-consignment-download-button {
-	// First item. Ie. "Download" button
-	display: block;
-	line-height: 1.2;
-	background-color: #FFFFFF;
-	color: #1007FA;
-	border: 1px solid #0000EE;
-	padding: 8px 24px;
-	user-select: none;
-	border-radius: 4px;
-	flex: 1 0 auto;
-	text-align: center;
-	border-radius: 5px;
-	text-decoration: none;
-
-	&:hover {
-		color: #1007FA;
-		background-color: #f1f1f1;
-	}
-}
 </style>

@@ -7,6 +7,7 @@
 
 namespace Dropp;
 
+use Dropp\Data\Booking_Data;
 use Dropp\Models\Dropp_Consignment;
 use Dropp\Models\Dropp_Customer;
 use Dropp\Models\Dropp_Location;
@@ -22,7 +23,7 @@ use WC_Order_Item_Shipping;
  */
 class Order_Adapter {
 
-	protected $order;
+	readonly public WC_Order $order;
 
 	/**
 	 * Construct
@@ -156,16 +157,22 @@ class Order_Adapter {
 	/**
 	 * Book order
 	 *
-	 * @return boolean True if any order was booked.
 	 * @throws Exception
 	 */
-	public function book(): bool {
+	public function book(): Booking_Data {
 		$shipping_items = $this->get_shipping_items();
+		$booking_data = new Booking_Data(
+			false,
+			true,
+			[],
+			[]
+		);
 
-		$any_booked = false;
+		$consignments = [];
 		foreach ( $shipping_items as $shipping_item ) {
 			$product_lines = Dropp_Product_Line::array_from_order( $this->order, true );
 			$consignment   = $this->make_consignment( $shipping_item, $product_lines );
+			$booking_data->consignments[] = $consignment;
 			if ( ! $consignment ) {
 				continue;
 			}
@@ -175,7 +182,9 @@ class Order_Adapter {
 					__( 'Cannot book the order because it\'s over the weight limit of %d Kg', 'dropp-for-woocommerce' ),
 					$consignment->get_shipping_method()->weight_limit ?? 10
 				);
+				$booking_data->messages[] = $consignment->status_message;
 				$consignment->save();
+				$booking_data->all_booked = false;
 				continue;
 			}
 
@@ -185,14 +194,20 @@ class Order_Adapter {
 				$consignment->remote_post();
 				$consignment->save();
 				$consignment->maybe_update_order_status();
-				$any_booked = true;
+				$booking_data->any_booked = true;
 			} catch ( \Exception $e ) {
 				$consignment->status         = 'error';
 				$consignment->status_message = $e->getMessage();
+				$booking_data->messages[] = $consignment->status_message;
 				$consignment->save();
+				$booking_data->all_booked = false;
+			}
+			if (! $booking_data->any_booked) {
+				$booking_data->all_booked = false;
 			}
 		}
-		return $any_booked;
+
+		return $booking_data;
 	}
 
 	/**
@@ -224,6 +239,21 @@ class Order_Adapter {
 			}
 		}
 		return $any_added;
+	}
+
+	public function get_download_url(array|null $consignment_ids = null): string
+	{
+		if ($consignment_ids === null) {
+			$consignment_ids = [];
+			$collection = Dropp_Consignment::from_order( $this->order );
+			foreach ( $collection as $consignment ) {
+				if ( ! $consignment->dropp_order_id ) {
+					continue;
+				}
+				$consignment_ids[] = $consignment->id;
+			}
+		}
+		return admin_url( 'admin-ajax.php?action=dropp_pdf_merge&consignment_ids=' . implode( ',', $consignment_ids ) );
 	}
 
 	/**

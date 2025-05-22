@@ -46,6 +46,7 @@ class Dropp {
 		Checkout::setup();
 		Sort_Shipping_Methods::setup();
 		Modify_Rate_Cost_By_Weight::setup();
+		Order_Column::setup();
 
 		add_action( 'admin_init', __CLASS__ . '::admin_init' );
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
@@ -121,12 +122,22 @@ class Dropp {
 	 * @param string $hook Hook.
 	 */
 	public static function admin_enqueue_scripts( $hook ) {
-		if ( 'woocommerce_page_wc-settings' !== $hook ) {
+		if ( 'woocommerce_page_wc-settings' !== $hook && (
+				'edit' === ($_GET['action'] ?? '') ||
+				'woocommerce_page_wc-orders' !== $hook
+			)) {
 			return;
 		}
 		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], Dropp::VERSION);
 		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
-		wp_localize_script( 'dropp-admin-js', '_dropp', ['ajaxurl' => admin_url( 'admin-ajax.php' ),] );
+		wp_localize_script(
+			'dropp-admin-js',
+			'_dropp',
+			[
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce('dropp'),
+			]
+		);
 	}
 
 
@@ -267,6 +278,8 @@ class Dropp {
 		if ( ! empty( $rates[ $chosen_method ] ) ) {
 			return $default;
 		}
+
+		ray($default, $rates, $chosen_method);
 		foreach ( $rates as $method_id => $rate ) {
 			if ( !str_starts_with($method_id, 'dropp_is')) {
 				continue;

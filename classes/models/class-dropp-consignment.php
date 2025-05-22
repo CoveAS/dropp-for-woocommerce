@@ -15,6 +15,7 @@ use Dropp\Utility\Dropp_Special_Location_Map;
 use Exception;
 use WC_Log_Levels;
 use WC_Logger;
+use WC_Order;
 use WC_Order_Item_Shipping;
 use WC_Shipping;
 use WP_Error;
@@ -355,11 +356,13 @@ class Dropp_Consignment extends Model {
 	 *
 	 * @return array             Array of Dropp_Consignment.
 	 */
-	public static function from_order( ?int $order_id = null ): array {
-		if ( null === $order_id ) {
-			$order_id = get_the_ID();
+	public static function from_order( int|WC_Order|null $order = null ): array {
+		if ( null === $order) {
+			$order = wc_get_order();
 		}
-		$order      = wc_get_order( $order_id );
+		if (is_int($order)) {
+			$order = wc_get_order( $order );
+		}
 		$line_items = $order->get_items( 'shipping' );
 		$collection = [];
 		foreach ( $line_items as $order_item_id => $order_item ) {

@@ -88,7 +88,7 @@ class Order_Bulk_Actions {
 				$result['not_dropp'][] = $order_id;
 			} elseif ( $adapter->count_consignments() ) {
 				$result['existing'][] = $order_id;
-			} elseif ( $adapter->book() ) {
+			} elseif ( $adapter->book()->any_booked ) {
 				$result['success'][] = $order_id;
 			} else {
 				$result['failed'][] = $order_id;

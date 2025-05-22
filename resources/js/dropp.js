@@ -152,11 +152,12 @@ jQuery(function ($) {
 		for (let i = 0; i < rates.length; i++) {
 			const rate = rates[i];
 			// Select element based on single or multiple rate display mode
-			const el = shippingRates.length === 1
-				// When there is only 1 rate WooCommerce uses a label-group
-				? $('.wc-block-components-shipping-rates-control .wc-block-components-radio-control__label-group')
-				// For multiple rate display WooCommerce uses radio buttons
-				: $('[value="' + rate.rate_id + '"]').closest('.wc-block-components-radio-control__option');
+			let el;
+			if (shippingRates.length === 1) {
+				el = $('.wc-block-components-shipping-rates-control .wc-block-components-radio-control__label-group');
+			} else {
+				el = $('[value="' + rate.rate_id + '"]').closest('.wc-block-components-radio-control__option');
+			}
 
 			if (! el.length) {
 				return;

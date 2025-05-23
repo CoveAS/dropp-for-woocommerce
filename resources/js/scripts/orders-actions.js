@@ -80,8 +80,18 @@ function handleShipmentButton(button) {
  * @returns {Object} Parsed JSON data.
  * @throws {Error} When response is not OK.
  */
-function validateResponse(response) {
-	if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+async function validateResponse(response) {
+	if (!response.ok) {
+		// Attempt to parse the response body as JSON for better error messaging
+		let errorMessage = `HTTP error! status: ${response.status}`;
+		try {
+			const errorData = await response.json();
+			if (errorData.message) {
+				errorMessage = errorData.message; // Use the message property if it exists
+			}
+		} catch {}
+		throw new Error(errorMessage);
+	}
 	return response.json();
 }
 

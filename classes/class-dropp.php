@@ -279,7 +279,6 @@ class Dropp {
 			return $default;
 		}
 
-		ray($default, $rates, $chosen_method);
 		foreach ( $rates as $method_id => $rate ) {
 			if ( !str_starts_with($method_id, 'dropp_is')) {
 				continue;

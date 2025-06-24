@@ -23,15 +23,13 @@ use WC_Order_Item_Shipping;
  */
 class Order_Adapter {
 
-	readonly public WC_Order $order;
 
 	/**
 	 * Construct
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public function __construct( WC_Order $order ) {
-		$this->order = $order;
+	public function __construct(public WC_Order $order ) {
 	}
 
 	/**

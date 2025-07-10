@@ -51,6 +51,9 @@ export default {
 	display: block;
 	font-weight: 600;
 }
+.dropp-product-error__content {
+	text-wrap: balance;
+}
 
 .dropp-product-error {
 	margin-top: 16px;

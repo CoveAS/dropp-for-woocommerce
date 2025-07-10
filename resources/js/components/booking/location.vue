@@ -11,12 +11,6 @@
 				class="dropp-location__pre-title"
 			>
 				<span class="dropp-location__pick-up-point" v-html="i18n.pick_up_point"></span>
-				<span
-					@click.prevent="changeLocation"
-					@keydown.enter.space.prevent="changeLocation"
-					tabindex="0"
-					class="dropp-location__change dropp-location__change--large" v-html="i18n.change_location"
-				></span>
 			</div>
 			<h2 class="dropp-location__name" v-html="location_name" :title="'[' + location.id + ']'"></h2>
 			<span v-if="location.address" class="dropp-location__address" v-html="location.address"></span>
@@ -24,7 +18,7 @@
 				v-if="location.address"
 				@click.prevent="changeLocation"
 				@keydown.enter.space.prevent="changeLocation"
-				class="dropp-location__change dropp-location__change--small" v-html="i18n.change_location"
+				class="dropp-location__change" v-html="i18n.change_location"
 			></div>
 		</header>
 		<div class="dropp-location__booking">
@@ -102,8 +96,9 @@
 
 @container (min-width: 600px) {
 	.dropp-grid {
+		max-width: 1920px;
 		display: grid;
-		grid-template-columns: min(calc(50% - 12px), 600px) min(calc(50% - 12px), 600px);
+		grid-template-columns:  1fr 1fr;
 		gap: 24px;
 		padding: 0 24px;
 	}
@@ -195,7 +190,7 @@
 
 	&__change {
 		font-weight: 600;
-		margin-left: auto;
+		margin-top: 4px;
 		text-decoration: underline;
 		cursor: pointer;
 		color: #1007FA;
@@ -205,24 +200,6 @@
 		&:hover {
 			text-decoration: none;
 		}
-
-		&--small {
-			margin-top: 16px;
-		}
-
-		&--large {
-			display: none;
-		}
-
-	@container (min-width:500px) {
-		&--small {
-			display: none;
-		}
-
-		&--large {
-			display: block;
-		}
-	}
 	}
 
 	&__address {

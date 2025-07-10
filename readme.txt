@@ -8,7 +8,7 @@ Tested up to: 6.8.1
 Requires PHP: 8.1
 Requires Plugins: woocommerce
 WC requires at least: 3.8.1
-WC tested up to: 9.8.5
+WC tested up to: 10.0.1
 Stable tag: 2.1.13
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.

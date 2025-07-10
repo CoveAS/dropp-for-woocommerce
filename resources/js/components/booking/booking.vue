@@ -46,9 +46,7 @@
 
 <style lang="scss">
 	.dropp-booking {
-
 		container-type: inline-size;
-
 		a {
 			cursor: pointer;
 			&:focus,

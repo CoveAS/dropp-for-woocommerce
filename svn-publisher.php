@@ -66,6 +66,21 @@ if ( ! preg_match( '/Stable tag:\s+' . $esc_version . '/', $content, $matches ) 
 	die( "Stable tag doesn't match $version in readme.txt" );
 }
 
+// Extract WooCommerce version
+if ( ! preg_match( '/WC tested up to:\s+([\d\.]+)/', $content, $wc_matches ) ) {
+    die( "Could not find WooCommerce version in readme.txt\n" );
+}
+$wc_version = $wc_matches[1];
+
+// Extract WordPress version
+if ( ! preg_match( '/Tested up to:\s+([\d\.]+)/', $content, $wp_matches ) ) {
+    die( "Could not find WordPress version in readme.txt\n" );
+}
+$wp_version = $wp_matches[1];
+
+echo "WooCommerce version: $wc_version\n";
+echo "WordPress version: $wp_version\n";
+
 if ( 'svn-dropp-for-woocommerce' !== basename( $cwd ) ) {
 	// Create a new dir
 	if ( ! is_dir( 'svn-dropp-for-woocommerce' ) ) {
@@ -117,10 +132,17 @@ if ( ! file_exists( 'trunk/svn-publisher.php' ) ) {
 
 // Go into the trunk
 chdir( 'trunk' );
+$content = file_get_contents('dropp-for-woocommerce.php');
+
 // Replace version number placeholder
 echo "Replacing dropp-for-woocommerce.php version number\n";
-$content = file_get_contents('dropp-for-woocommerce.php');
 $content = str_replace('###DROPP_VERSION###', $version, $content);
+
+echo "Replacing dropp-for-woocommerce.php WordPress tested to version number\n";
+$content = str_replace('###WP_VERSION###', $wp_version, $content);
+
+echo "Replacing dropp-for-woocommerce.php WooCommerce tested to version number\n";
+$content = str_replace('###WC_VERSION###', $wc_version, $content);
 file_put_contents('dropp-for-woocommerce.php', $content);
 
 echo "Replacing classes/class-dropp.php version number\n";

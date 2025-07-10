@@ -57,8 +57,8 @@
 .dropp-products__errors {
 	width: 100%;
 	min-height: 1px;
-  max-width: 600px
 }
+
 @container (min-width: 900px) {
 	.dropp-products__errors {
 		margin-top: 14px;
@@ -67,15 +67,19 @@
 .dropp-products {
 	border-bottom: 1px solid #CCCCCC;
 	margin: 0 16px;
-	padding-bottom: 16px;
+	padding-bottom: 24px;
+	margin-bottom: 18px;
+	max-width: 1920px;
 	@container (min-width: 600px) {
 		margin: 0 24px;
 		padding-bottom: 24px;
 	}
 	@container (min-width: 900px) {
 		display: grid;
-		grid-template-columns: min(calc(50% - 12px), 600px) min(calc(50% - 12px), 600px);
+		grid-template-columns: 1fr 1fr;
 		gap: 24px;
+		margin-bottom: 14px;
+		padding-bottom: 34px;
 	}
 
 	input[type="checkbox"] {
@@ -141,7 +145,8 @@
 .dropp-products__headers {
 	color: #999999;
 	display: none;
-	margin-bottom: 24px;
+	margin-top: 24px;
+	margin-bottom: 8px;
 }
 @container (min-width: 600px) {
   .dropp-products__headers,

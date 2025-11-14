@@ -52,7 +52,7 @@ class Dropp {
 		add_filter( 'woocommerce_shipping_methods', __CLASS__ . '::add_shipping_method' );
 		add_action( 'woocommerce_before_order_object_save', __CLASS__ . '::maybe_convert_dropp_order_ids' );
 		// Toggle between dropp outside and inside capital area.
-		add_filter( 'woocommerce_shipping_chosen_method', __CLASS__ . '::oca_toggle', 10, 3 );
+		add_filter( 'woocommerce_shipping_chosen_method', __CLASS__ . '::oca_toggle', 1138, 3 );
 		// Add settings link on plugin page.
 		$plugin_path = basename( dirname( __DIR__ ) );
 		$hook        = "plugin_action_links_{$plugin_path}/dropp-for-woocommerce.php";
@@ -271,7 +271,7 @@ class Dropp {
 	 */
 	public static function oca_toggle( $default, $rates, $chosen_method ): string
 	{
-		if (!str_starts_with($chosen_method, 'dropp_is')) {
+		if ( ! str_starts_with( $chosen_method, 'dropp_is' ) ) {
 			return $default;
 		}
 
@@ -280,7 +280,7 @@ class Dropp {
 		}
 
 		foreach ( $rates as $method_id => $rate ) {
-			if ( !str_starts_with($method_id, 'dropp_is')) {
+			if ( ! str_starts_with( $method_id, 'dropp_is' ) ) {
 				continue;
 			}
 			return $method_id;

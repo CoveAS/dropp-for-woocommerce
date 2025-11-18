@@ -6,6 +6,9 @@ use Dropp\Deploy\Output;
 $url = 'https://plugins.svn.wordpress.org/dropp-for-woocommerce';
 $cwd = getcwd();
 $dir = __DIR__;
+assert(file_exists("$dir/svn_dir"));
+assert(is_readable("$dir/svn_dir"));
+$svnDir = trim(file_get_contents("$dir/svn_dir"));
 
 require_once __DIR__ . '/deploy/load.php';
 
@@ -75,15 +78,13 @@ $wp_version = $wp_matches[1];
 $output->info("WooCommerce version: $wc_version");
 $output->info("WordPress version: $wp_version");
 
-if ( 'svn-dropp-for-woocommerce' !== basename( $cwd ) ) {
-	// Create a new dir
-	if ( ! is_dir( 'svn-dropp-for-woocommerce' ) ) {
-		if ( ! mkdir( 'svn-dropp-for-woocommerce' ) ) {
-			$output->fatal("Could not make the directory");
-		}
+// Create a new dir
+if ( ! is_dir( $svnDir ) ) {
+	if ( ! mkdir( $svnDir ) ) {
+		$output->fatal("Could not make the directory");
 	}
-	chdir( 'svn-dropp-for-woocommerce' );
 }
+chdir( $svnDir );
 
 if ( is_dir( '.svn' ) ) {
 	// Update an existing SVN
@@ -98,11 +99,12 @@ if ( is_dir( '.svn' ) ) {
 
 // Remove existing trunk
 $output->info("Copying from git repo");
-exec( 'rm -rf trunk', $output, $result );
+exec( 'rm -rf trunk', $out, $result );
 if ( $result ) {
+	var_dump( $out , $result );
 	$output->fatal( "Could not remove old trunk" );
 }
-exec( 'cp -r "' . $dir . '/" trunk/', $output, $result );
+exec( 'cp -r "' . $dir . '/" trunk/', $out, $result );
 if ( $result ) {
 	$output->fatal( "Copying git repo failed" );
 }
@@ -148,6 +150,7 @@ $cleaner->removeDesktopServicesStore();
 
 $cleaner->removeFiles([
 	'tags',
+	'svn_dir',
     'update-pdf-packages.php',
 	'svn-publisher.php',
     '.gitignore',
@@ -160,6 +163,7 @@ $cleaner->removeFiles([
     'package.lock',
     'webpack.mix.js',
 ]);
+
 $cleaner->removeDirs([
 	'.idea',
 	'.git',

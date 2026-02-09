@@ -261,20 +261,6 @@ export default {
 			initial_cards_limit: 3,
 		};
 	},
-	mounted() {
-		// TODO: Remove this mock data after testing
-		if (this.consignment_container.consignments.length > 0) {
-			const original = this.consignment_container.consignments[0];
-			for (let i = 0; i < 4; i++) {
-				this.consignment_container.consignments.push({
-					...original,
-					id: original.id + '_mock_' + i,
-					barcode: 'DR' + Math.random().toString(36).substring(2, 10).toUpperCase(),
-					status: i === 2 ? 'error' : 'initial',
-				});
-			}
-		}
-	},
 	computed: {
 		display_consignments: function () {
 			return this.consignment_container.consignments.length;

@@ -50,7 +50,7 @@
 	background: #fff;
 	border: 1px solid #d1d5db;
 	border-radius: 12px;
-	overflow: hidden;
+	overflow: visible;
 
 	&:last-child {
 		margin-bottom: 0;

@@ -111,45 +111,6 @@
 
 .dropp-consignment-card__actions {
 	padding: 0 20px 20px 20px;
-
-	:deep(.dropp-consignment-download-button) {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 8px;
-		width: 100%;
-		padding: 12px 20px;
-		border: 2px solid #1e3a8a;
-		border-radius: 100px;
-		background: transparent;
-		color: #1e3a8a;
-		font-size: 14px;
-		font-weight: 500;
-		text-decoration: none;
-		cursor: pointer;
-		transition: background-color 0.2s, color 0.2s;
-
-		&:hover {
-			background: #1e3a8a;
-			color: #fff;
-
-			svg {
-				stroke: #fff;
-			}
-		}
-
-		&:focus {
-			outline: 2px solid #1e3a8a;
-			outline-offset: 2px;
-		}
-
-		svg {
-			width: 16px;
-			height: 16px;
-			stroke: #1e3a8a;
-			transition: stroke 0.2s;
-		}
-	}
 }
 </style>
 

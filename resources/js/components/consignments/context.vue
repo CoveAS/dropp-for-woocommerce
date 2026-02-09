@@ -255,11 +255,10 @@ export default {
 		border-radius: 4px;
 		margin: 0 -14px;
 		user-select: none;
-		outline: 1px solid transparent;
-		transition: outline-color 0.2s, color 0.2s;
+		transition: background-color 0.2s, color 0.2s;
 
 		&:hover {
-			outline-color: #ceccff;
+			background-color: #e5e7eb;
 			color: #00007D;
 		}
 	}

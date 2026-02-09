@@ -241,7 +241,6 @@
 
 	&:focus {
 		outline: none;
-		border: 2px solid #a5a5e0; // Light bright purple
-		padding: 5px 15px; // Adjust for thicker border
+		box-shadow: 0 0 0 3px #C7CDFF;
 	}
 }

@@ -266,6 +266,5 @@
 }
 .dropp-consignment-download-button:focus {
   outline: none;
-  border: 2px solid #a5a5e0;
-  padding: 5px 15px;
+  box-shadow: 0 0 0 3px #C7CDFF;
 }

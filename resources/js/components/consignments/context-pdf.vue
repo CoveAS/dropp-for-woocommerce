@@ -1,11 +1,7 @@
 <template>
 	<div class="context-pdf">
-		<div class="dropp-context__overlay" v-show="loading">
-			<loader></loader>
-		</div>
 		<ul class="context-pdf__list">
 			<li class="context-pdf__error" v-if="error"> Error </li>
-			<li class="context-pdf__skeleton" v-show="loading">&nbsp;</li>
 			<li
 				class="pdf-actions"
 				v-if="! error"
@@ -17,6 +13,7 @@
 					target="_blank"
 					:href="download_url( pdf.barcode )"
 				>
+					<document-icon class="pdf-action__icon" />
 					<span>{{ pdf.label }}</span>
 					<span
 						tabindex="0"
@@ -31,73 +28,78 @@
 			<li v-if="editable">
 				<span
 					tabindex="0"
-					class="
-						dropp-consignment__action
-						pdf-action
-						pdf-action--add
-					"
+					class="dropp-consignment__action pdf-action pdf-action--add"
 					href="#"
-					v-html="i18n.extra_pdf"
 					@click.prevent="add_pdf"
 					@keydown.enter.space.prevent="add_pdf"
-				></span>
+				>
+					<plus-icon class="pdf-action__icon" />
+					<span v-html="i18n.extra_pdf"></span>
+				</span>
 			</li>
 		</ul>
 	</div>
 </template>
 <style lang="scss">
-.context-pdf__error,
-.context-pdf__skeleton {
-	background-color: #EEEEEE;
+.context-pdf__error {
+	background-color: #FFF0F2;
 	cursor: default;
 	display: block;
 	text-decoration: none;
-	padding: 8px 16px;
+	padding: 8px 12px;
 	border-radius: 4px;
-}
-.context-pdf__error {
-  background-color: #FFF0F2;
 }
 .context-pdf {
 	position: relative;
 
 	a.pdf-action {
-		width: 100%;
 		display: flex;
+		align-items: center;
+		font-weight: normal;
+	}
+
+	.pdf-action__icon {
+		margin-right: 8px;
+		flex-shrink: 0;
 	}
 
 
 	&__list {
 		margin-top: 0;
+		padding: 0;
+		list-style: none;
 	}
 }
 
 .pdf-actions {
-	display: flex;
+	display: block;
 }
 
-.dropp-context-menu .context-pdf .pdf-action--add {
-  color: #00007D;
-}
 .dropp-context-menu .context-pdf .pdf-action--add:focus,
 .dropp-context-menu .context-pdf .pdf-action--add:hover {
-  color: #00007D;
   background-color: #f3f4f6;
 }
 
 
 .context-pdf .pdf-action--delete {
-	margin-left: auto;
+	margin-left: 24px;
 	color: #900;
 	padding: 4px 8px;
-	margin-top: -4px;
-	margin-bottom: -4px;
+	margin-top: -8px;
+	margin-bottom: -8px;
 	margin-right: -8px;
 	line-height: 1.25;
+	border-radius: 4px;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: #f3f4f6;
+	}
 }
 </style>
 <script>
-import Loader from '../loader.vue';
+import DocumentIcon from "../icons/document-icon.vue";
+import PlusIcon from "../icons/plus-icon.vue";
 
 export default {
 	data: function () {
@@ -184,8 +186,6 @@ export default {
 			this.error = true;
 		},
 	},
-	components: {
-		Loader,
-	},
+	components: {DocumentIcon, PlusIcon},
 };
 </script>

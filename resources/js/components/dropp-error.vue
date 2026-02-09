@@ -39,62 +39,6 @@ export default {
 	</div>
 </template>
 
-<style scoped lang="scss">
-.dropp-product-error {
-	padding: 16px;
-	border-radius: 8px;
-	background-color: #fffbeb;
-	border: 1px solid #fde68a;
-	display: flex;
-	gap: 12px;
-	align-items: flex-start;
-	margin-top: 16px;
-}
-
-.dropp-product-error--error {
-	background-color: #fffbeb;
-}
-
-.dropp-product-error__icon {
-	color: #d97706;
-	flex-shrink: 0;
-}
-
-.dropp-product-error--error .dropp-product-error__icon {
-	color: #d97706;
-}
-
-.dropp-product-error__title {
-	display: block;
-	font-weight: 600;
-	color: #d97706;
-}
-
-.dropp-product-error__content {
-	text-wrap: balance;
-	flex: 1;
-	color: #d97706;
-}
-
-.dropp-product-error__dismiss {
-	flex-shrink: 0;
-	background: none;
-	border: none;
-	font-size: 24px;
-	line-height: 1;
-	color: #d97706;
-	cursor: pointer;
-	padding: 0 4px;
-	border-radius: 4px;
-	transition: background-color 0.15s;
-
-	&:hover {
-		background-color: #fef3c7;
-	}
-
-	&:focus {
-		outline: none;
-		background-color: #fef3c7;
-	}
-}
+<style lang="scss">
+// Styles are defined globally in dropp-admin.scss
 </style>

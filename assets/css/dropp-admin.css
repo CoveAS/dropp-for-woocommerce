@@ -1,13 +1,71 @@
+.dropp-product-error {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fffbeb;
+  border: 1px solid #fcd34d;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+.dropp-product-error--warning {
+  background-color: #fffbeb;
+  border-color: #fcd34d;
+}
+.dropp-product-error--error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+.dropp-product-error--error .dropp-product-error__icon,
+.dropp-product-error--error .dropp-product-error__title,
+.dropp-product-error--error .dropp-product-error__content,
+.dropp-product-error--error .dropp-product-error__dismiss {
+  color: #dc2626;
+}
+.dropp-product-error--error .dropp-product-error__dismiss:hover,
+.dropp-product-error--error .dropp-product-error__dismiss:focus {
+  background-color: #fee2e2;
+}
+.dropp-product-error__icon {
+  color: #b45309;
+  flex-shrink: 0;
+}
+.dropp-product-error__title {
+  display: block;
+  font-weight: 600;
+  color: #92400e;
+}
+.dropp-product-error__content {
+  text-wrap: balance;
+  flex: 1;
+  color: #b45309;
+}
+.dropp-product-error__dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #b45309;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+}
+.dropp-product-error__dismiss:hover, .dropp-product-error__dismiss:focus {
+  background-color: #fef3c7;
+  outline: none;
+}
+
 .dropp-error {
-  color: #860;
-  background-color: #FFE;
-  padding: 0.6rem 1rem 0.7rem;
+  color: #d97706;
+  background-color: #fffbeb;
+  padding: 16px;
   white-space: normal;
   text-align: left;
   margin: 1rem 0;
-  border-radius: 4px;
-  border: 1px solid;
-  border-color: #dbdb84;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
 }
 
 .dropp-location .button {
@@ -182,22 +240,32 @@
 }
 
 .dropp-consignment-download-button {
-  display: block;
-  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1;
   background-color: #FFFFFF;
   color: #00007D;
   border: 1px solid #00007D;
-  padding: 8px 24px;
+  padding: 6px 16px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   border-radius: 5px;
-  flex: 1 0 auto;
-  text-align: center;
   text-decoration: none;
+  white-space: nowrap;
+}
+.dropp-consignment-download-button svg {
+  flex-shrink: 0;
 }
 .dropp-consignment-download-button:hover {
   color: #00007D;
-  background-color: #f3f4f6;
+  background-color: #E6E6F5;
+}
+.dropp-consignment-download-button:focus {
+  outline: none;
+  border: 2px solid #a5a5e0;
+  padding: 5px 15px;
 }

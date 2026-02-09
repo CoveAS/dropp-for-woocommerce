@@ -1,7 +1,9 @@
 <script>
+import DownloadIcon from "../icons/download-icon.vue";
 
 export default {
 	name: "download",
+	components: {DownloadIcon},
 	data: function () {
 		return {
 			i18n: _dropp.i18n,
@@ -25,8 +27,10 @@ export default {
 		class="dropp-consignment-download-button"
 		target="_blank"
 		:href="download_url(consignment)"
-		v-html="i18n.download"
-	></a>
+	>
+		<download-icon />
+		{{ i18n.download }}
+	</a>
 </template>
 
 <style scoped lang="scss">

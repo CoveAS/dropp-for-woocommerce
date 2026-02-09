@@ -66,6 +66,7 @@
 		font-weight: 600;
 		background: #f3f4f6;
 		border-top: 1px solid #d1d5db;
+		border-bottom: 1px solid #d1d5db;
 	}
 
 	th:first-child {
@@ -96,31 +97,31 @@
 		border-right: 1px solid #d1d5db;
 	}
 
-	tbody tr:last-child td {
+	tbody td {
 		border-bottom: 1px solid #d1d5db;
 	}
 
 	thead th:first-child {
-		border-top-left-radius: 4px;
+		border-top-left-radius: 8px;
 	}
 
 	thead th:last-child {
-		border-top-right-radius: 4px;
+		border-top-right-radius: 8px;
 	}
 
 	tbody tr:last-child td:first-child {
-		border-bottom-left-radius: 4px;
+		border-bottom-left-radius: 8px;
 	}
 
 	tbody tr:last-child td:last-child {
-		border-bottom-right-radius: 4px;
+		border-bottom-right-radius: 8px;
 	}
 
 
 	&__table {
 		width: 100%;
 		border-spacing: 0;
-		border-radius: 4px;
+		border-radius: 8px;
 	}
 
 }
@@ -213,6 +214,18 @@ export default {
 		};
 	},
 	mounted() {
+		// TODO: Remove this mock data after testing
+		if (this.consignment_container.consignments.length > 0) {
+			const original = this.consignment_container.consignments[0];
+			for (let i = 0; i < 4; i++) {
+				this.consignment_container.consignments.push({
+					...original,
+					id: original.id + '_mock_' + i,
+					barcode: 'DR' + Math.random().toString(36).substring(2, 10).toUpperCase(),
+					status: i === 2 ? 'error' : 'initial',
+				});
+			}
+		}
 	},
 	computed: {
 		display_consignments: function () {

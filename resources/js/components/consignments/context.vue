@@ -277,7 +277,7 @@ export default {
 		transition: background-color 0.2s, color 0.2s;
 
 		&:hover {
-			background-color: #f3f4f6;
+			background-color: #e5e7eb;
 		}
 	}
 

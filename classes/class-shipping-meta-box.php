@@ -230,8 +230,8 @@ class Shipping_Meta_Box
 			unset($dropp_object['special_locations']['dropp_pickup']);
 		}
 
-		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], Dropp::VERSION);
-		wp_enqueue_script('dropp-admin-js', plugin_dir_url(__DIR__) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true);
+		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], time());
+		wp_enqueue_script('dropp-admin-js', plugin_dir_url(__DIR__) . '/assets/js/dropp-admin.js', [], time(), true);
 		wp_localize_script('dropp-admin-js', '_dropp', $dropp_object);
 	}
 

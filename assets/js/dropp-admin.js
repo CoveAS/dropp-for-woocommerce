@@ -1351,6 +1351,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1402,6 +1427,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _consignment_row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./consignment-row.vue */ "./resources/js/components/consignments/consignment-row.vue");
 /* harmony import */ var _order_modal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./order-modal.vue */ "./resources/js/components/consignments/order-modal.vue");
 /* harmony import */ var _consignment_card_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./consignment-card.vue */ "./resources/js/components/consignments/consignment-card.vue");
+/* harmony import */ var _dropp_error_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dropp-error.vue */ "./resources/js/components/dropp-error.vue");
 //
 //
 //
@@ -1578,6 +1604,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -1595,6 +1643,11 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     display_consignments: function display_consignments() {
       return this.consignment_container.consignments.length;
+    },
+    has_errors: function has_errors() {
+      return this.consignment_container.consignments.some(function (c) {
+        return c.status === 'error';
+      });
     }
   },
   methods: {
@@ -1621,7 +1674,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ConsignmentCard: _consignment_card_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     ordermodal: _order_modal_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    consignmentrow: _consignment_row_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    consignmentrow: _consignment_row_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    DroppError: _dropp_error_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -2215,8 +2269,17 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ExclamationMark: _icons_exclamation_mark_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ['level', 'title'],
-  mounted: function mounted() {// console.log(this.heading, this, this.title, this.level)
+  props: ['level', 'title', 'dismissible'],
+  data: function data() {
+    return {
+      dismissed: false
+    };
+  },
+  methods: {
+    dismiss: function dismiss() {
+      this.dismissed = true;
+      this.$emit('dismiss');
+    }
   }
 });
 
@@ -2981,7 +3044,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-actions[data-v-1a09655c] {\n  display: flex;\n  gap: 22px;\n}\n.dropp-consignment[data-v-1a09655c] {\n  opacity: 1;\n  transition: opacity 0.2s;\n  background: #FFFFFF;\n}\n.dropp-consignment--loading[data-v-1a09655c] {\n  opacity: 0.5;\n}\n.dropp-consignment[data-v-1a09655c]:nth-of-type(2n) {\n  background: #F5F7FE;\n}\n.dropp-consignment--cancelled .dropp-consignment__status[data-v-1a09655c], .dropp-consignment--error .dropp-consignment__status[data-v-1a09655c] {\n  color: #AC0000;\n}\n.dropp-consignment__actions[data-v-1a09655c] {\n  width: 12rem;\n}\n.dropp-consignment .dropp-consignment__action--cancel[data-v-1a09655c] {\n  color: #900;\n}\n.dropp-consignment .dropp-consignment__action--disabled[data-v-1a09655c] {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-actions[data-v-1a09655c] {\n  display: flex;\n  gap: 22px;\n}\n.dropp-consignment[data-v-1a09655c] {\n  opacity: 1;\n  transition: opacity 0.2s, background-color 0.15s;\n  background: #FFFFFF;\n}\n.dropp-consignment--loading[data-v-1a09655c] {\n  opacity: 0.5;\n}\n.dropp-consignment[data-v-1a09655c]:nth-of-type(2n) {\n  background: #FAFAFD;\n}\n.dropp-consignment[data-v-1a09655c]:hover {\n  background: #f9fafb;\n}\n.dropp-consignment--cancelled .dropp-consignment__status[data-v-1a09655c], .dropp-consignment--error .dropp-consignment__status[data-v-1a09655c] {\n  color: #AC0000;\n}\n.dropp-consignment__actions[data-v-1a09655c] {\n  width: 12rem;\n}\n.dropp-consignment__status[data-v-1a09655c], .dropp-consignment__created[data-v-1a09655c], .dropp-consignment__updated[data-v-1a09655c] {\n  color: #4b5563;\n}\n.dropp-consignment__barcode div[data-v-1a09655c]:last-child {\n  color: #6b7280;\n  font-size: 13px;\n}\n.dropp-consignment .dropp-consignment__action--cancel[data-v-1a09655c] {\n  color: #dc2626;\n}\n.dropp-consignment .dropp-consignment__action--cancel[data-v-1a09655c]:hover {\n  color: #b91c1c;\n}\n.dropp-consignment .dropp-consignment__action--cancel[data-v-1a09655c]:focus {\n  color: #b91c1c;\n}\n.dropp-consignment .dropp-consignment__action--disabled[data-v-1a09655c] {\n  color: #999;\n  opacity: 0.5;\n  cursor: not-allowed;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3005,7 +3068,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n}\n.dropp-consignments > p {\n  margin: 0;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #FFFFFF;\n  -webkit-font-smoothing: antialiased;\n  background: #000078;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 16px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #C4C4DF;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #C4C4DF;\n}\n.dropp-consignments tbody tr:last-child td {\n  border-bottom: 1px solid #C4C4DF;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 4px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 4px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 4px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 4px;\n}\n.dropp-consignments--large {\n  margin: 24px 12px 12px 12px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n}\n.dropp-consignments > p {\n  margin: 0;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 16px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody tr:last-child td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 4px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 4px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 4px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 4px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 4px;\n}\n.dropp-consignments--large {\n  margin: 24px 12px 12px 12px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 12px 12px 0 12px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3029,7 +3092,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".context-pdf__error,\n.context-pdf__skeleton {\n  background-color: #EEEEEE;\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n}\n.context-pdf__error {\n  background-color: #FFF0F2;\n}\n.context-pdf {\n  position: relative;\n}\n.context-pdf a.pdf-action {\n  width: 100%;\n  display: flex;\n}\n.context-pdf__list {\n  margin-top: 0;\n}\n.pdf-actions {\n  display: flex;\n}\n.dropp-context-menu .context-pdf .pdf-action--add {\n  color: #2F9C26;\n}\n.dropp-context-menu .context-pdf .pdf-action--add:focus,\n.dropp-context-menu .context-pdf .pdf-action--add:hover {\n  color: #228b18;\n  background-color: #dbf2d9;\n}\n.context-pdf .pdf-action--delete {\n  margin-left: auto;\n  color: #900;\n  padding: 4px 8px;\n  margin-top: -4px;\n  margin-bottom: -4px;\n  margin-right: -8px;\n  line-height: 1.25;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".context-pdf__error,\n.context-pdf__skeleton {\n  background-color: #EEEEEE;\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n}\n.context-pdf__error {\n  background-color: #FFF0F2;\n}\n.context-pdf {\n  position: relative;\n}\n.context-pdf a.pdf-action {\n  width: 100%;\n  display: flex;\n}\n.context-pdf__list {\n  margin-top: 0;\n}\n.pdf-actions {\n  display: flex;\n}\n.dropp-context-menu .context-pdf .pdf-action--add {\n  color: #00007D;\n}\n.dropp-context-menu .context-pdf .pdf-action--add:focus,\n.dropp-context-menu .context-pdf .pdf-action--add:hover {\n  color: #00007D;\n  background-color: #f3f4f6;\n}\n.context-pdf .pdf-action--delete {\n  margin-left: auto;\n  color: #900;\n  padding: 4px 8px;\n  margin-top: -4px;\n  margin-bottom: -4px;\n  margin-right: -8px;\n  line-height: 1.25;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3053,7 +3116,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-context__overlay {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: rgba(255, 255, 255, 0.5);\n  z-index: 2;\n}\n.dropp-context-menu {\n  position: relative;\n}\n.dropp-context-menu .dropp-consignment__action,\n.dropp-context-menu a {\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  color: #000000;\n}\n.dropp-context-menu .dropp-consignment__action:focus, .dropp-context-menu .dropp-consignment__action:hover,\n.dropp-context-menu a:focus,\n.dropp-context-menu a:hover {\n  background-color: #E5E8FF;\n  color: #1007FA;\n}\n.dropp-context-menu ul {\n  margin: 0;\n}\n.dropp-context-menu li {\n  margin-bottom: 3px;\n}\n.dropp-context-menu li:last-child {\n  margin-bottom: 0;\n}\n.dropp-context-menu__button {\n  display: block;\n  color: #000000;\n  padding: 8px 14px;\n  line-height: 1;\n  border-radius: 4px;\n  margin: 0 -14px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  outline: 1px solid transparent;\n  transition: outline-color 0.2s, color 0.2s;\n}\n.dropp-context-menu__button:hover {\n  outline-color: #ceccff;\n  color: #1007FA;\n}\n.dropp-context-menu__dropdown {\n  display: none;\n  position: absolute;\n  top: 110%;\n  margin: 0;\n  right: -14px;\n  width: 220px;\n  background: #fff;\n  padding: 8px;\n  border-radius: 4px;\n  z-index: 999;\n  border: 1px solid #E1E1E1;\n}\n.dropp-context-menu--show {\n  z-index: 3;\n}\n.dropp-context-menu--show .dropp-context-menu__dropdown {\n  display: block;\n}\n.dropp-context-menu--show .dropp-context-menu__main {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.dropp-context-menu .dropp-consignment__action--cancel {\n  color: #AC0000;\n}\n.dropp-context-menu .dropp-consignment__action--cancel:focus,\n.dropp-context-menu .dropp-consignment__action--cancel:hover {\n  color: #BD0000;\n  background-color: #f6d5d5;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-context__overlay {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-color: rgba(255, 255, 255, 0.5);\n  z-index: 2;\n}\n.dropp-context-menu {\n  position: relative;\n}\n.dropp-context-menu .dropp-consignment__action,\n.dropp-context-menu a {\n  cursor: default;\n  display: block;\n  text-decoration: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  color: #000000;\n}\n.dropp-context-menu .dropp-consignment__action:focus, .dropp-context-menu .dropp-consignment__action:hover,\n.dropp-context-menu a:focus,\n.dropp-context-menu a:hover {\n  background-color: #f3f4f6;\n  color: #00007D;\n}\n.dropp-context-menu ul {\n  margin: 0;\n}\n.dropp-context-menu li {\n  margin-bottom: 3px;\n}\n.dropp-context-menu li:last-child {\n  margin-bottom: 0;\n}\n.dropp-context-menu__button {\n  display: block;\n  color: #000000;\n  padding: 8px 14px;\n  line-height: 1;\n  border-radius: 4px;\n  margin: 0 -14px;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  outline: 1px solid transparent;\n  transition: outline-color 0.2s, color 0.2s;\n}\n.dropp-context-menu__button:hover {\n  outline-color: #ceccff;\n  color: #00007D;\n}\n.dropp-context-menu__dropdown {\n  display: none;\n  position: absolute;\n  top: 110%;\n  margin: 0;\n  right: -14px;\n  width: 220px;\n  background: #fff;\n  padding: 8px;\n  border-radius: 4px;\n  z-index: 999;\n  border: 1px solid #E1E1E1;\n}\n.dropp-context-menu--show {\n  z-index: 3;\n}\n.dropp-context-menu--show .dropp-context-menu__dropdown {\n  display: block;\n}\n.dropp-context-menu--show .dropp-context-menu__main {\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.dropp-context-menu .dropp-consignment__action--cancel {\n  color: #AC0000;\n}\n.dropp-context-menu .dropp-consignment__action--cancel:focus,\n.dropp-context-menu .dropp-consignment__action--cancel:hover {\n  color: #BD0000;\n  background-color: #f6d5d5;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3101,7 +3164,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-product-error[data-v-74b544be] {\n  padding: 16px;\n  border-radius: 4px;\n  border: 1px solid #FFCC1B;\n  background-color: #FFFDEA;\n  display: flex;\n  gap: 12px;\n}\n.dropp-product-error--error[data-v-74b544be] {\n  border-color: #FF638A;\n  background-color: #FFF0F2;\n}\n.dropp-product-error__icon[data-v-74b544be] {\n  color: #E28100;\n}\n.dropp-product-error--error .dropp-product-error__icon[data-v-74b544be] {\n  color: #CE0147;\n}\n.dropp-product-error__title[data-v-74b544be] {\n  display: block;\n  font-weight: 600;\n}\n.dropp-product-error__content[data-v-74b544be] {\n  text-wrap: balance;\n}\n.dropp-product-error[data-v-74b544be] {\n  margin-top: 16px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-product-error[data-v-74b544be] {\n  padding: 16px;\n  border-radius: 8px;\n  background-color: #fffbeb;\n  border: 1px solid #fde68a;\n  display: flex;\n  gap: 12px;\n  align-items: flex-start;\n  margin-top: 16px;\n}\n.dropp-product-error--error[data-v-74b544be] {\n  background-color: #fffbeb;\n}\n.dropp-product-error__icon[data-v-74b544be] {\n  color: #d97706;\n  flex-shrink: 0;\n}\n.dropp-product-error--error .dropp-product-error__icon[data-v-74b544be] {\n  color: #d97706;\n}\n.dropp-product-error__title[data-v-74b544be] {\n  display: block;\n  font-weight: 600;\n  color: #d97706;\n}\n.dropp-product-error__content[data-v-74b544be] {\n  text-wrap: balance;\n  flex: 1;\n  color: #d97706;\n}\n.dropp-product-error__dismiss[data-v-74b544be] {\n  flex-shrink: 0;\n  background: none;\n  border: none;\n  font-size: 24px;\n  line-height: 1;\n  color: #d97706;\n  cursor: pointer;\n  padding: 0 4px;\n  border-radius: 4px;\n  transition: background-color 0.15s;\n}\n.dropp-product-error__dismiss[data-v-74b544be]:hover {\n  background-color: #fef3c7;\n}\n.dropp-product-error__dismiss[data-v-74b544be]:focus {\n  outline: none;\n  background-color: #fef3c7;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24560,111 +24623,140 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "dropp-consignments" }, [
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.display_consignments,
-                expression: "display_consignments",
-              },
-            ],
-            staticClass: "dropp-consignments--large",
-          },
-          [
-            _c("table", { staticClass: "dropp-consignments__table" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.barcode) },
-                  }),
-                  _vm._v(" "),
-                  _c("th", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.status) },
-                  }),
-                  _vm._v(" "),
-                  _c("th", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.created) },
-                  }),
-                  _vm._v(" "),
-                  _c("th", {
-                    domProps: { innerHTML: _vm._s(_vm.i18n.updated) },
-                  }),
-                  _vm._v(" "),
-                  _c("th", {
-                    staticClass: "dropp-consignment__actions",
-                    domProps: { innerHTML: _vm._s(_vm.i18n.actions) },
-                  }),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(
-                  _vm.consignment_container.consignments,
-                  function (consignment) {
-                    return _c("consignmentrow", {
-                      key: consignment.id,
-                      attrs: {
-                        consignment: consignment,
-                        classes: _vm.classes(consignment),
-                        status: _vm.status(consignment),
-                      },
-                    })
-                  }
-                ),
-                1
-              ),
-              _vm._v(" "),
-              _c("tfoot"),
-            ]),
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.display_consignments,
-                expression: "display_consignments",
-              },
-            ],
-            staticClass: "dropp-consignments--small",
-          },
-          _vm._l(
-            _vm.consignment_container.consignments,
-            function (consignment) {
-              return _c("consignment-card", {
-                key: consignment.id,
-                attrs: {
-                  consignment: consignment,
-                  classes: _vm.classes(consignment),
-                  status: _vm.status(consignment),
+      _c(
+        "div",
+        { staticClass: "dropp-consignments" },
+        [
+          _vm.has_errors
+            ? _c(
+                "dropp-error",
+                {
+                  attrs: {
+                    level: "warning",
+                    title:
+                      _vm.i18n.booking_error_title || "Booking error detected",
+                    dismissible: true,
+                  },
                 },
-              })
-            }
-          ),
-          1
-        ),
-        _vm._v(" "),
-        _c("p", {
-          directives: [
+                [
+                  _vm._v(
+                    "\n\t\t\t" +
+                      _vm._s(
+                        _vm.i18n.booking_error_message ||
+                          "There was an unknown error with one or more bookings. Please review the consignments below or contact support for assistance."
+                      ) +
+                      "\n\t\t"
+                  ),
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
             {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.display_consignments,
-              expression: "! display_consignments",
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.display_consignments,
+                  expression: "display_consignments",
+                },
+              ],
+              staticClass: "dropp-consignments--large",
             },
-          ],
-          domProps: { innerHTML: _vm._s(_vm.i18n.no_consignments) },
-        }),
-      ]),
+            [
+              _c("table", { staticClass: "dropp-consignments__table" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", {
+                      domProps: { innerHTML: _vm._s(_vm.i18n.barcode) },
+                    }),
+                    _vm._v(" "),
+                    _c("th", {
+                      domProps: { innerHTML: _vm._s(_vm.i18n.status) },
+                    }),
+                    _vm._v(" "),
+                    _c("th", {
+                      domProps: { innerHTML: _vm._s(_vm.i18n.created) },
+                    }),
+                    _vm._v(" "),
+                    _c("th", {
+                      domProps: { innerHTML: _vm._s(_vm.i18n.updated) },
+                    }),
+                    _vm._v(" "),
+                    _c("th", {
+                      staticClass: "dropp-consignment__actions",
+                      domProps: { innerHTML: _vm._s(_vm.i18n.actions) },
+                    }),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(
+                    _vm.consignment_container.consignments,
+                    function (consignment) {
+                      return _c("consignmentrow", {
+                        key: consignment.id,
+                        attrs: {
+                          consignment: consignment,
+                          classes: _vm.classes(consignment),
+                          status: _vm.status(consignment),
+                        },
+                      })
+                    }
+                  ),
+                  1
+                ),
+                _vm._v(" "),
+                _c("tfoot"),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.display_consignments,
+                  expression: "display_consignments",
+                },
+              ],
+              staticClass: "dropp-consignments--small",
+            },
+            _vm._l(
+              _vm.consignment_container.consignments,
+              function (consignment) {
+                return _c("consignment-card", {
+                  key: consignment.id,
+                  attrs: {
+                    consignment: consignment,
+                    classes: _vm.classes(consignment),
+                    status: _vm.status(consignment),
+                  },
+                })
+              }
+            ),
+            1
+          ),
+          _vm._v(" "),
+          _c("p", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.display_consignments,
+                expression: "! display_consignments",
+              },
+            ],
+            domProps: { innerHTML: _vm._s(_vm.i18n.no_consignments) },
+          }),
+        ],
+        1
+      ),
       _vm._v(" "),
       _vm.modal_consignment
         ? _c("ordermodal", { attrs: { consignment: _vm.modal_consignment } })
@@ -25186,35 +25278,49 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "dropp-product-error",
-      class: "dropp-product-error--" + _vm.level,
-    },
-    [
-      _c(
+  return !_vm.dismissed
+    ? _c(
         "div",
-        { staticClass: "dropp-product-error__icon" },
-        [_c("exclamation-mark")],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "dropp-product-error__content" },
+        {
+          staticClass: "dropp-product-error",
+          class: "dropp-product-error--" + _vm.level,
+        },
         [
-          _c("strong", {
-            staticClass: "dropp-product-error__title",
-            domProps: { innerHTML: _vm._s(_vm.title) },
-          }),
+          _c(
+            "div",
+            { staticClass: "dropp-product-error__icon" },
+            [_c("exclamation-mark")],
+            1
+          ),
           _vm._v(" "),
-          _vm._t("default"),
-        ],
-        2
-      ),
-    ]
-  )
+          _c(
+            "div",
+            { staticClass: "dropp-product-error__content" },
+            [
+              _c("strong", {
+                staticClass: "dropp-product-error__title",
+                domProps: { innerHTML: _vm._s(_vm.title) },
+              }),
+              _vm._v(" "),
+              _vm._t("default"),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _vm.dismissible
+            ? _c(
+                "button",
+                {
+                  staticClass: "dropp-product-error__dismiss",
+                  attrs: { type: "button", "aria-label": "Dismiss" },
+                  on: { click: _vm.dismiss },
+                },
+                [_vm._v("×")]
+              )
+            : _vm._e(),
+        ]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

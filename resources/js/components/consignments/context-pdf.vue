@@ -77,12 +77,12 @@
 }
 
 .dropp-context-menu .context-pdf .pdf-action--add {
-  color: #2F9C26;
+  color: #00007D;
 }
 .dropp-context-menu .context-pdf .pdf-action--add:focus,
 .dropp-context-menu .context-pdf .pdf-action--add:hover {
-  color: #228b18;
-  background-color: #dbf2d9;
+  color: #00007D;
+  background-color: #f3f4f6;
 }
 
 

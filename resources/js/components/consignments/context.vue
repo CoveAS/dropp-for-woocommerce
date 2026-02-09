@@ -229,8 +229,8 @@ export default {
 
 		&:focus,
 		&:hover {
-			background-color: #E5E8FF;
-			color: #1007FA;
+			background-color: #f3f4f6;
+			color: #00007D;
 		}
 	}
 
@@ -260,7 +260,7 @@ export default {
 
 		&:hover {
 			outline-color: #ceccff;
-			color: #1007FA;
+			color: #00007D;
 		}
 	}
 

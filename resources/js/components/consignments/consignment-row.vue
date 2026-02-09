@@ -46,7 +46,7 @@
 }
 .dropp-consignment {
 	opacity: 1;
-	transition: opacity 0.2s;
+	transition: opacity 0.2s, background-color 0.15s;
 
 	&--loading {
 		opacity: 0.5;
@@ -55,7 +55,11 @@
 	background: #FFFFFF;
 
 	&:nth-of-type(2n) {
-		background: #F5F7FE;
+		background: #FAFAFD;
+	}
+
+	&:hover {
+		background: #f9fafb;
 	}
 
 	&--cancelled,
@@ -69,8 +73,29 @@
 		width: 12rem;
 	}
 
+	&__status,
+	&__created,
+	&__updated {
+		color: #4b5563;
+	}
+
+	&__barcode {
+		div:last-child {
+			color: #6b7280;
+			font-size: 13px;
+		}
+	}
+
 	& &__action--cancel {
-		color: #900;
+		color: #dc2626;
+
+		&:hover {
+			color: #b91c1c;
+		}
+
+		&:focus {
+			color: #b91c1c;
+		}
 	}
 
 	& &__action--disabled {

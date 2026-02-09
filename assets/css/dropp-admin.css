@@ -185,20 +185,19 @@
   display: block;
   line-height: 1.2;
   background-color: #FFFFFF;
-  color: #1007FA;
-  border: 1px solid #0000EE;
+  color: #00007D;
+  border: 1px solid #00007D;
   padding: 8px 24px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  border-radius: 4px;
+  border-radius: 5px;
   flex: 1 0 auto;
   text-align: center;
-  border-radius: 5px;
   text-decoration: none;
 }
 .dropp-consignment-download-button:hover {
-  color: #1007FA;
-  background-color: #f1f1f1;
+  color: #00007D;
+  background-color: #f3f4f6;
 }

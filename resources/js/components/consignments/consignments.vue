@@ -1,6 +1,14 @@
 <template>
 	<div>
 	<div class="dropp-consignments">
+		<dropp-error
+			v-if="has_errors"
+			level="warning"
+			:title="i18n.booking_error_title || 'Booking error detected'"
+			:dismissible="true"
+		>
+			{{ i18n.booking_error_message || 'There was an unknown error with one or more bookings. Please review the consignments below or contact support for assistance.' }}
+		</dropp-error>
 		<div class="dropp-consignments--large" v-show="display_consignments">
 			<table class="dropp-consignments__table">
 				<thead>
@@ -54,9 +62,18 @@
 
 	th {
 		text-align: left;
-		color: #FFFFFF;
-		-webkit-font-smoothing: antialiased;
-		background: #000078;
+		color: #374151;
+		font-weight: 600;
+		background: #f3f4f6;
+		border-top: 1px solid #d1d5db;
+	}
+
+	th:first-child {
+		border-left: 1px solid #d1d5db;
+	}
+
+	th:last-child {
+		border-right: 1px solid #d1d5db;
 	}
 
 	th, td {
@@ -72,15 +89,15 @@
 	}
 
 	td:first-child {
-		border-left: 1px solid #C4C4DF;
+		border-left: 1px solid #d1d5db;
 	}
 
 	td:last-child {
-		border-right: 1px solid #C4C4DF;
+		border-right: 1px solid #d1d5db;
 	}
 
 	tbody tr:last-child td {
-		border-bottom: 1px solid #C4C4DF;
+		border-bottom: 1px solid #d1d5db;
 	}
 
 	thead th:first-child {
@@ -113,6 +130,10 @@
 
 .dropp-consignments--large {
   margin: 24px 12px 12px 12px;
+}
+
+.dropp-consignments > .dropp-product-error {
+  margin: 12px 12px 0 12px;
 }
 
 @container (max-width: 599px) {
@@ -179,6 +200,7 @@
 import ConsignmentRow from './consignment-row.vue';
 import OrderModal from "./order-modal.vue";
 import ConsignmentCard from "./consignment-card.vue";
+import DroppError from "../dropp-error.vue";
 
 export default {
 	data() {
@@ -195,6 +217,9 @@ export default {
 	computed: {
 		display_consignments: function () {
 			return this.consignment_container.consignments.length;
+		},
+		has_errors: function () {
+			return this.consignment_container.consignments.some(c => c.status === 'error');
 		},
 	},
 	methods: {
@@ -223,6 +248,7 @@ export default {
 		ConsignmentCard,
 		ordermodal: OrderModal,
 		consignmentrow: ConsignmentRow,
+		DroppError,
 	}
 };
 </script>

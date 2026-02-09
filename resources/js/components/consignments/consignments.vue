@@ -35,12 +35,19 @@
 		</div>
 		<div class="dropp-consignments--small" v-show="display_consignments">
 			<consignment-card
-				v-for="consignment in consignment_container.consignments"
+				v-for="consignment in visible_consignments"
 				:consignment="consignment"
 				:key="consignment.id"
 				:classes="classes(consignment)"
 				:status="status(consignment)"
 			/>
+			<button
+				v-if="has_hidden_consignments"
+				class="dropp-consignments__show-more"
+				@click="show_all_cards = true"
+			>
+				{{ i18n.show_all || 'Show all' }} ({{ consignment_container.consignments.length }})
+			</button>
 		</div>
 		<p v-show="! display_consignments" v-html="i18n.no_consignments">
 		</p>
@@ -167,6 +174,36 @@
 	}
 }
 
+.dropp-consignments--small {
+	padding: 12px;
+}
+
+.dropp-consignments__show-more {
+	display: block;
+	width: 100%;
+	max-width: 400px;
+	margin: 16px auto 0 auto;
+	padding: 12px 20px;
+	background: #f3f4f6;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	color: #374151;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color 0.2s, border-color 0.2s;
+
+	&:hover {
+		background: #e5e7eb;
+		border-color: #9ca3af;
+	}
+
+	&:focus {
+		outline: 2px solid #1e3a8a;
+		outline-offset: 2px;
+	}
+}
+
 .dropp-consignments--small .dropp-consignment--new {
 	animation: fadeInAndHighlight 5s ease;
 }
@@ -211,6 +248,8 @@ export default {
 				consignments: _dropp.consignments
 			},
 			modal_consignment: null,
+			show_all_cards: false,
+			initial_cards_limit: 3,
 		};
 	},
 	mounted() {
@@ -233,6 +272,15 @@ export default {
 		},
 		has_errors: function () {
 			return this.consignment_container.consignments.some(c => c.status === 'error');
+		},
+		visible_consignments: function () {
+			if (this.show_all_cards) {
+				return this.consignment_container.consignments;
+			}
+			return this.consignment_container.consignments.slice(0, this.initial_cards_limit);
+		},
+		has_hidden_consignments: function () {
+			return !this.show_all_cards && this.consignment_container.consignments.length > this.initial_cards_limit;
 		},
 	},
 	methods: {

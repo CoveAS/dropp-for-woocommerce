@@ -1109,11 +1109,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./context-pdf.vue */ "./resources/js/components/consignments/context-pdf.vue");
 /* harmony import */ var _loader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../loader.vue */ "./resources/js/components/loader.vue");
-/* harmony import */ var _time_ago_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../time-ago.js */ "./resources/js/time-ago.js");
-/* harmony import */ var _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../icons/context-button.vue */ "./resources/js/components/icons/context-button.vue");
-/* harmony import */ var _context_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./context.vue */ "./resources/js/components/consignments/context.vue");
-/* harmony import */ var _download_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./download.vue */ "./resources/js/components/consignments/download.vue");
-/* harmony import */ var _time_ago_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../time-ago.vue */ "./resources/js/components/time-ago.vue");
+/* harmony import */ var _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../icons/context-button.vue */ "./resources/js/components/icons/context-button.vue");
+/* harmony import */ var _context_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./context.vue */ "./resources/js/components/consignments/context.vue");
+/* harmony import */ var _download_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./download.vue */ "./resources/js/components/consignments/download.vue");
+/* harmony import */ var _time_ago_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../time-ago.vue */ "./resources/js/components/time-ago.vue");
 //
 //
 //
@@ -1212,7 +1211,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1238,10 +1293,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ['consignment', 'classes', 'status'],
   components: {
-    TimeAgo: _time_ago_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-    Download: _download_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    Context: _context_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    ContextButton: _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    TimeAgo: _time_ago_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Download: _download_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Context: _context_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    ContextButton: _icons_context_button_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     Loader: _loader_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     ContextPdf: _context_pdf_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -1632,6 +1687,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1643,7 +1735,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       consignment_container: {
         consignments: _dropp.consignments
       },
-      modal_consignment: null
+      modal_consignment: null,
+      show_all_cards: false,
+      initial_cards_limit: 3
     };
   },
   mounted: function mounted() {
@@ -1668,6 +1762,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.consignment_container.consignments.some(function (c) {
         return c.status === 'error';
       });
+    },
+    visible_consignments: function visible_consignments() {
+      if (this.show_all_cards) {
+        return this.consignment_container.consignments;
+      }
+
+      return this.consignment_container.consignments.slice(0, this.initial_cards_limit);
+    },
+    has_hidden_consignments: function has_hidden_consignments() {
+      return !this.show_all_cards && this.consignment_container.consignments.length > this.initial_cards_limit;
     }
   },
   methods: {
@@ -3045,7 +3149,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-consignment[data-v-26aa6cfe] {\n  max-width: 300px;\n  margin: 0 auto;\n}\n.dropp-consignment--cancelled .dropp-consignment__status > span[data-v-26aa6cfe], .dropp-consignment--error .dropp-consignment__status > span[data-v-26aa6cfe] {\n  color: #AC0000;\n}\n.dropp-consignment__inner[data-v-26aa6cfe] {\n  padding: 20px 16px;\n  border-radius: 4px;\n}\n.dropp-consignment__seperator[data-v-26aa6cfe] {\n  margin: 4px 16px;\n  border-bottom: 1px solid #999999;\n}\n.dropp-consignment:last-child .dropp-consignment__seperator[data-v-26aa6cfe] {\n  display: none;\n}\n.dropp-consignment__card-label[data-v-26aa6cfe] {\n  font-weight: 600;\n}\n.dropp-consignment__card-content[data-v-26aa6cfe] {\n  margin-bottom: 16px;\n  line-height: 1.75;\n  font-size: 14px;\n}\n.dropp-consignment__card-content > div[data-v-26aa6cfe] {\n  display: flex;\n  justify-content: space-between;\n}\n.dropp-consignment__barcode[data-v-26aa6cfe] {\n  font-size: 18px;\n  font-weight: 700;\n}\n.dropp-consignment__barcode-wrapper[data-v-26aa6cfe] {\n  display: flex;\n  justify-content: space-between;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-consignment-card[data-v-26aa6cfe] {\n  max-width: 400px;\n  margin: 0 auto 16px auto;\n  background: #fff;\n  border: 1px solid #d1d5db;\n  border-radius: 12px;\n  overflow: hidden;\n}\n.dropp-consignment-card[data-v-26aa6cfe]:last-child {\n  margin-bottom: 0;\n}\n.dropp-consignment-card.dropp-consignment--cancelled .dropp-consignment-card__value span[data-v-26aa6cfe], .dropp-consignment-card.dropp-consignment--error .dropp-consignment-card__value span[data-v-26aa6cfe] {\n  color: #AC0000;\n}\n.dropp-consignment-card__header[data-v-26aa6cfe] {\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  padding: 20px 20px 0 20px;\n}\n.dropp-consignment-card__title-wrapper[data-v-26aa6cfe] {\n  flex: 1;\n}\n.dropp-consignment-card__barcode[data-v-26aa6cfe] {\n  font-size: 18px;\n  font-weight: 700;\n  color: #1f2937;\n  margin-bottom: 4px;\n}\n.dropp-consignment-card__products[data-v-26aa6cfe] {\n  font-size: 14px;\n  color: #6b7280;\n}\n.dropp-consignment-card__content[data-v-26aa6cfe] {\n  padding: 16px 20px;\n}\n.dropp-consignment-card__row[data-v-26aa6cfe] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 8px 0;\n}\n.dropp-consignment-card__label[data-v-26aa6cfe] {\n  font-size: 14px;\n  color: #374151;\n}\n.dropp-consignment-card__value[data-v-26aa6cfe] {\n  font-size: 14px;\n  color: #6b7280;\n  text-align: right;\n}\n.dropp-consignment-card__actions[data-v-26aa6cfe] {\n  padding: 0 20px 20px 20px;\n}\n.dropp-consignment-card__actions[data-v-26aa6cfe] :deep(.dropp-consignment-download-button) {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  width: 100%;\n  padding: 12px 20px;\n  border: 2px solid #1e3a8a;\n  border-radius: 100px;\n  background: transparent;\n  color: #1e3a8a;\n  font-size: 14px;\n  font-weight: 500;\n  text-decoration: none;\n  cursor: pointer;\n  transition: background-color 0.2s, color 0.2s;\n}\n.dropp-consignment-card__actions[data-v-26aa6cfe] :deep(.dropp-consignment-download-button):hover {\n  background: #1e3a8a;\n  color: #fff;\n}\n.dropp-consignment-card__actions :deep(.dropp-consignment-download-button):hover svg[data-v-26aa6cfe] {\n  stroke: #fff;\n}\n.dropp-consignment-card__actions[data-v-26aa6cfe] :deep(.dropp-consignment-download-button):focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignment-card__actions :deep(.dropp-consignment-download-button) svg[data-v-26aa6cfe] {\n  width: 16px;\n  height: 16px;\n  stroke: #1e3a8a;\n  transition: stroke 0.2s;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3093,7 +3197,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n}\n.dropp-consignments > p {\n  margin: 0;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 16px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px 12px 12px 12px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 12px 12px 0 12px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n}\n.dropp-consignments > p {\n  margin: 0;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments th, .dropp-consignments td {\n  padding: 16px;\n}\n.dropp-consignments th:first-of-type, .dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments th:last-of-type, .dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px 12px 12px 12px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 12px 12px 0 12px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--small {\n  padding: 12px;\n}\n.dropp-consignments__show-more {\n  display: block;\n  width: 100%;\n  max-width: 400px;\n  margin: 16px auto 0 auto;\n  padding: 12px 20px;\n  background: #f3f4f6;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  color: #374151;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background-color 0.2s, border-color 0.2s;\n}\n.dropp-consignments__show-more:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n}\n.dropp-consignments__show-more:focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24431,128 +24535,139 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.consignment
-    ? _c("div", { staticClass: "dropp-consignment", class: _vm.classes }, [
+    ? _c("div", { staticClass: "dropp-consignment-card", class: _vm.classes }, [
         _c(
           "div",
-          { staticClass: "dropp-consignment__inner" },
+          { staticClass: "dropp-consignment-card__header" },
           [
             _c(
               "div",
               {
-                staticClass: "dropp-consignment__barcode-wrapper",
+                staticClass: "dropp-consignment-card__title-wrapper",
                 attrs: { title: _vm.consignment.dropp_order_id },
               },
               [
                 _vm.consignment.barcode
-                  ? _c("div", { staticClass: "dropp-consignment__barcode" }, [
-                      _vm.consignment.test
-                        ? _c("span", [_vm._v(" [TEST] ")])
-                        : _vm._e(),
-                      _vm._v(
-                        "\n\t\t\t\t" +
-                          _vm._s(_vm.consignment.barcode) +
-                          "\n\t\t\t"
-                      ),
-                    ])
+                  ? _c(
+                      "div",
+                      { staticClass: "dropp-consignment-card__barcode" },
+                      [
+                        _vm.consignment.test
+                          ? _c("span", [_vm._v("[TEST] ")])
+                          : _vm._e(),
+                        _vm._v(_vm._s(_vm.consignment.barcode) + "\n\t\t\t"),
+                      ]
+                    )
                   : _vm._e(),
-                _vm._v(" "),
-                _c("context", { attrs: { consignment: _vm.consignment } }),
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropp-consignment__card-content" }, [
-              _c("div", { staticClass: "dropp-consignment__products" }, [
-                _c("div", {
-                  staticClass: "dropp-consignment__card-label",
-                  domProps: { innerHTML: _vm._s(_vm.i18n.products) },
-                }),
                 _vm._v(" "),
                 _vm.consignment.products.length
-                  ? _c("div", [
-                      _vm._v(
-                        "\n\t\t\t\t\t" +
-                          _vm._s(_vm.consignment.products.length) +
-                          "\n\t\t\t\t"
-                      ),
-                    ])
+                  ? _c(
+                      "div",
+                      { staticClass: "dropp-consignment-card__products" },
+                      [
+                        _vm._v(
+                          "\n\t\t\t\t" +
+                            _vm._s(_vm.consignment.products.length) +
+                            " " +
+                            _vm._s(
+                              _vm.consignment.products.length === 1
+                                ? _vm.i18n.product
+                                : _vm.i18n.products
+                            ) +
+                            "\n\t\t\t"
+                        ),
+                      ]
+                    )
                   : _vm._e(),
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "dropp-consignment__status" },
-                [
-                  _c("div", {
-                    staticClass: "dropp-consignment__card-label",
-                    domProps: { innerHTML: _vm._s(_vm.i18n.status) },
-                  }),
-                  _vm._v(" "),
-                  _c("span", {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.loading,
-                        expression: "!loading",
-                      },
-                    ],
-                    domProps: { innerHTML: _vm._s(_vm.status) },
-                  }),
-                  _vm._v(" "),
-                  _c("loader", {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.loading,
-                        expression: "loading",
-                      },
-                    ],
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "dropp-consignment__created" },
-                [
-                  _c("div", {
-                    staticClass: "dropp-consignment__card-label",
-                    domProps: { innerHTML: _vm._s(_vm.i18n.created) },
-                  }),
-                  _vm._v(" "),
-                  _c("time-ago", {
-                    attrs: { value: _vm.consignment.created_at },
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "dropp-consignment__updated" },
-                [
-                  _c("div", {
-                    staticClass: "dropp-consignment__card-label",
-                    domProps: { innerHTML: _vm._s(_vm.i18n.updated) },
-                  }),
-                  _vm._v(" "),
-                  _c("time-ago", {
-                    attrs: { value: _vm.consignment.updated_at },
-                  }),
-                ],
-                1
-              ),
-            ]),
+              ]
+            ),
             _vm._v(" "),
-            _c("download", { attrs: { consignment: _vm.consignment } }),
+            _c("context", { attrs: { consignment: _vm.consignment } }),
           ],
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "dropp-consignment__seperator" }),
+        _c("div", { staticClass: "dropp-consignment-card__content" }, [
+          _c("div", { staticClass: "dropp-consignment-card__row" }, [
+            _c("div", {
+              staticClass: "dropp-consignment-card__label",
+              domProps: { innerHTML: _vm._s(_vm.i18n.status + ":") },
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "dropp-consignment-card__value" },
+              [
+                _c("span", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.loading,
+                      expression: "!loading",
+                    },
+                  ],
+                  domProps: { innerHTML: _vm._s(_vm.status) },
+                }),
+                _vm._v(" "),
+                _c("loader", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.loading,
+                      expression: "loading",
+                    },
+                  ],
+                }),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropp-consignment-card__row" }, [
+            _c("div", {
+              staticClass: "dropp-consignment-card__label",
+              domProps: { innerHTML: _vm._s(_vm.i18n.created + ":") },
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "dropp-consignment-card__value" },
+              [
+                _c("time-ago", {
+                  attrs: { value: _vm.consignment.created_at },
+                }),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropp-consignment-card__row" }, [
+            _c("div", {
+              staticClass: "dropp-consignment-card__label",
+              domProps: { innerHTML: _vm._s(_vm.i18n.updated + ":") },
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "dropp-consignment-card__value" },
+              [
+                _c("time-ago", {
+                  attrs: { value: _vm.consignment.updated_at },
+                }),
+              ],
+              1
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "dropp-consignment-card__actions" },
+          [_c("download", { attrs: { consignment: _vm.consignment } })],
+          1
+        ),
       ])
     : _vm._e()
 }
@@ -24806,9 +24921,8 @@ var render = function () {
               ],
               staticClass: "dropp-consignments--small",
             },
-            _vm._l(
-              _vm.consignment_container.consignments,
-              function (consignment) {
+            [
+              _vm._l(_vm.visible_consignments, function (consignment) {
                 return _c("consignment-card", {
                   key: consignment.id,
                   attrs: {
@@ -24817,9 +24931,34 @@ var render = function () {
                     status: _vm.status(consignment),
                   },
                 })
-              }
-            ),
-            1
+              }),
+              _vm._v(" "),
+              _vm.has_hidden_consignments
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "dropp-consignments__show-more",
+                      on: {
+                        click: function ($event) {
+                          _vm.show_all_cards = true
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t" +
+                          _vm._s(_vm.i18n.show_all || "Show all") +
+                          " (" +
+                          _vm._s(
+                            _vm.consignment_container.consignments.length
+                          ) +
+                          ")\n\t\t\t"
+                      ),
+                    ]
+                  )
+                : _vm._e(),
+            ],
+            2
           ),
           _vm._v(" "),
           _c("p", {

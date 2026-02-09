@@ -27,7 +27,9 @@ export default {
 		</div>
 		<div class="dropp-product-error__content">
 			<strong class="dropp-product-error__title" v-html="title"></strong>
-			<slot/>
+			<div class="dropp-product-error__body">
+				<slot/>
+			</div>
 		</div>
 		<button
 			v-if="dismissible"

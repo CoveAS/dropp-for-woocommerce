@@ -59,6 +59,7 @@
 <style lang="scss">
 #woocommerce-order-dropp-consignments .inside {
 	z-index: 2;
+	padding: 0 !important;
 }
 .dropp-consignments > p {
 	margin: 0;
@@ -133,26 +134,36 @@
 
 }
 
-#woocommerce-order-dropp-consignments h2 {
-}
 
 .dropp-consignments--large {
-  margin: 24px 12px 12px 12px;
+  margin: 24px;
 }
 
 .dropp-consignments > .dropp-product-error {
-  margin: 12px 12px 0 12px;
+  margin: 16px;
+  max-width: 400px;
 }
 
 @container (max-width: 599px) {
 	.dropp-consignments--large {
 		display: none;
 	}
+	.dropp-consignments--small {
+		padding: 16px;
+	}
+	.dropp-consignments > .dropp-product-error {
+		margin: 16px 16px 0 16px;
+		max-width: none;
+	}
 }
 
 @container (min-width: 600px) {
 	.dropp-consignments--small {
 		display: none;
+	}
+	.dropp-consignments > .dropp-product-error {
+		margin: 24px 24px 0 24px;
+		max-width: none;
 	}
 }
 
@@ -174,9 +185,7 @@
 	}
 }
 
-.dropp-consignments--small {
-	padding: 12px;
-}
+
 
 .dropp-consignments__show-more {
 	display: block;

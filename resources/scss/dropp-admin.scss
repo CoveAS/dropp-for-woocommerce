@@ -266,18 +266,28 @@
 }
 
 .dropp-button--secondary {
-	background: #E5E8FF;
-	border-color: #1007FA;
-	color: #1007FA;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #ffffff;
+	border-color: #c3c4c7;
+	color: #1d2327;
+	margin-right: 8px;
+	border-radius: 5px;
+	font-weight: 500;
+	padding-left: 16px;
+	padding-right: 16px;
 
 	&:focus {
-		color: #1007FA;
+		color: #1d2327;
+		box-shadow: 0 0 0 3px #e0e1e4;
 	}
 
 	&:hover,
 	&:active {
-		background-color: #f1f3ff;
-		color: #1007FA;
+		background-color: #f0f0f1;
+		border-color: #c3c4c7;
+		color: #1d2327;
 	}
 }
 
@@ -286,17 +296,18 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
+	gap: 8px;
 	line-height: 1;
 	background-color: #FFFFFF;
 	color: #00007D;
-	border: 1px solid #00007D;
+	border: 1px solid #c3c4c7;
 	padding: 6px 16px;
 	user-select: none;
 	border-radius: 5px;
 	text-decoration: none;
 	white-space: nowrap;
 	box-sizing: border-box;
+	font-weight: 500;
 
 	svg {
 		flex-shrink: 0;
@@ -304,12 +315,12 @@
 
 	&:hover {
 		color: #00007D;
-		background-color: #E6E6F5;
+		background-color: #f0f0f1;
 	}
 
 	&:focus {
 		outline: none;
-		box-shadow: 0 0 0 3px #C7CDFF;
+		box-shadow: 0 0 0 3px #e0e1e4;
 	}
 
 	@media (max-width: 782px) {

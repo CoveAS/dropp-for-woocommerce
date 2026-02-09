@@ -268,27 +268,37 @@
 }
 
 .dropp-button--secondary {
-  background: #E5E8FF;
-  border-color: #1007FA;
-  color: #1007FA;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-color: #c3c4c7;
+  color: #1d2327;
+  margin-right: 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 .dropp-button--secondary:focus {
-  color: #1007FA;
+  color: #1d2327;
+  box-shadow: 0 0 0 3px #e0e1e4;
 }
 .dropp-button--secondary:hover, .dropp-button--secondary:active {
-  background-color: #f1f3ff;
-  color: #1007FA;
+  background-color: #f0f0f1;
+  border-color: #c3c4c7;
+  color: #1d2327;
 }
 
 .dropp-consignment-download-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   line-height: 1;
   background-color: #FFFFFF;
   color: #00007D;
-  border: 1px solid #00007D;
+  border: 1px solid #c3c4c7;
   padding: 6px 16px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -298,17 +308,18 @@
   text-decoration: none;
   white-space: nowrap;
   box-sizing: border-box;
+  font-weight: 500;
 }
 .dropp-consignment-download-button svg {
   flex-shrink: 0;
 }
 .dropp-consignment-download-button:hover {
   color: #00007D;
-  background-color: #E6E6F5;
+  background-color: #f0f0f1;
 }
 .dropp-consignment-download-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px #C7CDFF;
+  box-shadow: 0 0 0 3px #e0e1e4;
 }
 @media (max-width: 782px) {
   .dropp-consignment-download-button {

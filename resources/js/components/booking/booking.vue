@@ -26,17 +26,19 @@
 					</option>
 				</select>
 				<button
-					class="dropp-locations__add-button dropp-button dropp-button--secondary mw160"
+					class="dropp-locations__add-button dropp-button dropp-button--secondary"
 					@click.prevent="add_location"
-					v-html="i18n.add_location"
 				>
+					<box-icon />
+					<span v-html="i18n.add_location"></span>
 				</button><button
 					v-for="special, shipping_method in special_locations"
 					:key="shipping_method"
-					class="dropp-locations__add-button dropp-button dropp-button--secondary mw160"
+					class="dropp-locations__add-button dropp-button dropp-button--secondary"
 					@click.prevent="add_special_delivery( special.location )"
-					v-html="special.label"
 				>
+					<component :is="getSpecialIcon(shipping_method)" />
+					<span v-html="special.label"></span>
 				</button>
 			</div>
 		</div>
@@ -63,6 +65,7 @@
 			}
 		}
 		&__add-button {
+			gap: 8px;
 		}
 	}
 	.dropp-booking label:hover {
@@ -84,6 +87,9 @@
 
 <script>
 	import Location from './location.vue';
+	import BoxIcon from '../icons/box-icon.vue';
+	import HomeIcon from '../icons/home-icon.vue';
+	import TruckIcon from '../icons/truck-icon.vue';
 	export default {
 		data: function() {
 			return {
@@ -115,6 +121,12 @@
 			}
 		},
 		methods: {
+			getSpecialIcon: function(shippingMethod) {
+				if (shippingMethod.toLowerCase().includes('home')) {
+					return 'home-icon';
+				}
+				return 'truck-icon';
+			},
 			add_location: function() {
 				//@TODO: Location selector.
 				let vm = this;
@@ -157,6 +169,9 @@
 		},
 		components: {
 			location: Location,
+			'box-icon': BoxIcon,
+			'home-icon': HomeIcon,
+			'truck-icon': TruckIcon,
 		}
 	};
 </script>

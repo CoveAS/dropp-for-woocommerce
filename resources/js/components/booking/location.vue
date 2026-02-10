@@ -112,7 +112,7 @@
 	transition: opacity 0.5s;
 	color: #1C1B1B;
 	font-size: 14px;
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #d1d5db;
 
 	&--loading {
 		opacity: 0.5;
@@ -131,7 +131,7 @@
 			resize-x: none;
 			min-height: 100px;
 			width: 100%;
-			border: 1px solid #999999;
+			border: 1px solid #d1d5db;
 			padding: 8px 12px;
 		}
 
@@ -143,12 +143,12 @@
 			margin: 0 0 12px 0;
 			background-color: #FCFCFC;
 			min-height: 100px;
-			color: #7c7b7b;
+			color: #4b5563;
 		}
 
 		&__text {
 			border-radius: 4px;
-			border: 1px solid #CCCCCC;
+			border: 1px solid #d1d5db;
 			padding: 8px 12px;
 			margin-bottom: 1rem;
 		}
@@ -201,7 +201,7 @@
 		color: #00007D;
 		font-size: 14px;
 		transition: color 0.15s;
-		margin-top: 8px;
+		margin-top: 10px;
 
 		&:focus,
 		&:hover {

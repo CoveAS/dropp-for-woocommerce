@@ -74,14 +74,14 @@ export default {
   min-height: 20px;
   width: 58px;
   text-align: right;
-  border: 1px solid #999999;
+  border: 1px solid #d1d5db;
   box-shadow: none !important;
 	font-size: 14px;
   padding: 0 24px;
 }
 .dropp-quantity__input:read-only {
-	background-color: #EFEFEF;
-  border-color: #cfcfcf;
+	background-color: #f3f4f6;
+  border-color: #d1d5db;
 }
 
 .dropp-quantity__input::-webkit-outer-spin-button,
@@ -99,15 +99,15 @@ export default {
   position: absolute;
   cursor: default;
   user-select: none;
-  color: #999999;
+  color: #6b7280;
   padding: 4px 8px;
 
   .dropp-quantity--disabled & {
-		color: #d0d0d0;
+		color: #9ca3af;
   }
   .dropp-quantity--active &:hover {
 		background-color: rgba(0,0,0,0.1);
-		color: #666666;
+		color: #4b5563;
   }
 	top: 0;
 	bottom: 0;

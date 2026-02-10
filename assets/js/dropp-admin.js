@@ -511,6 +511,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -533,34 +538,7 @@ window._ = conserve;
     };
   },
   mounted: function mounted() {
-    this.products = JSON.parse(JSON.stringify(this.value)); // TESTING: Add mock products with weight - REMOVE BEFORE COMMIT
-
-    if (this.products.length === 0 || this.products.every(function (p) {
-      return p.weight === 0;
-    })) {
-      this.products = [{
-        sku: 'test-1',
-        name: 'Heavy Item',
-        weight: 4.0,
-        quantity: 2,
-        _quantity: 2,
-        checked: true
-      }, {
-        sku: 'test-2',
-        name: 'Medium Item',
-        weight: 2.5,
-        quantity: 3,
-        _quantity: 3,
-        checked: true
-      }, {
-        sku: 'test-3',
-        name: 'Light Item',
-        weight: 1.0,
-        quantity: 5,
-        _quantity: 5,
-        checked: false
-      }];
-    }
+    this.products = JSON.parse(JSON.stringify(this.value));
   },
   props: ['location', 'value', 'editable'],
   computed: {
@@ -24430,7 +24408,22 @@ var render = function () {
           "div",
           { staticClass: "dropp-products__errors" },
           [
-            _vm.weightLimitExceeded
+            _vm.weightLimitExceeded && _vm.quantityExceeded
+              ? _c(
+                  "dropp-error",
+                  {
+                    attrs: {
+                      level: "error",
+                      title: _vm.i18n.weight_limit_exceeded,
+                    },
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(_vm.i18n.weight_limit_exceeded_quantity_message)
+                    ),
+                  ]
+                )
+              : _vm.weightLimitExceeded
               ? _c(
                   "dropp-error",
                   {
@@ -24441,9 +24434,7 @@ var render = function () {
                   },
                   [_vm._v(_vm._s(_vm.i18n.weight_limit_exceeded_message))]
                 )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.quantityExceeded
+              : _vm.quantityExceeded
               ? _c(
                   "dropp-error",
                   {

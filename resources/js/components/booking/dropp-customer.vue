@@ -56,7 +56,7 @@
 	}
 
 	.input-field {
-		border: 1px solid #999999;
+		border: 1px solid #d1d5db;
 		padding: 4px 12px;
 		font-size: 14px;
 	}

@@ -118,8 +118,64 @@
 		opacity: 0.5;
 	}
 
+	input[type="checkbox"] {
+		width: 20px;
+		height: 20px;
+		border-radius: 4px;
+		border: 1px solid #d1d5db;
+		cursor: pointer;
+		margin: 0;
+		flex-shrink: 0;
+		appearance: none;
+		background-color: #fff;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+		padding: 0;
+		color: inherit;
+		line-height:0;
+		outline: none;
+		box-shadow: none;
+
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+
+		&::before {
+			content: none !important;
+		}
+
+		background-image: none !important;
+
+		&:checked {
+			background-color: currentColor;
+			border-color: currentColor;
+			background-image: none !important;
+		}
+
+		&:checked::after {
+			content: '';
+			width: 3.5px;
+			height: 7px;
+			border: solid #fff;
+			border-width: 0 2px 2px 0;
+			transform: rotate(45deg);
+			display: block;
+			margin-top: -1.5px;
+			margin-left: 0;
+		}
+	}
+
 	.dropp-day-delivery {
 		margin-top: 0.5rem;
+		label {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			cursor: pointer;
+		}
 	}
 
 	.dropp-delivery-instructions {

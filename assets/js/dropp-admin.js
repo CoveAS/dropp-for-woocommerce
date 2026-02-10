@@ -516,6 +516,145 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3109,7 +3248,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-text--error {\n  color: #CC0000;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n}\n.dropp-products {\n  border-bottom: 1px solid #d1d5db;\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1920px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1rem;\n  height: 1rem;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__product {\n  margin-bottom: 20px;\n}\n.dropp-products__product:last-child {\n  margin-bottom: 0;\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n}\n.dropp-products__weight, .dropp-products__quantity {\n  color: #4b5563;\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #FFF0F2;\n  border-color: #CE0147 !important;\n}\n.dropp-products__product-name {\n  display: block;\n  margin-bottom: 8px;\n}\n.dropp-products__product-name:hover input {\n  border-color: #00007D;\n  box-shadow: 0 0 0 1px #1007FA;\n}\n.dropp-products__weight {\n  margin-bottom: 4px;\n}\n.dropp-products__total-weight {\n  text-align: right;\n  font-weight: 600;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 4px;\n  color: #b91c1c;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__headers {\n  color: #6b7280;\n  display: none;\n  margin-top: 24px;\n  margin-bottom: 8px;\n}\n@container (min-width: 600px) {\n.dropp-products__headers,\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr minmax(100px, auto) 110px;\n    align-items: center;\n    gap: 8px;\n}\n.dropp-quantity {\n    margin: 0 auto;\n}\n.dropp-products__product .dropp-products__label {\n    display: none;\n}\n.dropp-products__weight {\n    text-align: right;\n    order: 3;\n}\n.dropp-products__headers span:nth-child(1) {\n    padding-left: 23px;\n}\n.dropp-products__headers span:nth-child(2) {\n    text-align: center;\n}\n.dropp-products__headers span:nth-child(3) {\n    text-align: right;\n}\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-products {\n  border-bottom: 1px solid #e5e7eb;\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1920px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1.25rem;\n  height: 1.25rem;\n  border-radius: 4px;\n  border: 1px solid #d1d5db;\n  cursor: pointer;\n  margin: 0;\n  flex-shrink: 0;\n}\n.dropp-products input[type=checkbox]:checked {\n  background-color: #000;\n  border-color: #000;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__header {\n  margin-bottom: 24px;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n  color: #111827;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 24px;\n}\n.dropp-products__headers {\n  display: none;\n  color: #6b7280;\n  font-size: 12px;\n  font-weight: 500;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  padding: 16px 0;\n  border-bottom: 1px solid #f3f4f6;\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__headers {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    gap: 24px;\n    justify-items: center;\n}\n}\n.dropp-products__headers span:first-child {\n  justify-self: start;\n  padding-left: 64px;\n}\n.dropp-products__product {\n  display: flex;\n  flex-direction: column;\n  padding: 0;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  background: #fff;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n  margin-bottom: 16px;\n  overflow: hidden;\n}\n.dropp-products__product:last-of-type {\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    align-items: center;\n    justify-items: center;\n    gap: 24px;\n    padding: 16px 0;\n    text-align: left;\n    border: none;\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    border-bottom: 1px solid #f3f4f6;\n    margin-bottom: 0;\n    overflow: visible;\n}\n.dropp-products__product:last-of-type {\n    border-bottom: none;\n}\n}\n.dropp-products__item-info {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 16px;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__item-info {\n    justify-self: start;\n    width: auto;\n    padding: 0;\n}\n}\n.dropp-products__name-weight {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  text-align: left;\n}\n.dropp-products__image-container, .dropp-products__image-placeholder {\n  width: 64px;\n  height: 64px;\n  border-radius: 8px;\n  border: 1px solid #e5e7eb;\n  overflow: hidden;\n  background: #f9fafb;\n  flex-shrink: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__image-container, .dropp-products__image-placeholder {\n    width: 48px;\n    height: 48px;\n}\n}\n.dropp-products__image {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.dropp-products__name {\n  font-weight: 600;\n  font-size: 16px;\n  color: #111827;\n}\n.dropp-products__weight {\n  display: flex;\n  align-items: center;\n  color: #6b7280;\n  font-size: 14px;\n}\n@container (min-width: 600px) {\n.dropp-products__weight {\n    justify-content: center;\n    color: #4b5563;\n}\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #f3f4f6;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity {\n    padding: 0;\n    border-top: none;\n    justify-content: center;\n    width: auto;\n}\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #fef2f2;\n  border-color: #ef4444 !important;\n}\n.dropp-products__quantity-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity-label {\n    display: none;\n}\n}\n.dropp-products__label {\n  color: #6b7280;\n}\n@container (min-width: 600px) {\n.dropp-products__label {\n    display: none;\n}\n}\n.dropp-products__headers .dropp-products__label {\n  display: block;\n}\n.dropp-products__headers span:nth-child(2) {\n  text-align: center;\n}\n.dropp-products__headers span:nth-child(3) {\n  text-align: right;\n}\n.dropp-products__footer {\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.dropp-products__total-weight {\n  font-size: 16px;\n  color: #374151;\n}\n.dropp-products__total-weight strong {\n  color: #111827;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-text--error {\n  color: #dc2626;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3157,7 +3296,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-quantity[data-v-142fc74c] {\n  position: relative;\n}\n.dropp-quantity__input[data-v-142fc74c] {\n  min-height: 20px;\n  width: 58px;\n  text-align: right;\n  border: 1px solid #d1d5db;\n  box-shadow: none !important;\n  font-size: 14px;\n  padding: 0 24px;\n}\n.dropp-quantity__input[data-v-142fc74c]:-moz-read-only {\n  background-color: #f3f4f6;\n  border-color: #d1d5db;\n}\n.dropp-quantity__input[data-v-142fc74c]:read-only {\n  background-color: #f3f4f6;\n  border-color: #d1d5db;\n}\n.dropp-quantity__input[data-v-142fc74c]::-webkit-outer-spin-button,\n.dropp-quantity__input[data-v-142fc74c]::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.dropp-quantity__input[type=number][data-v-142fc74c] {\n  -moz-appearance: textfield;\n  /* Firefox */\n}\n.dropp-quantity__decrease[data-v-142fc74c],\n.dropp-quantity__increase[data-v-142fc74c] {\n  position: absolute;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  color: #6b7280;\n  padding: 4px 8px;\n  top: 0;\n  bottom: 0;\n}\n.dropp-quantity--disabled .dropp-quantity__decrease[data-v-142fc74c],\n.dropp-quantity--disabled .dropp-quantity__increase[data-v-142fc74c] {\n  color: #9ca3af;\n}\n.dropp-quantity--active .dropp-quantity__decrease[data-v-142fc74c]:hover,\n.dropp-quantity--active .dropp-quantity__increase[data-v-142fc74c]:hover {\n  background-color: rgba(0, 0, 0, 0.1);\n  color: #4b5563;\n}\n.dropp-quantity__decrease[data-v-142fc74c] {\n  left: 0;\n  border-top-left-radius: 4px;\n  border-bottom-left-radius: 4px;\n}\n.dropp-quantity__increase[data-v-142fc74c] {\n  right: 0;\n  border-top-right-radius: 4px;\n  border-bottom-right-radius: 4px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-quantity[data-v-142fc74c] {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n}\n.dropp-quantity__btn[data-v-142fc74c] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  border-radius: 6px;\n  border: 1px solid #d1d5db;\n  background: #fff;\n  color: #374151;\n  cursor: pointer;\n  transition: all 0.2s;\n  padding: 0;\n}\n.dropp-quantity__btn[data-v-142fc74c]:hover:not(:disabled) {\n  border-color: #9ca3af;\n  background: #f9fafb;\n  color: #111827;\n}\n.dropp-quantity__btn[data-v-142fc74c]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n  background: #f3f4f6;\n}\n.dropp-quantity__input[data-v-142fc74c] {\n  width: 54px;\n  height: 32px;\n  text-align: center;\n  border: 1px solid #d1d5db;\n  border-radius: 6px;\n  font-size: 14px;\n  font-weight: 500;\n  color: #111827;\n  background: #fff;\n  padding: 0;\n  margin: 0;\n  -moz-appearance: textfield;\n  -webkit-appearance: textfield;\n          appearance: textfield;\n}\n.dropp-quantity__input[data-v-142fc74c]::-webkit-outer-spin-button, .dropp-quantity__input[data-v-142fc74c]::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n.dropp-quantity__input[data-v-142fc74c]:focus {\n  outline: none;\n  border-color: #000;\n  box-shadow: 0 0 0 1px #000;\n}\n.dropp-quantity__input[data-v-142fc74c]:disabled {\n  background: #f3f4f6;\n  color: #9ca3af;\n  cursor: not-allowed;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24465,9 +24604,9 @@ var render = function () {
         _vm._l(_vm.products, function (product) {
           return _c(
             "div",
-            { key: product.sku, staticClass: "dropp-products__product" },
+            { key: product.barcode, staticClass: "dropp-products__product" },
             [
-              _c("label", { staticClass: "dropp-products__product-name" }, [
+              _c("div", { staticClass: "dropp-products__item-info" }, [
                 _c("input", {
                   directives: [
                     {
@@ -24509,19 +24648,40 @@ var render = function () {
                   },
                 }),
                 _vm._v(" "),
-                _c("span", { domProps: { innerHTML: _vm._s(product.name) } }),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "dropp-products__weight" }, [
-                _c("span", {
-                  staticClass: "dropp-products__label",
-                  domProps: { innerHTML: _vm._s(_vm.i18n.weight + ": ") },
-                }),
-                _c("span", {
-                  domProps: {
-                    innerHTML: _vm._s(product.weight.toFixed(2) + " Kg"),
-                  },
-                }),
+                product.image
+                  ? _c(
+                      "div",
+                      { staticClass: "dropp-products__image-container" },
+                      [
+                        _c("img", {
+                          staticClass: "dropp-products__image",
+                          attrs: { src: product.image, alt: product.name },
+                        }),
+                      ]
+                    )
+                  : _c("div", {
+                      staticClass: "dropp-products__image-placeholder",
+                    }),
+                _vm._v(" "),
+                _c("div", { staticClass: "dropp-products__name-weight" }, [
+                  _c("span", {
+                    staticClass: "dropp-products__name",
+                    domProps: { innerHTML: _vm._s(product.name) },
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "dropp-products__weight" }, [
+                    _c("span", {
+                      staticClass: "dropp-products__label",
+                      domProps: { innerHTML: _vm._s(_vm.i18n.weight + ": ") },
+                    }),
+                    _vm._v(" "),
+                    _c("span", {
+                      domProps: {
+                        innerHTML: _vm._s(product.weight.toFixed(2) + " Kg"),
+                      },
+                    }),
+                  ]),
+                ]),
               ]),
               _vm._v(" "),
               _c(
@@ -24535,8 +24695,8 @@ var render = function () {
                 },
                 [
                   _c("span", {
-                    staticClass: "dropp-products__label",
-                    domProps: { innerHTML: _vm._s(_vm.i18n.quantity + ": ") },
+                    staticClass: "dropp-products__quantity-label",
+                    domProps: { innerHTML: _vm._s(_vm.i18n.quantity + ":") },
                   }),
                   _vm._v(" "),
                   _vm.editable
@@ -24560,43 +24720,45 @@ var render = function () {
           )
         }),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropp-products__total-weight",
-            class: _vm.weightLimitExceeded ? "dropp-text--error" : "",
-          },
-          [
-            _c("span", {
-              domProps: { innerHTML: _vm._s(_vm.i18n.total_weight + ": ") },
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(_vm.totalWeight) + " Kg")]),
-            _vm._v(" "),
-            _vm.location.weight_limit
-              ? _c("span", [
-                  _vm._v(" / " + _vm._s(_vm.location.weight_limit) + " Kg"),
-                ])
-              : _vm._e(),
-          ]
-        ),
-        _vm._v(" "),
-        _vm.weightLimitExceeded
-          ? _c(
-              "div",
-              { staticClass: "dropp-products__weight-exceeded" },
-              [
-                _c("exclamation-mark"),
-                _vm._v(" "),
-                _c("span", {
-                  domProps: {
-                    innerHTML: _vm._s(_vm.i18n.weight_limit_exceeded),
-                  },
-                }),
-              ],
-              1
-            )
-          : _vm._e(),
+        _c("div", { staticClass: "dropp-products__footer" }, [
+          _c(
+            "div",
+            {
+              staticClass: "dropp-products__total-weight",
+              class: _vm.weightLimitExceeded ? "dropp-text--error" : "",
+            },
+            [
+              _c("span", {
+                domProps: { innerHTML: _vm._s(_vm.i18n.total_weight + ": ") },
+              }),
+              _vm._v(" "),
+              _c("strong", [_vm._v(_vm._s(_vm.totalWeight) + " Kg")]),
+              _vm._v(" "),
+              _vm.location.weight_limit
+                ? _c("span", [
+                    _vm._v(" / " + _vm._s(_vm.location.weight_limit) + " Kg"),
+                  ])
+                : _vm._e(),
+            ]
+          ),
+          _vm._v(" "),
+          _vm.weightLimitExceeded
+            ? _c(
+                "div",
+                { staticClass: "dropp-products__weight-exceeded" },
+                [
+                  _c("exclamation-mark"),
+                  _vm._v(" "),
+                  _c("span", {
+                    domProps: {
+                      innerHTML: _vm._s(_vm.i18n.weight_limit_exceeded),
+                    },
+                  }),
+                ],
+                1
+              )
+            : _vm._e(),
+        ]),
       ],
       2
     ),
@@ -24952,9 +25114,10 @@ var render = function () {
     },
     [
       _c(
-        "span",
+        "button",
         {
-          staticClass: "dropp-quantity__decrease",
+          staticClass: "dropp-quantity__btn dropp-quantity__btn--decrease",
+          attrs: { type: "button", disabled: _vm.disabled },
           on: {
             click: function ($event) {
               $event.preventDefault()
@@ -24962,7 +25125,30 @@ var render = function () {
             },
           },
         },
-        [_vm._v("-")]
+        [
+          _c(
+            "svg",
+            {
+              attrs: {
+                width: "12",
+                height: "2",
+                viewBox: "0 0 12 2",
+                fill: "none",
+                xmlns: "http://www.w3.org/2000/svg",
+              },
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d: "M1 1H11",
+                  stroke: "currentColor",
+                  "stroke-width": "2",
+                  "stroke-linecap": "round",
+                },
+              }),
+            ]
+          ),
+        ]
       ),
       _vm._v(" "),
       !_vm.disabled
@@ -24976,7 +25162,6 @@ var render = function () {
               },
             ],
             staticClass: "dropp-quantity__input",
-            style: "width:" + _vm.w(_vm.quantity),
             attrs: { type: "number", step: "1", min: "0", max: 999999 },
             domProps: { value: _vm.quantity },
             on: {
@@ -24988,36 +25173,16 @@ var render = function () {
               },
             },
           })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.disabled
-        ? _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.zero,
-                expression: "zero",
-              },
-            ],
+        : _c("input", {
             staticClass: "dropp-quantity__input",
             attrs: { type: "text", value: "0", disabled: "" },
-            domProps: { value: _vm.zero },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.zero = $event.target.value
-              },
-            },
-          })
-        : _vm._e(),
+          }),
       _vm._v(" "),
       _c(
-        "span",
+        "button",
         {
-          staticClass: "dropp-quantity__increase",
+          staticClass: "dropp-quantity__btn dropp-quantity__btn--increase",
+          attrs: { type: "button", disabled: _vm.disabled },
           on: {
             click: function ($event) {
               $event.preventDefault()
@@ -25025,7 +25190,30 @@ var render = function () {
             },
           },
         },
-        [_vm._v("+")]
+        [
+          _c(
+            "svg",
+            {
+              attrs: {
+                width: "12",
+                height: "12",
+                viewBox: "0 0 12 12",
+                fill: "none",
+                xmlns: "http://www.w3.org/2000/svg",
+              },
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d: "M6 1V11M1 6H11",
+                  stroke: "currentColor",
+                  "stroke-width": "2",
+                  "stroke-linecap": "round",
+                },
+              }),
+            ]
+          ),
+        ]
       ),
     ]
   )

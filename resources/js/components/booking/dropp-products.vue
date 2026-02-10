@@ -29,82 +29,87 @@
 			</div>
 			<div class="dropp-products__product"
 					 v-for="product in products"
-					 :key="product.sku"
+					 :key="product.barcode"
 			>
-				<label class="dropp-products__product-name">
+				<div class="dropp-products__item-info">
 					<input type="checkbox" v-model="product.checked">
-					<span v-html="product.name"></span>
-				</label>
-				<div class="dropp-products__weight">
-					<span class="dropp-products__label" v-html="i18n.weight + ': '"></span><span v-html="product.weight.toFixed(2) + ' Kg'"></span>
+					<div class="dropp-products__image-container" v-if="product.image">
+						<img :src="product.image" :alt="product.name" class="dropp-products__image">
+					</div>
+					<div class="dropp-products__image-placeholder" v-else></div>
+					<div class="dropp-products__name-weight">
+						<span class="dropp-products__name" v-html="product.name"></span>
+						<div class="dropp-products__weight">
+							<span class="dropp-products__label" v-html="i18n.weight + ': '"></span>
+							<span v-html="product.weight.toFixed(2) + ' Kg'"></span>
+						</div>
+					</div>
 				</div>
 				<div
-				class="dropp-products__quantity"
-				:class="product._quantity > product.quantity && product.checked ? 'dropp-products__quantity--error' : ''"
+					class="dropp-products__quantity"
+					:class="product._quantity > product.quantity && product.checked ? 'dropp-products__quantity--error' : ''"
 				>
-					<span class="dropp-products__label" v-html="i18n.quantity + ': '"></span>
+					<span class="dropp-products__quantity-label" v-html="i18n.quantity + ':'"></span>
 					<quantity v-if="editable" v-model="product._quantity" :disabled="! product.checked"/>
 					<span v-else> {{ product._quantity }} </span>
 				</div>
 			</div>
-			<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
-				<span v-html="i18n.total_weight + ': '"></span>
-				<span>{{totalWeight}} Kg</span>
-				<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
-			</div>
-			<div class="dropp-products__weight-exceeded" v-if="weightLimitExceeded">
-				<exclamation-mark />
-				<span v-html="i18n.weight_limit_exceeded"></span>
+			<div class="dropp-products__footer">
+				<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
+					<span v-html="i18n.total_weight + ': '"></span>
+					<strong>{{totalWeight}} Kg</strong>
+					<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
+				</div>
+				<div class="dropp-products__weight-exceeded" v-if="weightLimitExceeded">
+					<exclamation-mark />
+					<span v-html="i18n.weight_limit_exceeded"></span>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="scss">
-.dropp-text--error {
-	color: #CC0000;
-}
-
-.dropp-products__errors:not(:empty) {
-	width: 100%;
-	margin-top: 16px;
-}
 .dropp-products {
-	border-bottom: 1px solid #d1d5db;
+	border-bottom: 1px solid #e5e7eb;
 	margin: 0 16px;
 	padding-bottom: 24px;
 	margin-bottom: 18px;
 	max-width: 1920px;
+
 	@container (min-width: 600px) {
 		margin: 0 24px;
 		padding-bottom: 24px;
 	}
+
 	@container (min-width: 900px) {
 		margin-bottom: 14px;
 		padding-bottom: 34px;
 	}
 
 	input[type="checkbox"] {
-		width: 1rem;
-		height: 1rem;
-	}
+		width: 1.25rem;
+		height: 1.25rem;
+		border-radius: 4px;
+		border: 1px solid #d1d5db;
+		cursor: pointer;
+		margin: 0;
+		flex-shrink: 0;
 
-	input[type="checkbox"]:checked::before {
-		margin: -0.1875rem 0 0 -0.25rem;
-		height: 1.3125rem;
-		width: 1.3125rem;
-	}
+		&:checked {
+			background-color: #000;
+			border-color: #000;
+		}
 
-	&__product {
-		margin-bottom: 20px;
-
-		&:last-child {
-			margin-bottom: 0;
+		&:checked::before {
+			margin: -0.1875rem 0 0 -0.25rem;
+			height: 1.3125rem;
+			width: 1.3125rem;
 		}
 	}
 
 	&__header {
-		margin-bottom: 16px;
+		margin-bottom: 24px;
 	}
 
 	h3 {
@@ -113,41 +118,217 @@
 		font-weight: 600;
 		font-size: 18px;
 		line-height: 24px;
+		color: #111827;
 	}
 
-	&__weight,
-	&__quantity {
-		color: #4b5563;
+	&__description {
+		margin: 0;
+		font-size: 14px;
+		line-height: 20px;
+		color: #6b7280;
 	}
-  &__quantity--error .dropp-quantity__input {
-		background-color: #FFF0F2;
-		border-color: #CE0147 !important;
-  }
 
-	&__product-name {
-		display: block;
-		margin-bottom: 8px;
-		&:hover input {
-			border-color: #00007D;
-			box-shadow: 0 0 0 1px #1007FA;
+	&__errors:not(:empty) {
+		width: 100%;
+		margin-top: 16px;
+		margin-bottom: 24px;
+	}
+
+	&__headers {
+		display: none;
+		color: #6b7280;
+		font-size: 12px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		padding: 16px 0;
+		border-bottom: 1px solid #f3f4f6;
+		margin-bottom: 0;
+
+		@container (min-width: 600px) {
+			display: grid;
+			grid-template-columns: 1fr 160px 100px;
+			gap: 24px;
+			justify-items: center;
+		}
+
+		span:first-child {
+			justify-self: start;
+			padding-left: 64px;
 		}
 	}
 
+	&__product {
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		background: #fff;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		margin-bottom: 16px;
+		overflow: hidden;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+
+		@container (min-width: 600px) {
+			display: grid;
+			grid-template-columns: 1fr 160px 100px;
+			align-items: center;
+			justify-items: center;
+			gap: 24px;
+			padding: 16px 0;
+			text-align: left;
+			border: none;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+			border-bottom: 1px solid #f3f4f6;
+			margin-bottom: 0;
+			overflow: visible;
+
+			&:last-of-type {
+				border-bottom: none;
+			}
+		}
+	}
+
+	&__item-info {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 16px;
+		width: 100%;
+		box-sizing: border-box;
+
+		@container (min-width: 600px) {
+			justify-self: start;
+			width: auto;
+			padding: 0;
+		}
+	}
+
+	&__name-weight {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		text-align: left;
+	}
+
+	&__image-container,
+	&__image-placeholder {
+		width: 64px;
+		height: 64px;
+		border-radius: 8px;
+		border: 1px solid #e5e7eb;
+		overflow: hidden;
+		background: #f9fafb;
+		flex-shrink: 0;
+
+		@container (min-width: 600px) {
+			width: 48px;
+			height: 48px;
+		}
+	}
+
+	&__image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	&__name {
+		font-weight: 600;
+		font-size: 16px;
+		color: #111827;
+	}
+
 	&__weight {
-		margin-bottom: 4px;
+		display: flex;
+		align-items: center;
+		color: #6b7280;
+		font-size: 14px;
+
+		@container (min-width: 600px) {
+			justify-content: center;
+			color: #4b5563;
+		}
+	}
+
+	&__quantity {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 16px;
+		border-top: 1px solid #f3f4f6;
+		width: 100%;
+		box-sizing: border-box;
+
+		@container (min-width: 600px) {
+			padding: 0;
+			border-top: none;
+			justify-content: center;
+			width: auto;
+		}
+
+		&--error .dropp-quantity__input {
+			background-color: #fef2f2;
+			border-color: #ef4444 !important;
+		}
+	}
+
+	&__quantity-label {
+		font-size: 16px;
+		color: #6b7280;
+		font-weight: 500;
+
+		@container (min-width: 600px) {
+			display: none;
+		}
+	}
+
+	&__label {
+		color: #6b7280;
+		@container (min-width: 600px) {
+			display: none;
+		}
+	}
+
+	&__headers &__label {
+		display: block;
+	}
+
+	&__headers span:nth-child(2) {
+		text-align: center;
+	}
+
+	&__headers span:nth-child(3) {
+		text-align: right;
+	}
+
+	&__footer {
+		margin-top: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
 	}
 
 	&__total-weight {
-		text-align: right;
-		font-weight: 600;
+		font-size: 16px;
+		color: #374151;
+
+		strong {
+			color: #111827;
+		}
 	}
 
 	&__weight-exceeded {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
-		gap: 4px;
-		color: #b91c1c;
+		gap: 6px;
+		color: #dc2626;
 		font-size: 13px;
 		margin-top: 4px;
 
@@ -157,51 +338,9 @@
 		}
 	}
 }
-.dropp-products__quantity {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.dropp-products__description {
-	margin: 0;
-	font-size: 14px;
-	line-height: 20px;
-	color: #6b7280;
-}
 
-.dropp-products__headers {
-	color: #6b7280;
-	display: none;
-	margin-top: 24px;
-	margin-bottom: 8px;
-}
-@container (min-width: 600px) {
-  .dropp-products__headers,
-	.dropp-products__product {
-		display: grid;
-		grid-template-columns: 1fr minmax(100px, auto) 110px;
-		align-items: center;
-		gap: 8px;
-  }
-	.dropp-quantity {
-		margin: 0 auto;
-	}
-  .dropp-products__product .dropp-products__label {
-		display: none;
-  }
-	.dropp-products__weight {
-		text-align: right;
-		order: 3;
-	}
-  .dropp-products__headers span:nth-child(1) {
-		padding-left: 23px;
-  }
-  .dropp-products__headers span:nth-child(2) {
-		text-align: center;
-  }
-  .dropp-products__headers span:nth-child(3) {
-		text-align: right;
-  }
+.dropp-text--error {
+	color: #dc2626;
 }
 </style>
 

@@ -110,9 +110,9 @@
 	h3 {
 		margin-top: 0;
 		margin-bottom: 4px;
-		font-weight: 400;
-		font-size: 20px;
-		line-height: 28px;
+		font-weight: 600;
+		font-size: 18px;
+		line-height: 24px;
 	}
 
 	&__weight,

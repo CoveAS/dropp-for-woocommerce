@@ -181,17 +181,13 @@
 	}
 
 	h3 {
-		font-weight: 700;
-		font-size: 14px;
-		@container (min-width:600px) {
-			font-size: 16px;
-		}
+		font-weight: 600;
+		font-size: 18px;
 	}
 
 	&__pick-up-point {
-		font-weight: 400;
-		font-size: 14px;
-		color: #6B7280;
+		font-weight: 600;
+		font-size: 18px;
 	}
 
 	&__change {
@@ -213,13 +209,12 @@
 		margin: 0;
 		font-size: 16px;
 		font-weight: 400;
-		color: #4B5563;
 		margin-bottom: 12px;
 	}
 
 	#poststuff &__name {
 		padding: 0;
-		font-size: 24px;
+		font-size: 32px;
 		font-weight: 600;
 		margin-bottom: 4px;
 	}

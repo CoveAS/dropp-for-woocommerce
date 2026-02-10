@@ -9,12 +9,17 @@
 				<dropp-error
 					level="error"
 					:title="i18n.weight_limit_exceeded"
-					v-if="weightLimitExceeded"
+					v-if="weightLimitExceeded && quantityExceeded"
+				>{{i18n.weight_limit_exceeded_quantity_message}}</dropp-error>
+				<dropp-error
+					level="error"
+					:title="i18n.weight_limit_exceeded"
+					v-else-if="weightLimitExceeded"
 				>{{i18n.weight_limit_exceeded_message}}</dropp-error>
 				<dropp-error
 					level="warning"
 					:title="i18n.quantity_exceeded"
-					v-if="quantityExceeded"
+					v-else-if="quantityExceeded"
 				>{{i18n.quantity_exceeded_message}}</dropp-error>
 			</div>
 			<div class="dropp-products__headers">

@@ -233,8 +233,9 @@ class Shipping_Meta_Box
 					'no_consignments'  => __('No booked consignments yet. Please use the booking form to create new consignments.', 'dropp-for-woocommerce'),
 					'weight_limit_exceeded'  => __('Weight limit exceeded', 'dropp-for-woocommerce'),
 					'weight_limit_exceeded_message'  => __('The weight limit for the chosen location has been exceeded. Please reduce the number of products in the consignment to continue.', 'dropp-for-woocommerce'),
+					'weight_limit_exceeded_quantity_message'  => __('The selected quantity exceeds both available stock and the weight limit for this location.', 'dropp-for-woocommerce'),
 					'quantity_exceeded' => __('Quantity exceeded', 'dropp-for-woocommerce'),
-					'quantity_exceeded_message' => __('Uh-oh! It seems like the quantity of selected items exceeds more than what’s allowed in the order. If this is intentional you can ignore this warning.', 'dropp-for-woocommerce'),
+					'quantity_exceeded_message' => __('The quantity of selected items exceeds what is allowed in the order. If this is intentional you can ignore this warning.', 'dropp-for-woocommerce'),
 				]
 			),
 		];

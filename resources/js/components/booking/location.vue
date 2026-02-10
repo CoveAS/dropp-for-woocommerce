@@ -195,7 +195,7 @@
 	}
 
 	&__change {
-		font-weight: 400;
+		font-weight: 500;
 		text-decoration: none;
 		cursor: pointer;
 		color: #00007D;
@@ -204,13 +204,14 @@
 
 		&:focus,
 		&:hover {
+			color: #000066;
 			text-decoration: underline;
 		}
 	}
 
 	&__address {
 		margin: 0;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 400;
 		color: #4B5563;
 		margin-bottom: 12px;
@@ -218,7 +219,7 @@
 
 	#poststuff &__name {
 		padding: 0;
-		font-size: 18px;
+		font-size: 24px;
 		font-weight: 600;
 		margin-bottom: 4px;
 	}

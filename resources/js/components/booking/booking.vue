@@ -68,18 +68,24 @@
 			gap: 8px;
 		}
 	}
-	.dropp-booking label:hover {
-		color: #1007FA;
-	}
 	.dropp-booking {
-		textarea:focus,
-		input[type="email"]:focus,
-		input[type="number"]:focus,
-		input[type="text"]:focus {
-			border-color: #1007FA;
-			box-shadow: none;
+		textarea,
+		input[type="email"],
+		input[type="number"],
+		input[type="text"] {
+			border-color: #d1d5db;
+			&:hover {
+				border-color: #d1d5db;
+				box-shadow: none;
+				outline: none;
+			}
+			&:focus {
+				border-color: #d1d5db;
+				outline: none;
+				box-shadow: 0 0 0 2px #e5e7eb;
+			}
 		}
-  }
+	}
 	.mw160 {
 		min-width: 160px;
 	}

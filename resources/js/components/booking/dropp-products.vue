@@ -57,7 +57,7 @@
 			<div class="dropp-products__footer">
 				<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
 					<span v-html="i18n.total_weight + ': '"></span>
-					<strong>{{totalWeight}} Kg</strong>
+					<span>{{totalWeight}} Kg</span>
 					<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
 				</div>
 				<div class="dropp-products__weight-exceeded" v-if="weightLimitExceeded">
@@ -71,7 +71,6 @@
 
 <style lang="scss">
 .dropp-products {
-	border-bottom: 1px solid #e5e7eb;
 	margin: 0 16px;
 	padding-bottom: 24px;
 	margin-bottom: 18px;
@@ -87,38 +86,17 @@
 		padding-bottom: 34px;
 	}
 
-	input[type="checkbox"] {
-		width: 1.25rem;
-		height: 1.25rem;
-		border-radius: 4px;
-		border: 1px solid #d1d5db;
-		cursor: pointer;
-		margin: 0;
-		flex-shrink: 0;
-
-		&:checked {
-			background-color: #000;
-			border-color: #000;
-		}
-
-		&:checked::before {
-			margin: -0.1875rem 0 0 -0.25rem;
-			height: 1.3125rem;
-			width: 1.3125rem;
-		}
-	}
-
 	&__header {
-		margin-bottom: 12px;
-	}
-
-	h3 {
-		margin-top: 0;
 		margin-bottom: 4px;
-		font-weight: 600;
-		font-size: 18px;
-		line-height: 24px;
-		color: #111827;
+
+		h3 {
+			margin-top: 0;
+			margin-bottom: 4px;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 24px;
+			color: #111827;
+		}
 	}
 
 	&__description {
@@ -142,7 +120,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		padding: 16px 0;
-		border-bottom: 1px solid #f3f4f6;
+		border-bottom: 1px solid #e5e7eb;
 		margin-bottom: 0;
 
 		@container (min-width: 600px) {
@@ -185,7 +163,7 @@
 			border-radius: 0;
 			background: transparent;
 			box-shadow: none;
-			border-bottom: 1px solid #f3f4f6;
+			border-bottom: 1px solid #e5e7eb;
 			margin-bottom: 0;
 			overflow: visible;
 
@@ -262,7 +240,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 16px;
-		border-top: 1px solid #f3f4f6;
+		border-top: 1px solid #e5e7eb;
 		width: 100%;
 		box-sizing: border-box;
 
@@ -318,10 +296,6 @@
 	&__total-weight {
 		font-size: 16px;
 		color: #374151;
-
-		strong {
-			color: #111827;
-		}
 	}
 
 	&__weight-exceeded {

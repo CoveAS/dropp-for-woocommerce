@@ -179,16 +179,14 @@
 	}
 
 	.dropp-delivery-instructions {
-		&__field {
-			min-width: 15rem;
-		}
-
 		&__input {
 			resize: vertical;
-			min-height: 100px;
+			min-height: 120px;
 			width: 100%;
+			box-sizing: border-box;
 			border: 1px solid #d1d5db;
 			padding: 8px 12px;
+			font-size: 16px;
 		}
 
 		&__notes {
@@ -221,9 +219,9 @@
 
 	&__header {
 		position: relative;
-		margin: 12px 0 32px;
+		margin: 16px 0 24px;
 		@container (min-width:600px) {
-			margin: 24px 0 32px;
+			margin: 24px 0 24px;
 		}
 	}
 
@@ -237,6 +235,7 @@
 	}
 
 	h3 {
+		margin: 0 0 16px 0;
 		font-weight: 600;
 		font-size: 18px;
 	}
@@ -265,7 +264,6 @@
 		margin: 0;
 		font-size: 16px;
 		font-weight: 400;
-		margin-bottom: 12px;
 	}
 
 	#poststuff &__name {

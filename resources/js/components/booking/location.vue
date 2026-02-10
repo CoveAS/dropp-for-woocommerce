@@ -196,16 +196,16 @@
 
 	&__change {
 		font-weight: 500;
-		text-decoration: none;
+		text-decoration: underline;
 		cursor: pointer;
 		color: #00007D;
 		font-size: 14px;
 		transition: color 0.15s;
+		margin-top: 8px;
 
 		&:focus,
 		&:hover {
 			color: #000066;
-			text-decoration: underline;
 		}
 	}
 

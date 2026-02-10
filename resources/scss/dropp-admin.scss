@@ -240,19 +240,22 @@
 	gap: 4px;
 	white-space: nowrap;
 	background: #00007D;
-	border-radius: 3px;
+	border-radius: 6px;
 	outline: none;
-	padding: 8px 24px;
+	height: 40px;
+	padding: 0 24px;
 	border: 1px solid #00007D;
 	color: #FFFFFF;
 	transition: background-color 0.2s, border-color 0.2s, color 0.1s;
 	margin-bottom: 8px;
 	margin-right: 8px;
 	line-height: 1.25;
+	font-weight: 500;
+	font-size: 13px;
 
 	&:focus {
 		color: #ffffff;
-		box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1007FA;
+		box-shadow: 0 0 0 3px #9999d6;
 	}
 
 	&:hover,
@@ -279,8 +282,9 @@
 	border-color: #c3c4c7;
 	color: #1d2327;
 	margin-right: 8px;
-	border-radius: 5px;
+	border-radius: 6px;
 	font-weight: 500;
+	font-size: 13px;
 	padding-left: 16px;
 	padding-right: 16px;
 

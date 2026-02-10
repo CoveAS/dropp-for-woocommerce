@@ -96,7 +96,7 @@
 
 @container (min-width: 600px) {
 	.dropp-grid {
-		max-width: 1920px;
+		max-width: 1200px;
 		display: grid;
 		grid-template-columns:  1fr 1fr;
 		gap: 24px;
@@ -128,7 +128,7 @@
 		}
 
 		&__input {
-			resize-x: none;
+			resize: vertical;
 			min-height: 100px;
 			width: 100%;
 			border: 1px solid #d1d5db;

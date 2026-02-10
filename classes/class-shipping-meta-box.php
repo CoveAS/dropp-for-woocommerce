@@ -142,6 +142,19 @@ class Shipping_Meta_Box
 		if ($activeConsignments->isEmpty()) {
 			$locations = Dropp_Location::array_from_order();
 		}
+		// DEV MODE: Always show a test location for styling/development
+		if (defined('DROPP_DEV_MODE') && DROPP_DEV_MODE) {
+			$locations = [
+				[
+					'id' => 'dev-test-location',
+					'name' => 'N1 Fossvogi',
+					'address' => 'Kringlumýrarbraut 100, 108 Reykjavik',
+					'type' => 'dropp_is',
+					'weight_limit' => 10,
+					'order_item_id' => 0,
+				]
+			];
+		}
 		$dropp_object = [
 			'testing'               => (new API())->test,
 			'nonce'                 => wp_create_nonce('dropp'),

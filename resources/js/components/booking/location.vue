@@ -174,13 +174,13 @@
 	&__pre-title {
 		display: flex;
 		align-items: baseline;
+		margin-bottom: 4px;
 		@container (min-width:900px) {
 			max-width: 588px;
 		}
 	}
 
-	h3,
-	&__pick-up-point {
+	h3 {
 		font-weight: 700;
 		font-size: 14px;
 		@container (min-width:600px) {
@@ -188,28 +188,39 @@
 		}
 	}
 
+	&__pick-up-point {
+		font-weight: 400;
+		font-size: 14px;
+		color: #6B7280;
+	}
+
 	&__change {
-		font-weight: 600;
-		margin-top: 4px;
-		text-decoration: underline;
+		font-weight: 400;
+		text-decoration: none;
 		cursor: pointer;
-		color: #1007FA;
-		font-size: 13px;
+		color: #00007D;
+		font-size: 14px;
+		transition: color 0.15s;
 
 		&:focus,
 		&:hover {
-			text-decoration: none;
+			text-decoration: underline;
 		}
 	}
 
 	&__address {
 		margin: 0;
+		font-size: 14px;
+		font-weight: 400;
+		color: #4B5563;
+		margin-bottom: 12px;
 	}
 
 	#poststuff &__name {
 		padding: 0;
-		font-size: 24px;
-		font-weight: 500;
+		font-size: 18px;
+		font-weight: 600;
+		margin-bottom: 4px;
 	}
 
 	#poststuff &__message {

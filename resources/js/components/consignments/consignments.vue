@@ -68,6 +68,12 @@
 	container-type: inline-size;
 	container-name: sidebar;
 
+	// Equal width for status, created, updated, and actions columns
+	th:nth-child(n+2),
+	td:nth-child(n+2) {
+		width: 15%;
+	}
+
 	th {
 		text-align: left;
 		color: #374151;
@@ -75,18 +81,25 @@
 		background: #f3f4f6;
 		border-top: 1px solid #d1d5db;
 		border-bottom: 1px solid #d1d5db;
+		height: 40px;
+		box-sizing: border-box;
+		padding: 0 16px;
 	}
 
 	th:first-child {
 		border-left: 1px solid #d1d5db;
+		padding-left: 24px;
 	}
 
 	th:last-child {
 		border-right: 1px solid #d1d5db;
+		padding-right: 24px;
 	}
 
-	th, td {
-		padding: 16px;
+	td {
+		height: 64px;
+		box-sizing: border-box;
+		padding: 0 16px;
 
 		&:first-of-type {
 			padding-left: 24px;

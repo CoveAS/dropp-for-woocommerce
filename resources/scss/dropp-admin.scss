@@ -299,7 +299,7 @@
 	gap: 8px;
 	line-height: 1;
 	background-color: #FFFFFF;
-	color: #00007D;
+	color: #1d2327;
 	border: 1px solid #c3c4c7;
 	padding: 6px 16px;
 	user-select: none;
@@ -307,6 +307,8 @@
 	text-decoration: none;
 	white-space: nowrap;
 	box-sizing: border-box;
+	font-family: inherit;
+	font-size: 13px;
 	font-weight: 500;
 
 	svg {
@@ -314,7 +316,7 @@
 	}
 
 	&:hover {
-		color: #00007D;
+		color: #1d2327;
 		background-color: #f0f0f1;
 	}
 

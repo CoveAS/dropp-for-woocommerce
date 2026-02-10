@@ -9,10 +9,12 @@
 				<dropp-error
 					level="error"
 					:title="i18n.weight_limit_exceeded"
+					v-if="weightLimitExceeded"
 				>{{i18n.weight_limit_exceeded_message}}</dropp-error>
 				<dropp-error
 					level="warning"
 					:title="i18n.quantity_exceeded"
+					v-if="quantityExceeded"
 				>{{i18n.quantity_exceeded_message}}</dropp-error>
 			</div>
 			<div class="dropp-products__headers">
@@ -44,6 +46,10 @@
 				<span v-html="i18n.total_weight + ': '"></span>
 				<span>{{totalWeight}} Kg</span>
 				<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
+			</div>
+			<div class="dropp-products__weight-exceeded" v-if="weightLimitExceeded">
+				<exclamation-mark />
+				<span v-html="i18n.weight_limit_exceeded"></span>
 			</div>
 		</div>
 	</div>
@@ -130,6 +136,21 @@
 		text-align: right;
 		font-weight: 600;
 	}
+
+	&__weight-exceeded {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 4px;
+		color: #b91c1c;
+		font-size: 13px;
+		margin-top: 4px;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
 }
 .dropp-products__quantity {
   display: flex;
@@ -182,13 +203,14 @@
 <script>
 import DroppError from "../dropp-error.vue";
 import Quantity from "./quantity.vue";
+import ExclamationMark from "../icons/exclamation-mark.vue";
 
 let conserve = window._;
 const _ = require("lodash");
 window._ = conserve;
 
 export default {
-  components: {Quantity, DroppError},
+  components: {Quantity, DroppError, ExclamationMark},
 	data: function () {
 		return {
 			i18n: _dropp.i18n,

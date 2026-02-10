@@ -2,14 +2,17 @@
 //
 // Warning (yellow/amber):
 //   Background: #fffbeb (amber-50)
-//   Border: #fcd34d (amber-300) - muted border
+//   Border: #fcd34d (amber-300)
 //   Title: #92400e (amber-800) - darker for emphasis
 //   Icon/Body/Dismiss: #b45309 (amber-700) - consistent color
+//   Dismiss hover: #fef3c7 (amber-100)
 //
 // Error (red):
 //   Background: #fef2f2 (red-50)
-//   Border: #fecaca (red-200)
-//   Text/Icon: #dc2626 (red-600)
+//   Border: #fca5a5 (red-300)
+//   Title: #991b1b (red-800) - darker for emphasis
+//   Icon/Body/Dismiss: #b91c1c (red-700) - consistent color
+//   Dismiss hover: #fee2e2 (red-100)
 
 .dropp-product-error {
 	padding: 12px 16px;
@@ -34,19 +37,22 @@
 
 	// Error level (red)
 	&--error {
-		background-color: #fef2f2;
-		border-color: #fecaca;
+		background-color: #fef2f2; // red-50
+		border-color: #fca5a5; // red-300
 
 		.dropp-product-error__icon,
-		.dropp-product-error__title,
 		.dropp-product-error__content,
 		.dropp-product-error__dismiss {
-			color: #dc2626;
+			color: #b91c1c; // red-700
+		}
+
+		.dropp-product-error__title {
+			color: #991b1b; // red-800
 		}
 
 		.dropp-product-error__dismiss:hover,
 		.dropp-product-error__dismiss:focus {
-			background-color: #fee2e2;
+			background-color: #fee2e2; // red-100
 		}
 	}
 

@@ -308,6 +308,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _dropp_error_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dropp-error.vue */ "./resources/js/components/dropp-error.vue");
 /* harmony import */ var _quantity_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quantity.vue */ "./resources/js/components/booking/quantity.vue");
+/* harmony import */ var _icons_exclamation_mark_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../icons/exclamation-mark.vue */ "./resources/js/components/icons/exclamation-mark.vue");
 //
 //
 //
@@ -489,6 +490,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 var conserve = window._;
@@ -499,7 +522,8 @@ window._ = conserve;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Quantity: _quantity_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    DroppError: _dropp_error_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    DroppError: _dropp_error_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ExclamationMark: _icons_exclamation_mark_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -509,7 +533,34 @@ window._ = conserve;
     };
   },
   mounted: function mounted() {
-    this.products = JSON.parse(JSON.stringify(this.value));
+    this.products = JSON.parse(JSON.stringify(this.value)); // TESTING: Add mock products with weight - REMOVE BEFORE COMMIT
+
+    if (this.products.length === 0 || this.products.every(function (p) {
+      return p.weight === 0;
+    })) {
+      this.products = [{
+        sku: 'test-1',
+        name: 'Heavy Item',
+        weight: 4.0,
+        quantity: 2,
+        _quantity: 2,
+        checked: true
+      }, {
+        sku: 'test-2',
+        name: 'Medium Item',
+        weight: 2.5,
+        quantity: 3,
+        _quantity: 3,
+        checked: true
+      }, {
+        sku: 'test-3',
+        name: 'Light Item',
+        weight: 1.0,
+        quantity: 5,
+        _quantity: 5,
+        checked: false
+      }];
+    }
   },
   props: ['location', 'value', 'editable'],
   computed: {
@@ -3085,7 +3136,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-text--error {\n  color: #CC0000;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n}\n.dropp-products {\n  border-bottom: 1px solid #d1d5db;\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1920px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1rem;\n  height: 1rem;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__product {\n  margin-bottom: 20px;\n}\n.dropp-products__product:last-child {\n  margin-bottom: 0;\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 400;\n  font-size: 20px;\n  line-height: 28px;\n}\n.dropp-products__weight, .dropp-products__quantity {\n  color: #4b5563;\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #FFF0F2;\n  border-color: #CE0147 !important;\n}\n.dropp-products__product-name {\n  display: block;\n  margin-bottom: 8px;\n}\n.dropp-products__product-name:hover input {\n  border-color: #00007D;\n  box-shadow: 0 0 0 1px #1007FA;\n}\n.dropp-products__weight {\n  margin-bottom: 4px;\n}\n.dropp-products__total-weight {\n  text-align: right;\n  font-weight: 600;\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__headers {\n  color: #6b7280;\n  display: none;\n  margin-top: 24px;\n  margin-bottom: 8px;\n}\n@container (min-width: 600px) {\n.dropp-products__headers,\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr minmax(100px, auto) 110px;\n    align-items: center;\n    gap: 8px;\n}\n.dropp-quantity {\n    margin: 0 auto;\n}\n.dropp-products__product .dropp-products__label {\n    display: none;\n}\n.dropp-products__weight {\n    text-align: right;\n    order: 3;\n}\n.dropp-products__headers span:nth-child(1) {\n    padding-left: 23px;\n}\n.dropp-products__headers span:nth-child(2) {\n    text-align: center;\n}\n.dropp-products__headers span:nth-child(3) {\n    text-align: right;\n}\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-text--error {\n  color: #CC0000;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n}\n.dropp-products {\n  border-bottom: 1px solid #d1d5db;\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1920px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1rem;\n  height: 1rem;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__product {\n  margin-bottom: 20px;\n}\n.dropp-products__product:last-child {\n  margin-bottom: 0;\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 400;\n  font-size: 20px;\n  line-height: 28px;\n}\n.dropp-products__weight, .dropp-products__quantity {\n  color: #4b5563;\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #FFF0F2;\n  border-color: #CE0147 !important;\n}\n.dropp-products__product-name {\n  display: block;\n  margin-bottom: 8px;\n}\n.dropp-products__product-name:hover input {\n  border-color: #00007D;\n  box-shadow: 0 0 0 1px #1007FA;\n}\n.dropp-products__weight {\n  margin-bottom: 4px;\n}\n.dropp-products__total-weight {\n  text-align: right;\n  font-weight: 600;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: 4px;\n  color: #b91c1c;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__headers {\n  color: #6b7280;\n  display: none;\n  margin-top: 24px;\n  margin-bottom: 8px;\n}\n@container (min-width: 600px) {\n.dropp-products__headers,\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr minmax(100px, auto) 110px;\n    align-items: center;\n    gap: 8px;\n}\n.dropp-quantity {\n    margin: 0 auto;\n}\n.dropp-products__product .dropp-products__label {\n    display: none;\n}\n.dropp-products__weight {\n    text-align: right;\n    order: 3;\n}\n.dropp-products__headers span:nth-child(1) {\n    padding-left: 23px;\n}\n.dropp-products__headers span:nth-child(2) {\n    text-align: center;\n}\n.dropp-products__headers span:nth-child(3) {\n    text-align: right;\n}\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24379,24 +24430,31 @@ var render = function () {
           "div",
           { staticClass: "dropp-products__errors" },
           [
-            _c(
-              "dropp-error",
-              {
-                attrs: {
-                  level: "error",
-                  title: _vm.i18n.weight_limit_exceeded,
-                },
-              },
-              [_vm._v(_vm._s(_vm.i18n.weight_limit_exceeded_message))]
-            ),
+            _vm.weightLimitExceeded
+              ? _c(
+                  "dropp-error",
+                  {
+                    attrs: {
+                      level: "error",
+                      title: _vm.i18n.weight_limit_exceeded,
+                    },
+                  },
+                  [_vm._v(_vm._s(_vm.i18n.weight_limit_exceeded_message))]
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "dropp-error",
-              {
-                attrs: { level: "warning", title: _vm.i18n.quantity_exceeded },
-              },
-              [_vm._v(_vm._s(_vm.i18n.quantity_exceeded_message))]
-            ),
+            _vm.quantityExceeded
+              ? _c(
+                  "dropp-error",
+                  {
+                    attrs: {
+                      level: "warning",
+                      title: _vm.i18n.quantity_exceeded,
+                    },
+                  },
+                  [_vm._v(_vm._s(_vm.i18n.quantity_exceeded_message))]
+                )
+              : _vm._e(),
           ],
           1
         ),
@@ -24536,6 +24594,23 @@ var render = function () {
               : _vm._e(),
           ]
         ),
+        _vm._v(" "),
+        _vm.weightLimitExceeded
+          ? _c(
+              "div",
+              { staticClass: "dropp-products__weight-exceeded" },
+              [
+                _c("exclamation-mark"),
+                _vm._v(" "),
+                _c("span", {
+                  domProps: {
+                    innerHTML: _vm._s(_vm.i18n.weight_limit_exceeded),
+                  },
+                }),
+              ],
+              1
+            )
+          : _vm._e(),
       ],
       2
     ),

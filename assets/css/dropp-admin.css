@@ -20,13 +20,15 @@
 }
 .dropp-product-error--error {
   background-color: #fef2f2;
-  border-color: #fecaca;
+  border-color: #fca5a5;
 }
 .dropp-product-error--error .dropp-product-error__icon,
-.dropp-product-error--error .dropp-product-error__title,
 .dropp-product-error--error .dropp-product-error__content,
 .dropp-product-error--error .dropp-product-error__dismiss {
-  color: #dc2626;
+  color: #b91c1c;
+}
+.dropp-product-error--error .dropp-product-error__title {
+  color: #991b1b;
 }
 .dropp-product-error--error .dropp-product-error__dismiss:hover,
 .dropp-product-error--error .dropp-product-error__dismiss:focus {

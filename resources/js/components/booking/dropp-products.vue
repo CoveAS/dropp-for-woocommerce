@@ -1,8 +1,20 @@
 <template>
 	<div class="dropp-products">
 		<div class="dropp-products__inner">
-			<h3 v-html="i18n.products"></h3>
-			<div class="dropp-products__description" v-html="i18n.products_description"> </div>
+			<div class="dropp-products__header">
+				<h3 v-html="i18n.products"></h3>
+				<p class="dropp-products__description" v-html="i18n.products_description"></p>
+			</div>
+			<div class="dropp-products__errors">
+				<dropp-error
+					level="error"
+					:title="i18n.weight_limit_exceeded"
+				>{{i18n.weight_limit_exceeded_message}}</dropp-error>
+				<dropp-error
+					level="warning"
+					:title="i18n.quantity_exceeded"
+				>{{i18n.quantity_exceeded_message}}</dropp-error>
+			</div>
 			<div class="dropp-products__headers">
 				<span class="dropp-products__label" v-html="i18n.item"></span>
 				<span class="dropp-products__label" v-html="i18n.quantity"></span>
@@ -28,23 +40,11 @@
 					<span v-else> {{ product._quantity }} </span>
 				</div>
 			</div>
-		<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
-			<span v-html="i18n.total_weight + ': '"></span>
-			<span>{{totalWeight}} Kg</span>
-			<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
-		</div>
-	</div>
-		<div class="dropp-products__errors">
-			<dropp-error
-				level="error"
-				:title="i18n.weight_limit_exceeded"
-				v-if="weightLimitExceeded"
-			>{{i18n.weight_limit_exceeded_message}}</dropp-error>
-			<dropp-error
-				level="warning"
-				v-if="quantityExceeded"
-				:title="i18n.quantity_exceeded"
-			>{{i18n.quantity_exceeded_message}}</dropp-error>
+			<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
+				<span v-html="i18n.total_weight + ': '"></span>
+				<span>{{totalWeight}} Kg</span>
+				<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
+			</div>
 		</div>
 	</div>
 </template>
@@ -54,18 +54,12 @@
 	color: #CC0000;
 }
 
-.dropp-products__errors {
+.dropp-products__errors:not(:empty) {
 	width: 100%;
-	min-height: 1px;
-}
-
-@container (min-width: 900px) {
-	.dropp-products__errors {
-		margin-top: 14px;
-	}
+	margin-top: 16px;
 }
 .dropp-products {
-	border-bottom: 1px solid #CCCCCC;
+	border-bottom: 1px solid #d1d5db;
 	margin: 0 16px;
 	padding-bottom: 24px;
 	margin-bottom: 18px;
@@ -75,9 +69,6 @@
 		padding-bottom: 24px;
 	}
 	@container (min-width: 900px) {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 24px;
 		margin-bottom: 14px;
 		padding-bottom: 34px;
 	}
@@ -101,14 +92,21 @@
 		}
 	}
 
+	&__header {
+		margin-bottom: 16px;
+	}
+
 	h3 {
 		margin-top: 0;
 		margin-bottom: 4px;
+		font-weight: 400;
+		font-size: 20px;
+		line-height: 28px;
 	}
 
 	&__weight,
 	&__quantity {
-		color: #999999;
+		color: #4b5563;
 	}
   &__quantity--error .dropp-quantity__input {
 		background-color: #FFF0F2;
@@ -139,11 +137,14 @@
   align-items: center;
 }
 .dropp-products__description {
-	margin-bottom: 8px;
+	margin: 0;
+	font-size: 14px;
+	line-height: 20px;
+	color: #6b7280;
 }
 
 .dropp-products__headers {
-	color: #999999;
+	color: #6b7280;
 	display: none;
 	margin-top: 24px;
 	margin-bottom: 8px;

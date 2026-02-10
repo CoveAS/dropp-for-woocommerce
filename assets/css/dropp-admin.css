@@ -1,1 +1,333 @@
-.dropp-product-error{align-items:flex-start;background-color:#fffbeb;border:1px solid #fcd34d;border-radius:8px;display:flex;gap:10px;margin-top:16px;padding:12px 16px}@media (max-width:480px){.dropp-product-error{gap:8px;padding:12px}}.dropp-product-error--warning{background-color:#fffbeb;border-color:#fcd34d}.dropp-product-error--error{background-color:#fef2f2;border-color:#fecaca}.dropp-product-error--error .dropp-product-error__content,.dropp-product-error--error .dropp-product-error__dismiss,.dropp-product-error--error .dropp-product-error__icon,.dropp-product-error--error .dropp-product-error__title{color:#dc2626}.dropp-product-error--error .dropp-product-error__dismiss:focus,.dropp-product-error--error .dropp-product-error__dismiss:hover{background-color:#fee2e2}.dropp-product-error__icon{color:#b45309;flex-shrink:0}.dropp-product-error__icon svg{height:20px;width:20px}@media (max-width:480px){.dropp-product-error__icon svg{height:18px;width:18px}}.dropp-product-error__title{color:#92400e;display:block!important;font-weight:700;margin-bottom:2px!important}@media (max-width:480px){.dropp-product-error__title{font-size:14px;margin-bottom:2px!important}}.dropp-product-error__body{display:block;line-height:1.5}.dropp-product-error__content{text-wrap:pretty;color:#b45309;flex:1}@media (max-width:480px){.dropp-product-error__content{font-size:13px;line-height:1.4}}.dropp-product-error__dismiss{background:none;border:none;border-radius:4px;color:#b45309;cursor:pointer;flex-shrink:0;font-size:22px;line-height:1;margin-right:-4px;margin-top:-2px;padding:0 4px;transition:background-color .15s}.dropp-product-error__dismiss:focus,.dropp-product-error__dismiss:hover{background-color:#fef3c7;outline:none}@media (max-width:480px){.dropp-product-error__dismiss{font-size:18px;padding:2px 6px}}.dropp-error{background-color:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#d97706;margin:1rem 0;padding:16px;text-align:left;white-space:normal}.dropp-location .button{cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.dropp-warning p.description,.dropp-warning th{color:#e00}.dropp-loading .dropp-spinner{display:inline-block}.dropp-loaded .dropp-spinner{-webkit-animation:dropp-fade-out .5s linear;animation:dropp-fade-out .5s linear;opacity:0}.dropp-loaded input{-webkit-animation:dropp-green-bg 1s linear;animation:dropp-green-bg 1s linear}.dropp-spinner{display:none;height:1rem;margin-left:-2rem;position:relative;width:1rem}.dropp-spinner div{-webkit-animation:dropp-spinner 1.2s cubic-bezier(.5,0,.5,1) infinite;animation:dropp-spinner 1.2s cubic-bezier(.5,0,.5,1) infinite;border:.25rem solid transparent;border-radius:50%;border-top-color:#000;box-sizing:border-box;display:block;height:1rem;margin:.25rem;position:absolute;width:1rem}.dropp-spinner div:first-child{-webkit-animation-delay:-.45s;animation-delay:-.45s}.dropp-spinner div:nth-child(2){-webkit-animation-delay:-.3s;animation-delay:-.3s}.dropp-spinner div:nth-child(3){-webkit-animation-delay:-.15s;animation-delay:-.15s}@-webkit-keyframes dropp-spinner{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes dropp-spinner{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@-webkit-keyframes dropp-fade-out{0%{opacity:1}to{opacity:0}}@keyframes dropp-fade-out{0%{opacity:1}to{opacity:0}}@-webkit-keyframes dropp-green-bg{0%{background-color:transparent;border-color:#8c8f94}20%{background-color:#cfc;border-color:#090}to{background-color:transparent;border-color:#8c8f94}}@keyframes dropp-green-bg{0%{background-color:transparent;border-color:#8c8f94}20%{background-color:#cfc;border-color:#090}to{background-color:transparent;border-color:#8c8f94}}.dropp-button{align-items:center;background:#00007d;border:1px solid #00007d;border-radius:3px;color:#fff;display:inline-flex;gap:4px;line-height:1.25;margin-bottom:8px;margin-right:8px;outline:none;padding:8px 24px;transition:background-color .2s,border-color .2s,color .1s;white-space:nowrap}.dropp-button:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px #1007fa;color:#fff}.dropp-button:active,.dropp-button:hover{background-color:#006;border-color:#006;color:#fff}.dropp-button:disabled{opacity:.4}.dropp-button .dashicons{margin:-2px 0}.dropp-button--secondary{align-items:center;background:#fff;border-color:#c3c4c7;border-radius:5px;color:#1d2327;display:inline-flex;font-weight:500;justify-content:center;margin-right:8px;padding-left:16px;padding-right:16px}.dropp-button--secondary:focus{box-shadow:0 0 0 3px #e0e1e4;color:#1d2327}.dropp-button--secondary:active,.dropp-button--secondary:hover{background-color:#f0f0f1;border-color:#c3c4c7;color:#1d2327}.dropp-consignment-download-button{align-items:center;background-color:#fff;border:1px solid #c3c4c7;border-radius:5px;box-sizing:border-box;color:#1d2327;display:inline-flex;font-family:inherit;font-size:13px;font-weight:500;gap:8px;justify-content:center;line-height:1;padding:6px 16px;text-decoration:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap}.dropp-consignment-download-button svg{flex-shrink:0}.dropp-consignment-download-button:hover{background-color:#f0f0f1;color:#1d2327}.dropp-consignment-download-button:focus{box-shadow:0 0 0 3px #e0e1e4;outline:none}@media (max-width:782px){.dropp-consignment-download-button{font-size:14px;height:40px;padding:0 20px;width:100%}}
+.dropp-product-error {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #fffbeb;
+  border: 1px solid #fcd34d;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+@media (max-width: 480px) {
+  .dropp-product-error {
+    padding: 12px;
+    gap: 8px;
+  }
+}
+.dropp-product-error--warning {
+  background-color: #fffbeb;
+  border-color: #fcd34d;
+}
+.dropp-product-error--error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+.dropp-product-error--error .dropp-product-error__icon,
+.dropp-product-error--error .dropp-product-error__title,
+.dropp-product-error--error .dropp-product-error__content,
+.dropp-product-error--error .dropp-product-error__dismiss {
+  color: #dc2626;
+}
+.dropp-product-error--error .dropp-product-error__dismiss:hover,
+.dropp-product-error--error .dropp-product-error__dismiss:focus {
+  background-color: #fee2e2;
+}
+.dropp-product-error__icon {
+  color: #b45309;
+  flex-shrink: 0;
+}
+.dropp-product-error__icon svg {
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 480px) {
+  .dropp-product-error__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+.dropp-product-error__title {
+  display: block !important;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 2px !important;
+}
+@media (max-width: 480px) {
+  .dropp-product-error__title {
+    font-size: 14px;
+    margin-bottom: 2px !important;
+  }
+}
+.dropp-product-error__body {
+  display: block;
+  line-height: 1.5;
+}
+.dropp-product-error__content {
+  text-wrap: pretty;
+  flex: 1;
+  color: #b45309;
+}
+@media (max-width: 480px) {
+  .dropp-product-error__content {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+.dropp-product-error__dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: #b45309;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+  margin-top: -2px;
+  margin-right: -4px;
+}
+.dropp-product-error__dismiss:hover, .dropp-product-error__dismiss:focus {
+  background-color: #fef3c7;
+  outline: none;
+}
+@media (max-width: 480px) {
+  .dropp-product-error__dismiss {
+    font-size: 18px;
+    padding: 2px 6px;
+  }
+}
+
+.dropp-error {
+  color: #d97706;
+  background-color: #fffbeb;
+  padding: 16px;
+  white-space: normal;
+  text-align: left;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+}
+
+.dropp-location .button {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: default;
+}
+
+.dropp-warning p.description,
+.dropp-warning th {
+  color: #e00;
+}
+
+.dropp-loading .dropp-spinner {
+  display: inline-block;
+}
+
+.dropp-loaded .dropp-spinner {
+  -webkit-animation: dropp-fade-out 0.5s linear;
+          animation: dropp-fade-out 0.5s linear;
+  opacity: 0;
+}
+
+.dropp-loaded input {
+  -webkit-animation: dropp-green-bg 1s linear;
+          animation: dropp-green-bg 1s linear;
+}
+
+.dropp-spinner {
+  display: none;
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  margin-left: -2rem;
+}
+
+.dropp-spinner div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.25rem;
+  border: 0.25rem solid #000;
+  border-radius: 50%;
+  -webkit-animation: dropp-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          animation: dropp-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #000 transparent transparent transparent;
+}
+
+.dropp-spinner div:nth-child(1) {
+  -webkit-animation-delay: -0.45s;
+          animation-delay: -0.45s;
+}
+
+.dropp-spinner div:nth-child(2) {
+  -webkit-animation-delay: -0.3s;
+          animation-delay: -0.3s;
+}
+
+.dropp-spinner div:nth-child(3) {
+  -webkit-animation-delay: -0.15s;
+          animation-delay: -0.15s;
+}
+
+@-webkit-keyframes dropp-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dropp-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes dropp-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes dropp-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dropp-green-bg {
+  0% {
+    background-color: transparent;
+    border-color: #8c8f94;
+  }
+  20% {
+    background-color: #CCFFCC;
+    border-color: #009900;
+  }
+  100% {
+    background-color: transparent;
+    border-color: #8c8f94;
+  }
+}
+@keyframes dropp-green-bg {
+  0% {
+    background-color: transparent;
+    border-color: #8c8f94;
+  }
+  20% {
+    background-color: #CCFFCC;
+    border-color: #009900;
+  }
+  100% {
+    background-color: transparent;
+    border-color: #8c8f94;
+  }
+}
+.dropp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  background: #00007D;
+  border-radius: 3px;
+  outline: none;
+  padding: 8px 24px;
+  border: 1px solid #00007D;
+  color: #FFFFFF;
+  transition: background-color 0.2s, border-color 0.2s, color 0.1s;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  line-height: 1.25;
+}
+.dropp-button:focus {
+  color: #ffffff;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1007FA;
+}
+.dropp-button:hover, .dropp-button:active {
+  color: #ffffff;
+  background-color: #000066;
+  border-color: #000066;
+}
+.dropp-button:disabled {
+  opacity: 0.4;
+}
+.dropp-button .dashicons {
+  margin: -2px 0;
+}
+
+.dropp-button--secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-color: #c3c4c7;
+  color: #1d2327;
+  margin-right: 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.dropp-button--secondary:focus {
+  color: #1d2327;
+  box-shadow: 0 0 0 3px #e0e1e4;
+}
+.dropp-button--secondary:hover, .dropp-button--secondary:active {
+  background-color: #f0f0f1;
+  border-color: #c3c4c7;
+  color: #1d2327;
+}
+
+.dropp-consignment-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1;
+  background-color: #FFFFFF;
+  color: #1d2327;
+  border: 1px solid #c3c4c7;
+  padding: 6px 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+}
+.dropp-consignment-download-button svg {
+  flex-shrink: 0;
+}
+.dropp-consignment-download-button:hover {
+  color: #1d2327;
+  background-color: #f0f0f1;
+}
+.dropp-consignment-download-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #e0e1e4;
+}
+@media (max-width: 782px) {
+  .dropp-consignment-download-button {
+    width: 100%;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+}

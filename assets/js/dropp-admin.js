@@ -120,6 +120,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3301,7 +3353,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n.dropp-booking textarea,\n.dropp-booking input[type=email],\n.dropp-booking input[type=number],\n.dropp-booking input[type=text] {\n  border-color: #d1d5db;\n}\n.dropp-booking textarea:hover,\n.dropp-booking input[type=email]:hover,\n.dropp-booking input[type=number]:hover,\n.dropp-booking input[type=text]:hover {\n  border-color: #d1d5db;\n  box-shadow: none;\n  outline: none;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #d1d5db;\n  outline: none;\n  box-shadow: 0 0 0 2px #e5e7eb;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-booking__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 16px;\n  padding: 48px 24px;\n  text-align: center;\n  max-width: 384px;\n  margin: 0 auto;\n}\n.dropp-booking__empty-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 64px;\n  height: 64px;\n  background: #f5f5f5;\n  border-radius: 50%;\n  color: #a3a3a3;\n}\n.dropp-booking__empty-icon svg {\n  width: 32px;\n  height: 32px;\n}\n.dropp-booking__empty-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 500;\n  color: #171717;\n}\n.dropp-booking__empty-text {\n  margin: 0;\n  font-size: 14px;\n  line-height: 1.625;\n  color: #737373;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n.dropp-booking textarea,\n.dropp-booking input[type=email],\n.dropp-booking input[type=number],\n.dropp-booking input[type=text] {\n  border-color: #d1d5db;\n}\n.dropp-booking textarea:hover,\n.dropp-booking input[type=email]:hover,\n.dropp-booking input[type=number]:hover,\n.dropp-booking input[type=text]:hover {\n  border-color: #d1d5db;\n  box-shadow: none;\n  outline: none;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #d1d5db;\n  outline: none;\n  box-shadow: 0 0 0 2px #e5e7eb;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24284,6 +24336,59 @@ var render = function () {
             },
           })
         }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.locations.length && _vm.shipping_items.length,
+                expression: "!locations.length && shipping_items.length",
+              },
+            ],
+            staticClass: "dropp-booking__empty",
+          },
+          [
+            _c("div", { staticClass: "dropp-booking__empty-icon" }, [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    fill: "none",
+                    viewBox: "0 0 24 24",
+                    "stroke-width": "1.5",
+                    stroke: "currentColor",
+                  },
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "stroke-linecap": "round",
+                      "stroke-linejoin": "round",
+                      d: "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z",
+                    },
+                  }),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "dropp-booking__empty-title" }, [
+              _vm._v(_vm._s(_vm.i18n.no_booking_title || "No active booking")),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "dropp-booking__empty-text" }, [
+              _vm._v(
+                _vm._s(
+                  _vm.i18n.no_booking_subtitle ||
+                    "Start by filling out the booking form to create a new consignment."
+                )
+              ),
+            ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",

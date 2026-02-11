@@ -49,8 +49,14 @@
 				{{ i18n.show_all || 'Show all' }} ({{ consignment_container.consignments.length }})
 			</button>
 		</div>
-		<p v-show="! display_consignments" v-html="i18n.no_consignments">
-		</p>
+		<div class="dropp-consignments__empty" v-show="! display_consignments">
+			<div class="dropp-consignments__empty-icon">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+				</svg>
+			</div>
+			<p class="dropp-consignments__empty-text" v-html="i18n.no_consignments"></p>
+		</div>
 	</div>
 	<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
   </div>
@@ -61,8 +67,33 @@
 	z-index: 2;
 	padding: 0 !important;
 }
-.dropp-consignments > p {
+.dropp-consignments__empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 24px;
+	text-align: center;
+}
+
+.dropp-consignments__empty-icon {
+	width: 64px;
+	height: 64px;
+	margin-bottom: 16px;
+	color: #9ca3af;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.dropp-consignments__empty-text {
 	margin: 0;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #6b7280;
+	max-width: 280px;
 }
 .dropp-consignments {
 	container-type: inline-size;

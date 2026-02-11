@@ -271,6 +271,11 @@
 .dropp-button .dashicons {
   margin: -2px 0;
 }
+.dropp-button.dropp-button--small {
+  height: 32px;
+  padding: 0 16px;
+  margin-bottom: 0;
+}
 
 .dropp-button--secondary {
   display: inline-flex;
@@ -305,7 +310,8 @@
   background-color: #FFFFFF;
   color: #1d2327;
   border: 1px solid #c3c4c7;
-  padding: 6px 16px;
+  height: 32px;
+  padding: 0 16px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;

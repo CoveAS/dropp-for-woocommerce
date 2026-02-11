@@ -70,14 +70,14 @@ class Order_Column
 			if ($booked || $started) {
 				// View order button
 				return sprintf(
-					'<a class="dropp-button dropp-shipment-view-link" href="%s">%s</a>',
+					'<a class="dropp-button dropp-button--small dropp-shipment-view-link" href="%s">%s</a>',
 					esc_url($adapter->order->get_edit_order_url()),
 					esc_html__('View order', 'dropp-for-woocommerce')
 				);
 			} else {
 				// Book now button with AJAX attributes
 				return sprintf(
-					'<a class="dropp-button dropp-shipment-book-link" href="#" data-order-id="%d" data-action="dropp_book_shipment">%s</a>',
+					'<a class="dropp-button dropp-button--small dropp-shipment-book-link" href="#" data-order-id="%d" data-action="dropp_book_shipment">%s</a>',
 					$adapter->order->get_id(),
 					esc_html__('Book now', 'dropp-for-woocommerce')
 				);
@@ -86,17 +86,16 @@ class Order_Column
 
 		if ('pdf_column' === $column) {
 			if ($booked) {
-				$tooltip = esc_attr__('Download your shipment', 'dropp-for-woocommerce');
-				$icon = sprintf(
-					'<span data-tip="%s" class="tips dashicons dashicons-download"></span>',
-					$tooltip
-				);
+				$icon = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M8 2V10M8 10L5 7M8 10L11 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M3 13H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+				</svg>';
 
 				return sprintf(
-					'<a class="dropp-button dropp-button--secondary dropp-shipment-download-link" href="%s" target="_blank">%s %s</a>',
+					'<a class="dropp-consignment-download-button dropp-shipment-download-link" href="%s" target="_blank">%s %s</a>',
 					$adapter->get_download_url(),
-					esc_html__('Download', 'dropp-for-woocommerce'),
-					$icon
+					$icon,
+					esc_html__('Download', 'dropp-for-woocommerce')
 				);
 			}
 		}

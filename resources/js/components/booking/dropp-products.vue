@@ -37,13 +37,7 @@
 						<img :src="product.image" :alt="product.name" class="dropp-products__image">
 					</div>
 					<div class="dropp-products__image-placeholder" v-else></div>
-					<div class="dropp-products__name-weight">
-						<span class="dropp-products__name" v-html="product.name"></span>
-						<div class="dropp-products__weight">
-							<span class="dropp-products__label" v-html="i18n.weight + ': '"></span>
-							<span v-html="product.weight.toFixed(2) + ' Kg'"></span>
-						</div>
-					</div>
+					<span class="dropp-products__name" v-html="product.name"></span>
 				</div>
 				<div
 					class="dropp-products__quantity"
@@ -52,6 +46,10 @@
 					<span class="dropp-products__quantity-label" v-html="i18n.quantity + ':'"></span>
 					<quantity v-if="editable" v-model="product._quantity" :disabled="! product.checked"/>
 					<span v-else> {{ product._quantity }} </span>
+				</div>
+				<div class="dropp-products__weight">
+					<span class="dropp-products__weight-label" v-html="i18n.weight + ':'"></span>
+					<span v-html="product.weight.toFixed(2) + ' Kg'"></span>
 				</div>
 			</div>
 			<div class="dropp-products__footer">
@@ -188,11 +186,10 @@
 		}
 	}
 
-	&__name-weight {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-		text-align: left;
+	&__name {
+		font-weight: 600;
+		font-size: 16px;
+		color: #111827;
 	}
 
 	&__image-container,
@@ -217,21 +214,33 @@
 		object-fit: cover;
 	}
 
-	&__name {
-		font-weight: 600;
-		font-size: 16px;
-		color: #111827;
-	}
-
 	&__weight {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
+		padding: 16px;
+		border-top: 1px solid #e5e7eb;
+		width: 100%;
+		box-sizing: border-box;
 		color: #6b7280;
 		font-size: 14px;
 
 		@container (min-width: 600px) {
+			padding: 0;
+			border-top: none;
 			justify-content: flex-start;
+			width: auto;
 			color: #4b5563;
+		}
+	}
+
+	&__weight-label {
+		font-size: 16px;
+		color: #6b7280;
+		font-weight: 500;
+
+		@container (min-width: 600px) {
+			display: none;
 		}
 	}
 

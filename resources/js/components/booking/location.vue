@@ -217,6 +217,10 @@
 		}
 	}
 
+	&__actions {
+		margin-top: 24px;
+	}
+
 	&__header {
 		position: relative;
 		margin: 16px 0 24px;

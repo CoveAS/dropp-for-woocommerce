@@ -114,6 +114,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -219,6 +225,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -629,32 +644,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -731,6 +720,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropp_products_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dropp-products.vue */ "./resources/js/components/booking/dropp-products.vue");
 /* harmony import */ var _dropp_error_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dropp-error.vue */ "./resources/js/components/dropp-error.vue");
 /* harmony import */ var _icons_arrow_down_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../icons/arrow-down.vue */ "./resources/js/components/icons/arrow-down.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3200,7 +3247,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n.dropp-booking label:hover {\n  color: #1007FA;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #1007FA;\n  box-shadow: none;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n.dropp-booking textarea,\n.dropp-booking input[type=email],\n.dropp-booking input[type=number],\n.dropp-booking input[type=text] {\n  border-color: #d1d5db;\n}\n.dropp-booking textarea:hover,\n.dropp-booking input[type=email]:hover,\n.dropp-booking input[type=number]:hover,\n.dropp-booking input[type=text]:hover {\n  border-color: #d1d5db;\n  box-shadow: none;\n  outline: none;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #d1d5db;\n  outline: none;\n  box-shadow: 0 0 0 2px #e5e7eb;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3224,7 +3271,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-customer {\n  margin-bottom: 24px;\n}\n.dropp-customer .form-field {\n  display: block;\n  margin-bottom: 16px;\n}\n.dropp-customer .form-field:last-child {\n  margin-bottom: 0;\n}\n.dropp-customer .input-label {\n  display: block;\n  margin-bottom: 4px;\n}\n.dropp-customer .input-field,\n.dropp-customer .field-value {\n  min-width: 10rem;\n  max-width: 20rem;\n}\n.dropp-customer .input-field {\n  border: 1px solid #d1d5db;\n  padding: 4px 12px;\n  font-size: 14px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-customer__title {\n  margin: 0 0 16px 0;\n  font-size: 18px;\n  font-weight: 600;\n}\n.dropp-customer .form-field {\n  display: block;\n  margin-bottom: 24px;\n}\n.dropp-customer .form-field:last-child {\n  margin-bottom: 0;\n}\n.dropp-customer .input-label {\n  display: block;\n  margin-bottom: 8px;\n  font-size: 14px;\n  font-weight: 500;\n}\n.dropp-customer .input-field,\n.dropp-customer .field-value {\n  width: 100%;\n  box-sizing: border-box;\n}\n.dropp-customer .input-field {\n  border: 1px solid #d1d5db;\n  padding: 8px 12px;\n  font-size: 16px;\n}\n.dropp-customer .input-field::-moz-placeholder {\n  color: #9ca3af;\n}\n.dropp-customer .input-field:-ms-input-placeholder {\n  color: #9ca3af;\n}\n.dropp-customer .input-field::placeholder {\n  color: #9ca3af;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3248,7 +3295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-products {\n  border-bottom: 1px solid #e5e7eb;\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1200px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products input[type=checkbox] {\n  width: 1.25rem;\n  height: 1.25rem;\n  border-radius: 4px;\n  border: 1px solid #d1d5db;\n  cursor: pointer;\n  margin: 0;\n  flex-shrink: 0;\n}\n.dropp-products input[type=checkbox]:checked {\n  background-color: #000;\n  border-color: #000;\n}\n.dropp-products input[type=checkbox]:checked::before {\n  margin: -0.1875rem 0 0 -0.25rem;\n  height: 1.3125rem;\n  width: 1.3125rem;\n}\n.dropp-products__header {\n  margin-bottom: 12px;\n}\n.dropp-products h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n  color: #111827;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 24px;\n}\n.dropp-products__headers {\n  display: none;\n  color: #6b7280;\n  font-size: 12px;\n  font-weight: 500;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  padding: 16px 0;\n  border-bottom: 1px solid #f3f4f6;\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__headers {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    gap: 24px;\n    justify-items: start;\n}\n}\n.dropp-products__headers span:first-child {\n  justify-self: start;\n  padding-left: 0;\n}\n.dropp-products__product {\n  display: flex;\n  flex-direction: column;\n  padding: 0;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  background: #fff;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n  margin-bottom: 16px;\n  overflow: hidden;\n}\n.dropp-products__product:last-of-type {\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    align-items: center;\n    justify-items: start;\n    gap: 24px;\n    padding: 16px 0;\n    text-align: left;\n    border: none;\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    border-bottom: 1px solid #f3f4f6;\n    margin-bottom: 0;\n    overflow: visible;\n}\n.dropp-products__product:last-of-type {\n    border-bottom: none;\n}\n}\n.dropp-products__item-info {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 16px;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__item-info {\n    justify-self: start;\n    width: auto;\n    padding: 0;\n}\n}\n.dropp-products__name-weight {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  text-align: left;\n}\n.dropp-products__image-container, .dropp-products__image-placeholder {\n  width: 64px;\n  height: 64px;\n  border-radius: 8px;\n  border: 1px solid #e5e7eb;\n  overflow: hidden;\n  background: #f9fafb;\n  flex-shrink: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__image-container, .dropp-products__image-placeholder {\n    width: 48px;\n    height: 48px;\n}\n}\n.dropp-products__image {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.dropp-products__name {\n  font-weight: 600;\n  font-size: 16px;\n  color: #111827;\n}\n.dropp-products__weight {\n  display: flex;\n  align-items: center;\n  color: #6b7280;\n  font-size: 14px;\n}\n@container (min-width: 600px) {\n.dropp-products__weight {\n    justify-content: flex-start;\n    color: #4b5563;\n}\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #f3f4f6;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n}\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #fef2f2;\n  border-color: #ef4444 !important;\n}\n.dropp-products__quantity-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity-label {\n    display: none;\n}\n}\n.dropp-products__label {\n  color: #6b7280;\n}\n@container (min-width: 600px) {\n.dropp-products__label {\n    display: none;\n}\n}\n.dropp-products__headers .dropp-products__label {\n  display: block;\n}\n.dropp-products__headers span:nth-child(2) {\n  text-align: left;\n}\n.dropp-products__headers span:nth-child(3) {\n  text-align: left;\n}\n.dropp-products__footer {\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.dropp-products__total-weight {\n  font-size: 16px;\n  color: #374151;\n}\n.dropp-products__total-weight strong {\n  color: #111827;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-text--error {\n  color: #dc2626;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-products {\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1200px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\nbody .dropp-products__header h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n  color: #111827;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 24px;\n}\n.dropp-products__headers {\n  display: none;\n  color: #6b7280;\n  font-size: 12px;\n  font-weight: 500;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  padding: 16px 0;\n  border-bottom: 1px solid #e5e7eb;\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__headers {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    gap: 24px;\n    justify-items: start;\n}\n}\n.dropp-products__headers span:first-child {\n  justify-self: start;\n  padding-left: 0;\n}\n.dropp-products__product {\n  display: flex;\n  flex-direction: column;\n  padding: 0;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  background: #fff;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n  margin-bottom: 16px;\n  overflow: hidden;\n}\n.dropp-products__product:last-of-type {\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    align-items: center;\n    justify-items: start;\n    gap: 24px;\n    padding: 16px 0;\n    text-align: left;\n    border: none;\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    border-bottom: 1px solid #e5e7eb;\n    margin-bottom: 0;\n    overflow: visible;\n}\n.dropp-products__product:last-of-type {\n    border-bottom: none;\n}\n}\n.dropp-products__item-info {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 16px;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__item-info {\n    justify-self: start;\n    width: auto;\n    padding: 0;\n}\n}\n.dropp-products__name-weight {\n  display: flex;\n  flex-direction: column;\n  gap: 4px;\n  text-align: left;\n}\n.dropp-products__image-container, .dropp-products__image-placeholder {\n  width: 64px;\n  height: 64px;\n  border-radius: 8px;\n  border: 1px solid #e5e7eb;\n  overflow: hidden;\n  background: #f9fafb;\n  flex-shrink: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__image-container, .dropp-products__image-placeholder {\n    width: 48px;\n    height: 48px;\n}\n}\n.dropp-products__image {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.dropp-products__name {\n  font-weight: 600;\n  font-size: 16px;\n  color: #111827;\n}\n.dropp-products__weight {\n  display: flex;\n  align-items: center;\n  color: #6b7280;\n  font-size: 14px;\n}\n@container (min-width: 600px) {\n.dropp-products__weight {\n    justify-content: flex-start;\n    color: #4b5563;\n}\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n}\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #fef2f2;\n  border-color: #ef4444 !important;\n}\n.dropp-products__quantity-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity-label {\n    display: none;\n}\n}\n.dropp-products__label {\n  color: #6b7280;\n}\n@container (min-width: 600px) {\n.dropp-products__label {\n    display: none;\n}\n}\n.dropp-products__headers .dropp-products__label {\n  display: block;\n}\n.dropp-products__headers span:nth-child(2) {\n  text-align: left;\n}\n.dropp-products__headers span:nth-child(3) {\n  text-align: left;\n}\n.dropp-products__footer {\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.dropp-products__total-weight {\n  font-size: 16px;\n  color: #374151;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-text--error {\n  color: #dc2626;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3272,7 +3319,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-grid {\n  padding: 0 16px;\n}\n@container (min-width: 600px) {\n.dropp-grid {\n    max-width: 1200px;\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 24px;\n    padding: 0 24px;\n}\n}\n.dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  padding-bottom: 1rem;\n  opacity: 1;\n  transition: opacity 0.5s;\n  color: #1C1B1B;\n  font-size: 14px;\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location .dropp-day-delivery {\n  margin-top: 0.5rem;\n}\n.dropp-location .dropp-delivery-instructions__field {\n  min-width: 15rem;\n}\n.dropp-location .dropp-delivery-instructions__input {\n  resize: vertical;\n  min-height: 100px;\n  width: 100%;\n  border: 1px solid #d1d5db;\n  padding: 8px 12px;\n}\n.dropp-location .dropp-delivery-instructions__notes {\n  margin-bottom: 24px;\n}\n.dropp-location .dropp-delivery-instructions blockquote {\n  margin: 0 0 12px 0;\n  background-color: #FCFCFC;\n  min-height: 100px;\n  color: #4b5563;\n}\n.dropp-location .dropp-delivery-instructions__text {\n  border-radius: 4px;\n  border: 1px solid #d1d5db;\n  padding: 8px 12px;\n  margin-bottom: 1rem;\n}\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n  padding: 0 16px;\n}\n@container (min-width:600px) {\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n    padding: 0 24px;\n}\n}\n.dropp-location__header {\n  position: relative;\n  margin: 12px 0 32px;\n}\n@container (min-width:600px) {\n.dropp-location__header {\n    margin: 24px 0 32px;\n}\n}\n.dropp-location__pre-title {\n  display: flex;\n  align-items: baseline;\n  margin-bottom: 4px;\n}\n@container (min-width:900px) {\n.dropp-location__pre-title {\n    max-width: 588px;\n}\n}\n.dropp-location h3 {\n  font-weight: 600;\n  font-size: 18px;\n}\n.dropp-location__pick-up-point {\n  font-weight: 600;\n  font-size: 18px;\n}\n.dropp-location__change {\n  font-weight: 500;\n  text-decoration: underline;\n  cursor: pointer;\n  color: #00007D;\n  font-size: 14px;\n  transition: color 0.15s;\n  margin-top: 10px;\n}\n.dropp-location__change:focus, .dropp-location__change:hover {\n  color: #000066;\n}\n.dropp-location__address {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 400;\n  margin-bottom: 12px;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  font-size: 32px;\n  font-weight: 600;\n  margin-bottom: 4px;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}\n.dropp-delivery-instructions__button {\n  padding: 10px 16px;\n  color: #2F9C26;\n  border: 1px solid #2F9C26;\n  border-radius: 4px;\n  background: white;\n  line-height: 1.2;\n  font-size: 12px;\n  font-weight: 600;\n  display: flex;\n  gap: 8px;\n}\n.dropp-delivery-instructions__button:focus, .dropp-delivery-instructions__button:hover {\n  color: #41be37;\n  border-color: #41be37;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-grid {\n  padding: 0 16px;\n}\n@container (min-width: 600px) {\n.dropp-grid {\n    max-width: 1200px;\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 24px;\n    padding: 0 24px;\n}\n}\n.dropp-location {\n  margin-left: -12px;\n  margin-right: -12px;\n  padding-bottom: 1rem;\n  opacity: 1;\n  transition: opacity 0.5s;\n  color: #1C1B1B;\n  font-size: 14px;\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-location--loading {\n  opacity: 0.5;\n}\n.dropp-location input[type=checkbox] {\n  width: 20px;\n  height: 20px;\n  border-radius: 4px;\n  border: 1px solid #d1d5db;\n  cursor: pointer;\n  margin: 0;\n  flex-shrink: 0;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  background-color: #fff;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  vertical-align: middle;\n  padding: 0;\n  color: inherit;\n  line-height: 0;\n  outline: none;\n  box-shadow: none;\n  background-image: none !important;\n}\n.dropp-location input[type=checkbox]:focus {\n  outline: none;\n  box-shadow: none;\n}\n.dropp-location input[type=checkbox]::before {\n  content: none !important;\n}\n.dropp-location input[type=checkbox]:checked {\n  background-color: currentColor;\n  border-color: currentColor;\n  background-image: none !important;\n}\n.dropp-location input[type=checkbox]:checked::after {\n  content: \"\";\n  width: 3.5px;\n  height: 7px;\n  border: solid #fff;\n  border-width: 0 2px 2px 0;\n  transform: rotate(45deg);\n  display: block;\n  margin-top: -1.5px;\n  margin-left: 0;\n}\n.dropp-location .dropp-day-delivery {\n  margin-top: 0.5rem;\n}\n.dropp-location .dropp-day-delivery label {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  cursor: pointer;\n}\n.dropp-location .dropp-delivery-instructions__input {\n  resize: vertical;\n  min-height: 120px;\n  width: 100%;\n  box-sizing: border-box;\n  border: 1px solid #d1d5db;\n  padding: 8px 12px;\n  font-size: 16px;\n}\n.dropp-location .dropp-delivery-instructions__notes {\n  margin-bottom: 24px;\n}\n.dropp-location .dropp-delivery-instructions blockquote {\n  margin: 0 0 12px 0;\n  background-color: #FCFCFC;\n  min-height: 100px;\n  color: #4b5563;\n}\n.dropp-location .dropp-delivery-instructions__text {\n  border-radius: 4px;\n  border: 1px solid #d1d5db;\n  padding: 8px 12px;\n  margin-bottom: 1rem;\n}\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n  padding: 0 16px;\n}\n@container (min-width:600px) {\n.dropp-location__actions, .dropp-location__booking-error, .dropp-location__header {\n    padding: 0 24px;\n}\n}\n.dropp-location__actions {\n  margin-top: 24px;\n}\n.dropp-location__header {\n  position: relative;\n  margin: 16px 0 24px;\n}\n@container (min-width:600px) {\n.dropp-location__header {\n    margin: 24px 0 24px;\n}\n}\n.dropp-location__pre-title {\n  display: flex;\n  align-items: baseline;\n  margin-bottom: 4px;\n}\n@container (min-width:900px) {\n.dropp-location__pre-title {\n    max-width: 588px;\n}\n}\n.dropp-location h3 {\n  margin: 0 0 16px 0;\n  font-weight: 600;\n  font-size: 18px;\n}\n.dropp-location__pick-up-point {\n  font-weight: 600;\n  font-size: 18px;\n}\n.dropp-location__change {\n  font-weight: 500;\n  text-decoration: underline;\n  cursor: pointer;\n  color: #00007D;\n  font-size: 14px;\n  transition: color 0.15s;\n  margin-top: 10px;\n}\n.dropp-location__change:focus, .dropp-location__change:hover {\n  color: #000066;\n}\n.dropp-location__address {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 400;\n}\n#poststuff .dropp-location__name {\n  padding: 0;\n  font-size: 32px;\n  font-weight: 600;\n  margin-bottom: 4px;\n}\n#poststuff .dropp-location__message {\n  font-size: 1.25rem;\n}\n.dropp-location__booking-errors,\n.dropp-location .response-error {\n  color: #CC0000;\n  background: #FFEEEE;\n}\n.dropp-location__booking-errors h2,\n.dropp-location .response-error h2 {\n  color: #CC0000;\n}\n.dropp-location .response-success {\n  color: #00CC00;\n  background: #AAFFAA;\n}\n.dropp-location .response-success h2 {\n  color: #008800;\n}\n.dropp-delivery-instructions__button {\n  padding: 10px 16px;\n  color: #2F9C26;\n  border: 1px solid #2F9C26;\n  border-radius: 4px;\n  background: white;\n  line-height: 1.2;\n  font-size: 12px;\n  font-weight: 600;\n  display: flex;\n  gap: 8px;\n}\n.dropp-delivery-instructions__button:focus, .dropp-delivery-instructions__button:hover {\n  color: #41be37;\n  border-color: #41be37;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24732,7 +24779,7 @@ var render = function () {
                 domProps: { innerHTML: _vm._s(_vm.i18n.total_weight + ": ") },
               }),
               _vm._v(" "),
-              _c("strong", [_vm._v(_vm._s(_vm.totalWeight) + " Kg")]),
+              _c("span", [_vm._v(_vm._s(_vm.totalWeight) + " Kg")]),
               _vm._v(" "),
               _vm.location.weight_limit
                 ? _c("span", [

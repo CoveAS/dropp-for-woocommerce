@@ -87,9 +87,9 @@
 	}
 
 	&__header {
-		margin-bottom: 4px;
+		margin-bottom: 16px;
 
-		h3 {
+		body & h3 {
 			margin-top: 0;
 			margin-bottom: 4px;
 			font-weight: 600;

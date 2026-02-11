@@ -1983,6 +1983,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3455,7 +3469,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n  padding: 0 !important;\n}\n.dropp-consignments__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  text-align: center;\n}\n.dropp-consignments__empty-icon {\n  width: 64px;\n  height: 64px;\n  margin-bottom: 16px;\n  color: #9ca3af;\n}\n.dropp-consignments__empty-icon svg {\n  width: 100%;\n  height: 100%;\n}\n.dropp-consignments__empty-text {\n  margin: 0;\n  font-size: 15px;\n  line-height: 1.5;\n  color: #6b7280;\n  max-width: 280px;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th:nth-child(n+2),\n.dropp-consignments td:nth-child(n+2) {\n  width: 15%;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n  padding-left: 24px;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n  padding-right: 24px;\n}\n.dropp-consignments td {\n  height: 64px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 16px;\n  max-width: 400px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n.dropp-consignments--small {\n    padding: 16px;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 16px 16px 0 16px;\n    max-width: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 24px 24px 0 24px;\n    max-width: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments__show-more {\n  display: block;\n  width: 100%;\n  max-width: 400px;\n  margin: 16px auto 0 auto;\n  padding: 12px 20px;\n  background: #f3f4f6;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  color: #374151;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background-color 0.2s, border-color 0.2s;\n}\n.dropp-consignments__show-more:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n}\n.dropp-consignments__show-more:focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n  padding: 0 !important;\n}\n.dropp-consignments__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 16px;\n  padding: 48px 24px;\n  text-align: center;\n  max-width: 384px;\n  margin: 0 auto;\n}\n.dropp-consignments__empty-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 64px;\n  height: 64px;\n  background: #f5f5f5;\n  border-radius: 50%;\n  color: #a3a3a3;\n}\n.dropp-consignments__empty-icon svg {\n  width: 32px;\n  height: 32px;\n}\n.dropp-consignments__empty-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 500;\n  color: #171717;\n}\n.dropp-consignments__empty-text {\n  margin: 0;\n  font-size: 14px;\n  line-height: 1.625;\n  color: #737373;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th:nth-child(n+2),\n.dropp-consignments td:nth-child(n+2) {\n  width: 15%;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n  padding-left: 24px;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n  padding-right: 24px;\n}\n.dropp-consignments td {\n  height: 64px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 16px;\n  max-width: 400px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n.dropp-consignments--small {\n    padding: 16px;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 16px 16px 0 16px;\n    max-width: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 24px 24px 0 24px;\n    max-width: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments__show-more {\n  display: block;\n  width: 100%;\n  max-width: 400px;\n  margin: 16px auto 0 auto;\n  padding: 12px 20px;\n  background: #f3f4f6;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  color: #374151;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background-color 0.2s, border-color 0.2s;\n}\n.dropp-consignments__show-more:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n}\n.dropp-consignments__show-more:focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -25784,17 +25798,30 @@ var render = function () {
                       attrs: {
                         "stroke-linecap": "round",
                         "stroke-linejoin": "round",
-                        d: "m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z",
+                        d: "m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9",
                       },
                     }),
                   ]
                 ),
               ]),
               _vm._v(" "),
-              _c("p", {
-                staticClass: "dropp-consignments__empty-text",
-                domProps: { innerHTML: _vm._s(_vm.i18n.no_consignments) },
-              }),
+              _c("h3", { staticClass: "dropp-consignments__empty-title" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.i18n.no_consignments_title ||
+                      "No booked consignments yet"
+                  )
+                ),
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "dropp-consignments__empty-text" }, [
+                _vm._v(
+                  _vm._s(
+                    _vm.i18n.no_consignments_subtitle ||
+                      "Please use the booking form to create new consignments."
+                  )
+                ),
+              ]),
             ]
           ),
         ],

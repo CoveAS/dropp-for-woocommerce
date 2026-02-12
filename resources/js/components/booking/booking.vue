@@ -118,6 +118,11 @@
 		}
 		&__add-button {
 			gap: 8px;
+			@container (max-width: 375px) {
+				width: 100%;
+				justify-content: center;
+				margin-right: 0;
+			}
 		}
 	}
 	.dropp-booking {

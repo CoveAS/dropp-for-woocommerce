@@ -111,6 +111,11 @@
 
 .dropp-consignment-card__actions {
 	padding: 0 20px 20px 20px;
+
+	:deep(.dropp-consignment-download-button) {
+		width: 100%;
+		text-align: center;
+	}
 }
 </style>
 

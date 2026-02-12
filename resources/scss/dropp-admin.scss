@@ -278,6 +278,12 @@
 		padding: 0 16px;
 		margin-bottom: 0;
 	}
+
+	@media (max-width: 375px) {
+		width: 100%;
+		justify-content: center;
+		margin-right: 0;
+	}
 }
 
 .dropp-button--secondary {
@@ -304,6 +310,13 @@
 		background-color: #f0f0f1;
 		border-color: #c3c4c7;
 		color: #1d2327;
+	}
+
+	@media (max-width: 375px) {
+		width: 100%;
+		justify-content: center;
+		margin-right: 0;
+		margin-bottom: 8px;
 	}
 }
 

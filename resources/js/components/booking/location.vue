@@ -219,6 +219,14 @@
 
 	&__actions {
 		margin-top: 24px;
+
+		@container (max-width: 375px) {
+			.dropp-button {
+				width: 100%;
+				justify-content: center;
+				margin-right: 0;
+			}
+		}
 	}
 
 	&__header {

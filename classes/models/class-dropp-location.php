@@ -29,6 +29,8 @@ class Dropp_Location extends Model {
 	public string $name;
 	public ?string $barcode = null;
 	public string $type;
+	public ?string $address = null;
+	public ?string $pricetype = null;
 
 	/**
 	 * Weight Limit in KG

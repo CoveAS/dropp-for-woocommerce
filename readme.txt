@@ -4,12 +4,12 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Shipping, WooCommerce, Iceland
 Requires at least: 5.2
-Tested up to: 6.8.3
+Tested up to: 6.9.4
 Requires PHP: 8.1
 Requires Plugins: woocommerce
 WC requires at least: 3.8.1
 WC tested up to: 10.3.5
-Stable tag: 2.1.14
+Stable tag: 2.1.15
 
 Seamlessly integrate your shipping with Dropp for delivery in Iceland using this WordPress plugin.
 Requires a Dropp account. Sign up [here](https://www.dropp.is/stofna-adgang).
@@ -66,6 +66,13 @@ In most cases yes, but we cannot guarantee compatability with every plugin.
 If you experience any problems using this plugin alongside another plugin then please create a support ticket.
 
 == Changelog ==
+
+= 2.1.15 =
+
+* Added purchase date parameter to consignment
+* Fixed Astra Pro theme incompatibility
+* Replaced location picker with a web component button
+* Increased priority for OCA switch
 
 = 2.1.13 =
 

@@ -104,13 +104,18 @@ jQuery(function ($) {
 			locationPicker = $(_dropp.location_picker);
 			el.after(locationPicker);
 
-			// Bind click handler
+			// Bind click handler — covers both the classic <span> and the
+			// web component (which fires a composed 'dropp-choose' event).
 			locationPicker
 				.find('.button')
 				.on('click', (e) => {
 					e.preventDefault();
 					locationPickerClickHandler(instanceId);
 				});
+			locationPicker[0].addEventListener('dropp-choose', (e) => {
+				e.preventDefault();
+				locationPickerClickHandler(instanceId);
+			});
 		}
 
 		// Show the picker

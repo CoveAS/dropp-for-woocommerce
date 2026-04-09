@@ -265,6 +265,15 @@ jQuery(function ($) {
 		// Use event delegation so clicks are caught on any .dropp-location__button
 		// in the DOM, including buttons cloned by third-party themes (e.g. Astra).
 		$(document).on('click', '.dropp-location__button', classicLocationButtonHandler);
+
+		// Web component variant: dropp-location-button fires a composed custom event
+		// that pierces the shadow DOM boundary and bubbles up to document.
+		document.addEventListener('dropp-choose', function (e) {
+			classicLocationButtonHandler.call(
+				$(e.target).closest('.dropp-location')[0],
+				e
+			);
+		});
 	}
 
 

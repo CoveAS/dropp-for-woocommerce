@@ -17,6 +17,7 @@ mix.webpackConfig({
 	},
 }).js('resources/js/dropp-admin.js', 'assets/js')
 	.js('resources/js/dropp.js', 'assets/js')
+	.js('resources/js/dropp-location-button.js', 'assets/js')
 	.vue()
 	.sass('resources/scss/dropp.scss', 'assets/css')
 	.sass('resources/scss/dropp-admin.scss', 'assets/css');

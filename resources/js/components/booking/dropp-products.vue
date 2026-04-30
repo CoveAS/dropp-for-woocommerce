@@ -1,8 +1,27 @@
 <template>
 	<div class="dropp-products">
 		<div class="dropp-products__inner">
-			<h3 v-html="i18n.products"></h3>
-			<div class="dropp-products__description" v-html="i18n.products_description"> </div>
+			<div class="dropp-products__header">
+				<h3 v-html="i18n.products"></h3>
+				<p class="dropp-products__description" v-html="i18n.products_description"></p>
+			</div>
+			<div class="dropp-products__errors">
+				<dropp-error
+					level="error"
+					:title="i18n.weight_limit_exceeded"
+					v-if="weightLimitExceeded && quantityExceeded"
+				>{{i18n.weight_limit_exceeded_quantity_message}}</dropp-error>
+				<dropp-error
+					level="error"
+					:title="i18n.weight_limit_exceeded"
+					v-else-if="weightLimitExceeded"
+				>{{i18n.weight_limit_exceeded_message}}</dropp-error>
+				<dropp-error
+					level="warning"
+					:title="i18n.quantity_exceeded"
+					v-else-if="quantityExceeded"
+				>{{i18n.quantity_exceeded_message}}</dropp-error>
+			</div>
 			<div class="dropp-products__headers">
 				<span class="dropp-products__label" v-html="i18n.item"></span>
 				<span class="dropp-products__label" v-html="i18n.quantity"></span>
@@ -10,184 +29,310 @@
 			</div>
 			<div class="dropp-products__product"
 					 v-for="product in products"
-					 :key="product.sku"
+					 :key="product.barcode"
 			>
-				<label class="dropp-products__product-name">
+				<div class="dropp-products__item-info">
 					<input type="checkbox" v-model="product.checked">
-					<span v-html="product.name"></span>
-				</label>
-				<div class="dropp-products__weight">
-					<span class="dropp-products__label" v-html="i18n.weight + ': '"></span><span v-html="product.weight.toFixed(2) + ' Kg'"></span>
+					<div class="dropp-products__image-container" v-if="product.image">
+						<img :src="product.image" :alt="product.name" class="dropp-products__image">
+					</div>
+					<div class="dropp-products__image-placeholder" v-else></div>
+					<span class="dropp-products__name" v-html="product.name"></span>
 				</div>
 				<div
-				class="dropp-products__quantity"
-				:class="product._quantity > product.quantity && product.checked ? 'dropp-products__quantity--error' : ''"
+					class="dropp-products__quantity"
+					:class="product._quantity > product.quantity && product.checked ? 'dropp-products__quantity--error' : ''"
 				>
-					<span class="dropp-products__label" v-html="i18n.quantity + ': '"></span>
+					<span class="dropp-products__quantity-label" v-html="i18n.quantity + ':'"></span>
 					<quantity v-if="editable" v-model="product._quantity" :disabled="! product.checked"/>
 					<span v-else> {{ product._quantity }} </span>
 				</div>
+				<div class="dropp-products__weight">
+					<span class="dropp-products__weight-label" v-html="i18n.weight + ':'"></span>
+					<span v-html="product.weight.toFixed(2) + ' Kg'"></span>
+				</div>
 			</div>
-		<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
-			<span v-html="i18n.total_weight + ': '"></span>
-			<span>{{totalWeight}} Kg</span>
-			<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
-		</div>
-	</div>
-		<div class="dropp-products__errors">
-			<dropp-error
-				level="error"
-				:title="i18n.weight_limit_exceeded"
-				v-if="weightLimitExceeded"
-			>{{i18n.weight_limit_exceeded_message}}</dropp-error>
-			<dropp-error
-				level="warning"
-				v-if="quantityExceeded"
-				:title="i18n.quantity_exceeded"
-			>{{i18n.quantity_exceeded_message}}</dropp-error>
+			<div class="dropp-products__footer">
+				<div class="dropp-products__total-weight" :class="weightLimitExceeded? 'dropp-text--error' : ''">
+					<span v-html="i18n.total_weight + ': '"></span>
+					<span>{{totalWeight}} Kg</span>
+					<span v-if="location.weight_limit"> / {{location.weight_limit}} Kg</span>
+				</div>
+				<div class="dropp-products__weight-exceeded" v-if="weightLimitExceeded">
+					<exclamation-mark />
+					<span v-html="i18n.weight_limit_exceeded"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="scss">
-.dropp-text--error {
-	color: #CC0000;
-}
-
-.dropp-products__errors {
-	width: 100%;
-	min-height: 1px;
-}
-
-@container (min-width: 900px) {
-	.dropp-products__errors {
-		margin-top: 14px;
-	}
-}
 .dropp-products {
-	border-bottom: 1px solid #CCCCCC;
 	margin: 0 16px;
 	padding-bottom: 24px;
 	margin-bottom: 18px;
-	max-width: 1920px;
+	max-width: 1200px;
+
 	@container (min-width: 600px) {
 		margin: 0 24px;
 		padding-bottom: 24px;
 	}
+
 	@container (min-width: 900px) {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 24px;
 		margin-bottom: 14px;
 		padding-bottom: 34px;
 	}
 
-	input[type="checkbox"] {
-		width: 1rem;
-		height: 1rem;
+	&__header {
+		margin-bottom: 16px;
+
+		body & h3 {
+			margin-top: 0;
+			margin-bottom: 4px;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 24px;
+			color: #111827;
+		}
 	}
 
-	input[type="checkbox"]:checked::before {
-		margin: -0.1875rem 0 0 -0.25rem;
-		height: 1.3125rem;
-		width: 1.3125rem;
+	&__description {
+		margin: 0;
+		font-size: 14px;
+		line-height: 20px;
+		color: #6b7280;
+	}
+
+	&__errors:not(:empty) {
+		width: 100%;
+		margin-top: 16px;
+		margin-bottom: 24px;
+	}
+
+	&__headers {
+		display: none;
+		color: #6b7280;
+		font-size: 12px;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		padding: 16px 0;
+		border-bottom: 1px solid #e5e7eb;
+		margin-bottom: 0;
+
+		@container (min-width: 600px) {
+			display: grid;
+			grid-template-columns: 1fr 160px 100px;
+			gap: 24px;
+			justify-items: start;
+		}
+
+		span:first-child {
+			justify-self: start;
+			padding-left: 0;
+		}
 	}
 
 	&__product {
-		margin-bottom: 20px;
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		background: #fff;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		margin-bottom: 16px;
+		overflow: hidden;
 
-		&:last-child {
+		&:last-of-type {
 			margin-bottom: 0;
 		}
-	}
 
-	h3 {
-		margin-top: 0;
-		margin-bottom: 4px;
-	}
+		@container (min-width: 600px) {
+			display: grid;
+			grid-template-columns: 1fr 160px 100px;
+			align-items: center;
+			justify-items: start;
+			gap: 24px;
+			padding: 16px 0;
+			text-align: left;
+			border: none;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+			border-bottom: 1px solid #e5e7eb;
+			margin-bottom: 0;
+			overflow: visible;
 
-	&__weight,
-	&__quantity {
-		color: #999999;
-	}
-  &__quantity--error .dropp-quantity__input {
-		background-color: #FFF0F2;
-		border-color: #CE0147 !important;
-  }
-
-	&__product-name {
-		display: block;
-		margin-bottom: 8px;
-		&:hover input {
-			border-color: #00007D;
-			box-shadow: 0 0 0 1px #1007FA;
+			&:last-of-type {
+				border-bottom: none;
+			}
 		}
+	}
+
+	&__item-info {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 16px;
+		width: 100%;
+		box-sizing: border-box;
+
+		@container (min-width: 600px) {
+			justify-self: start;
+			width: auto;
+			padding: 0;
+		}
+	}
+
+	&__name {
+		font-weight: 600;
+		font-size: 16px;
+		color: #111827;
+	}
+
+	&__image-container,
+	&__image-placeholder {
+		width: 48px;
+		height: 48px;
+		border-radius: 8px;
+		border: 1px solid #e5e7eb;
+		overflow: hidden;
+		background: #f9fafb;
+		flex-shrink: 0;
+	}
+
+	&__image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	&__weight {
-		margin-bottom: 4px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 16px;
+		border-top: 1px solid #e5e7eb;
+		width: 100%;
+		box-sizing: border-box;
+		color: #6b7280;
+		font-size: 14px;
+
+		@container (min-width: 600px) {
+			padding: 0;
+			border-top: none;
+			justify-content: flex-start;
+			width: auto;
+			color: #4b5563;
+		}
+	}
+
+	&__weight-label {
+		font-size: 16px;
+		color: #6b7280;
+		font-weight: 500;
+
+		@container (min-width: 600px) {
+			display: none;
+		}
+	}
+
+	&__quantity {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 16px;
+		border-top: 1px solid #e5e7eb;
+		width: 100%;
+		box-sizing: border-box;
+
+		@container (min-width: 600px) {
+			padding: 0;
+			border-top: none;
+			justify-content: flex-start;
+			width: auto;
+		}
+
+		&--error .dropp-quantity__input {
+			background-color: #fef2f2;
+			border-color: #ef4444 !important;
+		}
+	}
+
+	&__quantity-label {
+		font-size: 16px;
+		color: #6b7280;
+		font-weight: 500;
+
+		@container (min-width: 600px) {
+			display: none;
+		}
+	}
+
+	&__label {
+		color: #6b7280;
+		@container (min-width: 600px) {
+			display: none;
+		}
+	}
+
+	&__headers &__label {
+		display: block;
+	}
+
+	&__headers span:nth-child(2) {
+		text-align: left;
+	}
+
+	&__headers span:nth-child(3) {
+		text-align: left;
+	}
+
+	&__footer {
+		margin-top: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
 	}
 
 	&__total-weight {
-		text-align: right;
-		font-weight: 600;
+		font-size: 16px;
+		color: #374151;
 	}
-}
-.dropp-products__quantity {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.dropp-products__description {
-	margin-bottom: 8px;
+
+	&__weight-exceeded {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		color: #dc2626;
+		font-size: 13px;
+		margin-top: 4px;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
 }
 
-.dropp-products__headers {
-	color: #999999;
-	display: none;
-	margin-top: 24px;
-	margin-bottom: 8px;
-}
-@container (min-width: 600px) {
-  .dropp-products__headers,
-	.dropp-products__product {
-		display: grid;
-		grid-template-columns: 1fr minmax(100px, auto) 110px;
-		align-items: center;
-		gap: 8px;
-  }
-	.dropp-quantity {
-		margin: 0 auto;
-	}
-  .dropp-products__product .dropp-products__label {
-		display: none;
-  }
-	.dropp-products__weight {
-		text-align: right;
-		order: 3;
-	}
-  .dropp-products__headers span:nth-child(1) {
-		padding-left: 23px;
-  }
-  .dropp-products__headers span:nth-child(2) {
-		text-align: center;
-  }
-  .dropp-products__headers span:nth-child(3) {
-		text-align: right;
-  }
+.dropp-text--error {
+	color: #dc2626;
 }
 </style>
 
 <script>
 import DroppError from "../dropp-error.vue";
 import Quantity from "./quantity.vue";
+import ExclamationMark from "../icons/exclamation-mark.vue";
 
 let conserve = window._;
 const _ = require("lodash");
 window._ = conserve;
 
 export default {
-  components: {Quantity, DroppError},
+  components: {Quantity, DroppError, ExclamationMark},
 	data: function () {
 		return {
 			i18n: _dropp.i18n,

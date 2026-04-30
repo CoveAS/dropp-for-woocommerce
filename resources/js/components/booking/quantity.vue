@@ -36,10 +36,16 @@ export default {
 
 <template>
 	<div class="dropp-quantity" :class="disabled ? 'dropp-quantity--disabled' : 'dropp-quantity--active'">
-		<span
-			class="dropp-quantity__decrease"
+		<button
+			type="button"
+			class="dropp-quantity__btn dropp-quantity__btn--decrease"
 			@click.prevent="decrease"
-		>-</span>
+			:disabled="disabled"
+		>
+			<svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M1 1H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+			</svg>
+		</button>
 		<input
 			v-if="!disabled"
 			class="dropp-quantity__input"
@@ -47,80 +53,93 @@ export default {
 			step="1"
 			min="0"
 			:max="999999"
-			:style="'width:' + w(quantity)"
 			v-model="quantity"
 		>
 		<input
-			v-if="disabled"
+			v-else
 			class="dropp-quantity__input"
 			type="text"
 			value="0"
-			v-model="zero"
 			disabled
 		>
-		<span
-			class="dropp-quantity__increase"
+		<button
+			type="button"
+			class="dropp-quantity__btn dropp-quantity__btn--increase"
 			@click.prevent="increase"
-		>+</span>
+			:disabled="disabled"
+		>
+			<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+			</svg>
+		</button>
 	</div>
 </template>
 
 <style scoped lang="scss">
-
 .dropp-quantity {
-	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
 }
+
+.dropp-quantity__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 6px;
+	border: 1px solid #d1d5db;
+	background: #fff;
+	color: #374151;
+	cursor: pointer;
+	transition: all 0.2s;
+	padding: 0;
+
+	&:hover:not(:disabled) {
+		border-color: #9ca3af;
+		background: #f9fafb;
+		color: #111827;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		background: #f3f4f6;
+	}
+}
+
 .dropp-quantity__input {
-  min-height: 20px;
-  width: 58px;
-  text-align: right;
-  border: 1px solid #999999;
-  box-shadow: none !important;
+	width: 54px;
+	height: 32px;
+	text-align: center;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
 	font-size: 14px;
-  padding: 0 24px;
-}
-.dropp-quantity__input:read-only {
-	background-color: #EFEFEF;
-  border-color: #cfcfcf;
-}
+	font-weight: 500;
+	color: #111827;
+	background: #fff;
+	padding: 0;
+	margin: 0;
+	-moz-appearance: textfield;
+	appearance: textfield;
 
-.dropp-quantity__input::-webkit-outer-spin-button,
-.dropp-quantity__input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 
-.dropp-quantity__input[type=number] {
-  -moz-appearance: textfield; /* Firefox */
-}
+	&:focus {
+		outline: none;
+		border-color: #000;
+		box-shadow: 0 0 0 1px #000;
+	}
 
-.dropp-quantity__decrease,
-.dropp-quantity__increase {
-  position: absolute;
-  cursor: default;
-  user-select: none;
-  color: #999999;
-  padding: 4px 8px;
-
-  .dropp-quantity--disabled & {
-		color: #d0d0d0;
-  }
-  .dropp-quantity--active &:hover {
-		background-color: rgba(0,0,0,0.1);
-		color: #666666;
-  }
-	top: 0;
-	bottom: 0;
+	&:disabled {
+		background: #f3f4f6;
+		color: #9ca3af;
+		cursor: not-allowed;
+	}
 }
-.dropp-quantity__decrease {
-  left: 0;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.dropp-quantity__increase {
-	right: 0;
-	border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
 </style>

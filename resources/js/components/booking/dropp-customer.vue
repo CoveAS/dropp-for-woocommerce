@@ -34,10 +34,15 @@
 </template>
 <style lang="scss">
 .dropp-customer {
-	margin-bottom: 24px;
+	&__title {
+		margin: 0 0 16px 0;
+		font-size: 18px;
+		font-weight: 600;
+	}
+
 	.form-field {
 		display: block;
-		margin-bottom: 16px;
+		margin-bottom: 24px;
 		&:last-child {
 			margin-bottom: 0;
 		}
@@ -45,20 +50,24 @@
 
 	.input-label {
 		display: block;
-		margin-bottom: 4px;
-
+		margin-bottom: 8px;
+		font-size: 14px;
+		font-weight: 500;
 	}
 
 	.input-field,
 	.field-value {
-		min-width: 10rem;
-		max-width: 20rem;
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	.input-field {
-		border: 1px solid #999999;
-		padding: 4px 12px;
-		font-size: 14px;
+		border: 1px solid #d1d5db;
+		padding: 8px 12px;
+		font-size: 16px;
+		&::placeholder {
+			color: #9ca3af;
+		}
 	}
 }
 </style>

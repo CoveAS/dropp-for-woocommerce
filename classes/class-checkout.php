@@ -116,7 +116,7 @@ class Checkout
 			'dropp-for-woocommerce',
 			plugins_url('assets/css/dropp.css', __DIR__),
 			[],
-			Dropp::VERSION
+			Dropp::asset_version('assets/css/dropp.css')
 		);
 		wp_enqueue_style('dropp-for-woocommerce');
 
@@ -125,7 +125,7 @@ class Checkout
 			'dropp-for-woocommerce',
 			plugins_url('assets/js/dropp.js', __DIR__),
 			array('jquery'),
-			Dropp::VERSION,
+			Dropp::asset_version('assets/js/dropp.js'),
 			true
 		);
 		wp_enqueue_script('dropp-for-woocommerce');
@@ -135,7 +135,7 @@ class Checkout
 				'dropp-location-button',
 				plugins_url('assets/js/dropp-location-button.js', __DIR__),
 				[],
-				Dropp::VERSION,
+				Dropp::asset_version('assets/js/dropp-location-button.js'),
 				true
 			);
 			wp_enqueue_script('dropp-location-button');

@@ -25,6 +25,7 @@ class Dropp_Product_Line extends Model {
 	public int $quantity;
 	public string $barcode;
 	public bool $needs_shipping = true;
+	public ?string $image = null;
 
 	/**
 	 * Constructor.
@@ -131,6 +132,7 @@ class Dropp_Product_Line extends Model {
 		$this->weight         = wc_get_weight( ( $product ? $product->get_weight() : '' ), 'g' ) / 1000.0;
 		$this->barcode        = ( $product ? $product->get_sku() : '' );
 		$this->needs_shipping = ( $product ? $product->needs_shipping() : true );
+		$this->image          = $product ? wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' ) : null;
 
 		return $this;
 	}
@@ -148,6 +150,7 @@ class Dropp_Product_Line extends Model {
 			'weight'         => $this->weight,
 			'needs_shipping' => $this->needs_shipping,
 			'barcode'        => $this->barcode,
+			'image'          => $this->image,
 		];
 	}
 }

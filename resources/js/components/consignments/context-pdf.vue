@@ -1,11 +1,7 @@
 <template>
 	<div class="context-pdf">
-		<div class="dropp-context__overlay" v-show="loading">
-			<loader></loader>
-		</div>
 		<ul class="context-pdf__list">
 			<li class="context-pdf__error" v-if="error"> Error </li>
-			<li class="context-pdf__skeleton" v-show="loading">&nbsp;</li>
 			<li
 				class="pdf-actions"
 				v-if="! error"
@@ -17,6 +13,7 @@
 					target="_blank"
 					:href="download_url( pdf.barcode )"
 				>
+					<document-icon class="pdf-action__icon" />
 					<span>{{ pdf.label }}</span>
 					<span
 						tabindex="0"
@@ -25,79 +22,148 @@
 						href=""
 						@click.stop.prevent="delete_pdf( pdf.barcode )"
 						@keydown.enter.space.stop.prevent="delete_pdf( pdf.barcode )"
-					>&times;</span>
+					><x-icon /></span>
 				</a>
+			</li>
+			<li class="pdf-actions" v-if="adding">
+				<div class="pdf-action pdf-action--skeleton" aria-busy="true" aria-live="polite">
+					<span class="pdf-skeleton pdf-skeleton--icon"></span>
+					<span class="pdf-skeleton pdf-skeleton--label"></span>
+				</div>
 			</li>
 			<li v-if="editable">
 				<span
 					tabindex="0"
-					class="
-						dropp-consignment__action
-						pdf-action
-						pdf-action--add
-					"
+					class="dropp-consignment__action pdf-action pdf-action--add"
+					:class="{ 'pdf-action--disabled': adding }"
 					href="#"
-					v-html="i18n.extra_pdf"
 					@click.prevent="add_pdf"
 					@keydown.enter.space.prevent="add_pdf"
-				></span>
+				>
+					<plus-icon class="pdf-action__icon" />
+					<span v-html="i18n.extra_pdf"></span>
+				</span>
 			</li>
 		</ul>
 	</div>
 </template>
 <style lang="scss">
-.context-pdf__error,
-.context-pdf__skeleton {
-	background-color: #EEEEEE;
+.context-pdf__error {
+	background-color: #FFF0F2;
 	cursor: default;
 	display: block;
 	text-decoration: none;
-	padding: 8px 16px;
+	padding: 8px 12px;
 	border-radius: 4px;
-}
-.context-pdf__error {
-  background-color: #FFF0F2;
 }
 .context-pdf {
 	position: relative;
 
 	a.pdf-action {
-		width: 100%;
 		display: flex;
+		align-items: center;
+		font-weight: normal;
+	}
+
+	.pdf-action__icon {
+		margin-right: 8px;
+		flex-shrink: 0;
 	}
 
 
 	&__list {
 		margin-top: 0;
+		padding: 0;
+		list-style: none;
 	}
 }
 
 .pdf-actions {
-	display: flex;
+	display: block;
 }
 
-.dropp-context-menu .context-pdf .pdf-action--add {
-  color: #2F9C26;
-}
 .dropp-context-menu .context-pdf .pdf-action--add:focus,
 .dropp-context-menu .context-pdf .pdf-action--add:hover {
-  color: #228b18;
-  background-color: #dbf2d9;
+  background-color: #f3f4f6;
 }
 
+
+.context-pdf .pdf-action--skeleton {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	cursor: default;
+	pointer-events: none;
+}
+
+.context-pdf .pdf-action--disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.context-pdf .pdf-skeleton {
+	display: block;
+	border-radius: 4px;
+	background-color: #e5e7eb;
+	background-image: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.6) 50%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	background-size: 200% 100%;
+	background-repeat: no-repeat;
+	background-position: -150% 0;
+	animation: pdf-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.context-pdf .pdf-skeleton--icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 8px;
+	flex-shrink: 0;
+	border-radius: 3px;
+}
+
+.context-pdf .pdf-skeleton--label {
+	flex: 1;
+	height: 12px;
+	max-width: 140px;
+}
+
+@keyframes pdf-skeleton-shimmer {
+	0% {
+		background-position: -150% 0;
+	}
+	100% {
+		background-position: 150% 0;
+	}
+}
 
 .context-pdf .pdf-action--delete {
 	margin-left: auto;
-	color: #900;
-	padding: 4px 8px;
+	color: #AC0000;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
 	margin-top: -4px;
 	margin-bottom: -4px;
-	margin-right: -8px;
-	line-height: 1.25;
+	margin-right: -4px;
+	margin-left: 4px;
+	line-height: 1;
+	border-radius: 4px;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: #f3f4f6;
+	}
 }
 </style>
 <script>
-import Loader from '../loader.vue';
+import DocumentIcon from "../icons/document-icon.vue";
+import PlusIcon from "../icons/plus-icon.vue";
+import XIcon from "../icons/x-icon.vue";
 
 export default {
 	data: function () {
@@ -105,6 +171,7 @@ export default {
 			i18n: _dropp.i18n,
 			pdfs: [],
 			loading: false,
+			adding: false,
 			error: false,
 		}
 	},
@@ -144,6 +211,7 @@ export default {
 				return;
 			}
 			this.loading = true;
+			this.adding = true;
 			jQuery.ajax({
 				url: _dropp.ajaxurl,
 				method: 'get',
@@ -175,17 +243,17 @@ export default {
 		success: function (data) {
 			this.pdfs = data;
 			this.loading = false;
+			this.adding = false;
 		},
 		error_handler: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
 			console.log(textStatus);
 			console.log(errorThrown);
 			this.loading = false;
+			this.adding = false;
 			this.error = true;
 		},
 	},
-	components: {
-		Loader,
-	},
+	components: {DocumentIcon, PlusIcon, XIcon},
 };
 </script>

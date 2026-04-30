@@ -3,10 +3,13 @@ import ContextPdf from "./context-pdf.vue";
 import ContextButton from "../icons/context-button.vue";
 import time_ago from "../../time-ago";
 import Loader from "../loader.vue";
+import RefreshIcon from "../icons/refresh-icon.vue";
+import EyeIcon from "../icons/eye-icon.vue";
+import XIcon from "../icons/x-icon.vue";
 
 export default {
 	name: "context",
-	components: {Loader, ContextButton, ContextPdf},
+	components: {Loader, ContextButton, ContextPdf, RefreshIcon, EyeIcon, XIcon},
 	data: function () {
 		return {
 			i18n: _dropp.i18n,
@@ -21,7 +24,7 @@ export default {
 			if (this.show_context) {
 				classes.push('dropp-context-menu--show');
 			}
-			if (this.show_context) {
+			if (this.loading) {
 				classes.push('dropp-context-menu--loading');
 			}
 			return classes.join(' ');
@@ -164,7 +167,6 @@ export default {
 				<loader/>
 			</div>
 			<context-pdf
-				v-if="show_context"
 				:editable="consignment.status !== 'cancelled'"
 				:consignment_id="consignment.id"
 				class="dropp-context-menu__pdf"
@@ -174,29 +176,32 @@ export default {
 				<li>
 					<span
 						class="dropp-consignment__action"
-						v-html="i18n.check_status"
 						@click.prevent="check_status"
 						@keydown.enter.space.prevent="check_status"
-					></span>
+					>
+						<refresh-icon class="dropp-action__icon" />
+						<span v-html="i18n.check_status"></span>
+					</span>
 				</li>
 				<li>
 					<span
 						class="dropp-consignment__action"
-						v-html="i18n.view_order"
 						@click.prevent="view_order"
 						@keydown.enter.space.prevent="view_order"
-					></span>
+					>
+						<eye-icon class="dropp-action__icon" />
+						<span v-html="i18n.view_order"></span>
+					</span>
 				</li>
 				<li v-if="is_initial">
 					<span
-						class="
-							dropp-consignment__action
-							dropp-consignment__action--cancel
-						"
-						v-html="i18n.cancel_order"
+						class="dropp-consignment__action dropp-consignment__action--cancel"
 						@click.prevent="cancel_order"
 						@keydown.enter.space.prevent="cancel_order"
-					></span>
+					>
+						<x-icon class="dropp-action__icon" />
+						<span v-html="i18n.cancel_order"></span>
+					</span>
 				</li>
 			</ul>
 		</div>
@@ -221,21 +226,29 @@ export default {
 	.dropp-consignment__action,
 	a {
 		cursor: default;
-		display: block;
+		display: flex;
+		align-items: center;
 		text-decoration: none;
-		padding: 8px 16px;
+		padding: 10px;
 		border-radius: 4px;
 		color: #000000;
+		white-space: nowrap;
 
 		&:focus,
 		&:hover {
-			background-color: #E5E8FF;
-			color: #1007FA;
+			background-color: #f3f4f6;
 		}
+	}
+
+	.dropp-action__icon {
+		margin-right: 8px;
+		flex-shrink: 0;
 	}
 
 	ul {
 		margin: 0;
+		padding: 0;
+		list-style: none;
 	}
 	li {
 		margin-bottom: 3px;
@@ -246,6 +259,12 @@ export default {
 
 	position: relative;
 
+	hr {
+		margin: 8px -8px;
+		border: 0;
+		border-top: 1px solid #d1d5db;
+	}
+
 	&__button {
 		// Context menu button
 		display: block;
@@ -255,12 +274,10 @@ export default {
 		border-radius: 4px;
 		margin: 0 -14px;
 		user-select: none;
-		outline: 1px solid transparent;
-		transition: outline-color 0.2s, color 0.2s;
+		transition: background-color 0.2s, color 0.2s;
 
 		&:hover {
-			outline-color: #ceccff;
-			color: #1007FA;
+			background-color: #e5e7eb;
 		}
 	}
 
@@ -270,12 +287,14 @@ export default {
 		top: 110%;
 		margin: 0;
 		right: -14px;
-		width: 220px;
+		min-width: 211px;
+		max-width: 220px;
 		background: #fff;
 		padding: 8px;
 		border-radius: 4px;
 		z-index: 999;
-		border: 1px solid #E1E1E1;
+		border: 1px solid #d1d5db;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	}
 
 	&--show {
@@ -290,6 +309,12 @@ export default {
 			border-bottom-right-radius: 0;
 		}
 	}
+
+	&__pdf {
+		.context-pdf__error {
+			padding: 16px;
+		}
+	}
 }
 
 .dropp-context-menu .dropp-consignment__action--cancel {
@@ -297,7 +322,6 @@ export default {
 }
 .dropp-context-menu .dropp-consignment__action--cancel:focus,
 .dropp-context-menu .dropp-consignment__action--cancel:hover {
-  color: #BD0000;
-  background-color: #f6d5d5;
+  background-color: #f3f4f6;
 }
 </style>

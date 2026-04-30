@@ -1,14 +1,145 @@
+// Warning/Error Banner - Global Styles
+//
+// Warning (yellow/amber):
+//   Background: #fffbeb (amber-50)
+//   Border: #fcd34d (amber-300)
+//   Title: #92400e (amber-800) - darker for emphasis
+//   Icon/Body/Dismiss: #b45309 (amber-700) - consistent color
+//   Dismiss hover: #fef3c7 (amber-100)
+//
+// Error (red):
+//   Background: #fef2f2 (red-50)
+//   Border: #fca5a5 (red-300)
+//   Title: #991b1b (red-800) - darker for emphasis
+//   Icon/Body/Dismiss: #b91c1c (red-700) - consistent color
+//   Dismiss hover: #fee2e2 (red-100)
+
+.dropp-product-error {
+	padding: 12px 16px;
+	border-radius: 8px;
+	background-color: #fffbeb;
+	border: 1px solid #fcd34d;
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	margin-top: 16px;
+
+	@media (max-width: 480px) {
+		padding: 12px;
+		gap: 8px;
+	}
+
+	// Warning level (default - yellow/amber)
+	&--warning {
+		background-color: #fffbeb;
+		border-color: #fcd34d;
+	}
+
+	// Error level (red)
+	&--error {
+		background-color: #fef2f2; // red-50
+		border-color: #fca5a5; // red-300
+
+		.dropp-product-error__icon,
+		.dropp-product-error__content,
+		.dropp-product-error__dismiss {
+			color: #b91c1c; // red-700
+		}
+
+		.dropp-product-error__title {
+			color: #991b1b; // red-800
+		}
+
+		.dropp-product-error__dismiss:hover,
+		.dropp-product-error__dismiss:focus {
+			background-color: #fee2e2; // red-100
+		}
+	}
+
+	&__icon {
+		color: #b45309; // amber-700 - same as body text
+		flex-shrink: 0;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		@media (max-width: 480px) {
+			svg {
+				width: 18px;
+				height: 18px;
+			}
+		}
+	}
+
+	&__title {
+		display: block !important;
+		font-weight: 700;
+		color: #92400e; // amber-800 - darker for title
+		margin-bottom: 2px !important;
+
+		@media (max-width: 480px) {
+			font-size: 14px;
+			margin-bottom: 2px !important;
+		}
+	}
+
+	&__body {
+		display: block;
+		line-height: 1.5;
+	}
+
+	&__content {
+		text-wrap: pretty;
+		flex: 1;
+		color: #b45309; // amber-700
+
+		@media (max-width: 480px) {
+			font-size: 13px;
+			line-height: 1.4;
+		}
+	}
+
+	&__dismiss {
+		flex-shrink: 0;
+		background: none;
+		border: none;
+		font-size: 22px;
+		line-height: 1;
+		color: #b45309; // amber-700 - same as icon and body
+		cursor: pointer;
+		padding: 0 4px;
+		border-radius: 4px;
+		transition: background-color 0.15s;
+		margin-top: -2px;
+		margin-right: -4px;
+
+		&:hover,
+		&:focus {
+			background-color: #fef3c7;
+			outline: none;
+		}
+
+		@media (max-width: 480px) {
+			font-size: 18px;
+			padding: 2px 6px;
+		}
+	}
+}
+
+// Legacy class - keeping for backwards compatibility
 .dropp-error {
-	color: #860;
-	background-color: #FFE;
-	padding: 0.6rem 1rem 0.7rem;
+	color: #d97706;
+	background-color: #fffbeb;
+	padding: 16px;
 	white-space: normal;
 	text-align: left;
 	margin: 1rem 0;
-	border-radius: 4px;
-	border: 1px solid;
-	border-color: #dbdb84;
+	border-radius: 8px;
+	border: 1px solid #fde68a;
 }
+
 .dropp-location .button {
 	user-select: none;
 	cursor: default;
@@ -16,71 +147,91 @@
 
 .dropp-warning p.description,
 .dropp-warning th {
-  color: #e00;
+	color: #e00;
 }
 
 .dropp-loading .dropp-spinner {
-  display: inline-block;
+	display: inline-block;
 }
 
 .dropp-loaded .dropp-spinner {
-  animation: dropp-fade-out 0.5s linear;
-  opacity: 0;
+	animation: dropp-fade-out 0.5s linear;
+	opacity: 0;
 }
 
 .dropp-loaded input {
-  animation: dropp-green-bg 1s linear;
+	animation: dropp-green-bg 1s linear;
 }
 
 .dropp-spinner {
-  display: none;
-  position: relative;
-  width: 1rem;
-  height: 1rem;
-  margin-left: -2rem;
+	display: none;
+	position: relative;
+	width: 1rem;
+	height: 1rem;
+	margin-left: -2rem;
 
 }
+
 .dropp-spinner div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  margin: 0.25rem;
-  border: 0.25rem solid #000;
-  border-radius: 50%;
-  animation: dropp-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #000 transparent transparent transparent;
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 1rem;
+	height: 1rem;
+	margin: 0.25rem;
+	border: 0.25rem solid #000;
+	border-radius: 50%;
+	animation: dropp-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: #000 transparent transparent transparent;
 }
+
 .dropp-spinner div:nth-child(1) {
-  animation-delay: -0.45s;
+	animation-delay: -0.45s;
 }
+
 .dropp-spinner div:nth-child(2) {
-  animation-delay: -0.3s;
+	animation-delay: -0.3s;
 }
+
 .dropp-spinner div:nth-child(3) {
-  animation-delay: -0.15s;
+	animation-delay: -0.15s;
 }
+
 @keyframes dropp-spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }
+
 @keyframes dropp-fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
+
 @keyframes dropp-green-bg {
-  0% {background-color: transparent; border-color: #8c8f94}
-  20% {background-color: #CCFFCC; border-color: #009900}
-  100% {background-color: transparent; border-color: #8c8f94}
+	0% {
+		background-color: transparent;
+		border-color: #8c8f94
+	}
+
+	20% {
+		background-color: #CCFFCC;
+		border-color: #009900
+	}
+
+	100% {
+		background-color: transparent;
+		border-color: #8c8f94
+	}
 }
 
 .dropp-button {
@@ -89,64 +240,167 @@
 	gap: 4px;
 	white-space: nowrap;
 	background: #00007D;
-	border-radius: 3px;
+	border-radius: 6px;
 	outline: none;
-	padding: 8px 24px;
+	height: 40px;
+	padding: 0 24px;
 	border: 1px solid #00007D;
 	color: #FFFFFF;
 	transition: background-color 0.2s, border-color 0.2s, color 0.1s;
 	margin-bottom: 8px;
 	margin-right: 8px;
 	line-height: 1.25;
+	font-weight: 500;
+	font-size: 13px;
 
 	&:focus {
 		color: #ffffff;
-		box-shadow: 0 0 0 1px #fff, 0 0 0 3px #1007FA;
+		box-shadow: 0 0 0 3px #9999d6;
 	}
+
 	&:hover,
 	&:active {
 		color: #ffffff;
-		background-color: #1919a7;
-		border-color: #1919a7;
+		background-color: #000066;
+		border-color: #000066;
 	}
+
 	&:disabled {
 		opacity: 0.4;
 	}
+
 	.dashicons {
 		margin: -2px 0;
 	}
+
+	&.dropp-button--small {
+		height: 32px;
+		padding: 0 16px;
+		margin-bottom: 0;
+	}
+
+	@media (max-width: 375px) {
+		width: 100%;
+		justify-content: center;
+		margin-right: 0;
+	}
 }
+
 .dropp-button--secondary {
-	background: #E5E8FF;
-	border-color: #1007FA;
-	color: #1007FA;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #ffffff;
+	border-color: #c3c4c7;
+	color: #1d2327;
+	margin-right: 8px;
+	border-radius: 6px;
+	font-weight: 500;
+	font-size: 13px;
+	padding-left: 16px;
+	padding-right: 16px;
 
 	&:focus {
-		color: #1007FA;
+		color: #1d2327;
+		box-shadow: 0 0 0 3px #e0e1e4;
 	}
+
 	&:hover,
 	&:active {
-		background-color: #f1f3ff;
-		color: #1007FA;
+		background-color: #f0f0f1;
+		border-color: #c3c4c7;
+		color: #1d2327;
+	}
+
+	@media (max-width: 375px) {
+		width: 100%;
+		justify-content: center;
+		margin-right: 0;
+		margin-bottom: 8px;
 	}
 }
+
 .dropp-consignment-download-button {
-	// First item. Ie. "Download" button
-	display: block;
-	line-height: 1.2;
+	// Download button with icon - min 16px horizontal padding
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	line-height: 1;
 	background-color: #FFFFFF;
-	color: #1007FA;
-	border: 1px solid #0000EE;
-	padding: 8px 24px;
+	color: #1d2327;
+	border: 1px solid #c3c4c7;
+	height: 32px;
+	padding: 0 16px;
 	user-select: none;
-	border-radius: 4px;
-	flex: 1 0 auto;
-	text-align: center;
 	border-radius: 5px;
 	text-decoration: none;
+	white-space: nowrap;
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 500;
+
+	svg {
+		flex-shrink: 0;
+	}
 
 	&:hover {
-		color: #1007FA;
-		background-color: #f1f1f1;
+		color: #1d2327;
+		background-color: #f0f0f1;
+	}
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 3px #e0e1e4;
+	}
+
+	@media (max-width: 782px) {
+		width: 100%;
+		height: 40px;
+		padding: 0 20px;
+		font-size: 14px;
+	}
+}
+
+.dropp-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 24px;
+	text-align: center;
+	max-width: 384px;
+	margin: 0 auto;
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 64px;
+		height: 64px;
+		background: #f5f5f5;
+		border-radius: 50%;
+		color: #a3a3a3;
+		margin-bottom: 16px;
+
+		svg {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	&__title {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 500;
+		color: #171717;
+	}
+
+	&__text {
+		margin: 8px 0 0 0;
+		font-size: 14px;
+		line-height: 1.625;
+		color: #737373;
 	}
 }

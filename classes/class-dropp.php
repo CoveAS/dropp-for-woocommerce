@@ -117,6 +117,21 @@ class Dropp {
 	}
 
 	/**
+	 * Asset version for cache busting. Uses filemtime when WP_DEBUG is on,
+	 * falls back to VERSION (replaced at deploy time) otherwise.
+	 */
+	public static function asset_version(string $relative_path): string
+	{
+		if (defined('WP_DEBUG') && WP_DEBUG) {
+			$file = dirname(__DIR__) . '/' . ltrim($relative_path, '/');
+			if (file_exists($file)) {
+				return (string) filemtime($file);
+			}
+		}
+		return self::VERSION;
+	}
+
+	/**
 	 * Admin enqueue script
 	 *
 	 * @param string $hook Hook.
@@ -128,8 +143,8 @@ class Dropp {
 			)) {
 			return;
 		}
-		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], Dropp::VERSION);
-		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], Dropp::VERSION, true );
+		wp_enqueue_style('dropp-admin-css', plugin_dir_url( __DIR__ ) . '/assets/css/dropp-admin.css', [], self::asset_version('assets/css/dropp-admin.css'));
+		wp_enqueue_script( 'dropp-admin-js', plugin_dir_url( __DIR__ ) . '/assets/js/dropp-admin.js', [], self::asset_version('assets/js/dropp-admin.js'), true );
 		wp_localize_script(
 			'dropp-admin-js',
 			'_dropp',

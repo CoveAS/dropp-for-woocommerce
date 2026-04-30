@@ -1,105 +1,127 @@
 <template>
 	<div
 		v-if="consignment"
-		class="dropp-consignment"
+		class="dropp-consignment-card"
 		:class="classes"
 	>
-	<div class="dropp-consignment__inner">
-		<div
-			class="dropp-consignment__barcode-wrapper"
-			:title="consignment.dropp_order_id"
-		>
-			<div class="dropp-consignment__barcode" v-if="consignment.barcode">
-				<span v-if="consignment.test"> [TEST] </span>
-				{{ consignment.barcode }}
+		<div class="dropp-consignment-card__header">
+			<div class="dropp-consignment-card__title-wrapper" :title="consignment.dropp_order_id">
+				<div class="dropp-consignment-card__barcode" v-if="consignment.barcode">
+					<span v-if="consignment.test">[TEST] </span>{{ consignment.barcode }}
+				</div>
+				<div class="dropp-consignment-card__products" v-if="consignment.products.length">
+					{{ consignment.products.length }} {{ consignment.products.length === 1 ? i18n.product : i18n.products }}
+				</div>
 			</div>
 			<context :consignment="consignment"/>
 		</div>
-		<div class="dropp-consignment__card-content">
-			<div class="dropp-consignment__products">
-				<div class="dropp-consignment__card-label" v-html="i18n.products"></div>
-				<div v-if="consignment.products.length">
-					{{ consignment.products.length }}
+		<div class="dropp-consignment-card__content">
+			<div class="dropp-consignment-card__row">
+				<div class="dropp-consignment-card__label" v-html="i18n.status + ':'"></div>
+				<div class="dropp-consignment-card__value">
+					<span v-show="!loading" v-html="status"></span>
+					<loader v-show="loading"></loader>
 				</div>
 			</div>
-			<div class="dropp-consignment__status">
-				<div class="dropp-consignment__card-label" v-html="i18n.status"></div>
-				<span v-show="!loading" v-html="status"></span>
-				<loader v-show="loading"></loader>
+			<div class="dropp-consignment-card__row">
+				<div class="dropp-consignment-card__label" v-html="i18n.created + ':'"></div>
+				<div class="dropp-consignment-card__value">
+					<time-ago :value="consignment.created_at"/>
+				</div>
 			</div>
-			<div class="dropp-consignment__created">
-
-				<div class="dropp-consignment__card-label" v-html="i18n.created"></div>
-				<time-ago :value="consignment.created_at"/>
-			</div>
-			<div class="dropp-consignment__updated">
-
-				<div class="dropp-consignment__card-label" v-html="i18n.updated"></div>
-				<time-ago :value="consignment.updated_at"/>
+			<div class="dropp-consignment-card__row">
+				<div class="dropp-consignment-card__label" v-html="i18n.updated + ':'"></div>
+				<div class="dropp-consignment-card__value">
+					<time-ago :value="consignment.updated_at"/>
+				</div>
 			</div>
 		</div>
-		<download :consignment="consignment"/>
-  </div>
-	<div class="dropp-consignment__seperator"></div>
+		<div class="dropp-consignment-card__actions">
+			<download :consignment="consignment"/>
+		</div>
 	</div>
 </template>
 
 
 <style scoped lang="scss">
-.dropp-consignment {
-	max-width: 300px;
-	margin: 0 auto;
-	&--cancelled,
-	&--error {
-		.dropp-consignment__status > span {
+.dropp-consignment-card {
+	max-width: 400px;
+	margin: 0 auto 16px auto;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 12px;
+	overflow: visible;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	&.dropp-consignment--cancelled,
+	&.dropp-consignment--error {
+		.dropp-consignment-card__value span {
 			color: #AC0000;
 		}
 	}
 }
 
-.dropp-consignment__inner  {
-  padding: 20px 16px;
-  border-radius: 4px;
-}
-.dropp-consignment__seperator  {
-	margin: 4px 16px;
-  border-bottom: 1px solid #999999;
-}
-
-.dropp-consignment:last-child  .dropp-consignment__seperator{
-  display: none;
-}
-
-.dropp-consignment__card-label {
-	font-weight: 600;
-}
-
-.dropp-consignment__card-content {
-	margin-bottom: 16px;
-	line-height: 1.75;
-	font-size: 14px;
-}
-
-.dropp-consignment__card-content > div {
+.dropp-consignment-card__header {
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-start;
+	padding: 20px 20px 0 20px;
 }
 
-.dropp-consignment__barcode {
+.dropp-consignment-card__title-wrapper {
+	flex: 1;
+}
+
+.dropp-consignment-card__barcode {
 	font-size: 18px;
 	font-weight: 700;
+	color: #1f2937;
+	margin-bottom: 4px;
 }
 
-.dropp-consignment__barcode-wrapper {
+.dropp-consignment-card__products {
+	font-size: 14px;
+	color: #6b7280;
+}
+
+.dropp-consignment-card__content {
+	padding: 16px 20px;
+}
+
+.dropp-consignment-card__row {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	padding: 8px 0;
+}
+
+.dropp-consignment-card__label {
+	font-size: 14px;
+	color: #374151;
+}
+
+.dropp-consignment-card__value {
+	font-size: 14px;
+	color: #6b7280;
+	text-align: right;
+}
+
+.dropp-consignment-card__actions {
+	padding: 0 20px 20px 20px;
+
+	:deep(.dropp-consignment-download-button) {
+		width: 100%;
+		text-align: center;
+	}
 }
 </style>
 
 <script>
 import ContextPdf from './context-pdf.vue';
 import Loader from '../loader.vue';
-import time_ago from '../../time-ago.js';
 import ContextButton from "../icons/context-button.vue";
 import Context from "./context.vue";
 import Download from "./download.vue";

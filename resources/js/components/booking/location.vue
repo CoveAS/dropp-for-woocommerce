@@ -96,7 +96,7 @@
 
 @container (min-width: 600px) {
 	.dropp-grid {
-		max-width: 1920px;
+		max-width: 1200px;
 		display: grid;
 		grid-template-columns:  1fr 1fr;
 		gap: 24px;
@@ -112,27 +112,81 @@
 	transition: opacity 0.5s;
 	color: #1C1B1B;
 	font-size: 14px;
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #d1d5db;
 
 	&--loading {
 		opacity: 0.5;
 	}
 
+	input[type="checkbox"] {
+		width: 20px;
+		height: 20px;
+		border-radius: 4px;
+		border: 1px solid #d1d5db;
+		cursor: pointer;
+		margin: 0;
+		flex-shrink: 0;
+		appearance: none;
+		background-color: #fff;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+		padding: 0;
+		color: inherit;
+		line-height:0;
+		outline: none;
+		box-shadow: none;
+
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+
+		&::before {
+			content: none !important;
+		}
+
+		background-image: none !important;
+
+		&:checked {
+			background-color: currentColor;
+			border-color: currentColor;
+			background-image: none !important;
+		}
+
+		&:checked::after {
+			content: '';
+			width: 3.5px;
+			height: 7px;
+			border: solid #fff;
+			border-width: 0 2px 2px 0;
+			transform: rotate(45deg);
+			display: block;
+			margin-top: -1.5px;
+			margin-left: 0;
+		}
+	}
+
 	.dropp-day-delivery {
 		margin-top: 0.5rem;
+		label {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			cursor: pointer;
+		}
 	}
 
 	.dropp-delivery-instructions {
-		&__field {
-			min-width: 15rem;
-		}
-
 		&__input {
-			resize-x: none;
-			min-height: 100px;
+			resize: vertical;
+			min-height: 120px;
 			width: 100%;
-			border: 1px solid #999999;
+			box-sizing: border-box;
+			border: 1px solid #d1d5db;
 			padding: 8px 12px;
+			font-size: 16px;
 		}
 
 		&__notes {
@@ -143,12 +197,12 @@
 			margin: 0 0 12px 0;
 			background-color: #FCFCFC;
 			min-height: 100px;
-			color: #7c7b7b;
+			color: #4b5563;
 		}
 
 		&__text {
 			border-radius: 4px;
-			border: 1px solid #CCCCCC;
+			border: 1px solid #d1d5db;
 			padding: 8px 12px;
 			margin-bottom: 1rem;
 		}
@@ -163,53 +217,72 @@
 		}
 	}
 
+	&__actions {
+		margin-top: 24px;
+
+		@container (max-width: 375px) {
+			.dropp-button {
+				width: 100%;
+				justify-content: center;
+				margin-right: 0;
+			}
+		}
+	}
+
 	&__header {
 		position: relative;
-		margin: 12px 0 32px;
+		margin: 16px 0 24px;
 		@container (min-width:600px) {
-			margin: 24px 0 32px;
+			margin: 24px 0 24px;
 		}
 	}
 
 	&__pre-title {
 		display: flex;
 		align-items: baseline;
+		margin-bottom: 4px;
 		@container (min-width:900px) {
 			max-width: 588px;
 		}
 	}
 
-	h3,
+	h3 {
+		margin: 0 0 16px 0;
+		font-weight: 600;
+		font-size: 18px;
+	}
+
 	&__pick-up-point {
-		font-weight: 700;
-		font-size: 14px;
-		@container (min-width:600px) {
-			font-size: 16px;
-		}
+		font-weight: 600;
+		font-size: 18px;
 	}
 
 	&__change {
-		font-weight: 600;
-		margin-top: 4px;
+		font-weight: 500;
 		text-decoration: underline;
 		cursor: pointer;
-		color: #1007FA;
-		font-size: 13px;
+		color: #00007D;
+		font-size: 14px;
+		transition: color 0.15s;
+		margin-top: 10px;
 
 		&:focus,
 		&:hover {
-			text-decoration: none;
+			color: #000066;
 		}
 	}
 
 	&__address {
 		margin: 0;
+		font-size: 16px;
+		font-weight: 400;
 	}
 
 	#poststuff &__name {
 		padding: 0;
-		font-size: 24px;
-		font-weight: 500;
+		font-size: 32px;
+		font-weight: 600;
+		margin-bottom: 4px;
 	}
 
 	#poststuff &__message {

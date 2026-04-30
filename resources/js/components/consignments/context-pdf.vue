@@ -22,7 +22,7 @@
 						href=""
 						@click.stop.prevent="delete_pdf( pdf.barcode )"
 						@keydown.enter.space.stop.prevent="delete_pdf( pdf.barcode )"
-					>&times;</span>
+					><x-icon /></span>
 				</a>
 			</li>
 			<li v-if="editable">
@@ -82,13 +82,16 @@
 
 
 .context-pdf .pdf-action--delete {
-	margin-left: 24px;
-	color: #900;
-	padding: 4px 8px;
-	margin-top: -8px;
-	margin-bottom: -8px;
-	margin-right: -8px;
-	line-height: 1.25;
+	margin-left: auto;
+	color: #AC0000;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	margin-top: -4px;
+	margin-bottom: -4px;
+	margin-right: -4px;
+	line-height: 1;
 	border-radius: 4px;
 	transition: background-color 0.2s;
 
@@ -100,6 +103,7 @@
 <script>
 import DocumentIcon from "../icons/document-icon.vue";
 import PlusIcon from "../icons/plus-icon.vue";
+import XIcon from "../icons/x-icon.vue";
 
 export default {
 	data: function () {
@@ -186,6 +190,6 @@ export default {
 			this.error = true;
 		},
 	},
-	components: {DocumentIcon, PlusIcon},
+	components: {DocumentIcon, PlusIcon, XIcon},
 };
 </script>

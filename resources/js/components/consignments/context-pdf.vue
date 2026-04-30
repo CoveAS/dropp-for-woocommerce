@@ -25,10 +25,17 @@
 					><x-icon /></span>
 				</a>
 			</li>
+			<li class="pdf-actions" v-if="adding">
+				<div class="pdf-action pdf-action--skeleton" aria-busy="true" aria-live="polite">
+					<span class="pdf-skeleton pdf-skeleton--icon"></span>
+					<span class="pdf-skeleton pdf-skeleton--label"></span>
+				</div>
+			</li>
 			<li v-if="editable">
 				<span
 					tabindex="0"
 					class="dropp-consignment__action pdf-action pdf-action--add"
+					:class="{ 'pdf-action--disabled': adding }"
 					href="#"
 					@click.prevent="add_pdf"
 					@keydown.enter.space.prevent="add_pdf"
@@ -81,6 +88,58 @@
 }
 
 
+.context-pdf .pdf-action--skeleton {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	cursor: default;
+	pointer-events: none;
+}
+
+.context-pdf .pdf-action--disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.context-pdf .pdf-skeleton {
+	display: block;
+	border-radius: 4px;
+	background-color: #e5e7eb;
+	background-image: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.6) 50%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	background-size: 200% 100%;
+	background-repeat: no-repeat;
+	background-position: -150% 0;
+	animation: pdf-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.context-pdf .pdf-skeleton--icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 8px;
+	flex-shrink: 0;
+	border-radius: 3px;
+}
+
+.context-pdf .pdf-skeleton--label {
+	flex: 1;
+	height: 12px;
+	max-width: 140px;
+}
+
+@keyframes pdf-skeleton-shimmer {
+	0% {
+		background-position: -150% 0;
+	}
+	100% {
+		background-position: 150% 0;
+	}
+}
+
 .context-pdf .pdf-action--delete {
 	margin-left: auto;
 	color: #AC0000;
@@ -91,6 +150,7 @@
 	margin-top: -4px;
 	margin-bottom: -4px;
 	margin-right: -4px;
+	margin-left: 4px;
 	line-height: 1;
 	border-radius: 4px;
 	transition: background-color 0.2s;
@@ -111,6 +171,7 @@ export default {
 			i18n: _dropp.i18n,
 			pdfs: [],
 			loading: false,
+			adding: false,
 			error: false,
 		}
 	},
@@ -150,6 +211,7 @@ export default {
 				return;
 			}
 			this.loading = true;
+			this.adding = true;
 			jQuery.ajax({
 				url: _dropp.ajaxurl,
 				method: 'get',
@@ -181,12 +243,14 @@ export default {
 		success: function (data) {
 			this.pdfs = data;
 			this.loading = false;
+			this.adding = false;
 		},
 		error_handler: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
 			console.log(textStatus);
 			console.log(errorThrown);
 			this.loading = false;
+			this.adding = false;
 			this.error = true;
 		},
 	},

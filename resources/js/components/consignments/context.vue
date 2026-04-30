@@ -287,7 +287,7 @@ export default {
 		top: 110%;
 		margin: 0;
 		right: -14px;
-		min-width: 220px;
+		min-width: 211px;
 		max-width: 220px;
 		background: #fff;
 		padding: 8px;

@@ -111,6 +111,48 @@
   border: 1px solid #fde68a;
 }
 
+.dropp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  max-width: 384px;
+  margin: 0 auto;
+}
+
+.dropp-empty__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  color: #a3a3a3;
+  margin-bottom: 16px;
+}
+
+.dropp-empty__icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.dropp-empty__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #171717;
+}
+
+.dropp-empty__text {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  line-height: 1.625;
+  color: #737373;
+}
+
 .dropp-location .button {
   -webkit-user-select: none;
      -moz-user-select: none;

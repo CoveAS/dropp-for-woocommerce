@@ -49,14 +49,14 @@
 				{{ i18n.show_all || 'Show all' }} ({{ consignment_container.consignments.length }})
 			</button>
 		</div>
-		<div class="dropp-consignments__empty" v-show="! display_consignments">
-			<div class="dropp-consignments__empty-icon">
+		<div class="dropp-empty" v-show="! display_consignments">
+			<div class="dropp-empty__icon">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
 				</svg>
 			</div>
-			<h3 class="dropp-consignments__empty-title">{{ i18n.no_consignments_title || 'No booked consignments yet' }}</h3>
-			<p class="dropp-consignments__empty-text">{{ i18n.no_consignments_subtitle || 'Please use the booking form to create new consignments.' }}</p>
+			<h3 class="dropp-empty__title">{{ i18n.no_consignments_title || 'No booked consignments yet' }}</h3>
+			<p class="dropp-empty__text">{{ i18n.no_consignments_subtitle || 'Please use the booking form to create new consignments.' }}</p>
 		</div>
 	</div>
 	<ordermodal v-if="modal_consignment" :consignment="modal_consignment"></ordermodal>
@@ -67,47 +67,6 @@
 #woocommerce-order-dropp-consignments .inside {
 	z-index: 2;
 	padding: 0 !important;
-}
-.dropp-consignments__empty {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 16px;
-	padding: 48px 24px;
-	text-align: center;
-	max-width: 384px;
-	margin: 0 auto;
-}
-
-.dropp-consignments__empty-icon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 64px;
-	height: 64px;
-	background: #f5f5f5;
-	border-radius: 50%;
-	color: #a3a3a3;
-
-	svg {
-		width: 32px;
-		height: 32px;
-	}
-}
-
-.dropp-consignments__empty-title {
-	margin: 0;
-	font-size: 16px;
-	font-weight: 500;
-	color: #171717;
-}
-
-.dropp-consignments__empty-text {
-	margin: 0;
-	font-size: 14px;
-	line-height: 1.625;
-	color: #737373;
 }
 .dropp-consignments {
 	container-type: inline-size;

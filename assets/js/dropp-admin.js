@@ -135,48 +135,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -381,11 +339,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropp_error_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dropp-error.vue */ "./resources/js/components/dropp-error.vue");
 /* harmony import */ var _quantity_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quantity.vue */ "./resources/js/components/booking/quantity.vue");
 /* harmony import */ var _icons_exclamation_mark_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../icons/exclamation-mark.vue */ "./resources/js/components/icons/exclamation-mark.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2026,47 +1979,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3371,7 +3283,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-booking__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 16px;\n  padding: 48px 24px;\n  text-align: center;\n  max-width: 384px;\n  margin: 0 auto;\n}\n.dropp-booking__empty-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 64px;\n  height: 64px;\n  background: #f5f5f5;\n  border-radius: 50%;\n  color: #a3a3a3;\n}\n.dropp-booking__empty-icon svg {\n  width: 32px;\n  height: 32px;\n}\n.dropp-booking__empty-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 500;\n  color: #171717;\n}\n.dropp-booking__empty-text {\n  margin: 0;\n  font-size: 14px;\n  line-height: 1.625;\n  color: #737373;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n@container (max-width: 375px) {\n.dropp-locations__add-button {\n    width: 100%;\n    justify-content: center;\n    margin-right: 0;\n}\n}\n.dropp-booking textarea,\n.dropp-booking input[type=email],\n.dropp-booking input[type=number],\n.dropp-booking input[type=text] {\n  border-color: #d1d5db;\n}\n.dropp-booking textarea:hover,\n.dropp-booking input[type=email]:hover,\n.dropp-booking input[type=number]:hover,\n.dropp-booking input[type=text]:hover {\n  border-color: #d1d5db;\n  box-shadow: none;\n  outline: none;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #d1d5db;\n  outline: none;\n  box-shadow: 0 0 0 2px #e5e7eb;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-booking {\n  container-type: inline-size;\n}\n.dropp-booking a {\n  cursor: pointer;\n}\n.dropp-booking a:focus, .dropp-booking a:hover {\n  text-decoration: underline;\n}\n.dropp-locations__add-location {\n  margin: 16px 2px 0 2px;\n}\n@container (min-width: 600px) {\n.dropp-locations__add-location {\n    margin: 16px 10px 0 10px;\n}\n}\n.dropp-locations__add-button {\n  gap: 8px;\n}\n@container (max-width: 375px) {\n.dropp-locations__add-button {\n    width: 100%;\n    justify-content: center;\n    margin-right: 0;\n}\n}\n.dropp-booking textarea,\n.dropp-booking input[type=email],\n.dropp-booking input[type=number],\n.dropp-booking input[type=text] {\n  border-color: #d1d5db;\n}\n.dropp-booking textarea:hover,\n.dropp-booking input[type=email]:hover,\n.dropp-booking input[type=number]:hover,\n.dropp-booking input[type=text]:hover {\n  border-color: #d1d5db;\n  box-shadow: none;\n  outline: none;\n}\n.dropp-booking textarea:focus,\n.dropp-booking input[type=email]:focus,\n.dropp-booking input[type=number]:focus,\n.dropp-booking input[type=text]:focus {\n  border-color: #d1d5db;\n  outline: none;\n  box-shadow: 0 0 0 2px #e5e7eb;\n}\n.mw160 {\n  min-width: 160px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3419,7 +3331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".dropp-products {\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1200px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\nbody .dropp-products__header h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n  color: #111827;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 24px;\n}\n.dropp-products__headers {\n  display: none;\n  color: #6b7280;\n  font-size: 12px;\n  font-weight: 500;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  padding: 16px 0;\n  border-bottom: 1px solid #e5e7eb;\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__headers {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    gap: 24px;\n    justify-items: start;\n}\n}\n.dropp-products__headers span:first-child {\n  justify-self: start;\n  padding-left: 0;\n}\n.dropp-products__product {\n  display: flex;\n  flex-direction: column;\n  padding: 0;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  background: #fff;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n  margin-bottom: 16px;\n  overflow: hidden;\n}\n.dropp-products__product:last-of-type {\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    align-items: center;\n    justify-items: start;\n    gap: 24px;\n    padding: 16px 0;\n    text-align: left;\n    border: none;\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    border-bottom: 1px solid #e5e7eb;\n    margin-bottom: 0;\n    overflow: visible;\n}\n.dropp-products__product:last-of-type {\n    border-bottom: none;\n}\n}\n.dropp-products__item-info {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 16px;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__item-info {\n    justify-self: start;\n    width: auto;\n    padding: 0;\n}\n}\n.dropp-products__name {\n  font-weight: 600;\n  font-size: 16px;\n  color: #111827;\n}\n.dropp-products__image-container, .dropp-products__image-placeholder {\n  width: 64px;\n  height: 64px;\n  border-radius: 8px;\n  border: 1px solid #e5e7eb;\n  overflow: hidden;\n  background: #f9fafb;\n  flex-shrink: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__image-container, .dropp-products__image-placeholder {\n    width: 48px;\n    height: 48px;\n}\n}\n.dropp-products__image {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.dropp-products__weight {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n  color: #6b7280;\n  font-size: 14px;\n}\n@container (min-width: 600px) {\n.dropp-products__weight {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n    color: #4b5563;\n}\n}\n.dropp-products__weight-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__weight-label {\n    display: none;\n}\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n}\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #fef2f2;\n  border-color: #ef4444 !important;\n}\n.dropp-products__quantity-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity-label {\n    display: none;\n}\n}\n.dropp-products__label {\n  color: #6b7280;\n}\n@container (min-width: 600px) {\n.dropp-products__label {\n    display: none;\n}\n}\n.dropp-products__headers .dropp-products__label {\n  display: block;\n}\n.dropp-products__headers span:nth-child(2) {\n  text-align: left;\n}\n.dropp-products__headers span:nth-child(3) {\n  text-align: left;\n}\n.dropp-products__footer {\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.dropp-products__total-weight {\n  font-size: 16px;\n  color: #374151;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-text--error {\n  color: #dc2626;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".dropp-products {\n  margin: 0 16px;\n  padding-bottom: 24px;\n  margin-bottom: 18px;\n  max-width: 1200px;\n}\n@container (min-width: 600px) {\n.dropp-products {\n    margin: 0 24px;\n    padding-bottom: 24px;\n}\n}\n@container (min-width: 900px) {\n.dropp-products {\n    margin-bottom: 14px;\n    padding-bottom: 34px;\n}\n}\n.dropp-products__header {\n  margin-bottom: 16px;\n}\nbody .dropp-products__header h3 {\n  margin-top: 0;\n  margin-bottom: 4px;\n  font-weight: 600;\n  font-size: 18px;\n  line-height: 24px;\n  color: #111827;\n}\n.dropp-products__description {\n  margin: 0;\n  font-size: 14px;\n  line-height: 20px;\n  color: #6b7280;\n}\n.dropp-products__errors:not(:empty) {\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 24px;\n}\n.dropp-products__headers {\n  display: none;\n  color: #6b7280;\n  font-size: 12px;\n  font-weight: 500;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  padding: 16px 0;\n  border-bottom: 1px solid #e5e7eb;\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__headers {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    gap: 24px;\n    justify-items: start;\n}\n}\n.dropp-products__headers span:first-child {\n  justify-self: start;\n  padding-left: 0;\n}\n.dropp-products__product {\n  display: flex;\n  flex-direction: column;\n  padding: 0;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  background: #fff;\n  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n  margin-bottom: 16px;\n  overflow: hidden;\n}\n.dropp-products__product:last-of-type {\n  margin-bottom: 0;\n}\n@container (min-width: 600px) {\n.dropp-products__product {\n    display: grid;\n    grid-template-columns: 1fr 160px 100px;\n    align-items: center;\n    justify-items: start;\n    gap: 24px;\n    padding: 16px 0;\n    text-align: left;\n    border: none;\n    border-radius: 0;\n    background: transparent;\n    box-shadow: none;\n    border-bottom: 1px solid #e5e7eb;\n    margin-bottom: 0;\n    overflow: visible;\n}\n.dropp-products__product:last-of-type {\n    border-bottom: none;\n}\n}\n.dropp-products__item-info {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  padding: 16px;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__item-info {\n    justify-self: start;\n    width: auto;\n    padding: 0;\n}\n}\n.dropp-products__name {\n  font-weight: 600;\n  font-size: 16px;\n  color: #111827;\n}\n.dropp-products__image-container, .dropp-products__image-placeholder {\n  width: 48px;\n  height: 48px;\n  border-radius: 8px;\n  border: 1px solid #e5e7eb;\n  overflow: hidden;\n  background: #f9fafb;\n  flex-shrink: 0;\n}\n.dropp-products__image {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.dropp-products__weight {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n  color: #6b7280;\n  font-size: 14px;\n}\n@container (min-width: 600px) {\n.dropp-products__weight {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n    color: #4b5563;\n}\n}\n.dropp-products__weight-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__weight-label {\n    display: none;\n}\n}\n.dropp-products__quantity {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px;\n  border-top: 1px solid #e5e7eb;\n  width: 100%;\n  box-sizing: border-box;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity {\n    padding: 0;\n    border-top: none;\n    justify-content: flex-start;\n    width: auto;\n}\n}\n.dropp-products__quantity--error .dropp-quantity__input {\n  background-color: #fef2f2;\n  border-color: #ef4444 !important;\n}\n.dropp-products__quantity-label {\n  font-size: 16px;\n  color: #6b7280;\n  font-weight: 500;\n}\n@container (min-width: 600px) {\n.dropp-products__quantity-label {\n    display: none;\n}\n}\n.dropp-products__label {\n  color: #6b7280;\n}\n@container (min-width: 600px) {\n.dropp-products__label {\n    display: none;\n}\n}\n.dropp-products__headers .dropp-products__label {\n  display: block;\n}\n.dropp-products__headers span:nth-child(2) {\n  text-align: left;\n}\n.dropp-products__headers span:nth-child(3) {\n  text-align: left;\n}\n.dropp-products__footer {\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n}\n.dropp-products__total-weight {\n  font-size: 16px;\n  color: #374151;\n}\n.dropp-products__weight-exceeded {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 4px;\n}\n.dropp-products__weight-exceeded svg {\n  width: 16px;\n  height: 16px;\n}\n.dropp-text--error {\n  color: #dc2626;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3539,7 +3451,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n  padding: 0 !important;\n}\n.dropp-consignments__empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 48px 24px;\n  text-align: center;\n  max-width: 384px;\n  margin: 0 auto;\n}\n.dropp-consignments__empty-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 64px;\n  height: 64px;\n  background: #f5f5f5;\n  border-radius: 50%;\n  color: #a3a3a3;\n  margin-bottom: 16px;\n}\n.dropp-consignments__empty-icon svg {\n  width: 32px;\n  height: 32px;\n}\n.dropp-consignments__empty-title {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 500;\n  color: #171717;\n}\n.dropp-consignments__empty-text {\n  margin: 16px 0 0 0;\n  font-size: 14px;\n  line-height: 1.625;\n  color: #737373;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th:nth-child(n+2),\n.dropp-consignments td:nth-child(n+2) {\n  width: 15%;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n  padding-left: 24px;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n  padding-right: 24px;\n}\n.dropp-consignments td {\n  height: 64px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 16px;\n  max-width: 400px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n.dropp-consignments--small {\n    padding: 16px;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 16px 16px 0 16px;\n    max-width: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 24px 24px 0 24px;\n    max-width: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments__show-more {\n  display: block;\n  width: 100%;\n  max-width: 400px;\n  margin: 16px auto 0 auto;\n  padding: 12px 20px;\n  background: #f3f4f6;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  color: #374151;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background-color 0.2s, border-color 0.2s;\n}\n.dropp-consignments__show-more:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n}\n.dropp-consignments__show-more:focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "#woocommerce-order-dropp-consignments .inside {\n  z-index: 2;\n  padding: 0 !important;\n}\n.dropp-consignments {\n  container-type: inline-size;\n  container-name: sidebar;\n}\n.dropp-consignments th:nth-child(n+2),\n.dropp-consignments td:nth-child(n+2) {\n  width: 15%;\n}\n.dropp-consignments th {\n  text-align: left;\n  color: #374151;\n  font-weight: 600;\n  background: #f3f4f6;\n  border-top: 1px solid #d1d5db;\n  border-bottom: 1px solid #d1d5db;\n  height: 40px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments th:first-child {\n  border-left: 1px solid #d1d5db;\n  padding-left: 24px;\n}\n.dropp-consignments th:last-child {\n  border-right: 1px solid #d1d5db;\n  padding-right: 24px;\n}\n.dropp-consignments td {\n  height: 64px;\n  box-sizing: border-box;\n  padding: 0 16px;\n}\n.dropp-consignments td:first-of-type {\n  padding-left: 24px;\n}\n.dropp-consignments td:last-of-type {\n  padding-right: 24px;\n}\n.dropp-consignments td:first-child {\n  border-left: 1px solid #d1d5db;\n}\n.dropp-consignments td:last-child {\n  border-right: 1px solid #d1d5db;\n}\n.dropp-consignments tbody td {\n  border-bottom: 1px solid #d1d5db;\n}\n.dropp-consignments thead th:first-child {\n  border-top-left-radius: 8px;\n}\n.dropp-consignments thead th:last-child {\n  border-top-right-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:first-child {\n  border-bottom-left-radius: 8px;\n}\n.dropp-consignments tbody tr:last-child td:last-child {\n  border-bottom-right-radius: 8px;\n}\n.dropp-consignments__table {\n  width: 100%;\n  border-spacing: 0;\n  border-radius: 8px;\n}\n.dropp-consignments--large {\n  margin: 24px;\n}\n.dropp-consignments > .dropp-product-error {\n  margin: 16px;\n  max-width: 400px;\n}\n@container (max-width: 599px) {\n.dropp-consignments--large {\n    display: none;\n}\n.dropp-consignments--small {\n    padding: 16px;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 16px 16px 0 16px;\n    max-width: none;\n}\n}\n@container (min-width: 600px) {\n.dropp-consignments--small {\n    display: none;\n}\n.dropp-consignments > .dropp-product-error {\n    margin: 24px 24px 0 24px;\n    max-width: none;\n}\n}\n@-webkit-keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlight {\n0% {\n    opacity: 0;\n}\n10% {\n    opacity: 0;\n}\n50% {\n    opacity: 1;\n    background-color: #e2f8e2;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments__show-more {\n  display: block;\n  width: 100%;\n  max-width: 400px;\n  margin: 16px auto 0 auto;\n  padding: 12px 20px;\n  background: #f3f4f6;\n  border: 1px solid #d1d5db;\n  border-radius: 8px;\n  color: #374151;\n  font-size: 14px;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background-color 0.2s, border-color 0.2s;\n}\n.dropp-consignments__show-more:hover {\n  background: #e5e7eb;\n  border-color: #9ca3af;\n}\n.dropp-consignments__show-more:focus {\n  outline: 2px solid #1e3a8a;\n  outline-offset: 2px;\n}\n.dropp-consignments--small .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlight 5s ease;\n          animation: fadeInAndHighlight 5s ease;\n}\n@-webkit-keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n@keyframes fadeInAndHighlightLarge {\n0% {\n    color: transparent;\n}\n10% {\n    color: transparent;\n}\n50% {\n    background-color: #e2f8e2;\n    color: inherit;\n}\n85% {\n    background-color: #e2f8e2;\n}\n}\n.dropp-consignments--large .dropp-consignment--new {\n  -webkit-animation: fadeInAndHighlightLarge 4s ease;\n          animation: fadeInAndHighlightLarge 4s ease;\n}\n.dropp-consignments--large .dropp-consignment--new .dropp-consignment-download-button {\n  -webkit-animation: fadeInAndHighlight 4s ease;\n          animation: fadeInAndHighlight 4s ease;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24366,10 +24278,10 @@ var render = function () {
                 expression: "!locations.length && shipping_items.length",
               },
             ],
-            staticClass: "dropp-booking__empty",
+            staticClass: "dropp-empty",
           },
           [
-            _c("div", { staticClass: "dropp-booking__empty-icon" }, [
+            _c("div", { staticClass: "dropp-empty__icon" }, [
               _c(
                 "svg",
                 {
@@ -24393,11 +24305,11 @@ var render = function () {
               ),
             ]),
             _vm._v(" "),
-            _c("h3", { staticClass: "dropp-booking__empty-title" }, [
+            _c("h3", { staticClass: "dropp-empty__title" }, [
               _vm._v(_vm._s(_vm.i18n.no_booking_title || "No active booking")),
             ]),
             _vm._v(" "),
-            _c("p", { staticClass: "dropp-booking__empty-text" }, [
+            _c("p", { staticClass: "dropp-empty__text" }, [
               _vm._v(
                 _vm._s(
                   _vm.i18n.no_booking_subtitle ||
@@ -25901,10 +25813,10 @@ var render = function () {
                   expression: "! display_consignments",
                 },
               ],
-              staticClass: "dropp-consignments__empty",
+              staticClass: "dropp-empty",
             },
             [
-              _c("div", { staticClass: "dropp-consignments__empty-icon" }, [
+              _c("div", { staticClass: "dropp-empty__icon" }, [
                 _c(
                   "svg",
                   {
@@ -25928,7 +25840,7 @@ var render = function () {
                 ),
               ]),
               _vm._v(" "),
-              _c("h3", { staticClass: "dropp-consignments__empty-title" }, [
+              _c("h3", { staticClass: "dropp-empty__title" }, [
                 _vm._v(
                   _vm._s(
                     _vm.i18n.no_consignments_title ||
@@ -25937,7 +25849,7 @@ var render = function () {
                 ),
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "dropp-consignments__empty-text" }, [
+              _c("p", { staticClass: "dropp-empty__text" }, [
                 _vm._v(
                   _vm._s(
                     _vm.i18n.no_consignments_subtitle ||

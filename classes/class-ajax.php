@@ -112,8 +112,29 @@ class Ajax {
 	 */
 	public static function dropp_booking(): void {
 		self::nonce_verification();
-		$order_item_id   = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
-		$shipping_item   = new WC_Order_Item_Shipping( $order_item_id );
+		$order_item_id = filter_input( INPUT_POST, 'order_item_id', FILTER_DEFAULT );
+		if ( empty( $order_item_id ) || ! ctype_digit( $order_item_id ) ) {
+			wp_send_json(
+				[
+					'status'  => 'error',
+					'message' => __( 'Invalid or missing shipping item ID.', 'dropp-for-woocommerce' ),
+					'errors'  => [],
+				],
+				400
+			);
+		}
+		$shipping_item = new WC_Order_Item_Shipping( $order_item_id );
+		$order         = $shipping_item->get_order();
+		if ( ! $order ) {
+			wp_send_json(
+				[
+					'status'  => 'error',
+					'message' => __( 'Could not find order for the specified shipping item.', 'dropp-for-woocommerce' ),
+					'errors'  => [],
+				],
+				400
+			);
+		}
 		$instance_id     = $shipping_item->get_instance_id();
 		$shipping_method = new Shipping_Method\Dropp( $instance_id ?: 0 );
 		$consignment_id  = filter_input( INPUT_POST, 'consignment_id', FILTER_DEFAULT );
@@ -124,7 +145,7 @@ class Ajax {
 			'location_id'  => filter_input( INPUT_POST, 'location_id', FILTER_DEFAULT ),
 			'customer'     => filter_input( INPUT_POST, 'customer', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
 			'products'     => filter_input( INPUT_POST, 'products', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ),
-			'value'        => $shipping_item->get_order()->get_total(),
+			'value'        => $order->get_total(),
 		];
 
 

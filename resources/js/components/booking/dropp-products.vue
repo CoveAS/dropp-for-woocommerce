@@ -194,18 +194,13 @@
 
 	&__image-container,
 	&__image-placeholder {
-		width: 64px;
-		height: 64px;
+		width: 48px;
+		height: 48px;
 		border-radius: 8px;
 		border: 1px solid #e5e7eb;
 		overflow: hidden;
 		background: #f9fafb;
 		flex-shrink: 0;
-
-		@container (min-width: 600px) {
-			width: 48px;
-			height: 48px;
-		}
 	}
 
 	&__image {

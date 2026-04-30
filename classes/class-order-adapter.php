@@ -137,6 +137,9 @@ class Order_Adapter {
 		if ( $shipping_method->copy_order_notes ) {
 			$comment = $this->order->get_customer_note();
 		}
+		$order_date   = $this->order->get_date_created();
+		$purchase_date = $order_date ? $order_date->date( 'Y-m-d\TH:i:s.000\Z' ) : null;
+
 		$consignment->fill(
 			[
 				'shipping_item_id' => $shipping_item->get_id(),
@@ -147,6 +150,7 @@ class Order_Adapter {
 				'comment'          => $comment,
 				'test'             => $shipping_method->test_mode,
 				'mynto_id'         => $shipping_item->get_meta('mynto_id'),
+				'purchase_date'    => $purchase_date,
 			]
 		);
 		return $consignment;

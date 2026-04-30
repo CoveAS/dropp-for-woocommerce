@@ -16,16 +16,18 @@ use WC_Order;
 /**
  * Checkout
  */
-class Checkout {
+class Checkout
+{
 	/**
 	 * Setup
-	*/
-	public static function setup() {
-		add_action( 'wp_enqueue_scripts', __CLASS__ . '::checkout_javascript' );
-		add_action( 'woocommerce_checkout_order_processed', __CLASS__ . '::tag_order', 10, 3 );
-		add_action( 'woocommerce_store_api_checkout_order_processed', __CLASS__ . '::tag_api_order', 10, 3 );
-		add_action( 'dropp_schedule_add_new', 'Dropp\Checkout::add_new', 10, 0 );
-		add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_before', __CLASS__ . '::enqueue_stuff' );
+	 */
+	public static function setup()
+	{
+		add_action('wp_enqueue_scripts', __CLASS__ . '::checkout_javascript');
+		add_action('woocommerce_checkout_order_processed', __CLASS__ . '::tag_order', 10, 3);
+		add_action('woocommerce_store_api_checkout_order_processed', __CLASS__ . '::tag_api_order', 10, 3);
+		add_action('dropp_schedule_add_new', 'Dropp\Checkout::add_new', 10, 0);
+		add_action('woocommerce_blocks_enqueue_checkout_block_scripts_before', __CLASS__ . '::enqueue_stuff');
 	}
 
 	/**
@@ -35,7 +37,7 @@ class Checkout {
 	 * @param array $posted_data POST data.
 	 * @param WC_Order $order Order Order.
 	 */
-	public static function tag_order( int $order_id, mixed $posted_data, mixed $order ): void
+	public static function tag_order(int $order_id, mixed $posted_data, mixed $order): void
 	{
 		self::tag_api_order($order);
 	}
@@ -43,27 +45,28 @@ class Checkout {
 	/**
 	 * @param WC_Order $order Order Order.
 	 */
-	public static function tag_api_order( mixed $order ): void
+	public static function tag_api_order(mixed $order): void
 	{
-		$adapter = new Order_Adapter( $order );
-		if ( ! $adapter->is_dropp() ) {
+		$adapter = new Order_Adapter($order);
+		if (!$adapter->is_dropp()) {
 			return;
 		}
 
 		// Tag the order and schedule a new event.
-		$order->update_meta_data( '_dropp_added', 0 );
+		$order->update_meta_data('_dropp_added', 0);
 		$order->save();
 
-		if ( ! wp_next_scheduled( 'dropp_schedule_add_new' ) ) {
+		if (!wp_next_scheduled('dropp_schedule_add_new')) {
 			// Schedule adding new items.
-			wp_schedule_single_event( time() + 5, 'dropp_schedule_add_new' );
+			wp_schedule_single_event(time() + 5, 'dropp_schedule_add_new');
 		}
 	}
 
 	/**
 	 * Add new
-	*/
-	public static function add_new(): void {
+	 */
+	public static function add_new(): void
+	{
 		global $wpdb;
 
 		if (class_exists(OrderUtil::class) && OrderUtil::custom_orders_table_usage_is_enabled()) {
@@ -83,20 +86,21 @@ class Checkout {
 			);
 		}
 
-		foreach ( $post_ids as $post_ID ) {
-			$order   = wc_get_order( $post_ID );
-			$adapter = new Order_Adapter( $order );
+		foreach ($post_ids as $post_ID) {
+			$order = wc_get_order($post_ID);
+			$adapter = new Order_Adapter($order);
 
 			// @TODO: Consider logging events where $adapter->add_new() returns false.
 			$adapter->add_new();
 
-			$order->update_meta_data( '_dropp_added', '1' );
+			$order->update_meta_data('_dropp_added', '1');
 			$order->save();
 		}
 	}
 
-	public static function checkout_javascript(): void {
-		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+	public static function checkout_javascript(): void
+	{
+		if (!function_exists('is_checkout') || !is_checkout()) {
 			return;
 		}
 		self::enqueue_stuff();
@@ -104,41 +108,53 @@ class Checkout {
 
 	/**
 	 * Load checkout javascript
-	*/
-	public static function enqueue_stuff(): void {
+	 */
+	public static function enqueue_stuff(): void
+	{
 		// Add styles.
 		wp_register_style(
 			'dropp-for-woocommerce',
-			plugins_url( 'assets/css/dropp.css', __DIR__ ),
+			plugins_url('assets/css/dropp.css', __DIR__),
 			[],
 			Dropp::asset_version('assets/css/dropp.css')
 		);
-		wp_enqueue_style( 'dropp-for-woocommerce' );
+		wp_enqueue_style('dropp-for-woocommerce');
 
 		// Add javascript.
 		wp_register_script(
 			'dropp-for-woocommerce',
-			plugins_url( 'assets/js/dropp.js', __DIR__ ),
-			array( 'jquery' ),
+			plugins_url('assets/js/dropp.js', __DIR__),
+			array('jquery'),
 			Dropp::asset_version('assets/js/dropp.js'),
 			true
 		);
-		wp_enqueue_script( 'dropp-for-woocommerce' );
+		wp_enqueue_script('dropp-for-woocommerce');
 
-		$location_data = WC()->session->get( 'dropp_session_location' );
+		if (!defined('DROPP_WEB_COMPONENT_BTN') || DROPP_WEB_COMPONENT_BTN) {
+			wp_register_script(
+				'dropp-location-button',
+				plugins_url('assets/js/dropp-location-button.js', __DIR__),
+				[],
+				Dropp::asset_version('assets/js/dropp-location-button.js'),
+				true
+			);
+			wp_enqueue_script('dropp-location-button');
+		}
+
+		$location_data = WC()->session->get('dropp_session_location');
 		// Add javascript variables.
 		wp_localize_script(
 			'dropp-for-woocommerce',
 			'_dropp',
 			[
-				'ajaxurl'           => admin_url( 'admin-ajax.php' ),
-				'storeid'           => Shipping_Method\Dropp::get_instance()->store_id,
+				'ajaxurl' => admin_url('admin-ajax.php'),
+				'storeid' => Shipping_Method\Dropp::get_instance()->store_id,
 				'dropplocationsurl' => (new Create_Dropp_Location_Script_Url_Action)(),
-				'location_picker'   => (new Location_Picker(null))->render(),
+				'location_picker' => (new Location_Picker(null))->render(),
 				'location_selected' => !empty($location_data),
-				'i18n'              => [
-					'choose_location_instructions' => esc_html__( 'Please select a dropp location before you continue', 'dropp-for-woocommerce' ),
-					'error_loading' => esc_html__( 'Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce' ),
+				'i18n' => [
+					'choose_location_instructions' => esc_html__('Please select a dropp location before you continue', 'dropp-for-woocommerce'),
+					'error_loading' => esc_html__('Could not load the location selector. Someone from the store will contact you regarding the delivery location.', 'dropp-for-woocommerce'),
 				],
 			]
 		);

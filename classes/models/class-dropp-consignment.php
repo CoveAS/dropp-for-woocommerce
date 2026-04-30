@@ -41,6 +41,7 @@ class Dropp_Consignment extends Model {
 	public bool $test = false;
 	public bool $debug = false;
 	public ?string $mynto_id;
+	public ?string $purchase_date = null;
 	public string $updated_at;
 	public string $created_at;
 	public array $errors = [];
@@ -109,6 +110,7 @@ class Dropp_Consignment extends Model {
 				'test'             => false,
 				'debug'            => false,
 				'mynto_id'         => null,
+				'purchase_date'    => null,
 				'updated_at'       => current_time( 'mysql' ),
 				'created_at'       => current_time( 'mysql' ),
 			]
@@ -137,6 +139,7 @@ class Dropp_Consignment extends Model {
 		$this->status         = $content['status'];
 		$this->test           = (int) $content['test'];
 		$this->mynto_id       = $content['mynto_id'];
+		$this->purchase_date  = $content['purchase_date'];
 		$this->updated_at     = $content['updated_at'];
 		$this->created_at     = $content['created_at'];
 		$this->day_delivery   = ( filter_var( $content['day_delivery'], FILTER_VALIDATE_BOOLEAN ) ? 1 : 0 );
@@ -208,6 +211,10 @@ class Dropp_Consignment extends Model {
 
 		if ( $this->mynto_id ) {
 			$consignment_array['mynto_id'] = $this->mynto_id;
+		}
+
+		if ( $this->purchase_date ) {
+			$consignment_array['purchasedate'] = $this->purchase_date;
 		}
 
 		if ( ! $for_request ) {

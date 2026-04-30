@@ -32,7 +32,10 @@ jQuery(function ($) {
 
 		chooseDroppLocation()
 			.then(function (location) {
-				if (!location || !location.id) {
+				if (!location) {
+					return;
+				}
+				if (!location.id) {
 					// Something went wrong.
 					$('.dropp-error').show().text(_dropp.i18n.error_loading);
 					$('.dropp-location__button').hide();
@@ -88,7 +91,7 @@ jQuery(function ($) {
 
 	function getOrCreatePicker(el, instanceId) {
 		// Check that the radio control option exists
-		if (! el.length) {
+		if (!el.length) {
 			return $();
 		}
 
@@ -96,18 +99,23 @@ jQuery(function ($) {
 		let locationPicker = el.next();
 
 		// Insert location picker when it doesn't exist yet
-		if (! locationPicker.length || !locationPicker.hasClass('dropp-location')) {
+		if (!locationPicker.length || !locationPicker.hasClass('dropp-location')) {
 			// Create new picker
 			locationPicker = $(_dropp.location_picker);
 			el.after(locationPicker);
 
-			// Bind click handler
+			// Bind click handler — covers both the classic <span> and the
+			// web component (which fires a composed 'dropp-choose' event).
 			locationPicker
 				.find('.button')
 				.on('click', (e) => {
 					e.preventDefault();
 					locationPickerClickHandler(instanceId);
 				});
+			locationPicker[0].addEventListener('dropp-choose', (e) => {
+				e.preventDefault();
+				locationPickerClickHandler(instanceId);
+			});
 		}
 
 		// Show the picker
@@ -145,7 +153,7 @@ jQuery(function ($) {
 		);
 
 		// No matching rates, return early
-		if (! rates.length) {
+		if (!rates.length) {
 			return;
 		}
 
@@ -159,7 +167,7 @@ jQuery(function ($) {
 				el = $('[value="' + rate.rate_id + '"]').closest('.wc-block-components-radio-control__option');
 			}
 
-			if (! el.length) {
+			if (!el.length) {
 				return;
 			}
 			getOrCreatePicker(el, rate.instance_id).show();
@@ -201,7 +209,6 @@ jQuery(function ($) {
 	function classicShowSelector() {
 		$('.dropp-location').show();
 		$('.dropp-error').hide();
-		$('.dropp-location__button').on('click', classicLocationButtonHandler);
 		$('#shipping_method').unblock();
 	}
 
@@ -210,7 +217,7 @@ jQuery(function ($) {
 		// Gutenberg block checkout
 
 		// WordPress object is required
-		if (! window.wp || ! wp.hooks) {
+		if (!window.wp || !wp.hooks) {
 			return;
 		}
 		// Add the external dropp location picker script
@@ -234,11 +241,11 @@ jQuery(function ($) {
 		let pollInterval = setInterval(
 			function () {
 				const el = $('.wc-block-components-shipping-rates-control');
-				if (! el.length) {
+				if (!el.length) {
 					return;
 				}
 				const result = el.find('.wc-block-components-radio-control__option, .wc-block-components-radio-control__label-group')
-				if (! result.length) {
+				if (!result.length) {
 					return;
 				}
 				clearInterval(pollInterval);
@@ -260,6 +267,18 @@ jQuery(function ($) {
 				? classicShowSelector()
 				: block('#shipping_method')
 		);
+		// Use event delegation so clicks are caught on any .dropp-location__button
+		// in the DOM, including buttons cloned by third-party themes (e.g. Astra).
+		$(document).on('click', '.dropp-location__button', classicLocationButtonHandler);
+
+		// Web component variant: dropp-location-button fires a composed custom event
+		// that pierces the shadow DOM boundary and bubbles up to document.
+		document.addEventListener('dropp-choose', function (e) {
+			classicLocationButtonHandler.call(
+				$(e.target).closest('.dropp-location')[0],
+				e
+			);
+		});
 	}
 
 

@@ -61,6 +61,11 @@ if (version_compare(PHP_VERSION, '8.1', '<')) {
 
 require_once __DIR__ . '/classes/class-dropp.php';
 
+// Dev-only warnings file. Removed at deploy time, so this include is best-effort.
+if (file_exists(__DIR__ . '/dev-warnings.php')) {
+	require_once __DIR__ . '/dev-warnings.php';
+}
+
 add_action(
 	'before_woocommerce_init',
 	fn() => class_exists(FeaturesUtil::class) ?

@@ -86,6 +86,28 @@ $wp_version = $wp_matches[1];
 $output->info("WooCommerce version: $wc_version");
 $output->info("WordPress version: $wp_version");
 
+// Build frontend assets from source before copying to SVN.
+$output->info("Building assets (npm ci && npm run production)");
+$buildCmd = sprintf('cd %s && npm ci && npm run production 2>&1', escapeshellarg($dir));
+exec($buildCmd, $buildOut, $buildResult);
+if ($buildResult !== 0) {
+	echo implode("\n", $buildOut), "\n";
+	$output->fatal("Asset build failed");
+}
+
+$expectedAssets = [
+	'assets/js/dropp.js',
+	'assets/js/dropp-admin.js',
+	'assets/js/dropp-location-button.js',
+	'assets/css/dropp.css',
+	'assets/css/dropp-admin.css',
+];
+foreach ($expectedAssets as $relAsset) {
+	if (!file_exists("$dir/$relAsset")) {
+		$output->fatal("Expected built asset missing after build: $relAsset");
+	}
+}
+
 // Create a new dir
 if (!is_dir($svnDir)) {
 	if (!mkdir($svnDir)) {
@@ -165,6 +187,7 @@ $cleaner->removeFiles([
 	'composer.json',
 	'composer.lock',
 	'deploy.php',
+	'dev-warnings.php',
 	'README.md',
 	'CONTRIBUTING.md',
 	'package.json',

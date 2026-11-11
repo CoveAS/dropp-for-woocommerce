@@ -197,6 +197,7 @@ $cleaner->removeFiles([
 
 $cleaner->removeDirs([
 	'.idea',
+	'.claude',
 	'.git',
 	'deploy',
 	'node_modules',

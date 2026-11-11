@@ -32,7 +32,7 @@ class Dropp_Product_Line extends Model {
 	 *
 	 * @param WC_Order_Item|null $order_item
 	 */
-	public function __construct( WC_Order_Item $order_item = null ) {
+	public function __construct( ?WC_Order_Item $order_item = null ) {
 		if ( ! empty( $order_item ) ) {
 			$this->from_order_item( $order_item );
 		}

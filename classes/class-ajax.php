@@ -61,6 +61,18 @@ class Ajax {
 
 		$old_location = WC()->session->get( 'dropp_session_location' );
 		if ( empty( $old_location ) || $old_location['id'] !== $location_id ) {
+			// The values come from the browser. A lookup in the Dropp API would make checkout wait.
+			$pricetype = filter_input( INPUT_POST, 'location_pricetype', FILTER_DEFAULT );
+			if ( ! in_array( $pricetype, [ '0', '1', '2' ], true ) ) {
+				wp_send_json(
+					[
+						'status'  => 'error',
+						'message' => __( 'Unknown price type', 'dropp-for-woocommerce' ),
+						'errors'  => '',
+					]
+				);
+				die;
+			}
 			// Invalidate the shipping rate transient.
 			WC_Cache_Helper::get_transient_version( 'shipping', true );
 			// Save the new location to session.
@@ -68,9 +80,9 @@ class Ajax {
 				'dropp_session_location',
 				[
 					'id'        => $location_id,
-					'name'      => filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ),
-					'address'   => filter_input( INPUT_POST, 'location_address', FILTER_DEFAULT ),
-					'pricetype' => filter_input( INPUT_POST, 'location_pricetype', FILTER_DEFAULT ),
+					'name'      => sanitize_text_field( (string) filter_input( INPUT_POST, 'location_name', FILTER_DEFAULT ) ),
+					'address'   => sanitize_text_field( (string) filter_input( INPUT_POST, 'location_address', FILTER_DEFAULT ) ),
+					'pricetype' => $pricetype,
 				]
 			);
 		}

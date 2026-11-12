@@ -31,9 +31,7 @@
 						v-for="shipping_item in shipping_items"
 						:key="shipping_item.id"
 						:value="shipping_item.id"
-						v-html="shipping_item.label"
-					>
-					</option>
+					>{{ shipping_item.label }}</option>
 				</select>
 				<button
 					class="dropp-locations__add-button dropp-button dropp-button--secondary"

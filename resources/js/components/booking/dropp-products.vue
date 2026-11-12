@@ -37,7 +37,7 @@
 						<img :src="product.image" :alt="product.name" class="dropp-products__image">
 					</div>
 					<div class="dropp-products__image-placeholder" v-else></div>
-					<span class="dropp-products__name" v-html="product.name"></span>
+					<span class="dropp-products__name">{{ product.name }}</span>
 				</div>
 				<div
 					class="dropp-products__quantity"

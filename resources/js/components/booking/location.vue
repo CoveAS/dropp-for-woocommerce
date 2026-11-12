@@ -12,8 +12,8 @@
 			>
 				<span class="dropp-location__pick-up-point" v-html="i18n.pick_up_point"></span>
 			</div>
-			<h2 class="dropp-location__name" v-html="location_name" :title="'[' + location.id + ']'"></h2>
-			<span v-if="location.address" class="dropp-location__address" v-html="location.address"></span>
+			<h2 class="dropp-location__name" :title="'[' + location.id + ']'">{{ location_name }}</h2>
+			<span v-if="location.address" class="dropp-location__address">{{ location.address }}</span>
 			<div
 				v-if="location.address"
 				@click.prevent="changeLocation"
@@ -28,7 +28,7 @@
 				<div class="dropp-delivery-instructions">
 					<div class="dropp-delivery-instructions__notes" v-if="customer_note">
 						<h3 class="dropp-delivery-instructions__title" v-html="i18n.customer_note"></h3>
-						<blockquote class="dropp-delivery-instructions__text" v-html="customer_note"></blockquote>
+						<blockquote class="dropp-delivery-instructions__text">{{ customer_note }}</blockquote>
 						<button
 							class="dropp-delivery-instructions__button"
 							v-if="editable"
@@ -47,8 +47,7 @@
 						<blockquote
 							v-else
 							class="dropp-delivery-instructions__text"
-							v-html="delivery_instructions"
-						></blockquote>
+						>{{ delivery_instructions }}</blockquote>
 						<div class="dropp-day-delivery">
 							<label v-if="day_delivery_available">
 								<input

@@ -7,11 +7,10 @@ class Sort_Shipping_Methods
 
 	public static function setup()
 	{
-		// Run last, so this setting decides the order over other plugins that sort the rates.
-		add_filter('woocommerce_package_rates', __CLASS__.'::sort_package_rates', PHP_INT_MAX, 2);
+		// Run after most plugins that sort the rates, so this setting decides the order.
+		add_filter('woocommerce_package_rates', __CLASS__.'::sort_package_rates', 1000, 2);
 		// WooCommerce runs this filter after all package rates are done, also for rates from the session cache.
-		// ponytail: a plugin that also sorts here at PHP_INT_MAX and is added later still wins.
-		add_filter('woocommerce_shipping_packages', __CLASS__.'::sort_packages', PHP_INT_MAX);
+		add_filter('woocommerce_shipping_packages', __CLASS__.'::sort_packages', 1000);
 	}
 
 	public static function sort_packages($packages)
